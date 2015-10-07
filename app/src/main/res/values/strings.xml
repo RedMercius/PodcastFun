@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">PodcastFun</string>
+
+    <string name="hello_world">Hello world! Johnnie Loves you!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_select">Burns&amp;Allen</string>
+    <string name="action_search">Search</string>
+    <string name="action_compose">Compose</string>
+</resources>
