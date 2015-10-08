@@ -14,17 +14,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 public class CustomList extends ArrayAdapter<String> {
 
     private final Activity context;
     private final String[] radioTitle;
     private final Integer[] imageButtonList;
+    private final Integer[] imageButtonListStop;
 
-    public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList) {
+    public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, Integer[] imageButtonListStop) {
         super(context, R.layout.list_single, radioTitle);
         this.context = context;
         this.radioTitle = radioTitle;
         this.imageButtonList = imageButtonList;
+        this.imageButtonListStop = imageButtonListStop;
 
     }
 
@@ -33,18 +37,23 @@ public class CustomList extends ArrayAdapter<String> {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView= inflater.inflate(R.layout.list_single, null, true);
         TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
-
-        ImageButton imageButton = (ImageButton) rowView.findViewById(R.id.imgbtn);
+        final selectActivity myactivity = new selectActivity();
+        final ImageButton imageButton = (ImageButton) rowView.findViewById(R.id.imgbtn);
         txtTitle.setText(radioTitle[position]);
 
         imageButton.setImageResource(imageButtonList[position]);
+        final String myposition = radioTitle[position].toString();
         imageButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-
-                                                   Toast.makeText(context,
-                                                           "ImageButton is clicked!", Toast.LENGTH_SHORT).show();
+                try {
+                    myactivity.callMediaFromRaw(myposition, context);
+                    imageButton.setImageResource(imageButtonListStop[0]);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(context, "ImageButton is clicked: " + myposition, Toast.LENGTH_SHORT).show();
 
             }
         });

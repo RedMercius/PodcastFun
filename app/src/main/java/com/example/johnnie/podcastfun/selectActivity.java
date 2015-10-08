@@ -44,6 +44,12 @@ public class selectActivity extends AppCompatActivity {
             R.drawable.ic_play_arrow_black_24dp
     };
 
+    Integer[] imageButtonListStop= {
+         R.drawable.ic_close_black_24dp,
+            R.drawable.ic_close_black_24dp,
+            R.drawable.ic_close_black_24dp,
+    };
+
 private ArrayAdapter<String> listAdapter ;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +57,7 @@ private ArrayAdapter<String> listAdapter ;
             setContentView(R.layout.activity_select);
 
             CustomList adapter = new
-                    CustomList(this, radioTitle, imageButtonList);
+                    CustomList(this, radioTitle, imageButtonList, imageButtonListStop);
             listview = (ListView) findViewById(R.id.listview);
             listview.setAdapter(adapter);
             listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,7 +67,7 @@ private ArrayAdapter<String> listAdapter ;
                                         int position, long id) {
                     final String item = (String) parent.getItemAtPosition(position);
                     try {
-                        callMediaFromRaw(item);
+                        callMediaFromRaw(item, selectActivity.this);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -102,18 +108,18 @@ private ArrayAdapter<String> listAdapter ;
            // addListenerOnButton();
         }
 
-    private void callMediaFromRaw(String item) throws IOException {
+    public void callMediaFromRaw(String item, Activity context) throws IOException {
         switch(item)
         {
             case "ba_1943_02_15_AreHusbandsNecessary":
             {
-                MediaPlayer mp = MediaPlayer.create(this, R.raw.bagracieplayssadiethompson);
+                MediaPlayer mp = MediaPlayer.create(context, R.raw.bagracieplayssadiethompson);
                 mp.start();
                 break;
             }
             case "ba_SantasWorkshop":
             {
-                MediaPlayer mp = MediaPlayer.create(this, R.raw.basantasworkshop);
+                MediaPlayer mp = MediaPlayer.create(selectActivity.this, R.raw.basantasworkshop);
                 mp.start();
                 break;
             }
