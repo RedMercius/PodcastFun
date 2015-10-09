@@ -31,6 +31,8 @@ import static android.widget.Toast.makeText;
 public class selectActivity extends AppCompatActivity {
     //MediaPlayer mp = MediaPlayer.create(this, R.raw.bagracieplayssadiethompson);
     ListView listview;
+    private boolean playing;
+    MediaPlayer mp = new MediaPlayer();
 
     String[] radioTitle = {
             "ba_1943_02_15_AreHusbandsNecessary",
@@ -55,6 +57,7 @@ private ArrayAdapter<String> listAdapter ;
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_select);
+            playing = false;
 
             CustomList adapter = new
                     CustomList(this, radioTitle, imageButtonList, imageButtonListStop);
@@ -113,13 +116,21 @@ private ArrayAdapter<String> listAdapter ;
         {
             case "ba_1943_02_15_AreHusbandsNecessary":
             {
-                MediaPlayer mp = MediaPlayer.create(context, R.raw.bagracieplayssadiethompson);
-                mp.start();
+                if (false == playing) {
+                    mp.create(context, R.raw.bagracieplayssadiethompson);// = MediaPlayer.create(context, R.raw.bagracieplayssadiethompson);
+                    mp.start();
+                    playing = true;
+                }
+                else
+                {
+                    mp.pause();
+                    playing = false;
+                }
                 break;
             }
             case "ba_SantasWorkshop":
             {
-                MediaPlayer mp = MediaPlayer.create(selectActivity.this, R.raw.basantasworkshop);
+                mp.create(context, R.raw.basantasworkshop);
                 mp.start();
                 break;
             }
@@ -127,7 +138,6 @@ private ArrayAdapter<String> listAdapter ;
             {
                 // ---tbd--- ---jlr-- check to see if the file exists or error will happen.
                 String url = "http://www.JohnnieRuffin.com/audio/baarehusbandsnecessary.mp3"; // initialize Uri here
-                MediaPlayer mp = new MediaPlayer();
                 mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mp.setDataSource(url);
                 mp.prepare();

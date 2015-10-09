@@ -48,6 +48,7 @@ public class CustomList extends ArrayAdapter<String> {
             @Override
             public void onClick(View arg0) {
                 try {
+
                     myactivity.callMediaFromRaw(myposition, context);
                     imageButton.setImageResource(imageButtonListStop[0]);
                 } catch (IOException e) {
