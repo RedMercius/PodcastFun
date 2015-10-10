@@ -1,3 +1,10 @@
+<!--
+  ~ Copyright 2015 © Johnnie Ruffin
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~
+  -->
+
 <resources>
     <string name="app_name">PodcastFun</string>
 
@@ -6,4 +13,9 @@
     <string name="title_activity_select">Burns&amp;Allen</string>
     <string name="action_search">Search</string>
     <string name="action_compose">Compose</string>
+    <string name="play_button">Play Button</string>
+    <string name="stop_button">Stop Button</string>
+    <string name="close_button">Close Button</string>
+    <string name="delete_button">Delete Button</string>
+
 </resources>

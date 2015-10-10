@@ -20,11 +20,13 @@
         <ImageButton
             android:id="@+id/imgbtn"
             android:background="@drawable/ic_play"
+            android:contentDescription="@string/play_button"
            />
 
         <ImageButton
             android:id="@+id/imgbtn2"
             android:background="@drawable/ic_stop"
+            android:contentDescription="@string/stop_button"
             />
 
         <TextView
@@ -36,11 +38,13 @@
         <ImageButton
             android:id="@+id/imgbtn3"
             android:src="@drawable/ic_close"
+            android:contentDescription="@string/close_button"
             />
 
         <ImageButton
             android:id="@+id/imgbtn4"
             android:src="@drawable/ic_delete"
+            android:contentDescription="@string/delete_button"
             />
 
     </TableRow>
