@@ -1,3 +1,10 @@
+/*
+ * Copyright 2015 © Johnnie Ruffin
+ *
+ * Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ */
+
 package com.example.johnnie.podcastfun;
 
 import android.app.Activity;
@@ -8,9 +15,17 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-/**
- * Created by johnnie on 10/9/2015.
- */
+//////////////////////////////////////////////////////////////////////////////////////
+//
+///  @class MediaControl
+//
+///  @author Johnnie
+//
+///  @brief A class to control the Audio Media interaction
+//
+///  @created 10/9/2015
+//
+//////////////////////////////////////////////////////////////////////////////////////
 
 public class MediaControl {
 
@@ -35,7 +50,7 @@ public class MediaControl {
             case "ba_1943_02_15_AreHusbandsNecessary.mp3":
             {
                 if (false == mp.isPlaying()) {
-                    mp.create(context, R.raw.bagracieplayssadiethompson);// = MediaPlayer.create(context, R.raw.bagracieplayssadiethompson);
+                    mp.create(context, R.raw.bagracieplayssadiethompson);
                     mp.start();
                 }
                 else if (true == mp.isPlaying())
