@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,22 +34,25 @@ public class CustomList extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View rowView= inflater.inflate(R.layout.list_single, null, true);
+        View rowView= inflater.inflate(R.layout.list_single,null,true);
         TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
-        final selectActivity myactivity = new selectActivity();
+
+        final MediaControl mc =
+                new MediaControl(context, radioTitle, imageButtonList, imageButtonListStop);
+
         final ImageButton imageButton = (ImageButton) rowView.findViewById(R.id.imgbtn);
         txtTitle.setText(radioTitle[position]);
 
-        imageButton.setImageResource(imageButtonList[position]);
-        final String myposition = radioTitle[position].toString();
+        imageButton.setImageResource(imageButtonList[0]);
+        final String myposition = radioTitle[position];
         imageButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
                 try {
 
-                    myactivity.callMediaFromRaw(myposition, context);
-                    imageButton.setImageResource(imageButtonListStop[0]);
+                    mc.callMediaFromRaw(myposition, context);
+                    imageButton.setImageResource(imageButtonList[1]);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
