@@ -7,10 +7,36 @@
 
 package com.example.johnnie.podcastfun;
 
-/**
- * Created by johnnie on 10/9/2015.
- */
+/////////////////////////////////////////////////////////////////////////////
+//
+/// @class ImageControl
+//
+/// @brief ImageControl class controls image items
+//
+/// @author Johnnie Ruffin
+//
+////////////////////////////////////////////////////////////////////////////
+
+import android.app.Activity;
+import android.content.Context;
+import android.view.View;
+import android.widget.ImageButton;
+
+import java.io.IOException;
+
 public class ImageControl {
+
+    private enum actionList
+    {
+        play,
+        pause,
+        stop,
+        close,
+        download,
+        info,
+        delete,
+        stream
+    };
 
     Integer[] imageButtonList = {
             R.drawable.ic_play,
@@ -30,6 +56,35 @@ public class ImageControl {
             R.drawable.ic_close
     };
 
+    public void PlayForClick (ImageButton imageButton,
+                              String position,
+                              Activity context,
+                              MediaControl media,
+                              boolean isItRaw,
+                              boolean isItInMedia)
+    {
+        final String myposition = position;
+        final Activity mycontext = context;
+        final MediaControl mc = media;
+        final ImageButton playButton = imageButton;
+
+        playButton.setImageResource(imageButtonList[0]);
+
+        playButton.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                try {
+
+                    mc.callMediaFromRaw(myposition, mycontext);
+                    playButton.setImageResource(imageButtonList[1]);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+    });
+
+    }
     public Integer[] getImageButtonList(){
      return imageButtonList;
     }

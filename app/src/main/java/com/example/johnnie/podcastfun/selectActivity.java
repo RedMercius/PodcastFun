@@ -1,3 +1,10 @@
+/*
+ * Copyright 2015 © Johnnie Ruffin
+ *
+ * Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ */
+
 package com.example.johnnie.podcastfun;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -5,6 +12,8 @@ package com.example.johnnie.podcastfun;
 /// @class selectActivity
 //
 /// @brief selectActivity class controls navigation for the selected item
+//
+/// @author Johnnie Ruffin
 //
 ////////////////////////////////////////////////////////////////////////////
 
@@ -15,7 +24,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import java.io.IOException;
-
 
 public class selectActivity extends AppCompatActivity {
     ListView listview;
@@ -59,11 +67,11 @@ public class selectActivity extends AppCompatActivity {
             });
         }
 
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
-        mc.releaseMediaPlayer();
-        System.out.println("OnDestroy");
-    }
+        @Override
+        public void onDestroy()
+        {
+            super.onDestroy();
+            mc.releaseMediaPlayer();
+            System.out.println("OnDestroy");
+        }
     }

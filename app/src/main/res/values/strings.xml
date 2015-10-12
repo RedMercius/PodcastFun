@@ -17,5 +17,6 @@
     <string name="stop_button">Stop Button</string>
     <string name="close_button">Close Button</string>
     <string name="delete_button">Delete Button</string>
+    <string name="download_button">Download Button</string>
 
 </resources>

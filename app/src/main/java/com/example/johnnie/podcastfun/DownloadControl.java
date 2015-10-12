@@ -18,8 +18,15 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
+import java.io.File;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //
@@ -35,9 +42,11 @@ import android.widget.ImageView;
 public class DownloadControl extends Activity {
     private long enqueue;
     private DownloadManager dm;
+    private String webPath;
 
     /** Called when the activity is first created. */
     public void DownloadControl(Activity context) {
+        webPath = "http://http://www.JohnnieRuffin.com/audio/";
 
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
@@ -54,8 +63,20 @@ public class DownloadControl extends Activity {
                 DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
-    public void downloadFile(String filePath) {
-        filePath = "http://www.vogella.de/img/lars/LarsVogelArticle7.png";
+    public File getMusicStorageDir(String albumName) {
+        // Get the directory for the user's public pictures directory.
+        File file = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_MUSIC), albumName);
+        if (!file.mkdirs()) {
+            Log.e("DownloadControl:", "Directory not created");
+        }
+        return file;
+    }
+
+    public void downloadFile(String filename) {
+
+        // String customfilePath ="http://www.JohnnieRuffin.com/audio/" + filename;
+        String filePath = "http://www.vogella.de/img/lars/LarsVogelArticle7.png";
         dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         Request request = new Request(
                 Uri.parse(filePath));
