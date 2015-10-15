@@ -46,8 +46,8 @@ public class DownloadControl extends Activity {
 
     /** Called when the activity is first created. */
     public void DownloadControl(Activity context) {
-        webPath = "http://http://www.JohnnieRuffin.com/audio/";
-
+        webPath = "http://www.JohnnieRuffin.com/audio/";
+        Log.e("DownloadControl:", "DownloadControl -- constructor");
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -73,13 +73,14 @@ public class DownloadControl extends Activity {
         return file;
     }
 
-    public void downloadFile(String filename) {
+    public void downloadFile(String filename, Activity context) {
 
-        // String customfilePath ="http://www.JohnnieRuffin.com/audio/" + filename;
-        String filePath = "http://www.vogella.de/img/lars/LarsVogelArticle7.png";
-        dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        String customfilePath ="http://www.JohnnieRuffin.com/audio/" + filename;
+        //String filePath = "http://www.vogella.de/img/lars/LarsVogelArticle7.png";
+        dm = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
         Request request = new Request(
-                Uri.parse(filePath));
+                Uri.parse(customfilePath)).setDestinationInExternalPublicDir(Environment.DIRECTORY_MUSIC, filename);
         enqueue = dm.enqueue(request);
+        Log.e("DownloadControl:", "downloadFile");
     }
 }

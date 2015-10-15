@@ -7,13 +7,16 @@
 
 package com.example.johnnie.podcastfun;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
@@ -33,7 +36,7 @@ import java.io.IOException;
 //////////////////////////////////////////////////////////////////////////////////////
 
 public class MediaControl extends Activity implements
-        MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnCompletionListener,
+        MediaPlayer.OnCompletionListener,
         MediaPlayer.OnPreparedListener {
 
     private final Activity context;
@@ -44,11 +47,22 @@ public class MediaControl extends Activity implements
     private MediaPlayer mp;
     private DownloadControl dc;
 
-    public MediaControl(Activity context, String[] radioTitle, Integer[] imageButtonList, Integer[] imageButtonListStop) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d("MediaControl:", "onCreate Service");
+    }
+
+    public MediaControl(Activity context, String[] radioTitle, Integer[] imageButtonList, Integer[] imageButtonListStop, MediaPlayer mp) {
         this.context = context;
         this.radioTitle = radioTitle;
         this.imageButtonList = imageButtonList;
         this.imageButtonListStop = imageButtonListStop;
+        this.mp = mp;
+
+        this.mp.setOnPreparedListener(this);
+        //this.mp.setOnBufferingUpdateListener(this);
+        this.mp.setOnCompletionListener(this);
     }
 
     public boolean checkResourceInRaw (String resource)
@@ -82,7 +96,7 @@ public class MediaControl extends Activity implements
                 break;
             }
         }
-
+        cursor.close();
         return mediaFound;
     }
 
@@ -90,10 +104,11 @@ public class MediaControl extends Activity implements
     public void downloadMedia(String filename)
     {
         dc = new DownloadControl();
-        dc.downloadFile(filename);
+        dc.downloadFile(filename, context);
+        Log.d("MediaControl: ", "downloadMedia");
     }
 
-    public void callMediaFromRaw(String item, Activity context) throws IOException {
+    public void callMediaFromRaw(String item, Activity context, MediaPlayer mp) throws IOException {
 
         int mediaId = 0;
 
@@ -122,6 +137,7 @@ public class MediaControl extends Activity implements
             mp.pause();
             Toast.makeText(context, "Pausing!!", Toast.LENGTH_SHORT).show();
         }
+        Log.d("MediaControl: ", "callMediaFromRaw");
     }
 
     private void callMediaFromContentResolver()
@@ -134,22 +150,14 @@ public class MediaControl extends Activity implements
         mediaPlayer.start();*/
     }
 
-    private void callMediaFromInternet(String filename) throws IOException
+    public void callMediaFromInternet(String filename, Activity context, MediaPlayer mp) throws IOException
     {
-        String url = "http://http://www.JohnnieRuffin.com/audio/" + filename; // your URL here
-        MediaPlayer mp = new MediaPlayer();
+        String url = "http://www.JohnnieRuffin.com/audio/" + filename; // your URL here
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mp.setDataSource(url);
-        mp.prepareAsync(); // might take long! (for buffering, etc)
-        mp.setOnBufferingUpdateListener(this);
-        mp.setOnCompletionListener(this);
         mp.setOnPreparedListener(this);
-    }
-
-    @Override
-    public void onBufferingUpdate(MediaPlayer mp, int percent) {
-        Log.d("MediaControl: ", "onBufferingUpdate percent:" + percent);
-
+        mp.prepareAsync(); // might take long! (for buffering, etc)
+        Log.d("MediaControl: ", ("callMediaFromInternet: " + filename));
     }
 
     @Override
@@ -160,7 +168,8 @@ public class MediaControl extends Activity implements
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        mp.start();
+        Log.d("MediaControl: ", "onPrepared called");
+                mp.start();
     }
 
 
@@ -170,12 +179,20 @@ public class MediaControl extends Activity implements
         releaseMediaPlayer();
     }
 
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        releaseMediaPlayer();
+        System.out.println("MediaControl:::OnDestroy");
+    }
     public void releaseMediaPlayer()
     {
         //if mediaplayer is still holding mediaplayer
         // release the mediaplayer
         if (mp != null) {
             mp.stop();
+            mp.reset();
             mp.release();
         }
     }

@@ -68,21 +68,21 @@ public class ImageControl {
         final MediaControl mc = media;
         final ImageButton playButton = imageButton;
 
-        playButton.setImageResource(imageButtonList[0]);
+        //playButton.setImageResource(imageButtonList[0]);
 
-        playButton.setOnClickListener( new View.OnClickListener() {
+        /*playButton.setOnClickListener( new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
                 try {
 
-                    mc.callMediaFromRaw(myposition, mycontext);
+                    mc.callMediaFromRaw(myposition, mycontext, mp);
                     playButton.setImageResource(imageButtonList[1]);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-    });
+    });*/
 
     }
     public Integer[] getImageButtonList(){

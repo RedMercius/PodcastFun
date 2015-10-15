@@ -46,13 +46,13 @@ public class selectActivity extends AppCompatActivity {
                             iconControl.getImageButtonList(), iconControl.getImageButtonListStop());
 
             // initialize the mediaControl
-            mc =
+           /* mc =
                     new MediaControl(this, radiolist.getBurnsAllen(),
-                            iconControl.getImageButtonList(), iconControl.getImageButtonListStop());
+                            iconControl.getImageButtonList(), iconControl.getImageButtonListStop());*/
 
             listview = (ListView) findViewById(R.id.listview);
             listview.setAdapter(adapter);
-            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /*listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
@@ -64,14 +64,13 @@ public class selectActivity extends AppCompatActivity {
                         Log.e("tag", e.getMessage(), e);
                     }
                 }
-            });
+            });*/
         }
 
         @Override
         public void onDestroy()
         {
             super.onDestroy();
-            mc.releaseMediaPlayer();
             System.out.println("OnDestroy");
         }
     }

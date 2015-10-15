@@ -12,6 +12,8 @@ package com.example.johnnie.podcastfun;
  */
 
 import android.app.Activity;
+import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +24,14 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-public class CustomList extends ArrayAdapter<String> {
+public class CustomList extends ArrayAdapter<String>  {
 
     private final Activity context;
     private final String[] radioTitle;
     private final Integer[] imageButtonList;
     private final Integer[] imageButtonListStop;
+    private MediaPlayer mp;
+    private int mypercent;
 
     public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, Integer[] imageButtonListStop) {
         super(context, R.layout.list_single, radioTitle);
@@ -35,7 +39,13 @@ public class CustomList extends ArrayAdapter<String> {
         this.radioTitle = radioTitle;
         this.imageButtonList = imageButtonList;
         this.imageButtonListStop = imageButtonListStop;
+        this.mp = new MediaPlayer();
+        this.mypercent = 0;
+    }
 
+    private void setPercentage (int percent)
+    {
+        mypercent = percent;
     }
 
     @Override
@@ -46,7 +56,7 @@ public class CustomList extends ArrayAdapter<String> {
         TextView txtStatus = (TextView) rowView.findViewById(R.id.txt2);
 
         final MediaControl mc =
-                new MediaControl(context, radioTitle, imageButtonList, imageButtonListStop);
+                new MediaControl(context, radioTitle, imageButtonList, imageButtonListStop, mp);
 
         final ImageButton playButton = (ImageButton) rowView.findViewById(R.id.playbtn);
         final ImageButton stopButton = (ImageButton) rowView.findViewById(R.id.stopbtn);
@@ -57,6 +67,21 @@ public class CustomList extends ArrayAdapter<String> {
         final boolean isItInRaw = mc.checkResourceInRaw(radioTitle[position]);
         final boolean doesMediaExist = mc.checkForMedia(radioTitle[position]);
         final String mediaTitle = radioTitle[position];
+        boolean stream = false;
+        txtStatus.setVisibility(View.VISIBLE);
+
+
+        mp.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
+            @Override
+            public void onBufferingUpdate(MediaPlayer mp, int percent) {
+                setPercentage(percent);
+                Log.d("CustomList:", "buffering: " + percent);
+            }
+        });
+        if (mypercent > 0) {
+            txtStatus.setText("Buffering: " + Integer.toString(mypercent));
+            Log.d("CustomList:", "buffering text ");
+        }
 
         closeButton.setVisibility(View.INVISIBLE);
         stopButton.setVisibility(View.INVISIBLE);
@@ -67,57 +92,71 @@ public class CustomList extends ArrayAdapter<String> {
         if (false == isItInRaw && false == doesMediaExist)
         {
             downloadButton.setImageResource(imageButtonList[4]);
-            playButton.setVisibility(View.INVISIBLE);
+            downloadButton.setVisibility(View.VISIBLE);
+            stream = true;
         }
         else if (true == isItInRaw || true == doesMediaExist)
         {
             playButton.setImageResource(imageButtonList[0]);
             stopButton.setVisibility(View.VISIBLE);
+            stream = false;
         }
 
+        final boolean stream2 = stream;
         playButton.setOnClickListener(new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View v) {
+                                              new Thread(new Runnable() {
+                                                  public void run() {
 
-            @Override
-            public void onClick(View arg0) {
-                try {
+                                                      try {
 
-                    mc.callMediaFromRaw(mediaTitle, context);
-                    playButton.setImageResource(imageButtonList[1]);
-                    stopButton.setImageResource(imageButtonList[2]);
-                    stopButton.setVisibility(View.VISIBLE);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                                                          if (stream2 == false) {
+                                                              mc.callMediaFromRaw(mediaTitle, context, mp);
+                                                          } else {
+                                                              mc.callMediaFromInternet(mediaTitle, context, mp);
+                                                          }
+
+                                                      } catch (IOException e) {
+                                                          e.printStackTrace();
+                                                      }
+                                                      //Toast.makeText(context, "play button is clicked: " + mediaTitle, Toast.LENGTH_SHORT).show();
+                                                  }
+                                              }).start();
+                                              playButton.setImageResource(imageButtonList[1]);
+                                              stopButton.setImageResource(imageButtonList[2]);
+                                              stopButton.setVisibility(View.VISIBLE);
+                                          }
+                                      });
+
+                    stopButton.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View arg0) {
+
+                            mc.stopMedia();
+                            playButton.setImageResource(imageButtonList[0]);
+                            stopButton.setVisibility(View.INVISIBLE);
+
+                            Toast.makeText(context, "stop button is clicked: " + mediaTitle, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    downloadButton.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View arg0) {
+
+                            mc.downloadMedia(mediaTitle);
+                            playButton.setImageResource(imageButtonList[0]);
+                            stopButton.setVisibility(View.INVISIBLE);
+
+                            Toast.makeText(context, "stop button is clicked: " + mediaTitle, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    return rowView;
                 }
-                Toast.makeText(context, "play button is clicked: " + mediaTitle, Toast.LENGTH_SHORT).show();
             }
-        });
 
-        stopButton.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View arg0) {
-
-                    mc.stopMedia();
-                    playButton.setImageResource(imageButtonList[0]);
-                    stopButton.setVisibility(View.INVISIBLE);
-
-                Toast.makeText(context, "stop button is clicked: " + mediaTitle, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        downloadButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                mc.downloadMedia(mediaTitle);
-                playButton.setImageResource(imageButtonList[0]);
-                stopButton.setVisibility(View.INVISIBLE);
-
-                Toast.makeText(context, "stop button is clicked: " + mediaTitle, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        return rowView;
-    }
-}

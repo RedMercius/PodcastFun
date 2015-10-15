@@ -18,5 +18,6 @@
     <string name="close_button">Close Button</string>
     <string name="delete_button">Delete Button</string>
     <string name="download_button">Download Button</string>
+    <string name="title_activity_download">Download</string>
 
 </resources>
