@@ -65,6 +65,11 @@ public class MediaControl extends Activity implements
         this.mp.setOnCompletionListener(this);
     }
 
+    public MediaPlayer getMediaPlayer()
+    {
+        return mp;
+    }
+
     public boolean checkResourceInRaw (String resource)
     {
         boolean resourceFound = true;
@@ -93,6 +98,7 @@ public class MediaControl extends Activity implements
             if (title == filename)
             {
                 mediaFound = true;
+                Log.d("MediaControl: ", "mediaFound=true");
                 break;
             }
         }

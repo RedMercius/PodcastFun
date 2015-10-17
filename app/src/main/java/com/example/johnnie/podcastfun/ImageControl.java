@@ -56,33 +56,19 @@ public class ImageControl {
             R.drawable.ic_close
     };
 
-    public void PlayForClick (ImageButton imageButton,
-                              String position,
-                              Activity context,
-                              MediaControl media,
-                              boolean isItRaw,
-                              boolean isItInMedia)
+    public void PlayForClick (ImageButton imageButton)
     {
-        final String myposition = position;
-        final Activity mycontext = context;
-        final MediaControl mc = media;
         final ImageButton playButton = imageButton;
 
-        //playButton.setImageResource(imageButtonList[0]);
+        playButton.setImageResource(imageButtonList[0]);
 
-        /*playButton.setOnClickListener( new View.OnClickListener() {
+        playButton.setOnClickListener( new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                try {
-
-                    mc.callMediaFromRaw(myposition, mycontext, mp);
                     playButton.setImageResource(imageButtonList[1]);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
-    });*/
+    });
 
     }
     public Integer[] getImageButtonList(){

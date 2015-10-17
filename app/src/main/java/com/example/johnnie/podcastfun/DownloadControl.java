@@ -63,15 +63,6 @@ public class DownloadControl extends Activity {
                 DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
-    public File getMusicStorageDir(String albumName) {
-        // Get the directory for the user's public pictures directory.
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_MUSIC), albumName);
-        if (!file.mkdirs()) {
-            Log.e("DownloadControl:", "Directory not created");
-        }
-        return file;
-    }
 
     public void downloadFile(String filename, Activity context) {
 

@@ -17,12 +17,15 @@ package com.example.johnnie.podcastfun;
 //
 ////////////////////////////////////////////////////////////////////////////
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import java.io.IOException;
 
 public class selectActivity extends AppCompatActivity {
