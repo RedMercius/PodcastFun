@@ -8,20 +8,28 @@
 package com.example.johnnie.podcastfun;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.media.MediaPlayer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
+import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
+import java.io.IOException;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PlayActivity extends AppCompatActivity {
+public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener {
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -44,11 +52,53 @@ public class PlayActivity extends AppCompatActivity {
     private View mControlsView;
     private boolean mVisible;
 
+    private String[] radioTitle;
+    private Integer[] iconImage;
+
+    // get the controls
+    private ImageButton playButton;
+    private SeekBar sb;
+    private TextView titleLine;
+
+    // get the icon images
+    private ImageControl iconControl;
+    private RadioTitle title;
+
+    // media controls
+    private MediaControl mc;
+    private MediaPlayer mp;
+
+
+    private boolean stream;
+    private String mediaName;
+
+    Handler seekHandler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        this.mp = new MediaPlayer();
         setContentView(R.layout.activity_play);
+        Bundle extra = getIntent().getExtras();
+        mediaName = extra.getString("MediaTitle");
+
+        Log.d("PlayActivity: ", "onCreate:  " + mediaName);
+
+        iconControl = new ImageControl();
+        iconImage = iconControl.getImageButtonList();
+
+        // get the radio titles
+        title = new RadioTitle();
+        radioTitle = title.getBurnsAllen();
+
+        playButton = (ImageButton) findViewById(R.id.play_button);
+        sb = (SeekBar) findViewById(R.id.seekBar);
+        titleLine = (TextView) findViewById(R.id.txtTitle);
+
+        titleLine.setText(mediaName);
+
+        mc=new MediaControl(this, mp);
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -70,7 +120,85 @@ public class PlayActivity extends AppCompatActivity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.play_button).setOnTouchListener(mDelayHideTouchListener);
+        playButton.setOnTouchListener(mDelayHideTouchListener);
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if (mp.isPlaying()) {
+                    playButton.setImageResource(iconImage[1]);
+                    mp.pause();
+                    Log.d("PlayActivity: ", "Pausing!");
+                }
+                else
+                {
+                    playButton.setImageResource(iconImage[0]);
+                    mp.seekTo(mp.getCurrentPosition());
+                    mp.start();
+                    Log.d("PlayActivity: ", "Playing!");
+                }
+        }
+    });
+
+        this.mp.setOnPreparedListener(this);
+        checkForMedia();
+    }
+
+    private void checkForMedia()
+    {
+        boolean isItInRaw = mc.checkResourceInRaw(mediaName);
+        boolean doesMediaExist = mc.checkForMedia(mediaName);
+
+        if (isItInRaw)
+        {
+            try {
+
+                mc.callMediaFromRaw(mediaName, this);
+            }
+            catch (IOException e)
+            {
+                Log.d("PlayActivity: ", "checkForMedia_IOException:  " + e);
+            }
+        }
+        else if (!doesMediaExist)
+        {
+            try {
+
+                mc.callMediaFromInternet(mediaName, this);
+            }
+            catch (IOException e)
+            {
+                Log.d("PlayActivity: ", "checkForMedia_IOException:  " + e);
+            }
+        }
+    }
+
+    public void enableProgress()
+    {
+        sb.setMax(mp.getDuration());
+        Log.d("PlayActivity", "Duration: " + mp.getDuration());
+    }
+
+    Runnable run = new Runnable() {
+        @Override
+        public void run() {
+            runProgress();
+        }
+    };
+
+    private void runProgress() {
+        sb.setProgress(mp.getCurrentPosition());
+        seekHandler.postDelayed(run, 1000);
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mediaPlayer) {
+        Log.d("PlayActivity: ", "onPrepared called");
+        mp.start();
+        enableProgress();
+        runProgress();
     }
 
     @Override
@@ -189,4 +317,6 @@ public class PlayActivity extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
+
+
 }

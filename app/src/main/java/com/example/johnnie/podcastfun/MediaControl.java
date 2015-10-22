@@ -7,15 +7,10 @@
 
 package com.example.johnnie.podcastfun;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -36,13 +31,9 @@ import java.io.IOException;
 //////////////////////////////////////////////////////////////////////////////////////
 
 public class MediaControl extends Activity implements
-        MediaPlayer.OnCompletionListener,
-        MediaPlayer.OnPreparedListener {
+        MediaPlayer.OnCompletionListener {
 
     private final Activity context;
-    private final String[] radioTitle;
-    private final Integer[] imageButtonList;
-    private final Integer[] imageButtonListStop;
 
     private MediaPlayer mp;
     private DownloadControl dc;
@@ -53,21 +44,13 @@ public class MediaControl extends Activity implements
         Log.d("MediaControl:", "onCreate Service");
     }
 
-    public MediaControl(Activity context, String[] radioTitle, Integer[] imageButtonList, Integer[] imageButtonListStop, MediaPlayer mp) {
+    public MediaControl(Activity context, MediaPlayer mp) {
         this.context = context;
-        this.radioTitle = radioTitle;
-        this.imageButtonList = imageButtonList;
-        this.imageButtonListStop = imageButtonListStop;
         this.mp = mp;
 
-        this.mp.setOnPreparedListener(this);
+        // this.mp.setOnPreparedListener(this);
         //this.mp.setOnBufferingUpdateListener(this);
         this.mp.setOnCompletionListener(this);
-    }
-
-    public MediaPlayer getMediaPlayer()
-    {
-        return mp;
     }
 
     public boolean checkResourceInRaw (String resource)
@@ -95,7 +78,7 @@ public class MediaControl extends Activity implements
 
         while (cursor.moveToNext()) {
             String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
-            if (title == filename)
+            if (title.equals(filename))
             {
                 mediaFound = true;
                 Log.d("MediaControl: ", "mediaFound=true");
@@ -106,7 +89,6 @@ public class MediaControl extends Activity implements
         return mediaFound;
     }
 
-
     public void downloadMedia(String filename)
     {
         dc = new DownloadControl();
@@ -114,16 +96,16 @@ public class MediaControl extends Activity implements
         Log.d("MediaControl: ", "downloadMedia");
     }
 
-    public void callMediaFromRaw(String item, Activity context, MediaPlayer mp) throws IOException {
+    public void callMediaFromRaw(String item, Activity context) throws IOException {
 
         int mediaId = 0;
 
-        if (true == checkResourceInRaw(item)) {
+        if (checkResourceInRaw(item)) {
             // assign the resource id so that the raw item can be identified and played.
             mediaId = (context.getResources().getIdentifier(item, "raw", context.getPackageName()));
         }
         // check to see if the resource exists in raw
-        else if (false == checkResourceInRaw(item))
+        else if (!checkResourceInRaw(item))
         {
             Toast.makeText(context, "Resource does not exist!", Toast.LENGTH_SHORT).show();
             return;
@@ -134,11 +116,11 @@ public class MediaControl extends Activity implements
             mp = MediaPlayer.create(context, mediaId);
         }
 
-        if (false == mp.isPlaying()) {
+        if (!mp.isPlaying()) {
 
             mp.start();
         }
-        else if (true == mp.isPlaying())
+        else if (mp.isPlaying())
         {
             mp.pause();
             Toast.makeText(context, "Pausing!!", Toast.LENGTH_SHORT).show();
@@ -146,22 +128,11 @@ public class MediaControl extends Activity implements
         Log.d("MediaControl: ", "callMediaFromRaw");
     }
 
-    private void callMediaFromContentResolver()
-    {
-       /* Uri myUri = ....; // initialize Uri here
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mediaPlayer.setDataSource(getApplicationContext(), myUri);
-        mediaPlayer.prepare();
-        mediaPlayer.start();*/
-    }
-
-    public void callMediaFromInternet(String filename, Activity context, MediaPlayer mp) throws IOException
+    public void callMediaFromInternet(String filename, Activity context) throws IOException
     {
         String url = "http://www.JohnnieRuffin.com/audio/" + filename; // your URL here
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mp.setDataSource(url);
-        mp.setOnPreparedListener(this);
         mp.prepareAsync(); // might take long! (for buffering, etc)
         Log.d("MediaControl: ", ("callMediaFromInternet: " + filename));
     }
@@ -170,15 +141,6 @@ public class MediaControl extends Activity implements
     public void onCompletion(MediaPlayer arg0) {
         Log.d("MediaControl: ", "onCompletion called");
     }
-
-
-    @Override
-    public void onPrepared(MediaPlayer mediaPlayer) {
-        Log.d("MediaControl: ", "onPrepared called");
-                mp.start();
-    }
-
-
 
     public void stopMedia()
     {

@@ -7,14 +7,19 @@
 
 package com.example.johnnie.podcastfun;
 
-/**
- * Created by johnnie on 10/4/2015.
- */
+/////////////////////////////////////////////////////////////////////////////
+//
+/// @class CustomList
+//
+/// @brief CustomList class controls the item list
+//
+/// @author Johnnie Ruffin
+//
+////////////////////////////////////////////////////////////////////////////
 
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,120 +28,85 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-
-public class CustomList extends ArrayAdapter<String>  {
+public class CustomList extends ArrayAdapter<String> {
 
     private final Activity context;
     private final String[] radioTitle;
     private final Integer[] imageButtonList;
-    private final Integer[] imageButtonListStop;
     private MediaPlayer mp;
 
-    public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, Integer[] imageButtonListStop) {
+    public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList) {
         super(context, R.layout.list_single, radioTitle);
         this.context = context;
         this.radioTitle = radioTitle;
         this.imageButtonList = imageButtonList;
-        this.imageButtonListStop = imageButtonListStop;
         this.mp = new MediaPlayer();
     }
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View rowView= inflater.inflate(R.layout.list_single, null, true);
+        View rowView = inflater.inflate(R.layout.list_single, null, true);
         final TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
         final TextView txtStatus = (TextView) rowView.findViewById(R.id.txtstatus);
-        ImageControl imgControl = new ImageControl();
 
         final MediaControl mc =
-                new MediaControl(context, radioTitle, imageButtonList, imageButtonListStop, mp);
+                new MediaControl(context, mp);
 
         final ImageButton playButton = (ImageButton) rowView.findViewById(R.id.playbtn);
         final ImageButton stopButton = (ImageButton) rowView.findViewById(R.id.stopbtn);
         final ImageButton closeButton = (ImageButton) rowView.findViewById(R.id.closebtn);
-        final ImageButton downloadButton = (ImageButton) rowView.findViewById(R.id.downloadbtn);
         final ImageButton deleteButton = (ImageButton) rowView.findViewById(R.id.deletebtn);
-        final boolean isItInRaw = mc.checkResourceInRaw(radioTitle[position]);
-        final boolean doesMediaExist = mc.checkForMedia(radioTitle[position]);
+        final ImageButton downloadButton = (ImageButton) rowView.findViewById(R.id.downloadbtn);
         final String mediaTitle = radioTitle[position];
-        boolean stream = false;
-        imgControl.PlayForClick(playButton);
+
+        boolean isItInRaw = mc.checkResourceInRaw(mediaTitle);
+        boolean doesMediaExist = mc.checkForMedia(mediaTitle);
 
         txtStatus.setVisibility(View.VISIBLE);
+        deleteButton.setVisibility(View.INVISIBLE);
         closeButton.setVisibility(View.INVISIBLE);
         stopButton.setVisibility(View.INVISIBLE);
         downloadButton.setVisibility(View.INVISIBLE);
 
         txtTitle.setText(mediaTitle);
 
-        if (false == isItInRaw && false == doesMediaExist)
-        {
+        if (!isItInRaw && !doesMediaExist) {
             downloadButton.setImageResource(imageButtonList[4]);
             downloadButton.setVisibility(View.VISIBLE);
-            stream = true;
-        }
-        else if (true == isItInRaw || true == doesMediaExist)
-        {
-            downloadButton.setVisibility(View.INVISIBLE);
+            playButton.setImageResource(imageButtonList[0]);
+            stopButton.setImageResource(imageButtonList[8]);
             stopButton.setVisibility(View.VISIBLE);
-            stream = false;
+        } else if (isItInRaw || doesMediaExist) {
+            downloadButton.setVisibility(View.INVISIBLE);
+            playButton.setImageResource(imageButtonList[0]);
         }
 
-        final boolean stream2 = stream;
         playButton.setOnClickListener(new View.OnClickListener() {
-
 
             @Override
             public void onClick(View v) {
-                try {
-                   /* playButton.setImageResource(imageButtonList[1]);
-                    stopButton.setImageResource(imageButtonList[2]);
-                    stopButton.setVisibility(View.VISIBLE);*/
-                    final Intent i = new Intent(context, PlayActivity.class);
-                    context.startActivity(i);
 
-                    if (stream2 == false) {
-                        mc.callMediaFromRaw(mediaTitle, context, mp);
-                    } else {
-                        mc.callMediaFromInternet(mediaTitle, context, mp);
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                final Intent i = new Intent(context, PlayActivity.class);
+                i.putExtra("MediaTitle", mediaTitle);
+                context.startActivity(i);
             }
         });
 
-                    stopButton.setOnClickListener(new View.OnClickListener() {
+        downloadButton.setOnClickListener(new View.OnClickListener() {
 
-                        @Override
-                        public void onClick(View arg0) {
+            @Override
+            public void onClick(View arg0) {
 
-                            mc.stopMedia();
-                            playButton.setImageResource(imageButtonList[0]);
-                            stopButton.setVisibility(View.INVISIBLE);
+                mc.downloadMedia(mediaTitle);
+                stopButton.setVisibility(View.INVISIBLE);
 
-                            Toast.makeText(context, "stop button is clicked: " + mediaTitle, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    downloadButton.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View arg0) {
-
-                            mc.downloadMedia(mediaTitle);
-                            playButton.setImageResource(imageButtonList[0]);
-                            stopButton.setVisibility(View.INVISIBLE);
-
-                            Toast.makeText(context, "stop button is clicked: " + mediaTitle, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    return rowView;
-                }
+                Toast.makeText(context, "Download button is clicked: " + mediaTitle, Toast.LENGTH_SHORT).show();
             }
+        });
+
+        return rowView;
+    }
+}
 
 

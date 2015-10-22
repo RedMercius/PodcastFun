@@ -17,20 +17,13 @@ package com.example.johnnie.podcastfun;
 //
 ////////////////////////////////////////////////////////////////////////////
 
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import java.io.IOException;
 
 public class selectActivity extends AppCompatActivity {
     ListView listview;
-    MediaControl mc;
+    CustomList selectCustomList;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -41,33 +34,16 @@ public class selectActivity extends AppCompatActivity {
             ImageControl iconControl = new ImageControl();
 
             // get the radio titles
-            RadioTitle radiolist = new RadioTitle();
+            RadioTitle radioList = new RadioTitle();
 
             // set the list adapter
             CustomList adapter =
-                    new CustomList(this, radiolist.getBurnsAllen(),
-                            iconControl.getImageButtonList(), iconControl.getImageButtonListStop());
-
-            // initialize the mediaControl
-           /* mc =
-                    new MediaControl(this, radiolist.getBurnsAllen(),
-                            iconControl.getImageButtonList(), iconControl.getImageButtonListStop());*/
+                    new CustomList(this, radioList.getBurnsAllen(),
+                            iconControl.getImageButtonList());
+            selectCustomList = adapter;
 
             listview = (ListView) findViewById(R.id.listview);
             listview.setAdapter(adapter);
-            /*listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        int position, long id) {
-                    final String item = (String) parent.getItemAtPosition(position);
-                    try {
-                        mc.callMediaFromRaw(item, selectActivity.this);
-                    } catch (IOException e) {
-                        Log.e("tag", e.getMessage(), e);
-                    }
-                }
-            });*/
         }
 
         @Override

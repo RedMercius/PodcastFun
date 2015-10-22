@@ -50,33 +50,7 @@ public class ImageControl {
             R.drawable.ic_stream
     };
 
-    Integer[] imageButtonListStop= {
-            R.drawable.ic_close,
-            R.drawable.ic_close,
-            R.drawable.ic_close
-    };
-
-    public void PlayForClick (ImageButton imageButton)
-    {
-        final ImageButton playButton = imageButton;
-
-        playButton.setImageResource(imageButtonList[0]);
-
-        playButton.setOnClickListener( new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                    playButton.setImageResource(imageButtonList[1]);
-            }
-    });
-
-    }
     public Integer[] getImageButtonList(){
      return imageButtonList;
     }
-
-    public Integer[] getImageButtonListStop() {
-        return imageButtonListStop;
-    }
-
 }

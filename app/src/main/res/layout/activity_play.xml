@@ -9,17 +9,23 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:background="#0099cc"
+             android:background="@color/black_overlay"
              tools:context="com.example.johnnie.podcastfun.PlayActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
     <ImageView android:id="@+id/fullscreen_content"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:keepScreenOn="true"
-              android:textColor="#33b5e5"
+              android:textColor="@color/black_overlay"
               android:textStyle="bold"
               android:textSize="50sp"
               android:gravity="center"
@@ -47,10 +53,12 @@
                     />
 
             <SeekBar
-                android:id="@+id/progressBar1"
-                android:layout_width="300dp"
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
+                android:layout_marginTop="15dp"
+                android:background="@color/green"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp" />
+                />
 
 
 

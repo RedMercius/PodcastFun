@@ -7,9 +7,17 @@
 
 package com.example.johnnie.podcastfun;
 
-/**
- * Created by johnnie on 10/9/2015.
- */
+/////////////////////////////////////////////////////////////////////////////
+//
+/// @class RadioTitle
+//
+/// @brief A Class that controls radio titles
+//
+/// @author Johnnie Ruffin
+//
+////////////////////////////////////////////////////////////////////////////
+
+
 public class RadioTitle {
 
     private final String[] burnsAllen = {
