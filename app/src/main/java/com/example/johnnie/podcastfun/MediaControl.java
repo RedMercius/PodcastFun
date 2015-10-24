@@ -47,9 +47,6 @@ public class MediaControl extends Activity implements
     public MediaControl(Activity context, MediaPlayer mp) {
         this.context = context;
         this.mp = mp;
-
-        // this.mp.setOnPreparedListener(this);
-        //this.mp.setOnBufferingUpdateListener(this);
         this.mp.setOnCompletionListener(this);
     }
 
@@ -154,6 +151,7 @@ public class MediaControl extends Activity implements
         releaseMediaPlayer();
         System.out.println("MediaControl:::OnDestroy");
     }
+
     public void releaseMediaPlayer()
     {
         //if mediaplayer is still holding mediaplayer

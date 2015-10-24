@@ -34,15 +34,7 @@
             android:name=".DownloadControl"
             android:label="DownloadActivity" >
         </activity>
-        <activity
-            android:name=".PlayActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_play"
-            android:parentActivityName=".selectActivity"
-            android:theme="@style/FullscreenTheme" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.johnnie.podcastfun.selectActivity" />
+        <activity android:name=".PlayActivity" >
         </activity>
     </application>
 

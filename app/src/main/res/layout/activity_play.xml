@@ -5,7 +5,7 @@
   ~
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
@@ -15,11 +15,6 @@
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
-    <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
 
     <ImageView android:id="@+id/fullscreen_content"
               android:layout_width="match_parent"
@@ -31,38 +26,42 @@
               android:gravity="center"
               android:src="@drawable/burnsandallen1"/>
 
+
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
-    <FrameLayout android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:fitsSystemWindows="true">
 
-        <LinearLayout android:id="@+id/fullscreen_content_controls"
-                      style="?metaButtonBarStyle"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_gravity="bottom|center_horizontal"
-                      android:background="@color/black_overlay"
-                      android:orientation="horizontal"
-                      tools:ignore="UselessParent">
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
 
-            <ImageButton android:id="@+id/play_button"
-                    style="?metaButtonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+            <ImageButton
+                android:id="@+id/play_button"
+                style="?metaButtonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtTitle"
+                android:contentDescription="@string/play_button"
                     />
 
             <SeekBar
                 android:id="@+id/seekBar"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/green"
                 android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/play_button"
+                android:layout_toRightOf="@id/play_button"
+                android:layout_below="@id/txtTitle"
                 />
 
+            <TextView
+                android:id="@+id/duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/seekBar"
+                android:layout_toRightOf="@id/seekBar"
+                />
 
-
-        </LinearLayout>
-    </FrameLayout>
-
-</FrameLayout>
+</RelativeLayout>
