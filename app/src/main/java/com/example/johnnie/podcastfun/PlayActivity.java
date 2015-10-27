@@ -7,28 +7,36 @@
 
 package com.example.johnnie.podcastfun;
 
+import android.content.Intent;
+import android.media.MediaCodecInfo;
+import android.media.MediaMetadata;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.format.Formatter;
-import android.text.format.Time;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
-import java.text.DateFormatSymbols;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.net.URI;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener {
 
+    private String TAG = "PlayActivity: ";
     private String[] radioTitle;
     private Integer[] iconImage;
 
@@ -51,12 +59,16 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     private String mediaName;
 
     Handler seekHandler = new Handler();
+    ExecutorService threadPoolExecutor = Executors.newSingleThreadExecutor();
+    Future runProgressFuture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.mp = new MediaPlayer();
         setContentView(R.layout.activity_play);
+
+        runProgressFuture = threadPoolExecutor.submit(run);
 
         Bundle extra = getIntent().getExtras();
         mediaName = extra.getString("MediaTitle");
@@ -71,15 +83,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         radioTitle = title.getBurnsAllen();
 
         playButton = (ImageButton) findViewById(R.id.play_button);
-        playButton.setImageResource(iconImage[0]);
+        playButton.setImageResource(iconImage[1]);
 
         sb = (SeekBar) findViewById(R.id.seekBar);
         titleLine = (TextView) findViewById(R.id.txtTitle);
         duration = (TextView) findViewById(R.id.duration);
-
-        String myTitle;
-        titleLine.setText(mediaName);
-        titleLine.setVisibility(View.VISIBLE);
 
         mc=new MediaControl(this, mp);
 
@@ -121,15 +129,46 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 Log.d("PlayActivity: ", "checkForMedia_IOException:  " + e);
             }
         }
-        else if (!doesMediaExist)
+
+        if (!doesMediaExist)
         {
             try {
 
                 mc.callMediaFromInternet(mediaName, this);
+
+                MediaMetadataRetriever mediaInfo = new MediaMetadataRetriever();
+
+                String uri = ("http://www.JohnnieRuffin.com/audio/" + mediaName);
+
+                HashMap<String, String> hashMap = new HashMap<String, String>();
+                mediaInfo.setDataSource(uri, hashMap);
+
+                String myTitle = "DEFAULT_TITLE";
+                myTitle = mediaInfo.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
+
+                titleLine.setText(myTitle);
+                titleLine.setVisibility(View.VISIBLE);
+                mediaInfo.release();
             }
             catch (IOException e)
             {
                 Log.d("PlayActivity: ", "checkForMedia_IOException:  " + e);
+            }
+            catch (IllegalArgumentException e)
+            {
+                Log.d("PlayActivity: ", "checkForMedia_IllegalArgumentException: " + e);
+            }
+        }
+
+        if (doesMediaExist) {
+            try {
+
+                mc.callMediaFromExternalDir(mediaName, this);
+                mc.getMp3Info();
+                titleLine.setText(mc.getMP3Title());
+                titleLine.setVisibility(View.VISIBLE);
+            } catch (IOException e) {
+                Log.d("PlayActivity: ", "checkForMedia_IOException_media does exist:  " + e);
             }
         }
     }
@@ -137,55 +176,59 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     public void enableProgress()
     {
         sb.setMax(mp.getDuration());
-        SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
-        Date mydate;
         int durationInMil = (mp.getDuration());
-
         String myDuration = "00:00:00";
+
         try {
-            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.US);
-            myDuration = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(durationInMil),
-                    TimeUnit.MILLISECONDS.toMinutes(durationInMil) -
-                            TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(durationInMil)), // The change is in this line
-                    TimeUnit.MILLISECONDS.toSeconds(durationInMil) -
-                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(durationInMil)));
+            myDuration =  getDurationInFormat(durationInMil);
         }
         catch (Exception e)
         {
             Log.d("PlayActivity", "Exception: " + e);
         }
         duration.setText(myDuration);
-        Log.d("PlayActivity", "Duration: " + mp.getDuration());
     }
 
     Runnable run = new Runnable() {
         @Override
         public void run() {
-            runProgress();
+            try {
+                runProgress();
+            }
+            catch(Exception e)
+            {
+                Log.d(TAG, "Exception: " + e);
+            }
         }
     };
 
     private void runProgress() {
         int durationInMil = ((mp.getDuration() - mp.getCurrentPosition()));
-        SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
         String myDuration = "00:00:00";
-        Date mydate;
         try {
-            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.US);
-            myDuration = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(durationInMil),
-                    TimeUnit.MILLISECONDS.toMinutes(durationInMil) -
-                            TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(durationInMil)), // The change is in this line
-                    TimeUnit.MILLISECONDS.toSeconds(durationInMil) -
-                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(durationInMil)));
-        }
-        catch (Exception e)
+            myDuration =  getDurationInFormat(durationInMil);
+        } catch (Exception e)
         {
             Log.d("PlayActivity", "Exception: " + e);
+            return;
         }
 
         duration.setText(myDuration);
         sb.setProgress(mp.getCurrentPosition());
         seekHandler.postDelayed(run, 1000);
+    }
+
+    public String getDurationInFormat (int duration)
+    {
+        String durationInFormat = "00:00:00";
+        durationInFormat = String.format("%02d:%02d:%02d",
+                TimeUnit.MILLISECONDS.toHours(duration),
+                TimeUnit.MILLISECONDS.toMinutes(duration) -
+                        TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(duration)),
+                TimeUnit.MILLISECONDS.toSeconds(duration) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
+
+        return durationInFormat;
     }
 
     @Override
@@ -194,6 +237,21 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         mp.start();
         enableProgress();
         runProgress();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            runProgressFuture.cancel(true);
+            mc.stopMedia();
+
+            final Intent i = new Intent(PlayActivity.this, selectActivity.class);
+            startActivity(i);
+            finish();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
 

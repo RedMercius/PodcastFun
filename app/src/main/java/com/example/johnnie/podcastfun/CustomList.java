@@ -77,7 +77,9 @@ public class CustomList extends ArrayAdapter<String> {
             playButton.setImageResource(imageButtonList[0]);
             stopButton.setImageResource(imageButtonList[8]);
             stopButton.setVisibility(View.VISIBLE);
-        } else if (isItInRaw || doesMediaExist) {
+        }
+
+        if (isItInRaw || doesMediaExist) {
             downloadButton.setVisibility(View.INVISIBLE);
             playButton.setImageResource(imageButtonList[0]);
         }
