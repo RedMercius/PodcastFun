@@ -21,7 +21,18 @@
     <string name="title_activity_download">Download</string>
 
     <string name="title_activity_play">Play</string>
+    <string name="title_category">Choose A Category</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="category_comedy">Comedy</string>
+    <string name="category_scifi">Science-Fiction</string>
+    <string name="category_drama">Drama</string>
+    <string name="category_thriller">Thriller</string>
+    <string name="category_horror">Horror</string>
+    <string name="title_activity_comedy">ComedyActivity</string>
+    <string name="title_activity_sci_fi">SciFiActivity</string>
+    <string name="title_activity_thriller">ThrillerActivity</string>
+    <string name="title_activity_horror">HorrorActivity</string>
 
 </resources>

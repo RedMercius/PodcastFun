@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".selectActivity"
+            android:name=".baSelectActivity"
             android:label="@string/title_activity_select" >
         </activity>
         <activity
@@ -35,6 +35,42 @@
             android:label="DownloadActivity" >
         </activity>
         <activity android:name=".PlayActivity" >
+        </activity>
+        <activity
+            android:name=".ComedyActivity"
+            android:label="@string/title_activity_comedy"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.johnnie.podcastfun.MainActivity" />
+        </activity>
+        <activity
+            android:name=".SciFiActivity"
+            android:label="@string/title_activity_sci_fi"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.johnnie.podcastfun.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ThrillerActivity"
+            android:label="@string/title_activity_thriller"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.johnnie.podcastfun.MainActivity" />
+        </activity>
+        <activity
+            android:name=".HorrorActivity"
+            android:label="@string/title_activity_horror"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.johnnie.podcastfun.MainActivity" />
         </activity>
     </application>
 

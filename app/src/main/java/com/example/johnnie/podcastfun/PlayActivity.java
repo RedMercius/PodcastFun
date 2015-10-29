@@ -8,11 +8,8 @@
 package com.example.johnnie.podcastfun;
 
 import android.content.Intent;
-import android.media.MediaCodecInfo;
-import android.media.MediaMetadata;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,13 +19,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -245,9 +238,10 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             runProgressFuture.cancel(true);
             mc.stopMedia();
 
-            final Intent i = new Intent(PlayActivity.this, selectActivity.class);
+            final Intent i = new Intent(PlayActivity.this, baSelectActivity.class);
             startActivity(i);
             finish();
+            Log.d(TAG, "OnKeyDown");
             return true;
         }
 

@@ -9,9 +9,9 @@ package com.example.johnnie.podcastfun;
 
 /////////////////////////////////////////////////////////////////////////////
 //
-/// @class selectActivity
+/// @class baSelectActivity
 //
-/// @brief selectActivity class controls navigation for the selected item
+/// @brief baSelectActivity class controls navigation for the selected item
 //
 /// @author Johnnie Ruffin
 //
@@ -21,7 +21,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
-public class selectActivity extends AppCompatActivity {
+public class baSelectActivity extends AppCompatActivity {
     ListView listview;
     CustomList selectCustomList;
 
