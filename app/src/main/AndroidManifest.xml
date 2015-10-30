@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
   ~ Copyright 2015 © Johnnie Ruffin
   ~
@@ -34,7 +35,7 @@
             android:name=".DownloadControl"
             android:label="DownloadActivity" >
         </activity>
-        <activity android:name=".PlayActivity" >
+        <activity android:name=".PlayActivity">
         </activity>
         <activity
             android:name=".ComedyActivity"

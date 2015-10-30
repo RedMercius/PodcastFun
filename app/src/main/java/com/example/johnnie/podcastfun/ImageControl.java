@@ -17,16 +17,9 @@ package com.example.johnnie.podcastfun;
 //
 ////////////////////////////////////////////////////////////////////////////
 
-import android.app.Activity;
-import android.content.Context;
-import android.view.View;
-import android.widget.ImageButton;
-
-import java.io.IOException;
-
 public class ImageControl {
 
-    private enum actionList
+   /* private enum actionList
     {
         play,
         pause,
@@ -36,7 +29,7 @@ public class ImageControl {
         info,
         delete,
         stream
-    };
+    };*/
 
     Integer[] imageButtonList = {
             R.drawable.ic_play,

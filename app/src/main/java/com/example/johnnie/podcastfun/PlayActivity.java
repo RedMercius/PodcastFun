@@ -7,6 +7,7 @@
 
 package com.example.johnnie.podcastfun;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
@@ -15,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -30,7 +32,6 @@ import java.util.concurrent.TimeUnit;
 public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener {
 
     private String TAG = "PlayActivity: ";
-    private String[] radioTitle;
     private Integer[] iconImage;
 
     // get the controls
@@ -40,16 +41,14 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     private TextView duration;
 
     // get the icon images
-    private ImageControl iconControl;
-    private RadioTitle title;
+    // private ImageControl iconControl;
 
     // media controls
     private MediaControl mc;
     private MediaPlayer mp;
-
-
-    private boolean stream;
     private String mediaName;
+
+    private Class<?> lastActivity;
 
     Handler seekHandler = new Handler();
     ExecutorService threadPoolExecutor = Executors.newSingleThreadExecutor();
@@ -57,9 +56,19 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        ImageControl iconControl;
+
         super.onCreate(savedInstanceState);
         this.mp = new MediaPlayer();
         setContentView(R.layout.activity_play);
+
+        lastActivity = getLastActivity();
+
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         runProgressFuture = threadPoolExecutor.submit(run);
 
@@ -70,10 +79,6 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
         iconControl = new ImageControl();
         iconImage = iconControl.getImageButtonList();
-
-        // get the radio titles
-        title = new RadioTitle();
-        radioTitle = title.getBurnsAllen();
 
         playButton = (ImageButton) findViewById(R.id.play_button);
         playButton.setImageResource(iconImage[1]);
@@ -90,11 +95,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             public void onClick(View v) {
 
                 if (mp.isPlaying()) {
-                    playButton.setImageResource(iconImage[1]);
+                    playButton.setImageResource(iconImage[0]);
                     mp.pause();
                     Log.d("PlayActivity: ", "Pausing!");
                 } else {
-                    playButton.setImageResource(iconImage[0]);
+                    playButton.setImageResource(iconImage[1]);
                     mp.seekTo(mp.getCurrentPosition());
                     mp.start();
                     Log.d("PlayActivity: ", "Playing!");
@@ -104,6 +109,33 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
         this.mp.setOnPreparedListener(this);
         checkForMedia();
+    }
+
+    private Class<?> getLastActivity() {
+        Class<?> lastActivity = null;
+        Intent intent = getIntent();
+        String lastClass = intent.getStringExtra("class");
+
+        switch(lastClass)
+        {
+            case "ba":
+            {
+                lastActivity = baSelectActivity.class;
+                break;
+            }
+
+            case "fm":
+            {
+                lastActivity = null;
+                break;
+            }
+
+            default:
+                // do something here
+                break;
+        }
+
+        return lastActivity;
     }
 
     private void checkForMedia()
@@ -133,10 +165,10 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
                 String uri = ("http://www.JohnnieRuffin.com/audio/" + mediaName);
 
-                HashMap<String, String> hashMap = new HashMap<String, String>();
+                HashMap<String, String> hashMap = new HashMap<>();
                 mediaInfo.setDataSource(uri, hashMap);
 
-                String myTitle = "DEFAULT_TITLE";
+                String myTitle;
                 myTitle = mediaInfo.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
 
                 titleLine.setText(myTitle);
@@ -166,6 +198,12 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         }
     }
 
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent myIntent = new Intent(getApplicationContext(), lastActivity);
+        startActivityForResult(myIntent, 0);
+        return true;
+
+    }
     public void enableProgress()
     {
         sb.setMax(mp.getDuration());
@@ -197,7 +235,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
     private void runProgress() {
         int durationInMil = ((mp.getDuration() - mp.getCurrentPosition()));
-        String myDuration = "00:00:00";
+        String myDuration;
         try {
             myDuration =  getDurationInFormat(durationInMil);
         } catch (Exception e)
@@ -213,7 +251,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
     public String getDurationInFormat (int duration)
     {
-        String durationInFormat = "00:00:00";
+        String durationInFormat;
         durationInFormat = String.format("%02d:%02d:%02d",
                 TimeUnit.MILLISECONDS.toHours(duration),
                 TimeUnit.MILLISECONDS.toMinutes(duration) -

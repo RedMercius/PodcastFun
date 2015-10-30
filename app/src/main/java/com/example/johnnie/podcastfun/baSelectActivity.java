@@ -36,10 +36,12 @@ public class baSelectActivity extends AppCompatActivity {
             // get the radio titles
             RadioTitle radioList = new RadioTitle();
 
+            String artist = "ba";
+
             // set the list adapter
             CustomList adapter =
                     new CustomList(this, radioList.getBurnsAllen(),
-                            iconControl.getImageButtonList());
+                            iconControl.getImageButtonList(), artist);
             selectCustomList = adapter;
 
             listview = (ListView) findViewById(R.id.listview);

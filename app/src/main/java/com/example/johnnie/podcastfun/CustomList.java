@@ -20,6 +20,7 @@ package com.example.johnnie.podcastfun;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,84 +31,116 @@ import android.widget.Toast;
 
 public class CustomList extends ArrayAdapter<String> {
 
+    // This is an attempt at a view holder pattern
+    static class ViewHolderItem {
+
+        TextView txtTitle;
+        TextView txtStatus;
+
+        ImageButton playButton;
+        ImageButton stopButton;
+        ImageButton closeButton;
+        ImageButton deleteButton;
+        ImageButton downloadButton;
+
+    }
+
     private final Activity context;
     private final String[] radioTitle;
     private final Integer[] imageButtonList;
     private MediaPlayer mp;
+    private String artist;
 
-    public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList) {
+    public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, String artist) {
         super(context, R.layout.list_single, radioTitle);
         this.context = context;
         this.radioTitle = radioTitle;
         this.imageButtonList = imageButtonList;
         this.mp = new MediaPlayer();
+        this.artist = artist;
     }
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        LayoutInflater inflater = context.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.list_single, null, true);
-        final TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
-        final TextView txtStatus = (TextView) rowView.findViewById(R.id.txtstatus);
+
+        String TAG = "CustomList";
+        ViewHolderItem viewHolder;
+
+        if (view == null) {
+            LayoutInflater inflater = context.getLayoutInflater();
+            viewHolder = new ViewHolderItem();
+
+            view = inflater.inflate(R.layout.list_single, null, true);
+            viewHolder.txtTitle = (TextView) view.findViewById(R.id.txt);
+            viewHolder.txtStatus = (TextView) view.findViewById(R.id.txtstatus);
+
+            viewHolder.playButton = (ImageButton) view.findViewById(R.id.playbtn);
+            viewHolder.stopButton = (ImageButton) view.findViewById(R.id.stopbtn);
+            viewHolder.closeButton = (ImageButton) view.findViewById(R.id.closebtn);
+            viewHolder.deleteButton = (ImageButton) view.findViewById(R.id.deletebtn);
+            viewHolder.downloadButton = (ImageButton) view.findViewById(R.id.downloadbtn);
+
+            view.setTag(viewHolder);
+
+            Log.d(TAG, "View is null");
+        }
+        else
+        {
+            viewHolder = (ViewHolderItem) view.getTag();
+        }
+
+        final String mediaTitle = radioTitle[position];
 
         final MediaControl mc =
                 new MediaControl(context, mp);
 
-        final ImageButton playButton = (ImageButton) rowView.findViewById(R.id.playbtn);
-        final ImageButton stopButton = (ImageButton) rowView.findViewById(R.id.stopbtn);
-        final ImageButton closeButton = (ImageButton) rowView.findViewById(R.id.closebtn);
-        final ImageButton deleteButton = (ImageButton) rowView.findViewById(R.id.deletebtn);
-        final ImageButton downloadButton = (ImageButton) rowView.findViewById(R.id.downloadbtn);
-        final String mediaTitle = radioTitle[position];
+            boolean isItInRaw = mc.checkResourceInRaw(mediaTitle);
+            boolean doesMediaExist = mc.checkForMedia(mediaTitle);
 
-        boolean isItInRaw = mc.checkResourceInRaw(mediaTitle);
-        boolean doesMediaExist = mc.checkForMedia(mediaTitle);
+            viewHolder.txtStatus.setVisibility(View.VISIBLE);
+            viewHolder.deleteButton.setVisibility(View.INVISIBLE);
+            viewHolder.closeButton.setVisibility(View.INVISIBLE);
+            viewHolder.stopButton.setVisibility(View.INVISIBLE);
+            viewHolder.downloadButton.setVisibility(View.INVISIBLE);
 
-        txtStatus.setVisibility(View.VISIBLE);
-        deleteButton.setVisibility(View.INVISIBLE);
-        closeButton.setVisibility(View.INVISIBLE);
-        stopButton.setVisibility(View.INVISIBLE);
-        downloadButton.setVisibility(View.INVISIBLE);
+            viewHolder.txtTitle.setText(mediaTitle);
 
-        txtTitle.setText(mediaTitle);
-
-        if (!isItInRaw && !doesMediaExist) {
-            downloadButton.setImageResource(imageButtonList[4]);
-            downloadButton.setVisibility(View.VISIBLE);
-            playButton.setImageResource(imageButtonList[0]);
-            stopButton.setImageResource(imageButtonList[8]);
-            stopButton.setVisibility(View.VISIBLE);
-        }
-
-        if (isItInRaw || doesMediaExist) {
-            downloadButton.setVisibility(View.INVISIBLE);
-            playButton.setImageResource(imageButtonList[0]);
-        }
-
-        playButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                final Intent i = new Intent(context, PlayActivity.class);
-                i.putExtra("MediaTitle", mediaTitle);
-                context.startActivity(i);
+            if (!isItInRaw && !doesMediaExist) {
+                viewHolder.downloadButton.setImageResource(imageButtonList[4]);
+                viewHolder.downloadButton.setVisibility(View.VISIBLE);
+                viewHolder.playButton.setImageResource(imageButtonList[0]);
+                viewHolder.stopButton.setImageResource(imageButtonList[8]);
+                viewHolder.stopButton.setVisibility(View.VISIBLE);
             }
-        });
 
-        downloadButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                mc.downloadMedia(mediaTitle);
-                stopButton.setVisibility(View.INVISIBLE);
-
-                Toast.makeText(context, "Download button is clicked: " + mediaTitle, Toast.LENGTH_SHORT).show();
+            if (isItInRaw || doesMediaExist) {
+                viewHolder.downloadButton.setVisibility(View.INVISIBLE);
+                viewHolder.playButton.setImageResource(imageButtonList[0]);
             }
-        });
 
-        return rowView;
+            viewHolder.playButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    final Intent i = new Intent(context, PlayActivity.class);
+                    i.putExtra("MediaTitle", mediaTitle);
+                    i.putExtra("class", artist);
+                    context.startActivity(i);
+                }
+            });
+
+            viewHolder.downloadButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+
+                    mc.downloadMedia(mediaTitle);
+                    Toast.makeText(context, "Download button is clicked: " + mediaTitle, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        return view;
     }
 }
 
