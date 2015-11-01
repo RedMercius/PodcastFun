@@ -24,12 +24,10 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener {
+public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener,
+MediaPlayer.OnCompletionListener {
 
     private String TAG = "PlayActivity: ";
     private Integer[] iconImage;
@@ -47,12 +45,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     private MediaControl mc;
     private MediaPlayer mp;
     private String mediaName;
+    private boolean haltRun;
 
     private Class<?> lastActivity;
 
     Handler seekHandler = new Handler();
-    ExecutorService threadPoolExecutor = Executors.newSingleThreadExecutor();
-    Future runProgressFuture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +58,9 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
         super.onCreate(savedInstanceState);
         this.mp = new MediaPlayer();
+        this.mc = new MediaControl(this, mp);
+        this.haltRun = false;
+
         setContentView(R.layout.activity_play);
 
         lastActivity = getLastActivity();
@@ -70,12 +70,10 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        runProgressFuture = threadPoolExecutor.submit(run);
-
         Bundle extra = getIntent().getExtras();
         mediaName = extra.getString("MediaTitle");
 
-        Log.d("PlayActivity: ", "onCreate:  " + mediaName);
+        Log.d(TAG, "onCreate:  " + mediaName);
 
         iconControl = new ImageControl();
         iconImage = iconControl.getImageButtonList();
@@ -87,8 +85,6 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         titleLine = (TextView) findViewById(R.id.txtTitle);
         duration = (TextView) findViewById(R.id.duration);
 
-        mc=new MediaControl(this, mp);
-
         playButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -97,17 +93,40 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 if (mp.isPlaying()) {
                     playButton.setImageResource(iconImage[0]);
                     mp.pause();
-                    Log.d("PlayActivity: ", "Pausing!");
+                    Log.d(TAG, "Pausing!");
                 } else {
                     playButton.setImageResource(iconImage[1]);
                     mp.seekTo(mp.getCurrentPosition());
                     mp.start();
-                    Log.d("PlayActivity: ", "Playing!");
+                    Log.d(TAG, "Playing!");
                 }
             }
         });
 
+        sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress = 0;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+
+                progress = progresValue;
+                // Log.d(TAG, "Changing Seekbar progress: " + progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // Log.d(TAG, "Tracking seekbar touch: " + progress);
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                int seekPosition = progress;
+                mp.seekTo(seekPosition);
+            }
+        });
+
         this.mp.setOnPreparedListener(this);
+        this.mp.setOnCompletionListener(this);
         checkForMedia();
     }
 
@@ -151,7 +170,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             }
             catch (IOException e)
             {
-                Log.d("PlayActivity: ", "checkForMedia_IOException:  " + e);
+                Log.d(TAG, "checkForMedia_IOException:  " + e);
             }
         }
 
@@ -177,11 +196,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             }
             catch (IOException e)
             {
-                Log.d("PlayActivity: ", "checkForMedia_IOException:  " + e);
+                Log.d(TAG, "checkForMedia_IOException:  " + e);
             }
             catch (IllegalArgumentException e)
             {
-                Log.d("PlayActivity: ", "checkForMedia_IllegalArgumentException: " + e);
+                Log.d(TAG, "checkForMedia_IllegalArgumentException: " + e);
             }
         }
 
@@ -189,11 +208,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             try {
 
                 mc.callMediaFromExternalDir(mediaName, this);
-                mc.getMp3Info();
+                mc.getMp3Info(mediaName);
                 titleLine.setText(mc.getMP3Title());
                 titleLine.setVisibility(View.VISIBLE);
             } catch (IOException e) {
-                Log.d("PlayActivity: ", "checkForMedia_IOException_media does exist:  " + e);
+                Log.d(TAG, "checkForMedia_IOException_media does exist:  " + e);
             }
         }
     }
@@ -215,7 +234,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         }
         catch (Exception e)
         {
-            Log.d("PlayActivity", "Exception: " + e);
+            Log.d(TAG, "Exception_enableProgress: " + e);
         }
         duration.setText(myDuration);
     }
@@ -223,12 +242,17 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     Runnable run = new Runnable() {
         @Override
         public void run() {
+            if (haltRun)
+            {
+                return;
+            }
+
             try {
                 runProgress();
             }
-            catch(Exception e)
+            catch (IllegalStateException e)
             {
-                Log.d(TAG, "Exception: " + e);
+                Log.d(TAG, "IllegalStateException_run: " + e);
             }
         }
     };
@@ -238,9 +262,9 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         String myDuration;
         try {
             myDuration =  getDurationInFormat(durationInMil);
-        } catch (Exception e)
+        } catch (IllegalStateException e)
         {
-            Log.d("PlayActivity", "Exception: " + e);
+            Log.d(TAG, "IllegalStateException_runProgress: " + e);
             return;
         }
 
@@ -264,20 +288,28 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        Log.d("PlayActivity: ", "onPrepared called");
+        Log.d(TAG, "onPrepared called");
         mp.start();
+        seekHandler.removeCallbacks(run);
+
         enableProgress();
         runProgress();
     }
 
     @Override
+    public void onCompletion(MediaPlayer mp)
+    {
+        Log.d(TAG, "onCompletion called");
+        mc.stopMedia();
+        haltRun = true;
+        finish();
+    }
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            runProgressFuture.cancel(true);
             mc.stopMedia();
-
-            final Intent i = new Intent(PlayActivity.this, baSelectActivity.class);
-            startActivity(i);
+            haltRun = true;
             finish();
             Log.d(TAG, "OnKeyDown");
             return true;
@@ -285,6 +317,4 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
         return super.onKeyDown(keyCode, event);
     }
-
-
 }

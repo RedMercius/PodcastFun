@@ -19,6 +19,7 @@ package com.example.johnnie.podcastfun;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 
 public class baSelectActivity extends AppCompatActivity {
@@ -30,13 +31,20 @@ public class baSelectActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_select);
 
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+
+            Bundle extra = getIntent().getExtras();
+            String artist = extra.getString("Selection");
+
             // get the icon images
             ImageControl iconControl = new ImageControl();
 
             // get the radio titles
             RadioTitle radioList = new RadioTitle();
-
-            String artist = "ba";
 
             // set the list adapter
             CustomList adapter =

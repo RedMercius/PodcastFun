@@ -31,5 +31,4 @@
 
     <include layout="@layout/content_comedy"/>
 
-
 </android.support.design.widget.CoordinatorLayout>

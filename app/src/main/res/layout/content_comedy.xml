@@ -22,9 +22,45 @@
 
     <ImageButton
         android:id="@+id/imageBtn1"
-        android:layout_width="300px"
-        android:layout_height="300px"
-        android:src="@drawable/burnsandallen1" />
-    />
+        android:layout_width="275dp"
+        android:layout_height="275dp"
+        android:src="@drawable/burnsandallen1"
+        android:contentDescription="@string/BurnsAndAllenImage"/>
+
+    <ImageButton
+        android:id="@+id/fbBtn"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
+        android:layout_toEndOf="@id/imageBtn1"
+        android:layout_toRightOf="@id/imageBtn1"
+        android:src="@drawable/fibber_and_molly_"
+        android:contentDescription="@string/FibberMcGeeImage"
+        />
+
+    <ImageButton
+        android:id="@+id/mlBtn"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/imageBtn1"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
+        android:src="@drawable/lewis_and_martin"
+        android:contentDescription="@string/MartinAndLewisImage"
+        />
+
+    <ImageButton
+        android:id="@+id/gilBtn"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/fbBtn"
+        android:layout_toEndOf="@id/mlBtn"
+        android:layout_toRightOf="@id/mlBtn"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
+        android:src="@drawable/greatgildersleeve"
+        android:contentDescription="@string/GilderSleeveImage"
+        />
 
 </RelativeLayout>

@@ -17,7 +17,6 @@ package com.example.johnnie.podcastfun;
 //
 ////////////////////////////////////////////////////////////////////////////
 
-
 public class RadioTitle {
 
     private final String[] burnsAllen = {

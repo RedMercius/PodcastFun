@@ -17,6 +17,9 @@ import android.widget.ImageButton;
 public class ComedyActivity extends AppCompatActivity {
 
     ImageButton baBtn;
+    ImageButton fbBtn;
+    ImageButton mlBtn;
+    ImageButton gilBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +27,15 @@ public class ComedyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comedy);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         baBtn = (ImageButton) findViewById(R.id.imageBtn1);
+        fbBtn = (ImageButton) findViewById(R.id.fbBtn);
+        mlBtn = (ImageButton) findViewById(R.id.mlBtn);
+        gilBtn = (ImageButton) findViewById(R.id.gilBtn);
 
         baBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -36,6 +43,40 @@ public class ComedyActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ComedyActivity.this, baSelectActivity.class);
+                i.putExtra("Selection", "ba");
+                startActivity(i);
+            }
+        });
+
+        fbBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Intent i = new Intent(ComedyActivity.this, baSelectActivity.class);
+                i.putExtra("Selection", "fb");
+                startActivity(i);
+            }
+        });
+
+        mlBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Intent i = new Intent(ComedyActivity.this, baSelectActivity.class);
+                i.putExtra("Selection", "ml");
+                startActivity(i);
+            }
+        });
+
+        gilBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Intent i = new Intent(ComedyActivity.this, baSelectActivity.class);
+                i.putExtra("Selection", "gil");
                 startActivity(i);
             }
         });

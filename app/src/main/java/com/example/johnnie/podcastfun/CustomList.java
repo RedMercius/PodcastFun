@@ -66,6 +66,8 @@ public class CustomList extends ArrayAdapter<String> {
         String TAG = "CustomList";
         ViewHolderItem viewHolder;
 
+        // TODO: set the title based on the radio show to be played.
+        context.setTitle(artist);
         if (view == null) {
             LayoutInflater inflater = context.getLayoutInflater();
             viewHolder = new ViewHolderItem();
@@ -81,8 +83,6 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder.downloadButton = (ImageButton) view.findViewById(R.id.downloadbtn);
 
             view.setTag(viewHolder);
-
-            Log.d(TAG, "View is null");
         }
         else
         {

@@ -89,13 +89,14 @@ public class MediaControl extends Activity implements
 
             if (file.exists()) {
                 mediaFound = true;
+                // scanSdcard();
             }
         }
         catch (Exception e)
         {
             Log.d(TAG, "Exception: " + e);
         }
-        scanSdcard();
+
         return mediaFound;
     }
 
@@ -143,7 +144,7 @@ public class MediaControl extends Activity implements
     public void callMediaFromExternalDir(String filename, Activity context) throws IOException
     {
         mp.setDataSource(mfilePath + filename);
-        mp.prepare();
+        mp.prepareAsync();
         Log.d(TAG, ("callMediaFromExternalDir: " + (mfilePath + filename)));
     }
 
@@ -174,7 +175,7 @@ public class MediaControl extends Activity implements
 
     public String getMP3year() { return myear; }
 
-    public void getMp3Info()
+    public void getMp3Info(String filename)
     {
         final int BYTE_128 = 128;
 
@@ -196,7 +197,7 @@ public class MediaControl extends Activity implements
         {
             Log.d(TAG, "Exception: " + e);
         }
-        File mp3 = new File(filePath + "/baarehusbandsnecessary.mp3");
+        File mp3 = new File(filePath + "/" + filename);
 
         FileInputStream fis;
 
@@ -232,7 +233,7 @@ public class MediaControl extends Activity implements
         {
             Log.d(TAG, "Exception: " + e);
         }
-        Log.d(TAG, "Title: " + mtitle);
+        // Log.d(TAG, "Title: " + mtitle);
     }
 
     @Override
@@ -279,11 +280,11 @@ public class MediaControl extends Activity implements
                     String displayName  = cursor.getString(3);
                     String songDuration = cursor.getString(4);
                     cursor.moveToNext();
-                    Log.d(TAG, "Title: " + title);
-                    Log.d(TAG, "artist: " + artist);
-                    Log.d(TAG, "path: " + path);
-                    Log.d(TAG, "displayName: " + displayName);
-                    Log.d(TAG, "songDuration: " + songDuration);
+                    //Log.d(TAG, "Title: " + title);
+                    //Log.d(TAG, "artist: " + artist);
+                    //Log.d(TAG, "path: " + path);
+                    //Log.d(TAG, "displayName: " + displayName);
+                    //Log.d(TAG, "songDuration: " + songDuration);
                 }
 
             }
