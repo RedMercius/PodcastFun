@@ -27,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        RadioTitle radioList = new RadioTitle();
+
+        radioList.run();
+
         comedyButton = (Button) findViewById(R.id.comedyButton);
         scifiButton = (Button) findViewById(R.id.scifiButton);
         thrillerButton = (Button) findViewById(R.id.thrillerButton);

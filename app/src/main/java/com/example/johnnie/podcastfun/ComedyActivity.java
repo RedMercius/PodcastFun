@@ -42,8 +42,8 @@ public class ComedyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final Intent i = new Intent(ComedyActivity.this, baSelectActivity.class);
-                i.putExtra("Selection", "ba");
+                final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
+                i.putExtra("Selection", "Burns And Allen");
                 startActivity(i);
             }
         });
@@ -53,8 +53,8 @@ public class ComedyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final Intent i = new Intent(ComedyActivity.this, baSelectActivity.class);
-                i.putExtra("Selection", "fb");
+                final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
+                i.putExtra("Selection", "Fibber McGee And Molly");
                 startActivity(i);
             }
         });
@@ -64,8 +64,8 @@ public class ComedyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final Intent i = new Intent(ComedyActivity.this, baSelectActivity.class);
-                i.putExtra("Selection", "ml");
+                final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
+                i.putExtra("Selection", "Martin And Lewis");
                 startActivity(i);
             }
         });
@@ -75,8 +75,8 @@ public class ComedyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final Intent i = new Intent(ComedyActivity.this, baSelectActivity.class);
-                i.putExtra("Selection", "gil");
+                final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
+                i.putExtra("Selection", "The Great GilderSleeves");
                 startActivity(i);
             }
         });

@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".baSelectActivity"
+            android:name=".SelectActivity"
             android:parentActivityName=".ComedyActivity"
             android:theme="@style/AppTheme.NoActionBar"
             >

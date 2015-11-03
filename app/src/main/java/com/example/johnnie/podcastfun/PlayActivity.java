@@ -19,6 +19,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ MediaPlayer.OnCompletionListener {
     private SeekBar sb;
     private TextView titleLine;
     private TextView duration;
+    private ImageView playPic;
 
     // get the icon images
     // private ImageControl iconControl;
@@ -45,6 +47,7 @@ MediaPlayer.OnCompletionListener {
     private MediaControl mc;
     private MediaPlayer mp;
     private String mediaName;
+    private String artist;
     private boolean haltRun;
 
     private Class<?> lastActivity;
@@ -58,12 +61,11 @@ MediaPlayer.OnCompletionListener {
 
         super.onCreate(savedInstanceState);
         this.mp = new MediaPlayer();
-        this.mc = new MediaControl(this, mp);
         this.haltRun = false;
 
         setContentView(R.layout.activity_play);
 
-        lastActivity = getLastActivity();
+        lastActivity = SelectActivity.class;
 
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
@@ -72,12 +74,17 @@ MediaPlayer.OnCompletionListener {
 
         Bundle extra = getIntent().getExtras();
         mediaName = extra.getString("MediaTitle");
+        artist = extra.getString("Selection");
 
+        this.mc = new MediaControl(this, mp, artist);
+
+        Log.d(TAG, "Artist: " + artist);
         Log.d(TAG, "onCreate:  " + mediaName);
 
         iconControl = new ImageControl();
         iconImage = iconControl.getImageButtonList();
 
+        playPic = (ImageView) findViewById(R.id.fullscreen_content);
         playButton = (ImageButton) findViewById(R.id.play_button);
         playButton.setImageResource(iconImage[1]);
 
@@ -127,34 +134,43 @@ MediaPlayer.OnCompletionListener {
 
         this.mp.setOnPreparedListener(this);
         this.mp.setOnCompletionListener(this);
+        setPlayPic();
         checkForMedia();
     }
 
-    private Class<?> getLastActivity() {
-        Class<?> lastActivity = null;
-        Intent intent = getIntent();
-        String lastClass = intent.getStringExtra("class");
-
-        switch(lastClass)
+    private void setPlayPic()
+    {
+        switch (artist)
         {
-            case "ba":
+            case "Burns And Allen":
             {
-                lastActivity = baSelectActivity.class;
+                playPic.setImageResource(R.drawable.burnsandallen1);
                 break;
             }
 
-            case "fm":
+            case "Fibber McGee And Molly":
             {
-                lastActivity = null;
+                playPic.setImageResource(R.drawable.fibber_and_molly_);
                 break;
             }
 
-            default:
-                // do something here
+            case "Martin And Lewis":
+            {
+                playPic.setImageResource(R.drawable.lewis_and_martin);
                 break;
+            }
+
+            case "The Great GilderSleeves":
+            {
+                playPic.setImageResource(R.drawable.greatgildersleeve1);
+                break;
+            }
+
+            default: {
+                playPic.setImageResource(R.drawable.burnsandallen1);
+                break;
+            }
         }
-
-        return lastActivity;
     }
 
     private void checkForMedia()
@@ -180,19 +196,21 @@ MediaPlayer.OnCompletionListener {
 
                 mc.callMediaFromInternet(mediaName, this);
 
-                MediaMetadataRetriever mediaInfo = new MediaMetadataRetriever();
+               /* MediaMetadataRetriever mediaInfo = new MediaMetadataRetriever();
 
-                String uri = ("http://www.JohnnieRuffin.com/audio/" + mediaName);
+                String uri = (mc.getMediaUrl());
+
+                Log.d(TAG, "Url: " + uri);
 
                 HashMap<String, String> hashMap = new HashMap<>();
                 mediaInfo.setDataSource(uri, hashMap);
 
                 String myTitle;
-                myTitle = mediaInfo.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
+                myTitle = mediaInfo.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);*/
 
-                titleLine.setText(myTitle);
+                titleLine.setText(mediaName);
                 titleLine.setVisibility(View.VISIBLE);
-                mediaInfo.release();
+                // mediaInfo.release();
             }
             catch (IOException e)
             {

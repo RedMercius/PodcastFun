@@ -35,9 +35,9 @@
     <string name="title_activity_thriller">Thriller</string>
     <string name="title_activity_horror">Horror</string>
 
-    <string name="BurnsAndAllenImage">Burns And Allen Image</string>
-    <string name="FibberMcGeeImage">Fibber McGee Image</string>
-    <string name="MartinAndLewisImage">Martin And Lewis Image</string>
-    <string name="GilderSleeveImage">The Great Gildersleeves Image</string>
+    <string name="BurnsAndAllenImage">Burns And Allen</string>
+    <string name="FibberMcGeeImage">Fibber McGee and Molly</string>
+    <string name="MartinAndLewisImage">Martin And Lewis</string>
+    <string name="GilderSleeveImage">The Great Gildersleeves</string>
 
 </resources>

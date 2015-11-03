@@ -43,6 +43,7 @@ public class MediaControl extends Activity implements
     private MediaPlayer mp;
     private DownloadControl dc;
     private String url;
+    private String artist;
 
     private String mtitle;
     private String myear;
@@ -56,16 +57,48 @@ public class MediaControl extends Activity implements
         Log.d(TAG, "onCreate Service");
     }
 
-    public MediaControl(Activity context, MediaPlayer mp) {
+    public MediaControl(Activity context, MediaPlayer mp, String artist) {
         this.context = context;
         this.mp = mp;
         this.mp.setOnCompletionListener(this);
+        this.artist = artist;
+
+        getArtistUrl(artist);
 
         mfilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).toString() + "/";
         mtitle="DEFAULT_TITLE";
         myear="DEFAULT_YEAR";
         martist="DEFAULT_ARTIST";
         malbum="DEFAULT_ALBUM";
+    }
+
+    public void getArtistUrl(String artist) {
+        switch (artist) {
+            case "Burns And Allen": {
+                url = "http://www.JohnnieRuffin.com/audio/";
+                break;
+            }
+
+            case "Fibber McGee And Molly": {
+                url = "http://www.JohnnieRuffin.com/audio/FibberMcGeeandMolly1940/";
+                break;
+            }
+
+            case "Martin And Lewis": {
+                url = "http://www.JohnnieRuffin.com/audio/MartinAndLewis_OldTimeRadio/";
+                break;
+            }
+
+            case "The Great GilderSleeves": {
+                url = "http://www.JohnnieRuffin.com/audio/Otrr_The_Great_Gildersleeve_Singles/";
+                break;
+            }
+
+            default: {
+                url = null;
+                break;
+            }
+        }
     }
 
     public boolean checkResourceInRaw (String resource)
@@ -89,7 +122,6 @@ public class MediaControl extends Activity implements
 
             if (file.exists()) {
                 mediaFound = true;
-                // scanSdcard();
             }
         }
         catch (Exception e)
@@ -150,7 +182,8 @@ public class MediaControl extends Activity implements
 
     public void callMediaFromInternet(String filename, Activity context) throws IOException
     {
-        url = "http://www.JohnnieRuffin.com/audio/" + filename; // your URL here
+        url = url + filename; // your URL here
+
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mp.setDataSource(url);
         mp.prepareAsync(); // might take long! (for buffering, etc)
@@ -163,6 +196,11 @@ public class MediaControl extends Activity implements
     }
 
     public void stopMedia() { releaseMediaPlayer(); }
+
+    public String getMediaUrl()
+    {
+        return url;
+    }
 
     public String getMP3Title() { return mtitle; }
 

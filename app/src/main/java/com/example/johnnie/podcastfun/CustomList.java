@@ -19,6 +19,7 @@ package com.example.johnnie.podcastfun;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.HashMap;
 
 public class CustomList extends ArrayAdapter<String> {
 
@@ -50,6 +53,8 @@ public class CustomList extends ArrayAdapter<String> {
     private final Integer[] imageButtonList;
     private MediaPlayer mp;
     private String artist;
+
+    private String myTitle;
 
     public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, String artist) {
         super(context, R.layout.list_single, radioTitle);
@@ -92,7 +97,7 @@ public class CustomList extends ArrayAdapter<String> {
         final String mediaTitle = radioTitle[position];
 
         final MediaControl mc =
-                new MediaControl(context, mp);
+                new MediaControl(context, mp, artist);
 
             boolean isItInRaw = mc.checkResourceInRaw(mediaTitle);
             boolean doesMediaExist = mc.checkForMedia(mediaTitle);
@@ -125,7 +130,7 @@ public class CustomList extends ArrayAdapter<String> {
 
                     final Intent i = new Intent(context, PlayActivity.class);
                     i.putExtra("MediaTitle", mediaTitle);
-                    i.putExtra("class", artist);
+                    i.putExtra("Selection", artist);
                     context.startActivity(i);
                 }
             });
