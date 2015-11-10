@@ -20,21 +20,15 @@ public class MainActivity extends AppCompatActivity {
     Button comedyButton;
     Button scifiButton;
     Button thrillerButton;
-    Button horrorButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RadioTitle radioList = new RadioTitle();
-
-        radioList.run();
-
         comedyButton = (Button) findViewById(R.id.comedyButton);
         scifiButton = (Button) findViewById(R.id.scifiButton);
         thrillerButton = (Button) findViewById(R.id.thrillerButton);
-        horrorButton = (Button) findViewById(R.id.horrorButton);
 
         comedyButton.setOnClickListener(new View.OnClickListener() {
 
@@ -62,16 +56,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(MainActivity.this, ThrillerActivity.class);
-                startActivity(i);
-            }
-        });
-
-        horrorButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                final Intent i = new Intent(MainActivity.this, HorrorActivity.class);
                 startActivity(i);
             }
         });

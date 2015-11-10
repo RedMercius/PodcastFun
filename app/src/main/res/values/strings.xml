@@ -6,7 +6,7 @@
   -->
 
 <resources>
-    <string name="app_name">PodcastFun</string>
+    <string name="app_name">Johnnie\'s Old Time Radio</string>
 
     <string name="hello_world">Hello world! Johnnie Loves you!</string>
     <string name="action_settings">Settings</string>
@@ -35,9 +35,19 @@
     <string name="title_activity_thriller">Thriller</string>
     <string name="title_activity_horror">Horror</string>
 
+    // Comedy
     <string name="BurnsAndAllenImage">Burns And Allen</string>
     <string name="FibberMcGeeImage">Fibber McGee and Molly</string>
     <string name="MartinAndLewisImage">Martin And Lewis</string>
     <string name="GilderSleeveImage">The Great Gildersleeves</string>
+
+    // Science Fiction
+
+    <string name="XMinus1">XMinus1</string>
+    <string name="InnerSactum">The Inner Sanctum</string>
+
+    // Thriller
+
+    <string name="CBSMysteryTheater">CBS Mystery Theater</string>
 
 </resources>

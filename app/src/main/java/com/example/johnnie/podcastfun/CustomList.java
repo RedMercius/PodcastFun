@@ -19,8 +19,9 @@ package com.example.johnnie.podcastfun;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +30,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.HashMap;
 
 public class CustomList extends ArrayAdapter<String> {
 
@@ -45,7 +44,6 @@ public class CustomList extends ArrayAdapter<String> {
         ImageButton closeButton;
         ImageButton deleteButton;
         ImageButton downloadButton;
-
     }
 
     private final Activity context;
@@ -53,8 +51,6 @@ public class CustomList extends ArrayAdapter<String> {
     private final Integer[] imageButtonList;
     private MediaPlayer mp;
     private String artist;
-
-    private String myTitle;
 
     public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, String artist) {
         super(context, R.layout.list_single, radioTitle);
@@ -65,6 +61,14 @@ public class CustomList extends ArrayAdapter<String> {
         this.artist = artist;
     }
 
+    public boolean isNetworkAvailable()
+    {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
@@ -72,6 +76,7 @@ public class CustomList extends ArrayAdapter<String> {
         ViewHolderItem viewHolder;
 
         // TODO: set the title based on the radio show to be played.
+
         context.setTitle(artist);
         if (view == null) {
             LayoutInflater inflater = context.getLayoutInflater();
@@ -99,8 +104,80 @@ public class CustomList extends ArrayAdapter<String> {
         final MediaControl mc =
                 new MediaControl(context, mp, artist);
 
-            boolean isItInRaw = mc.checkResourceInRaw(mediaTitle);
-            boolean doesMediaExist = mc.checkForMedia(mediaTitle);
+        RadioTitle rt = new RadioTitle();
+
+        rt.initTitles();
+
+        String MediaFile = null;
+
+        switch (artist) {
+            case "Burns And Allen": {
+                for (String mediaFile : rt.getBaMap().keySet()) {
+                    if (rt.getBaMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+                Log.d(TAG, "Burns And Allen: Title Find");
+                break;
+            }
+
+            case "Fibber McGee And Molly":
+            {
+                Log.d(TAG, "Fibber McGee And Molly: MediaTitle: " + mediaTitle);
+                for (String mediaFile : rt.getFbMap().keySet()) {
+                    if (rt.getFbMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                        Log.d(TAG, "Fibber McGee And Molly: MediaFile: " + MediaFile);
+                    }
+                }
+                Log.d(TAG, "Fibber McGee And Molly: Title Find");
+                break;
+            }
+
+            case "Martin And Lewis":
+            {
+                for (String mediaFile : rt.getMlMap().keySet()) {
+                    if (rt.getMlMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+                break;
+            }
+
+            case "The Great GilderSleeves":
+            {
+                for (String mediaFile : rt.getGlMap().keySet()) {
+                    if (rt.getGlMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+                break;
+            }
+
+            case "XMinus1":
+            {
+                for (String mediaFile : rt.getXMMap().keySet()) {
+                    if (rt.getXMMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+                break;
+            }
+
+            case "Inner Sanctum":
+            {
+                for (String mediaFile : rt.getIsMap().keySet()) {
+                    if (rt.getIsMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+                break;
+            }
+        }
+
+            final String mediaFileName = MediaFile;
+            boolean isItInRaw = mc.checkResourceInRaw(MediaFile);
+            final boolean doesMediaExist = mc.checkForMedia(MediaFile);
 
             viewHolder.txtStatus.setVisibility(View.VISIBLE);
             viewHolder.deleteButton.setVisibility(View.INVISIBLE);
@@ -128,10 +205,21 @@ public class CustomList extends ArrayAdapter<String> {
                 @Override
                 public void onClick(View v) {
 
+                    // if we need to stream this, check for internet connection.
+                    if (!doesMediaExist) {
+                        if (!isNetworkAvailable()) {
+                            Toast.makeText(context, "No Internet Connection Detected. Cannot Stream Media.",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+
                     final Intent i = new Intent(context, PlayActivity.class);
-                    i.putExtra("MediaTitle", mediaTitle);
+                    i.putExtra("MediaTitle", mediaFileName);
                     i.putExtra("Selection", artist);
+                    i.putExtra("Title", mediaTitle);
                     context.startActivity(i);
+                    context.finish();
                 }
             });
 
@@ -140,8 +228,14 @@ public class CustomList extends ArrayAdapter<String> {
                 @Override
                 public void onClick(View arg0) {
 
-                    mc.downloadMedia(mediaTitle);
-                    Toast.makeText(context, "Download button is clicked: " + mediaTitle, Toast.LENGTH_SHORT).show();
+                    if (!isNetworkAvailable())
+                    {
+                        Toast.makeText(context, "No Internet Connection Detected. Cannot proceed with download.",
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    mc.downloadMedia(mediaFileName);
+                    Toast.makeText(context, "Download In Progress: " + mediaFileName, Toast.LENGTH_SHORT).show();
                 }
             });
 

@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:fullBackupContent="true"
@@ -38,7 +39,13 @@
             android:name=".DownloadControl"
             android:label="DownloadActivity" >
         </activity>
-        <activity android:name=".PlayActivity">
+        <activity android:name=".PlayActivity"
+                  android:label="@string/title_activity_play"
+                  android:parentActivityName=".SelectActivity"
+                  android:screenOrientation="portrait">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.example.johnnie.podcastfun.SelectActivity" />
         </activity>
         <activity
             android:name=".ComedyActivity"

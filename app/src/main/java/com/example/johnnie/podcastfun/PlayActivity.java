@@ -7,9 +7,7 @@
 
 package com.example.johnnie.podcastfun;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +22,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener,
@@ -49,37 +46,29 @@ MediaPlayer.OnCompletionListener {
     private String mediaName;
     private String artist;
     private boolean haltRun;
-
-    private Class<?> lastActivity;
+    private String title;
 
     Handler seekHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        ImageControl iconControl;
-
         super.onCreate(savedInstanceState);
         this.mp = new MediaPlayer();
         this.haltRun = false;
 
-        setContentView(R.layout.activity_play);
-
-        lastActivity = SelectActivity.class;
-
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        ImageControl iconControl;
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        setContentView(R.layout.content_play);
 
         Bundle extra = getIntent().getExtras();
         mediaName = extra.getString("MediaTitle");
         artist = extra.getString("Selection");
+        title = extra.getString("Title");
 
         this.mc = new MediaControl(this, mp, artist);
-
-        Log.d(TAG, "Artist: " + artist);
-        Log.d(TAG, "onCreate:  " + mediaName);
 
         iconControl = new ImageControl();
         iconImage = iconControl.getImageButtonList();
@@ -138,6 +127,18 @@ MediaPlayer.OnCompletionListener {
         checkForMedia();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i = new Intent(this, SelectActivity.class);
+        i.putExtra("Selection", artist);
+        this.startActivity(i);
+        mc.stopMedia();
+        haltRun = true;
+        finish();
+        Log.d(TAG, "onOptionsItemSelected");
+        return true;
+    }
+
     private void setPlayPic()
     {
         switch (artist)
@@ -163,6 +164,18 @@ MediaPlayer.OnCompletionListener {
             case "The Great GilderSleeves":
             {
                 playPic.setImageResource(R.drawable.greatgildersleeve1);
+                break;
+            }
+
+            case "XMinus1":
+            {
+                playPic.setImageResource(R.drawable.xminusone);
+                break;
+            }
+
+            case "Inner Sanctum":
+            {
+                playPic.setImageResource(R.drawable.inner_sanctum);
                 break;
             }
 
@@ -196,21 +209,8 @@ MediaPlayer.OnCompletionListener {
 
                 mc.callMediaFromInternet(mediaName, this);
 
-               /* MediaMetadataRetriever mediaInfo = new MediaMetadataRetriever();
-
-                String uri = (mc.getMediaUrl());
-
-                Log.d(TAG, "Url: " + uri);
-
-                HashMap<String, String> hashMap = new HashMap<>();
-                mediaInfo.setDataSource(uri, hashMap);
-
-                String myTitle;
-                myTitle = mediaInfo.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);*/
-
-                titleLine.setText(mediaName);
+                titleLine.setText(title);
                 titleLine.setVisibility(View.VISIBLE);
-                // mediaInfo.release();
             }
             catch (IOException e)
             {
@@ -227,7 +227,7 @@ MediaPlayer.OnCompletionListener {
 
                 mc.callMediaFromExternalDir(mediaName, this);
                 mc.getMp3Info(mediaName);
-                titleLine.setText(mc.getMP3Title());
+                titleLine.setText(title);
                 titleLine.setVisibility(View.VISIBLE);
             } catch (IOException e) {
                 Log.d(TAG, "checkForMedia_IOException_media does exist:  " + e);
@@ -235,12 +235,6 @@ MediaPlayer.OnCompletionListener {
         }
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        Intent myIntent = new Intent(getApplicationContext(), lastActivity);
-        startActivityForResult(myIntent, 0);
-        return true;
-
-    }
     public void enableProgress()
     {
         sb.setMax(mp.getDuration());

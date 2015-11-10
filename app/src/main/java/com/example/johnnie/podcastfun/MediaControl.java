@@ -63,7 +63,7 @@ public class MediaControl extends Activity implements
         this.mp.setOnCompletionListener(this);
         this.artist = artist;
 
-        getArtistUrl(artist);
+        getArtistUrl();
 
         mfilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).toString() + "/";
         mtitle="DEFAULT_TITLE";
@@ -72,7 +72,7 @@ public class MediaControl extends Activity implements
         malbum="DEFAULT_ALBUM";
     }
 
-    public void getArtistUrl(String artist) {
+    public void getArtistUrl() {
         switch (artist) {
             case "Burns And Allen": {
                 url = "http://www.JohnnieRuffin.com/audio/";
@@ -91,6 +91,16 @@ public class MediaControl extends Activity implements
 
             case "The Great GilderSleeves": {
                 url = "http://www.JohnnieRuffin.com/audio/Otrr_The_Great_Gildersleeve_Singles/";
+                break;
+            }
+
+            case "XMinus1": {
+                url = "http://www.JohnnieRuffin.com/audio/XMinus1/";
+                break;
+            }
+
+            case "Inner Sanctum": {
+                url = "http://www.JohnnieRuffin.com/audio/InnerSanctum/";
                 break;
             }
 

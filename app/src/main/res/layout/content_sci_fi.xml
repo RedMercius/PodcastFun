@@ -20,4 +20,23 @@
     tools:showIn="@layout/activity_sci_fi"
     tools:context="com.example.johnnie.podcastfun.SciFiActivity">
 
+    <ImageButton
+        android:id="@+id/xm1Btn"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
+        android:src="@drawable/xminusone"
+        android:contentDescription="@string/XMinus1"/>
+
+    <ImageButton
+        android:id="@+id/innSancBtn"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
+        android:layout_toEndOf="@id/xm1Btn"
+        android:layout_toRightOf="@id/xm1Btn"
+        android:src="@drawable/inner_sanctum"
+        android:contentDescription="@string/InnerSactum"
+        />
+
 </RelativeLayout>

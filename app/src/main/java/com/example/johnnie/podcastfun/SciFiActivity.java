@@ -7,14 +7,17 @@
 
 package com.example.johnnie.podcastfun;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageButton;
 
 public class SciFiActivity extends AppCompatActivity {
+
+    ImageButton xm1Btn;
+    ImageButton innSancBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,5 +28,31 @@ public class SciFiActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        xm1Btn = (ImageButton) findViewById(R.id.xm1Btn);
+        innSancBtn = (ImageButton) findViewById(R.id.innSancBtn);
+
+        xm1Btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Intent i = new Intent(SciFiActivity.this, SelectActivity.class);
+                i.putExtra("Selection", "XMinus1");
+                startActivity(i);
+            }
+        });
+
+        innSancBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Intent i = new Intent(SciFiActivity.this, SelectActivity.class);
+                i.putExtra("Selection", "Inner Sanctum");
+                startActivity(i);
+            }
+        });
+
     }
 }
