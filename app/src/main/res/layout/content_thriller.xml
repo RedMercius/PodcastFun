@@ -20,4 +20,25 @@
     tools:showIn="@layout/activity_thriller"
     tools:context="com.example.johnnie.podcastfun.ThrillerActivity">
 
+    <ImageButton
+        android:id="@+id/nbBtn"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
+        android:src="@drawable/nightbeat"
+        android:contentDescription="@string/NightBeat"
+        />
+
+    <ImageButton
+        android:id="@+id/sgBtn"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
+        android:layout_toEndOf="@id/nbBtn"
+        android:layout_toRightOf="@id/nbBtn"
+        android:src="@drawable/speedgibson"
+        android:contentDescription="@string/Speed"/>
+
+
+
 </RelativeLayout>

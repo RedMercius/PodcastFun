@@ -21,6 +21,7 @@
             android:id="@+id/stopbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/playbtn"
             android:layout_toRightOf="@id/playbtn"
             android:contentDescription="@string/stop_button"
             />
@@ -28,6 +29,7 @@
             android:id="@+id/downloadbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/stopbtn"
             android:layout_toRightOf="@id/stopbtn"
             android:contentDescription="@string/download_button"
             />
@@ -36,6 +38,7 @@
             android:id="@+id/txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/downloadbtn"
             android:layout_toRightOf="@id/downloadbtn"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -44,6 +47,7 @@
             android:id="@+id/closebtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/txt"
             android:layout_toRightOf="@id/txt"
             android:contentDescription="@string/close_button"
             />
@@ -52,6 +56,7 @@
             android:id="@+id/deletebtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/closebtn"
             android:layout_toRightOf="@id/closebtn"
             android:contentDescription="@string/delete_button"
             />
@@ -61,6 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txt"
+            android:layout_toEndOf="@id/downloadbtn"
             android:layout_toRightOf="@id/downloadbtn"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 

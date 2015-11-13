@@ -19,21 +19,9 @@ package com.example.johnnie.podcastfun;
 
 public class ImageControl {
 
-   /* private enum actionList
-    {
-        play,
-        pause,
-        stop,
-        close,
-        download,
-        info,
-        delete,
-        stream
-    };*/
-
     Integer[] imageButtonList = {
-            R.drawable.ic_play,
-            R.drawable.ic_pause,
+            R.mipmap.ic_play,
+            R.mipmap.ic_pause,
             R.drawable.ic_stop,
             R.drawable.ic_close,
             R.drawable.ic_download,

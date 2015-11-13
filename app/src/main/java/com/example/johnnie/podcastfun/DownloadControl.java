@@ -43,6 +43,7 @@ public class DownloadControl extends Activity {
     private long enqueue;
     private DownloadManager dm;
     private String webPath;
+    private String TAG = "Download Control: ";
 
     /** Called when the activity is first created. */
     public void DownloadControl(Activity context) {
@@ -63,11 +64,24 @@ public class DownloadControl extends Activity {
                 DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
+    public void setWebPath(String url)
+    {
+        webPath = url;
+    }
+
+    public void deleteMedia(String filename)
+    {
+        String filePath = (Environment.DIRECTORY_MUSIC + filename);
+        File file = new File(filePath);
+        Log.d(TAG, "Delete Media: " + filePath);
+        if (file.exists()) {
+            boolean deleted = file.delete();
+        }
+    }
 
     public void downloadFile(String filename, Activity context) {
 
-        String customfilePath ="http://www.JohnnieRuffin.com/audio/" + filename;
-        //String filePath = "http://www.vogella.de/img/lars/LarsVogelArticle7.png";
+        String customfilePath =(webPath + filename);
         dm = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
         Request request = new Request(
                 Uri.parse(customfilePath)).setDestinationInExternalPublicDir(Environment.DIRECTORY_MUSIC, filename);

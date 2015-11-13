@@ -69,6 +69,26 @@ public class CustomList extends ArrayAdapter<String> {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    public Boolean isAvailable() {
+        try {
+            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1    www.google.com");
+            int returnVal = p1.waitFor();
+            boolean reachable = (returnVal==0);
+            if(reachable){
+                System.out.println("Internet access");
+                return reachable;
+            }
+            else{
+                System.out.println("No Internet access");
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
@@ -173,6 +193,36 @@ public class CustomList extends ArrayAdapter<String> {
                 }
                 break;
             }
+
+            case "Dimension X":
+            {
+                for (String mediaFile : rt.getDxMap().keySet()) {
+                    if (rt.getDxMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+                break;
+            }
+
+            case "Night Beat":
+            {
+                for (String mediaFile : rt.getNbMap().keySet()) {
+                    if (rt.getNbMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+                break;
+            }
+
+            case "Speed":
+            {
+                for (String mediaFile : rt.getSgMap().keySet()) {
+                    if (rt.getSgMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+                break;
+            }
         }
 
             final String mediaFileName = MediaFile;
@@ -198,6 +248,9 @@ public class CustomList extends ArrayAdapter<String> {
             if (isItInRaw || doesMediaExist) {
                 viewHolder.downloadButton.setVisibility(View.INVISIBLE);
                 viewHolder.playButton.setImageResource(imageButtonList[0]);
+
+                viewHolder.deleteButton.setVisibility(View.VISIBLE);
+                viewHolder.deleteButton.setImageResource(imageButtonList[7]);
             }
 
             viewHolder.playButton.setOnClickListener(new View.OnClickListener() {
@@ -239,8 +292,16 @@ public class CustomList extends ArrayAdapter<String> {
                 }
             });
 
+        viewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                mc.deleteMedia(mediaFileName);
+                Toast.makeText(context, "Download In Progress: " + mediaFileName, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
     }
 }
-
-

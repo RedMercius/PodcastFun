@@ -49,5 +49,7 @@
     // Thriller
 
     <string name="CBSMysteryTheater">CBS Mystery Theater</string>
-
+    <string name="DimensionX">Dimension X</string>
+    <string name="NightBeat">Night Beat</string>
+    <string name="Speed">Speed Gibson Of The International Secret Police</string>
 </resources>

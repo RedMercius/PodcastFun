@@ -145,6 +145,42 @@ public class SelectActivity extends AppCompatActivity {
                 return titles;
             }
 
+            case "Dimension X":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getDx().length];
+                for (String title : radioList.getDxMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "Night Beat":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getnb().length];
+                for (String title : radioList.getNbMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "Speed":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getsg().length];
+                for (String title : radioList.getSgMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
             default: {
                 String[] titles = new String[1];
                 titles = null;

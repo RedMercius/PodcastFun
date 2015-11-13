@@ -63,6 +63,8 @@ public class MediaControl extends Activity implements
         this.mp.setOnCompletionListener(this);
         this.artist = artist;
 
+        dc = new DownloadControl();
+
         getArtistUrl();
 
         mfilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).toString() + "/";
@@ -104,11 +106,27 @@ public class MediaControl extends Activity implements
                 break;
             }
 
+            case "DimensionX": {
+                url = "http://www.JohnnieRuffin.com/audio/DimensionX/";
+                break;
+            }
+
+            case "Night Beat": {
+                url = "http://www.JohnnieRuffin.com/audio/NightBeat/";
+                break;
+            }
+
+            case "Speed": {
+                url = "http://www.JohnnieRuffin.com/audio/Speed/";
+                break;
+            }
+
             default: {
                 url = null;
                 break;
             }
         }
+        dc.setWebPath(url);
     }
 
     public boolean checkResourceInRaw (String resource)
@@ -144,9 +162,14 @@ public class MediaControl extends Activity implements
 
     public void downloadMedia(String filename)
     {
-        dc = new DownloadControl();
         dc.downloadFile(filename, context);
         Log.d(TAG, "downloadMedia");
+    }
+
+    public void deleteMedia(String filename)
+    {
+        Log.d(TAG, "Delete File: " + filename);
+        dc.deleteMedia(filename);
     }
 
     public void callMediaFromRaw(String item, Activity context) throws IOException {

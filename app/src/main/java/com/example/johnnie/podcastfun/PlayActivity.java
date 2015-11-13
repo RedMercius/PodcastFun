@@ -8,6 +8,8 @@
 package com.example.johnnie.podcastfun;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -169,11 +171,34 @@ MediaPlayer.OnCompletionListener {
 
             case "XMinus1":
             {
-                playPic.setImageResource(R.drawable.xminusone);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.outHeight = 275;
+                options.outWidth = 275;
+                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.xminusone, options);
+
+                playPic.setImageBitmap(bm);
                 break;
             }
 
             case "Inner Sanctum":
+            {
+                playPic.setImageResource(R.drawable.inner_sanctum);
+                break;
+            }
+
+            case "Dimension X":
+            {
+                playPic.setImageResource(R.drawable.inner_sanctum);
+                break;
+            }
+
+            case "Night Beat":
+            {
+                playPic.setImageResource(R.drawable.inner_sanctum);
+                break;
+            }
+
+            case "Speed":
             {
                 playPic.setImageResource(R.drawable.inner_sanctum);
                 break;

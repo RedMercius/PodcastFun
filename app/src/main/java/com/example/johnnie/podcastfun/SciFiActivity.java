@@ -18,6 +18,7 @@ public class SciFiActivity extends AppCompatActivity {
 
     ImageButton xm1Btn;
     ImageButton innSancBtn;
+    ImageButton dxBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class SciFiActivity extends AppCompatActivity {
 
         xm1Btn = (ImageButton) findViewById(R.id.xm1Btn);
         innSancBtn = (ImageButton) findViewById(R.id.innSancBtn);
+        dxBtn = (ImageButton) findViewById(R.id.dxBtn);
 
         xm1Btn.setOnClickListener(new View.OnClickListener() {
 
@@ -50,6 +52,17 @@ public class SciFiActivity extends AppCompatActivity {
 
                 final Intent i = new Intent(SciFiActivity.this, SelectActivity.class);
                 i.putExtra("Selection", "Inner Sanctum");
+                startActivity(i);
+            }
+        });
+
+        dxBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Intent i = new Intent(SciFiActivity.this, SelectActivity.class);
+                i.putExtra("Selection", "Dimension X");
                 startActivity(i);
             }
         });

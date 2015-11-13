@@ -39,4 +39,13 @@
         android:contentDescription="@string/InnerSactum"
         />
 
+    <ImageButton
+        android:id="@+id/dxBtn"
+        android:layout_marginTop="15dp"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
+        android:layout_below="@id/xm1Btn"
+        android:src="@drawable/xminusone"
+        android:contentDescription="@string/DimensionX"/>
+
 </RelativeLayout>
