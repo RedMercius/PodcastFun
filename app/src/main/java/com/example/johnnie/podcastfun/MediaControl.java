@@ -106,8 +106,8 @@ public class MediaControl extends Activity implements
                 break;
             }
 
-            case "DimensionX": {
-                url = "http://www.JohnnieRuffin.com/audio/DimensionX/";
+            case "Dimension X": {
+                url = "http://www.JohnnieRuffin.com/audio/dimensionx/";
                 break;
             }
 

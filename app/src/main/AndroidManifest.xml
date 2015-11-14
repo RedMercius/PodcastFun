@@ -74,15 +74,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.johnnie.podcastfun.MainActivity" />
         </activity>
-        <activity
-            android:name=".HorrorActivity"
-            android:label="@string/title_activity_horror"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.johnnie.podcastfun.MainActivity" />
-        </activity>
     </application>
 
 </manifest>

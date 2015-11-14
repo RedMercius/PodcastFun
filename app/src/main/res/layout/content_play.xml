@@ -19,18 +19,6 @@
                 tools:showIn="@layout/activity_play"
                 tools:context="com.example.johnnie.podcastfun.PlayActivity">
 
-    <ImageView android:id="@+id/fullscreen_content"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:keepScreenOn="true"
-              android:textColor="@color/black_overlay"
-              android:textStyle="bold"
-              android:textSize="50sp"
-              android:gravity="center"
-              android:src="@drawable/burnsandallen1"
-              android:contentDescription="@string/title_activity_play"/>
-
-
             <TextView
                 android:id="@+id/txtTitle"
                 android:layout_marginTop="20dp"
@@ -54,7 +42,7 @@
             <SeekBar
                 android:id="@+id/seekBar"
                 android:layout_width="300dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_centerHorizontal="true"
@@ -77,5 +65,19 @@
                 android:layout_marginLeft="5dp"
                 android:textColor="#000000"
                 />
+
+    <ImageView android:id="@+id/fullscreen_content"
+               android:layout_marginTop="30dp"
+               android:layout_below="@id/play_button"
+               android:layout_centerHorizontal="true"
+               android:layout_width="500dp"
+               android:layout_height="500dp"
+               android:keepScreenOn="true"
+               android:textColor="@color/black_overlay"
+               android:textStyle="bold"
+               android:textSize="50sp"
+               android:gravity="center"
+               android:src="@drawable/burnsandallen1"
+               android:contentDescription="@string/title_activity_play"/>
 
 </RelativeLayout>

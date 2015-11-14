@@ -171,12 +171,8 @@ MediaPlayer.OnCompletionListener {
 
             case "XMinus1":
             {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.outHeight = 275;
-                options.outWidth = 275;
-                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.xminusone, options);
 
-                playPic.setImageBitmap(bm);
+                playPic.setImageResource(R.drawable.xminusone);
                 break;
             }
 
@@ -194,13 +190,13 @@ MediaPlayer.OnCompletionListener {
 
             case "Night Beat":
             {
-                playPic.setImageResource(R.drawable.inner_sanctum);
+                playPic.setImageResource(R.drawable.nightbeat);
                 break;
             }
 
             case "Speed":
             {
-                playPic.setImageResource(R.drawable.inner_sanctum);
+                playPic.setImageResource(R.drawable.speedgibson);
                 break;
             }
 

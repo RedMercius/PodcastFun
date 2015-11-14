@@ -71,7 +71,7 @@ public class DownloadControl extends Activity {
 
     public void deleteMedia(String filename)
     {
-        String filePath = (Environment.DIRECTORY_MUSIC + filename);
+        String filePath = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC) + "/" + filename);
         File file = new File(filePath);
         Log.d(TAG, "Delete Media: " + filePath);
         if (file.exists()) {

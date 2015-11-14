@@ -45,7 +45,7 @@
         android:layout_width="275dp"
         android:layout_height="275dp"
         android:layout_below="@id/xm1Btn"
-        android:src="@drawable/xminusone"
+        android:src="@drawable/dimensionx"
         android:contentDescription="@string/DimensionX"/>
 
 </RelativeLayout>

@@ -298,7 +298,7 @@ public class CustomList extends ArrayAdapter<String> {
             public void onClick(View arg0) {
 
                 mc.deleteMedia(mediaFileName);
-                Toast.makeText(context, "Download In Progress: " + mediaFileName, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Deleting " + mediaFileName, Toast.LENGTH_SHORT).show();
             }
         });
 
