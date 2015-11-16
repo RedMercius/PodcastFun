@@ -7,6 +7,7 @@
 
 package com.example.johnnie.podcastfun;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Query;
@@ -19,6 +20,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StatFs;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +29,7 @@ import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLConnection;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //
@@ -44,24 +47,19 @@ public class DownloadControl extends Activity {
     private DownloadManager dm;
     private String webPath;
     private String TAG = "Download Control: ";
+    private boolean m_downloadSpaceRemaining;
+    private long m_mediaFileSize;
+
+    // TODO: check to see if we can detect an SD card
+    // TODO: check to see if there is enough space to download a file.
 
     /** Called when the activity is first created. */
-    public void DownloadControl(Activity context) {
+    public DownloadControl(Activity context) {
         webPath = "http://www.JohnnieRuffin.com/audio/";
         Log.e("DownloadControl:", "DownloadControl -- constructor");
-        BroadcastReceiver receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                String action = intent.getAction();
-                if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
-                    long downloadId = intent.getLongExtra(
-                            DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-                }
-            }
-        };
 
-        registerReceiver(receiver, new IntentFilter(
-                DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        m_mediaFileSize = 0;
+        m_downloadSpaceRemaining = false;
     }
 
     public void setWebPath(String url)
@@ -86,6 +84,7 @@ public class DownloadControl extends Activity {
         Request request = new Request(
                 Uri.parse(customfilePath)).setDestinationInExternalPublicDir(Environment.DIRECTORY_MUSIC, filename);
         enqueue = dm.enqueue(request);
-        Log.e("DownloadControl:", "downloadFile");
+
+        Log.e(TAG, "downloadFile: " + filename);
     }
 }

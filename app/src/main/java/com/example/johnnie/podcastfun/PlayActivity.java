@@ -8,8 +8,6 @@
 package com.example.johnnie.podcastfun;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -91,12 +89,10 @@ MediaPlayer.OnCompletionListener {
                 if (mp.isPlaying()) {
                     playButton.setImageResource(iconImage[0]);
                     mp.pause();
-                    Log.d(TAG, "Pausing!");
                 } else {
                     playButton.setImageResource(iconImage[1]);
                     mp.seekTo(mp.getCurrentPosition());
                     mp.start();
-                    Log.d(TAG, "Playing!");
                 }
             }
         });
@@ -137,7 +133,6 @@ MediaPlayer.OnCompletionListener {
         mc.stopMedia();
         haltRun = true;
         finish();
-        Log.d(TAG, "onOptionsItemSelected");
         return true;
     }
 

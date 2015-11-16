@@ -63,7 +63,7 @@ public class MediaControl extends Activity implements
         this.mp.setOnCompletionListener(this);
         this.artist = artist;
 
-        dc = new DownloadControl();
+        dc = new DownloadControl(context);
 
         getArtistUrl();
 
@@ -107,7 +107,7 @@ public class MediaControl extends Activity implements
             }
 
             case "Dimension X": {
-                url = "http://www.JohnnieRuffin.com/audio/dimensionx/";
+                url = "http://www.JohnnieRuffin.com/audio/dimension_x/";
                 break;
             }
 
@@ -163,7 +163,7 @@ public class MediaControl extends Activity implements
     public void downloadMedia(String filename)
     {
         dc.downloadFile(filename, context);
-        Log.d(TAG, "downloadMedia");
+        Log.d(TAG, "downloadMedia: " + filename);
     }
 
     public void deleteMedia(String filename)
@@ -210,7 +210,6 @@ public class MediaControl extends Activity implements
     {
         mp.setDataSource(mfilePath + filename);
         mp.prepareAsync();
-        Log.d(TAG, ("callMediaFromExternalDir: " + (mfilePath + filename)));
     }
 
     public void callMediaFromInternet(String filename, Activity context) throws IOException
@@ -220,7 +219,6 @@ public class MediaControl extends Activity implements
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mp.setDataSource(url);
         mp.prepareAsync(); // might take long! (for buffering, etc)
-        Log.d(TAG, ("callMediaFromInternet: " + url));
     }
 
     @Override
@@ -230,21 +228,7 @@ public class MediaControl extends Activity implements
 
     public void stopMedia() { releaseMediaPlayer(); }
 
-    public String getMediaUrl()
-    {
-        return url;
-    }
-
-    public String getMP3Title() { return mtitle; }
-
     public String getMP3Artist(){ return martist; }
-
-    public String getMP3Album()
-    {
-        return malbum;
-    }
-
-    public String getMP3year() { return myear; }
 
     public void getMp3Info(String filename)
     {

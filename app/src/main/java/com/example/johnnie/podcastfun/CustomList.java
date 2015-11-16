@@ -18,7 +18,11 @@ package com.example.johnnie.podcastfun;
 ////////////////////////////////////////////////////////////////////////////
 
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -26,6 +30,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.DownloadListener;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -51,6 +57,7 @@ public class CustomList extends ArrayAdapter<String> {
     private final Integer[] imageButtonList;
     private MediaPlayer mp;
     private String artist;
+    private MediaControl mc;
 
     public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, String artist) {
         super(context, R.layout.list_single, radioTitle);
@@ -59,8 +66,16 @@ public class CustomList extends ArrayAdapter<String> {
         this.imageButtonList = imageButtonList;
         this.mp = new MediaPlayer();
         this.artist = artist;
+
+        final MediaControl fmc =
+                new MediaControl(context, mp, artist);
+
+        mc = fmc;
+
+        String mediaTitle;
     }
 
+    // TODO: sort out how to check for internet connection in case it doesn't exist
     public boolean isNetworkAvailable()
     {
         ConnectivityManager connectivityManager
@@ -76,7 +91,7 @@ public class CustomList extends ArrayAdapter<String> {
             boolean reachable = (returnVal==0);
             if(reachable){
                 System.out.println("Internet access");
-                return reachable;
+                return true;
             }
             else{
                 System.out.println("No Internet access");
@@ -92,10 +107,8 @@ public class CustomList extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        String TAG = "CustomList";
+        final String TAG = "CustomList";
         ViewHolderItem viewHolder;
-
-        // TODO: set the title based on the radio show to be played.
 
         context.setTitle(artist);
         if (view == null) {
@@ -121,9 +134,6 @@ public class CustomList extends ArrayAdapter<String> {
 
         final String mediaTitle = radioTitle[position];
 
-        final MediaControl mc =
-                new MediaControl(context, mp, artist);
-
         RadioTitle rt = new RadioTitle();
 
         rt.initTitles();
@@ -137,20 +147,16 @@ public class CustomList extends ArrayAdapter<String> {
                         MediaFile = mediaFile;
                     }
                 }
-                Log.d(TAG, "Burns And Allen: Title Find");
                 break;
             }
 
             case "Fibber McGee And Molly":
             {
-                Log.d(TAG, "Fibber McGee And Molly: MediaTitle: " + mediaTitle);
                 for (String mediaFile : rt.getFbMap().keySet()) {
                     if (rt.getFbMap().get(mediaFile).equals(mediaTitle)) {
                         MediaFile = mediaFile;
-                        Log.d(TAG, "Fibber McGee And Molly: MediaFile: " + MediaFile);
                     }
                 }
-                Log.d(TAG, "Fibber McGee And Molly: Title Find");
                 break;
             }
 
@@ -226,6 +232,7 @@ public class CustomList extends ArrayAdapter<String> {
         }
 
             final String mediaFileName = MediaFile;
+
             boolean isItInRaw = mc.checkResourceInRaw(MediaFile);
             final boolean doesMediaExist = mc.checkForMedia(MediaFile);
 
@@ -236,6 +243,8 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder.downloadButton.setVisibility(View.INVISIBLE);
 
             viewHolder.txtTitle.setText(mediaTitle);
+
+        final ViewHolderItem thisViewHolder = viewHolder;
 
             if (!isItInRaw && !doesMediaExist) {
                 viewHolder.downloadButton.setImageResource(imageButtonList[4]);
@@ -281,6 +290,7 @@ public class CustomList extends ArrayAdapter<String> {
                 @Override
                 public void onClick(View arg0) {
 
+                    // if network connection is down, inform the user that we cannot download.
                     if (!isNetworkAvailable())
                     {
                         Toast.makeText(context, "No Internet Connection Detected. Cannot proceed with download.",
@@ -288,6 +298,8 @@ public class CustomList extends ArrayAdapter<String> {
                         return;
                     }
                     mc.downloadMedia(mediaFileName);
+                    thisViewHolder.downloadButton.setVisibility(View.INVISIBLE);
+                    thisViewHolder.playButton.setVisibility(View.INVISIBLE);
                     Toast.makeText(context, "Download In Progress: " + mediaFileName, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -301,6 +313,16 @@ public class CustomList extends ArrayAdapter<String> {
                 Toast.makeText(context, "Deleting " + mediaFileName, Toast.LENGTH_SHORT).show();
             }
         });
+
+        BroadcastReceiver onComplete=new BroadcastReceiver() {
+            public void onReceive(Context ctxt, Intent intent) {
+                Log.d(TAG, "Download Complete!!!!");
+                thisViewHolder.playButton.setVisibility(View.VISIBLE);
+                thisViewHolder.stopButton.setVisibility(View.INVISIBLE);
+            }
+        };
+
+        context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
         return view;
     }

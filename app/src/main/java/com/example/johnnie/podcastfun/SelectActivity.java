@@ -17,10 +17,13 @@ package com.example.johnnie.podcastfun;
 //
 ////////////////////////////////////////////////////////////////////////////
 
+import android.app.DownloadManager;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.webkit.DownloadListener;
 import android.widget.ListView;
 
 
@@ -28,6 +31,7 @@ public class SelectActivity extends AppCompatActivity {
     private String TAG = "SelectActivity: ";
     private ListView listview;
     private CustomList selectCustomList;
+    private CustomList adapter;
     private RadioTitle radioList;
 
         @Override
@@ -48,12 +52,12 @@ public class SelectActivity extends AppCompatActivity {
             ImageControl iconControl = new ImageControl();
 
             // get the radio titles
-           radioList = new RadioTitle();
+            radioList = new RadioTitle();
 
             String[] titles = getRadioTitles(artist);
 
             // set the list adapter
-            CustomList adapter =
+            adapter =
                     new CustomList(this, titles,
                             iconControl.getImageButtonList(), artist);
             selectCustomList = adapter;
@@ -62,12 +66,15 @@ public class SelectActivity extends AppCompatActivity {
             listview.setAdapter(adapter);
         }
 
+    public void removeItem(String item)
+    {
+       adapter.remove(item);
+        adapter.notifyDataSetChanged();
+    }
+
     public String[] getRadioTitles(String artist)
     {
-        String[] default_title = null;
         radioList.initTitles();
-        Log.d(TAG, "getRadioTitles called");
-        Log.d(TAG, "Artist: " + artist);
         switch (artist)
         {
             case "Burns And Allen":
@@ -77,7 +84,6 @@ public class SelectActivity extends AppCompatActivity {
                 String[] titles = new String[radioList.getBurnsAllen().length];
                 for (String title : radioList.getBaMap().values()){
                     titles[i] = title;
-                    Log.d(TAG, "Title: " + titles[i]);
                     i++;
                 }
                 return titles;
@@ -90,7 +96,6 @@ public class SelectActivity extends AppCompatActivity {
                 for (String title : radioList.getFbMap().values())
                 {
                     titles[i] = title;
-                    Log.d(TAG, "Title: " + titles[i]);
                     i++;
                 }
                 return titles;
@@ -182,10 +187,8 @@ public class SelectActivity extends AppCompatActivity {
             }
 
             default: {
-                String[] titles = new String[1];
-                titles = null;
                 Log.d(TAG, "In Default");
-                return titles;
+                return null;
             }
         }
 
@@ -196,6 +199,7 @@ public class SelectActivity extends AppCompatActivity {
         public void onDestroy()
         {
             super.onDestroy();
+            //unregisterReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
             System.out.println("OnDestroy");
         }
     }
