@@ -116,7 +116,7 @@ public class CustomList extends ArrayAdapter<String> {
             LayoutInflater inflater = context.getLayoutInflater();
             viewHolder = new ViewHolderItem();
 
-            view = View.inflate( context, R.layout.list_single, null);
+            view = View.inflate( context, R.layout.custom_list_multi, null);
             viewHolder.txtTitle = (TextView) view.findViewById(R.id.txt);
             viewHolder.txtStatus = (TextView) view.findViewById(R.id.txtstatus);
 
