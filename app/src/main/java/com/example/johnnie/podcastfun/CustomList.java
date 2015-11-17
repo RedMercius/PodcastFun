@@ -76,7 +76,7 @@ public class CustomList extends ArrayAdapter<String> {
     public boolean isNetworkAvailable()
     {
         ConnectivityManager connectivityManager
-                = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+                = (ConnectivityManager) context.getSystemService(SelectActivity.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
