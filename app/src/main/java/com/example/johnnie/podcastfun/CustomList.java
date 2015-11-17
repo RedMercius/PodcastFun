@@ -58,6 +58,8 @@ public class CustomList extends ArrayAdapter<String> {
     private MediaPlayer mp;
     private String artist;
     private MediaControl mc;
+    private BroadcastReceiver onComplete;
+    final String TAG = "CustomList";
 
     public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, String artist) {
         super(context, R.layout.list_single, radioTitle);
@@ -107,7 +109,6 @@ public class CustomList extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        final String TAG = "CustomList";
         ViewHolderItem viewHolder;
 
         context.setTitle(artist);
@@ -300,6 +301,7 @@ public class CustomList extends ArrayAdapter<String> {
                     mc.downloadMedia(mediaFileName);
                     thisViewHolder.downloadButton.setVisibility(View.INVISIBLE);
                     thisViewHolder.playButton.setVisibility(View.INVISIBLE);
+                    context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
                     Toast.makeText(context, "Download In Progress: " + mediaFileName, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -314,7 +316,7 @@ public class CustomList extends ArrayAdapter<String> {
             }
         });
 
-        BroadcastReceiver onComplete=new BroadcastReceiver() {
+        onComplete = new BroadcastReceiver() {
             public void onReceive(Context ctxt, Intent intent) {
                 Log.d(TAG, "Download Complete!!!!");
                 thisViewHolder.playButton.setVisibility(View.VISIBLE);
@@ -322,8 +324,12 @@ public class CustomList extends ArrayAdapter<String> {
             }
         };
 
-        context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-
         return view;
+    }
+
+    public void cleanUp(Activity context)
+    {
+        Log.d(TAG, "cleanup!!");
+        context.unregisterReceiver(onComplete);
     }
 }

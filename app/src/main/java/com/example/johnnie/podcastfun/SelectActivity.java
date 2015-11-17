@@ -198,8 +198,8 @@ public class SelectActivity extends AppCompatActivity {
         @Override
         public void onDestroy()
         {
+            adapter.cleanUp(this);
             super.onDestroy();
-            //unregisterReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
             System.out.println("OnDestroy");
         }
     }
