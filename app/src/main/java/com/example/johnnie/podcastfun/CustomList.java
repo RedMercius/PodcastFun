@@ -27,13 +27,11 @@ import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.DownloadListener;
-import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +44,7 @@ public class CustomList extends ArrayAdapter<String> {
         TextView txtStatus;
 
         ImageButton playButton;
-        ImageButton stopButton;
+        ImageView stopButton;
         ImageButton closeButton;
         ImageButton deleteButton;
         ImageButton downloadButton;
@@ -55,26 +53,23 @@ public class CustomList extends ArrayAdapter<String> {
     private final Activity context;
     private final String[] radioTitle;
     private final Integer[] imageButtonList;
-    private MediaPlayer mp;
     private String artist;
     private MediaControl mc;
     private BroadcastReceiver onComplete;
     final String TAG = "CustomList";
 
     public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, String artist) {
-        super(context, R.layout.list_single, radioTitle);
+        super(context, R.layout.custom_list_multi, radioTitle);
+
+        MediaPlayer mp;
         this.context = context;
         this.radioTitle = radioTitle;
         this.imageButtonList = imageButtonList;
-        this.mp = new MediaPlayer();
+        mp = new MediaPlayer();
         this.artist = artist;
 
-        final MediaControl fmc =
+        mc =
                 new MediaControl(context, mp, artist);
-
-        mc = fmc;
-
-        String mediaTitle;
     }
 
     // TODO: sort out how to check for internet connection in case it doesn't exist
@@ -86,7 +81,7 @@ public class CustomList extends ArrayAdapter<String> {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public Boolean isAvailable() {
+    /*public Boolean isAvailable() {
         try {
             Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1    www.google.com");
             int returnVal = p1.waitFor();
@@ -104,7 +99,7 @@ public class CustomList extends ArrayAdapter<String> {
             e.printStackTrace();
         }
         return false;
-    }
+    }*/
 
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
@@ -113,7 +108,6 @@ public class CustomList extends ArrayAdapter<String> {
 
         context.setTitle(artist);
         if (view == null) {
-            LayoutInflater inflater = context.getLayoutInflater();
             viewHolder = new ViewHolderItem();
 
             view = View.inflate( context, R.layout.custom_list_multi, null);
@@ -121,7 +115,7 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder.txtStatus = (TextView) view.findViewById(R.id.txtstatus);
 
             viewHolder.playButton = (ImageButton) view.findViewById(R.id.playbtn);
-            viewHolder.stopButton = (ImageButton) view.findViewById(R.id.stopbtn);
+            viewHolder.stopButton = (ImageView) view.findViewById(R.id.stopbtn);
             viewHolder.closeButton = (ImageButton) view.findViewById(R.id.closebtn);
             viewHolder.deleteButton = (ImageButton) view.findViewById(R.id.deletebtn);
             viewHolder.downloadButton = (ImageButton) view.findViewById(R.id.downloadbtn);
@@ -244,9 +238,6 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder.downloadButton.setVisibility(View.INVISIBLE);
 
             viewHolder.txtTitle.setText(mediaTitle);
-
-        final ViewHolderItem thisViewHolder = viewHolder;
-        final View thisView = view;
 
             if (!isItInRaw && !doesMediaExist) {
                 viewHolder.downloadButton.setImageResource(imageButtonList[4]);
