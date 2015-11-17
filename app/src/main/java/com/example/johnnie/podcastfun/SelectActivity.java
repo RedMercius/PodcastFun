@@ -55,6 +55,7 @@ public class SelectActivity extends AppCompatActivity {
             radioList = new RadioTitle();
 
             String[] titles = getRadioTitles(artist);
+            listview = (ListView) findViewById(R.id.listview);
 
             // set the list adapter
             adapter =
@@ -62,7 +63,6 @@ public class SelectActivity extends AppCompatActivity {
                             iconControl.getImageButtonList(), artist);
             selectCustomList = adapter;
 
-            listview = (ListView) findViewById(R.id.listview);
             listview.setAdapter(adapter);
         }
 
@@ -198,6 +198,7 @@ public class SelectActivity extends AppCompatActivity {
         @Override
         public void onDestroy()
         {
+            // clean up any list activity.
             adapter.cleanUp(this);
             super.onDestroy();
             System.out.println("OnDestroy");

@@ -107,7 +107,7 @@ public class CustomList extends ArrayAdapter<String> {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
 
         ViewHolderItem viewHolder;
 
@@ -116,7 +116,7 @@ public class CustomList extends ArrayAdapter<String> {
             LayoutInflater inflater = context.getLayoutInflater();
             viewHolder = new ViewHolderItem();
 
-            view = inflater.inflate(R.layout.list_single, null, true);
+            view = View.inflate( context, R.layout.list_single, null);
             viewHolder.txtTitle = (TextView) view.findViewById(R.id.txt);
             viewHolder.txtStatus = (TextView) view.findViewById(R.id.txtstatus);
 
@@ -246,6 +246,7 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder.txtTitle.setText(mediaTitle);
 
         final ViewHolderItem thisViewHolder = viewHolder;
+        final View thisView = view;
 
             if (!isItInRaw && !doesMediaExist) {
                 viewHolder.downloadButton.setImageResource(imageButtonList[4]);
@@ -299,8 +300,6 @@ public class CustomList extends ArrayAdapter<String> {
                         return;
                     }
                     mc.downloadMedia(mediaFileName);
-                    thisViewHolder.downloadButton.setVisibility(View.INVISIBLE);
-                    thisViewHolder.playButton.setVisibility(View.INVISIBLE);
                     context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
                     Toast.makeText(context, "Download In Progress: " + mediaFileName, Toast.LENGTH_SHORT).show();
                 }
@@ -319,8 +318,7 @@ public class CustomList extends ArrayAdapter<String> {
         onComplete = new BroadcastReceiver() {
             public void onReceive(Context ctxt, Intent intent) {
                 Log.d(TAG, "Download Complete!!!!");
-                thisViewHolder.playButton.setVisibility(View.VISIBLE);
-                thisViewHolder.stopButton.setVisibility(View.INVISIBLE);
+                //add()
             }
         };
 
