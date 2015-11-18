@@ -45,7 +45,6 @@ public class CustomList extends ArrayAdapter<String> {
 
         ImageButton playButton;
         ImageView stopButton;
-        ImageButton closeButton;
         ImageButton deleteButton;
         ImageButton downloadButton;
     }
@@ -56,6 +55,7 @@ public class CustomList extends ArrayAdapter<String> {
     private String artist;
     private MediaControl mc;
     private BroadcastReceiver onComplete;
+    private boolean m_downloadInProgress;
     final String TAG = "CustomList";
 
     public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, String artist) {
@@ -68,11 +68,19 @@ public class CustomList extends ArrayAdapter<String> {
         mp = new MediaPlayer();
         this.artist = artist;
 
+        onComplete = new BroadcastReceiver() {
+            public void onReceive(Context ctxt, Intent intent) {
+                Log.d(TAG, "Download Complete!!!!");
+                notifyDataSetChanged();
+            }
+        };
+
+        context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        m_downloadInProgress=false;
         mc =
                 new MediaControl(context, mp, artist);
     }
 
-    // TODO: sort out how to check for internet connection in case it doesn't exist
     public boolean isNetworkAvailable()
     {
         ConnectivityManager connectivityManager
@@ -116,7 +124,6 @@ public class CustomList extends ArrayAdapter<String> {
 
             viewHolder.playButton = (ImageButton) view.findViewById(R.id.playbtn);
             viewHolder.stopButton = (ImageView) view.findViewById(R.id.stopbtn);
-            viewHolder.closeButton = (ImageButton) view.findViewById(R.id.closebtn);
             viewHolder.deleteButton = (ImageButton) view.findViewById(R.id.deletebtn);
             viewHolder.downloadButton = (ImageButton) view.findViewById(R.id.downloadbtn);
 
@@ -233,7 +240,6 @@ public class CustomList extends ArrayAdapter<String> {
 
             viewHolder.txtStatus.setVisibility(View.VISIBLE);
             viewHolder.deleteButton.setVisibility(View.INVISIBLE);
-            viewHolder.closeButton.setVisibility(View.INVISIBLE);
             viewHolder.stopButton.setVisibility(View.INVISIBLE);
             viewHolder.downloadButton.setVisibility(View.INVISIBLE);
 
@@ -291,7 +297,6 @@ public class CustomList extends ArrayAdapter<String> {
                         return;
                     }
                     mc.downloadMedia(mediaFileName);
-                    context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
                     Toast.makeText(context, "Download In Progress: " + mediaFileName, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -302,16 +307,10 @@ public class CustomList extends ArrayAdapter<String> {
             public void onClick(View arg0) {
 
                 mc.deleteMedia(mediaFileName);
+                notifyDataSetChanged();
                 Toast.makeText(context, "Deleting " + mediaFileName, Toast.LENGTH_SHORT).show();
             }
         });
-
-        onComplete = new BroadcastReceiver() {
-            public void onReceive(Context ctxt, Intent intent) {
-                Log.d(TAG, "Download Complete!!!!");
-                //add()
-            }
-        };
 
         return view;
     }

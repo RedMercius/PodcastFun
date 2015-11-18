@@ -191,7 +191,7 @@ MediaPlayer.OnCompletionListener {
 
             case "Speed":
             {
-                playPic.setImageResource(R.drawable.speedgibson);
+                playPic.setImageResource(R.drawable.sgimage);
                 break;
             }
 
