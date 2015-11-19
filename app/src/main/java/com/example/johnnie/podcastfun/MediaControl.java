@@ -107,7 +107,7 @@ public class MediaControl extends Activity implements
             }
 
             case "Dimension X": {
-                url = "http://www.JohnnieRuffin.com/audio/dimension_x/";
+                url = "http://www.JohnnieRuffin.com/audio/DimensionX/";
                 break;
             }
 
@@ -214,6 +214,8 @@ public class MediaControl extends Activity implements
 
     public void callMediaFromInternet(String filename, Activity context) throws IOException
     {
+        //TODO verify file exists before playing.
+
         url = url + filename; // your URL here
 
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);

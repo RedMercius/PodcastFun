@@ -45,6 +45,8 @@
         android:layout_centerHorizontal="true"
         android:layout_toEndOf="@id/downloadbtn"
         android:layout_toRightOf="@id/downloadbtn"
+        android:layout_marginRight="60dp"
+        android:layout_marginEnd="60dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView

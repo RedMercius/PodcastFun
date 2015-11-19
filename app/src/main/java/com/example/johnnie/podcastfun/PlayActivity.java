@@ -179,7 +179,7 @@ MediaPlayer.OnCompletionListener {
 
             case "Dimension X":
             {
-                playPic.setImageResource(R.drawable.inner_sanctum);
+                playPic.setImageResource(R.drawable.dimension_x);
                 break;
             }
 

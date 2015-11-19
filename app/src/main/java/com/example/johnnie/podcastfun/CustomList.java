@@ -55,7 +55,6 @@ public class CustomList extends ArrayAdapter<String> {
     private String artist;
     private MediaControl mc;
     private BroadcastReceiver onComplete;
-    private boolean m_downloadInProgress;
     final String TAG = "CustomList";
 
     public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, String artist) {
@@ -76,7 +75,6 @@ public class CustomList extends ArrayAdapter<String> {
         };
 
         context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-        m_downloadInProgress=false;
         mc =
                 new MediaControl(context, mp, artist);
     }
@@ -112,7 +110,7 @@ public class CustomList extends ArrayAdapter<String> {
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
 
-        ViewHolderItem viewHolder;
+        final ViewHolderItem viewHolder;
 
         context.setTitle(artist);
         if (view == null) {
@@ -297,6 +295,7 @@ public class CustomList extends ArrayAdapter<String> {
                         return;
                     }
                     mc.downloadMedia(mediaFileName);
+                    viewHolder.downloadButton.setVisibility(View.INVISIBLE);
                     Toast.makeText(context, "Download In Progress: " + mediaFileName, Toast.LENGTH_SHORT).show();
                 }
             });
