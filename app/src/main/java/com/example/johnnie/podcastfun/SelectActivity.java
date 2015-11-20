@@ -23,8 +23,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.webkit.DownloadListener;
+import android.widget.ImageButton;
 import android.widget.ListView;
+
+import java.util.List;
 
 
 public class SelectActivity extends AppCompatActivity {
@@ -64,6 +68,26 @@ public class SelectActivity extends AppCompatActivity {
             selectCustomList = adapter;
 
             listview.setAdapter(adapter);
+
+            adapter.notifyDataSetChanged();
+
+            CustomList.ViewHolderItem viewHolder = adapter.getViewHolder();
+
+            viewHolder.downloadButton = (ImageButton) findViewById(R.id.downloadbtn);
+
+            Log.d(TAG, "Download Button is set");
+            viewHolder.downloadButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+
+                    List<Integer> removeList = adapter.getRemoveList();
+
+                    for (Integer mediapos : removeList) {
+                        listview.removeViewAt(mediapos);
+                    }
+                }
+            });
         }
 
     public void removeItem(String item)

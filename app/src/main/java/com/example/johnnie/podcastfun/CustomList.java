@@ -35,6 +35,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class CustomList extends ArrayAdapter<String> {
 
     // This is an attempt at a view holder pattern
@@ -55,6 +57,8 @@ public class CustomList extends ArrayAdapter<String> {
     private String artist;
     private MediaControl mc;
     private BroadcastReceiver onComplete;
+    private ViewHolderItem mViewHolder;
+    private List<Integer> mRemoveList;
     final String TAG = "CustomList";
 
     public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, String artist) {
@@ -126,10 +130,12 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder.downloadButton = (ImageButton) view.findViewById(R.id.downloadbtn);
 
             view.setTag(viewHolder);
+            mViewHolder = viewHolder;
         }
         else
         {
             viewHolder = (ViewHolderItem) view.getTag();
+            mViewHolder = viewHolder;
         }
 
         final String mediaTitle = radioTitle[position];
@@ -296,6 +302,7 @@ public class CustomList extends ArrayAdapter<String> {
                     }
                     mc.downloadMedia(mediaFileName);
                     viewHolder.downloadButton.setVisibility(View.INVISIBLE);
+                    mRemoveList.add(position);
                     Toast.makeText(context, "Download In Progress: " + mediaFileName, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -312,6 +319,16 @@ public class CustomList extends ArrayAdapter<String> {
         });
 
         return view;
+    }
+
+    public ViewHolderItem getViewHolder()
+    {
+        return mViewHolder;
+    }
+
+    public List<Integer> getRemoveList()
+    {
+        return mRemoveList;
     }
 
     public void cleanUp(Activity context)
