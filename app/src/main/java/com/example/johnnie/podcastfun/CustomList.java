@@ -23,9 +23,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +76,23 @@ public class CustomList extends ArrayAdapter<String> {
         onComplete = new BroadcastReceiver() {
             public void onReceive(Context ctxt, Intent intent) {
                 Log.d(TAG, "Download Complete!!!!");
+
+                String filename;
+                Bundle extras = intent.getExtras();
+                DownloadManager.Query q = new DownloadManager.Query();
+                q.setFilterById(extras.getLong(DownloadManager.EXTRA_DOWNLOAD_ID));
+                Cursor c = mc.dc.dm.query(q);
+
+
+                if (c.moveToFirst()) {
+                    int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
+                    if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                        String filePath = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME));
+                        filename = filePath.substring( filePath.lastIndexOf('/')+1, filePath.length() );
+                    }
+                }
+                c.close();
+
                 notifyDataSetChanged();
             }
         };
@@ -257,7 +276,17 @@ public class CustomList extends ArrayAdapter<String> {
                 viewHolder.stopButton.setVisibility(View.VISIBLE);
             }
 
-            if (isItInRaw || doesMediaExist) {
+        boolean ignoreThisItem = false;
+
+        for (int i = 0; i < mRemoveList.size(); ++i)
+        {
+           if (position == mRemoveList.get(i))
+           {
+               ignoreThisItem = true;
+           }
+        }
+
+            if (isItInRaw || doesMediaExist || !ignoreThisItem) {
                 viewHolder.downloadButton.setVisibility(View.INVISIBLE);
                 viewHolder.playButton.setImageResource(imageButtonList[0]);
 
@@ -301,8 +330,8 @@ public class CustomList extends ArrayAdapter<String> {
                         return;
                     }
                     mc.downloadMedia(mediaFileName);
-                    viewHolder.downloadButton.setVisibility(View.INVISIBLE);
                     mRemoveList.add(position);
+                    notifyDataSetChanged();
                     Toast.makeText(context, "Download In Progress: " + mediaFileName, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -319,16 +348,6 @@ public class CustomList extends ArrayAdapter<String> {
         });
 
         return view;
-    }
-
-    public ViewHolderItem getViewHolder()
-    {
-        return mViewHolder;
-    }
-
-    public List<Integer> getRemoveList()
-    {
-        return mRemoveList;
     }
 
     public void cleanUp(Activity context)
