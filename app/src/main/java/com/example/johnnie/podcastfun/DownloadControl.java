@@ -44,7 +44,7 @@ import java.net.URLConnection;
 //////////////////////////////////////////////////////////////////////////////////////
 public class DownloadControl extends Activity {
     private long enqueue;
-    private DownloadManager dm;
+    public DownloadManager dm;
     private String webPath;
     private String TAG = "Download Control: ";
     private boolean m_downloadSpaceRemaining;

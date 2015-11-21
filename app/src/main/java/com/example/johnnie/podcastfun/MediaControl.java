@@ -41,7 +41,7 @@ public class MediaControl extends Activity implements
     private final Activity context;
 
     private MediaPlayer mp;
-    private DownloadControl dc;
+    public DownloadControl dc;
     private String url;
     private String artist;
 

@@ -68,26 +68,6 @@ public class SelectActivity extends AppCompatActivity {
             selectCustomList = adapter;
 
             listview.setAdapter(adapter);
-
-            adapter.notifyDataSetChanged();
-
-            CustomList.ViewHolderItem viewHolder = adapter.getViewHolder();
-
-            viewHolder.downloadButton = (ImageButton) findViewById(R.id.downloadbtn);
-
-            Log.d(TAG, "Download Button is set");
-            viewHolder.downloadButton.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-
-                    List<Integer> removeList = adapter.getRemoveList();
-
-                    for (Integer mediapos : removeList) {
-                        listview.removeViewAt(mediapos);
-                    }
-                }
-            });
         }
 
     public void removeItem(String item)

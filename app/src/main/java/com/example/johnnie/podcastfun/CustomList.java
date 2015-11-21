@@ -37,6 +37,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomList extends ArrayAdapter<String> {
@@ -60,7 +61,7 @@ public class CustomList extends ArrayAdapter<String> {
     private MediaControl mc;
     private BroadcastReceiver onComplete;
     private ViewHolderItem mViewHolder;
-    private List<Integer> mRemoveList;
+    private List<String> mRemoveList;
     final String TAG = "CustomList";
 
     public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, String artist) {
@@ -72,32 +73,9 @@ public class CustomList extends ArrayAdapter<String> {
         this.imageButtonList = imageButtonList;
         mp = new MediaPlayer();
         this.artist = artist;
+        mRemoveList = new ArrayList<>();
 
-        onComplete = new BroadcastReceiver() {
-            public void onReceive(Context ctxt, Intent intent) {
-                Log.d(TAG, "Download Complete!!!!");
-
-                String filename;
-                Bundle extras = intent.getExtras();
-                DownloadManager.Query q = new DownloadManager.Query();
-                q.setFilterById(extras.getLong(DownloadManager.EXTRA_DOWNLOAD_ID));
-                Cursor c = mc.dc.dm.query(q);
-
-
-                if (c.moveToFirst()) {
-                    int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
-                    if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                        String filePath = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME));
-                        filename = filePath.substring( filePath.lastIndexOf('/')+1, filePath.length() );
-                    }
-                }
-                c.close();
-
-                notifyDataSetChanged();
-            }
-        };
-
-        context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        Log.d(TAG, "Registering download reciever!");
         mc =
                 new MediaControl(context, mp, artist);
     }
@@ -261,44 +239,59 @@ public class CustomList extends ArrayAdapter<String> {
             boolean isItInRaw = mc.checkResourceInRaw(MediaFile);
             final boolean doesMediaExist = mc.checkForMedia(MediaFile);
 
-            viewHolder.txtStatus.setVisibility(View.VISIBLE);
-            viewHolder.deleteButton.setVisibility(View.INVISIBLE);
-            viewHolder.stopButton.setVisibility(View.INVISIBLE);
-            viewHolder.downloadButton.setVisibility(View.INVISIBLE);
 
             viewHolder.txtTitle.setText(mediaTitle);
 
-            if (!isItInRaw && !doesMediaExist) {
-                viewHolder.downloadButton.setImageResource(imageButtonList[4]);
-                viewHolder.downloadButton.setVisibility(View.VISIBLE);
-                viewHolder.playButton.setImageResource(imageButtonList[0]);
-                viewHolder.stopButton.setImageResource(imageButtonList[8]);
-                viewHolder.stopButton.setVisibility(View.VISIBLE);
-            }
-
         boolean ignoreThisItem = false;
 
-        for (int i = 0; i < mRemoveList.size(); ++i)
-        {
-           if (position == mRemoveList.get(i))
-           {
-               ignoreThisItem = true;
-           }
+        if (mRemoveList != null && mediaFileName != null) {
+            for (int i = 0; i < mRemoveList.size(); ++i) {
+                if (mediaFileName.equals(mRemoveList.get(i))) {
+                    ignoreThisItem = true;
+                }
+            }
         }
 
-            if (isItInRaw || doesMediaExist || !ignoreThisItem) {
-                viewHolder.downloadButton.setVisibility(View.INVISIBLE);
+            if (!isItInRaw && !doesMediaExist && !ignoreThisItem) {
+                viewHolder.downloadButton.setImageResource(imageButtonList[4]);
                 viewHolder.playButton.setImageResource(imageButtonList[0]);
+                viewHolder.stopButton.setImageResource(imageButtonList[8]);
 
-                viewHolder.deleteButton.setVisibility(View.VISIBLE);
-                viewHolder.deleteButton.setImageResource(imageButtonList[7]);
+                viewHolder.txtStatus.setVisibility(View.INVISIBLE);
+                viewHolder.deleteButton.setVisibility(View.INVISIBLE);
+
+                viewHolder.downloadButton.setVisibility(View.VISIBLE);
+                viewHolder.txtTitle.setVisibility(View.VISIBLE);
+                viewHolder.stopButton.setVisibility(View.VISIBLE);
+                viewHolder.playButton.setVisibility(View.VISIBLE);
             }
 
+            if ((isItInRaw || doesMediaExist) && !ignoreThisItem) {
+                viewHolder.playButton.setImageResource(imageButtonList[0]);
+                viewHolder.deleteButton.setImageResource(imageButtonList[7]);
+
+                viewHolder.downloadButton.setVisibility(View.INVISIBLE);
+                viewHolder.txtStatus.setVisibility(View.INVISIBLE);
+                viewHolder.stopButton.setVisibility(View.INVISIBLE);
+
+                viewHolder.deleteButton.setVisibility(View.VISIBLE);
+                viewHolder.playButton.setVisibility(View.VISIBLE);
+            }
+
+        if (ignoreThisItem) {
+            Log.d(TAG, "Ignore This Item: " + mediaFileName);
+
+            viewHolder.downloadButton.setVisibility(View.INVISIBLE);
+            viewHolder.playButton.setVisibility(View.INVISIBLE);
+            viewHolder.stopButton.setVisibility(View.INVISIBLE);
+            viewHolder.deleteButton.setVisibility(View.INVISIBLE);
+            viewHolder.txtStatus.setVisibility(View.VISIBLE);
+            viewHolder.txtStatus.setText("Downloading....");
+        }
             viewHolder.playButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-
                     // if we need to stream this, check for internet connection.
                     if (!doesMediaExist) {
                         if (!isNetworkAvailable()) {
@@ -321,7 +314,7 @@ public class CustomList extends ArrayAdapter<String> {
 
                 @Override
                 public void onClick(View arg0) {
-
+                    context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
                     // if network connection is down, inform the user that we cannot download.
                     if (!isNetworkAvailable())
                     {
@@ -330,7 +323,7 @@ public class CustomList extends ArrayAdapter<String> {
                         return;
                     }
                     mc.downloadMedia(mediaFileName);
-                    mRemoveList.add(position);
+                    mRemoveList.add(mediaFileName);
                     notifyDataSetChanged();
                     Toast.makeText(context, "Download In Progress: " + mediaFileName, Toast.LENGTH_SHORT).show();
                 }
@@ -346,6 +339,30 @@ public class CustomList extends ArrayAdapter<String> {
                 Toast.makeText(context, "Deleting " + mediaFileName, Toast.LENGTH_SHORT).show();
             }
         });
+
+        onComplete = new BroadcastReceiver() {
+            public void onReceive(Context ctxt, Intent intent) {
+                Log.d(TAG, "Download Complete!!!!");
+
+                String filename;
+                Bundle extras = intent.getExtras();
+                DownloadManager.Query q = new DownloadManager.Query();
+                q.setFilterById(extras.getLong(DownloadManager.EXTRA_DOWNLOAD_ID));
+                Cursor c = mc.dc.dm.query(q);
+
+                if (c.moveToFirst()) {
+                    int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
+                    if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                        String filePath = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME));
+                        filename = filePath.substring( filePath.lastIndexOf('/')+1, filePath.length() );
+                        Log.d(TAG, "Download Complete: " + filename);
+                        mRemoveList.remove(filename);
+                    }
+                }
+                c.close();
+                notifyDataSetChanged();
+            }
+        };
 
         return view;
     }
