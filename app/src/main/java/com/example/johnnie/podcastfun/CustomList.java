@@ -59,7 +59,7 @@ public class CustomList extends ArrayAdapter<String> {
     private final Integer[] imageButtonList;
     private String artist;
     private MediaControl mc;
-    private BroadcastReceiver onComplete;
+    private BroadcastReceiver receiver;
     private List<String> mRemoveList;
     private boolean mdownloadInProgress;
     final String TAG = "CustomList";
@@ -78,31 +78,38 @@ public class CustomList extends ArrayAdapter<String> {
 
         mc =
                 new MediaControl(context, mp, artist);
-        onComplete = new BroadcastReceiver() {
+
+        IntentFilter filter = new IntentFilter();
+
+        filter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+
+        receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                String filename;
-                Bundle extras = intent.getExtras();
-                DownloadManager.Query q = new DownloadManager.Query();
-                q.setFilterById(extras.getLong(DownloadManager.EXTRA_DOWNLOAD_ID));
-                Cursor c = mc.dc.dm.query(q);
+                if (mdownloadInProgress) {
+                    String filename;
+                    Bundle extras = intent.getExtras();
+                    DownloadManager.Query q = new DownloadManager.Query();
+                    q.setFilterById(extras.getLong(DownloadManager.EXTRA_DOWNLOAD_ID));
+                    Cursor c = mc.dc.dm.query(q);
 
-                if (c.moveToFirst()) {
-                    int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
-                    if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                        String filePath = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME));
-                        filename = filePath.substring( filePath.lastIndexOf('/')+1, filePath.length() );
-                        Log.d(TAG, "Download Complete: " + filename);
-                        mRemoveList.remove(filename);
+                    if (c.moveToFirst()) {
+                        int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
+                        if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                            String filePath = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME));
+                            filename = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length());
+                            Log.d(TAG, "Download Complete: " + filename);
+                            mRemoveList.remove(filename);
+                        }
                     }
-                }
 
-                c.close();
-                notifyDataSetChanged();
+                    c.close();
+                    notifyDataSetChanged();
+                }
             }
         };
 
-        context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        context.registerReceiver(receiver, filter);
     }
 
     public boolean isNetworkAvailable()
@@ -362,39 +369,15 @@ public class CustomList extends ArrayAdapter<String> {
 
                 mc.deleteMedia(mediaFileName);
                 notifyDataSetChanged();
-                Toast.makeText(context, context.getResources().getString(R.string.deleting) + mediaFileName, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getResources().getString(R.string.deleting) + " " + mediaFileName, Toast.LENGTH_SHORT).show();
             }
         });
-
-        /*onComplete = new BroadcastReceiver() {
-            public void onReceive(Context ctxt, Intent intent) {
-                String filename;
-                Bundle extras = intent.getExtras();
-                DownloadManager.Query q = new DownloadManager.Query();
-                q.setFilterById(extras.getLong(DownloadManager.EXTRA_DOWNLOAD_ID));
-                Cursor c = mc.dc.dm.query(q);
-
-                if (c.moveToFirst()) {
-                    int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
-                    if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                        String filePath = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME));
-                        filename = filePath.substring( filePath.lastIndexOf('/')+1, filePath.length() );
-                        Log.d(TAG, "Download Complete: " + filename);
-                        mRemoveList.remove(filename);
-                    }
-                }
-
-                c.close();
-                notifyDataSetChanged();
-            }
-        };*/
 
         return view;
     }
 
     public void cleanUp(Activity context)
     {
-            context.unregisterReceiver(onComplete);
-        Log.d(TAG, "cleanup!!");
+        context.unregisterReceiver(receiver);
     }
 }
