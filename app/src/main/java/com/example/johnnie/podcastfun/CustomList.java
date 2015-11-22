@@ -60,8 +60,8 @@ public class CustomList extends ArrayAdapter<String> {
     private String artist;
     private MediaControl mc;
     private BroadcastReceiver onComplete;
-    private ViewHolderItem mViewHolder;
     private List<String> mRemoveList;
+    private boolean mdownloadInProgress;
     final String TAG = "CustomList";
 
     public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, String artist) {
@@ -74,10 +74,35 @@ public class CustomList extends ArrayAdapter<String> {
         mp = new MediaPlayer();
         this.artist = artist;
         mRemoveList = new ArrayList<>();
+        mdownloadInProgress = false;
 
-        Log.d(TAG, "Registering download reciever!");
         mc =
                 new MediaControl(context, mp, artist);
+        onComplete = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String filename;
+                Bundle extras = intent.getExtras();
+                DownloadManager.Query q = new DownloadManager.Query();
+                q.setFilterById(extras.getLong(DownloadManager.EXTRA_DOWNLOAD_ID));
+                Cursor c = mc.dc.dm.query(q);
+
+                if (c.moveToFirst()) {
+                    int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
+                    if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                        String filePath = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME));
+                        filename = filePath.substring( filePath.lastIndexOf('/')+1, filePath.length() );
+                        Log.d(TAG, "Download Complete: " + filename);
+                        mRemoveList.remove(filename);
+                    }
+                }
+
+                c.close();
+                notifyDataSetChanged();
+            }
+        };
+
+        context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     public boolean isNetworkAvailable()
@@ -127,12 +152,10 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder.downloadButton = (ImageButton) view.findViewById(R.id.downloadbtn);
 
             view.setTag(viewHolder);
-            mViewHolder = viewHolder;
         }
         else
         {
             viewHolder = (ViewHolderItem) view.getTag();
-            mViewHolder = viewHolder;
         }
 
         final String mediaTitle = radioTitle[position];
@@ -239,7 +262,6 @@ public class CustomList extends ArrayAdapter<String> {
             boolean isItInRaw = mc.checkResourceInRaw(MediaFile);
             final boolean doesMediaExist = mc.checkForMedia(MediaFile);
 
-
             viewHolder.txtTitle.setText(mediaTitle);
 
         boolean ignoreThisItem = false;
@@ -286,7 +308,7 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder.stopButton.setVisibility(View.INVISIBLE);
             viewHolder.deleteButton.setVisibility(View.INVISIBLE);
             viewHolder.txtStatus.setVisibility(View.VISIBLE);
-            viewHolder.txtStatus.setText("Downloading....");
+            viewHolder.txtStatus.setText(context.getResources().getString(R.string.downloading));
         }
             viewHolder.playButton.setOnClickListener(new View.OnClickListener() {
 
@@ -295,7 +317,7 @@ public class CustomList extends ArrayAdapter<String> {
                     // if we need to stream this, check for internet connection.
                     if (!doesMediaExist) {
                         if (!isNetworkAvailable()) {
-                            Toast.makeText(context, "No Internet Connection Detected. Cannot Stream Media.",
+                            Toast.makeText(context, context.getResources().getString(R.string.no_internet_stream),
                                     Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -314,18 +336,22 @@ public class CustomList extends ArrayAdapter<String> {
 
                 @Override
                 public void onClick(View arg0) {
-                    context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                    if (!mdownloadInProgress) {
+                        mdownloadInProgress = true;
+
+                    }
+
                     // if network connection is down, inform the user that we cannot download.
                     if (!isNetworkAvailable())
                     {
-                        Toast.makeText(context, "No Internet Connection Detected. Cannot proceed with download.",
+                        Toast.makeText(context, context.getResources().getString(R.string.no_internet_stream),
                                 Toast.LENGTH_SHORT).show();
                         return;
                     }
                     mc.downloadMedia(mediaFileName);
                     mRemoveList.add(mediaFileName);
                     notifyDataSetChanged();
-                    Toast.makeText(context, "Download In Progress: " + mediaFileName, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getResources().getString(R.string.download_in_progress) + mediaFileName, Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -336,14 +362,12 @@ public class CustomList extends ArrayAdapter<String> {
 
                 mc.deleteMedia(mediaFileName);
                 notifyDataSetChanged();
-                Toast.makeText(context, "Deleting " + mediaFileName, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getResources().getString(R.string.deleting) + mediaFileName, Toast.LENGTH_SHORT).show();
             }
         });
 
-        onComplete = new BroadcastReceiver() {
+        /*onComplete = new BroadcastReceiver() {
             public void onReceive(Context ctxt, Intent intent) {
-                Log.d(TAG, "Download Complete!!!!");
-
                 String filename;
                 Bundle extras = intent.getExtras();
                 DownloadManager.Query q = new DownloadManager.Query();
@@ -359,17 +383,18 @@ public class CustomList extends ArrayAdapter<String> {
                         mRemoveList.remove(filename);
                     }
                 }
+
                 c.close();
                 notifyDataSetChanged();
             }
-        };
+        };*/
 
         return view;
     }
 
     public void cleanUp(Activity context)
     {
+            context.unregisterReceiver(onComplete);
         Log.d(TAG, "cleanup!!");
-        context.unregisterReceiver(onComplete);
     }
 }
