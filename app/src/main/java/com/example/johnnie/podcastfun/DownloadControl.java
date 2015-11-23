@@ -7,29 +7,17 @@
 
 package com.example.johnnie.podcastfun;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DownloadManager;
-import android.app.DownloadManager.Query;
 import android.app.DownloadManager.Request;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 
 import java.io.File;
-import java.net.HttpURLConnection;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.net.URLConnection;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //
@@ -92,7 +80,6 @@ public class DownloadControl extends Activity {
     {
         String filePath = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC) + "/" + filename);
         File file = new File(filePath);
-        Log.d(TAG, "Delete Media: " + filePath);
         if (file.exists()) {
             boolean deleted = file.delete();
         }
@@ -106,6 +93,76 @@ public class DownloadControl extends Activity {
                 Uri.parse(customfilePath)).setDestinationInExternalPublicDir(Environment.DIRECTORY_MUSIC, filename);
         enqueue = dm.enqueue(request);
 
+
+      /*  Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                        sleep(1000);
+                        isSpaceAvailableForDownload();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        thread.start();*/
+
         Log.e(TAG, "downloadFile: " + filename);
+    }
+
+    Runnable run = new Runnable() {
+        @Override
+        public void run() {
+
+            try {
+                getFileSize();
+            }
+            catch (IllegalStateException e)
+            {
+                Log.d(TAG, "IllegalStateException_run: " + e);
+            }
+        }
+    };
+
+    private long getFileSize() {
+        int total_size = 0;
+        try {
+            Cursor c = dm.query(new DownloadManager.Query().setFilterById(enqueue));
+
+            if (c.moveToFirst()) {
+                total_size = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+            }
+
+            c.close();
+        } catch (IllegalStateException e)
+        {
+            Log.d(TAG, "IllegalStateException_runProgress: " + e);
+        }
+
+        Log.d(TAG, "File Size_1: " + total_size);
+        return total_size;
+    }
+
+    private long getAvailableSpace()
+    {
+
+        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+        long bytesAvailable = (long)stat.getBlockSize() *(long)stat.getBlockCount();
+        // long megAvailable = bytesAvailable / 1048576;
+
+        return bytesAvailable;
+    }
+
+    private boolean isSpaceAvailableForDownload()
+    {
+        boolean isSpaceAvailable = false;
+        if ((getAvailableSpace() - getFileSize()) > 0)
+        {
+            isSpaceAvailable = true;
+        }
+
+        Log.d(TAG, "Space Available: " + (getAvailableSpace() - getFileSize()));
+        return isSpaceAvailable;
     }
 }
