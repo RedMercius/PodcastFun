@@ -85,6 +85,11 @@ public class DownloadControl extends Activity {
         }
     }
 
+    public long getDlId()
+    {
+    return enqueue;
+    }
+
     public void downloadFile(String filename, Activity context) {
 
         String customfilePath =(webPath + filename);
