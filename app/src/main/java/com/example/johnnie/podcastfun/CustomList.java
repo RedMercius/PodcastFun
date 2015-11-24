@@ -29,6 +29,7 @@ import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,7 +114,9 @@ public class CustomList extends ArrayAdapter<String> {
             }
         };
 
+        // register receiver
         context.registerReceiver(receiver, filter);
+
         // Creating database and table
 
         db=context.openOrCreateDatabase("downloadDB", Context.MODE_PRIVATE, null);
@@ -124,10 +127,13 @@ public class CustomList extends ArrayAdapter<String> {
         {
             return;
         }
-        StringBuffer buffer=new StringBuffer();
+        StringBuilder buffer=new StringBuilder(256);
         while(b.moveToNext())
         {
-            buffer.append("title: " + b.getString(0) + "\n");
+            buffer.append("title: ");
+            buffer.append(b.getString(0));
+            buffer.append("\n");
+
             checkDownloadStatus(Long.parseLong(b.getString(1)), b.getString(0));
         }
 
@@ -135,9 +141,6 @@ public class CustomList extends ArrayAdapter<String> {
 
         Log.d(TAG, "Buffer: ");
         Log.d(TAG, buffer.toString());
-
-        //TODO: Check the status of all files added tot he removeList to be certain they haven't already been downloaded.
-        // checkDownloadStatus();
     }
 
     public boolean isNetworkAvailable()
@@ -148,40 +151,15 @@ public class CustomList extends ArrayAdapter<String> {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    /*public Boolean isAvailable() {
-        try {
-            Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1    www.google.com");
-            int returnVal = p1.waitFor();
-            boolean reachable = (returnVal==0);
-            if(reachable){
-                System.out.println("Internet access");
-                return true;
-            }
-            else{
-                System.out.println("No Internet access");
-            }
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-        return false;
-    }*/
-
     private void checkDownloadStatus(long id, String title)
     {
-        DownloadManager.Query query = null;
-        Cursor c = null;
-        DownloadManager downloadManager = null;
+        DownloadManager.Query query;
+        Cursor c;
+        DownloadManager downloadManager;
         downloadManager = (DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
         query = new DownloadManager.Query();
         query.setFilterById(id);
-        /*if(query!=null) {
-            query.setFilterByStatus(DownloadManager.STATUS_FAILED|DownloadManager.STATUS_PAUSED|DownloadManager.STATUS_SUCCESSFUL|
-                    DownloadManager.STATUS_RUNNING|DownloadManager.STATUS_PENDING);
-        } else {
-            return;
-        }*/
+
         c = downloadManager.query(query);
         if(c.moveToFirst()) {
             int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
@@ -193,19 +171,90 @@ public class CustomList extends ArrayAdapter<String> {
                 case DownloadManager.STATUS_PENDING:
                     Log.d(TAG, "Download Pending!!");
                     mRemoveList.add(title);
+                    notifyDataSetChanged();
                     break;
                 case DownloadManager.STATUS_RUNNING:
                     Log.d(TAG, "Download Running!!");
                     mRemoveList.add(title);
+                    notifyDataSetChanged();
+                    new Thread(new delayedCheck()).start();
                     break;
                 case DownloadManager.STATUS_SUCCESSFUL:
                     Log.d(TAG, "Download Successful!!");
-                    db.execSQL("DELETE FROM download WHERE id='"+id+"'");
+                    mRemoveList.remove(title);
+                    db.execSQL("DELETE FROM download WHERE id='" + id + "'");
+                    notifyDataSetChanged();
                     break;
                 case DownloadManager.STATUS_FAILED:
+                    int reason = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_REASON));
                     Log.d(TAG, "Download Failed!!");
+                    switch(reason)
+                    {
+                        case DownloadManager.ERROR_CANNOT_RESUME:
+                            Log.d(TAG, "DownloadManager.ERROR_CANNOT_RESUME");
+                            break;
+                        case DownloadManager.ERROR_FILE_ALREADY_EXISTS:
+                            Log.d(TAG, "DownloadManager.ERROR_FILE_ALREADY_EXISTS");
+                            break;
+                        case DownloadManager.ERROR_DEVICE_NOT_FOUND:
+                            Log.d(TAG, "DownloadManager.ERROR_DEVICE_NOT_FOUND");
+                            break;
+                        case DownloadManager.ERROR_FILE_ERROR:
+                            Log.d(TAG, "DownloadManager.ERROR_FILE_ERROR");
+                            break;
+                        case DownloadManager.ERROR_HTTP_DATA_ERROR:
+                            Log.d(TAG, "DownloadManager.ERROR_HTTP_DATA_ERROR");
+                            break;
+                        case DownloadManager.ERROR_INSUFFICIENT_SPACE:
+                            Log.d(TAG, "DownloadManager.ERROR_INSUFFICIENT_SPACE");
+                            break;
+                        case DownloadManager.ERROR_TOO_MANY_REDIRECTS:
+                            Log.d(TAG, "DownloadManager.ERROR_TOO_MANY_REDIRECTS");
+                            break;
+                        case DownloadManager.ERROR_UNHANDLED_HTTP_CODE:
+                            Log.d(TAG, "DownloadManager.ERROR_UNHANDLED_HTTP_CODE");
+                            break;
+                        case DownloadManager.ERROR_UNKNOWN:
+                            Log.d(TAG, "DownloadManager.ERROR_UNKNOWN");
+                            break;
+                    }
+                    mRemoveList.remove(title);
+                    db.execSQL("DELETE FROM download WHERE id='"+id+"'");
+                    mc.dc.deleteMedia(title);
+                    notifyDataSetChanged();
                     break;
             }
+        }
+    }
+
+    class delayedCheck implements Runnable
+    {
+
+    @Override
+        public void run()
+        {
+            try {
+                Thread.sleep(1000);
+                Cursor b = db.rawQuery("SELECT * FROM download", null);
+                if (b.getCount() == 0) {
+                    return;
+                }
+                StringBuilder buffer = new StringBuilder();
+                while (b.moveToNext()) {
+                    buffer.append("delayedCheck_title: ");
+                    buffer.append(b.getString(0));
+                    buffer.append("\n");
+
+                    checkDownloadStatus(Long.parseLong(b.getString(1)), b.getString(0));
+
+                    Log.d(TAG, buffer.toString());
+                }
+
+                b.close();
+            } catch (Exception e) {
+                Log.d(TAG, "Exception: " + e);
+            }
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -347,7 +396,7 @@ public class CustomList extends ArrayAdapter<String> {
         }
         final boolean doesMediaExist = doesMediaExist_0;
 
-            viewHolder.txtTitle.setText(mediaTitle);
+        viewHolder.txtTitle.setText(mediaTitle);
 
         boolean ignoreThisItem = false;
 
@@ -359,31 +408,31 @@ public class CustomList extends ArrayAdapter<String> {
             }
         }
 
-            if (!isItInRaw && !doesMediaExist && !ignoreThisItem) {
-                viewHolder.downloadButton.setImageResource(imageButtonList[4]);
-                viewHolder.playButton.setImageResource(imageButtonList[0]);
-                viewHolder.stopButton.setImageResource(imageButtonList[8]);
+        if (!isItInRaw && !doesMediaExist && !ignoreThisItem) {
+            viewHolder.downloadButton.setImageResource(imageButtonList[4]);
+            viewHolder.playButton.setImageResource(imageButtonList[0]);
+            viewHolder.stopButton.setImageResource(imageButtonList[8]);
 
-                viewHolder.txtStatus.setVisibility(View.INVISIBLE);
-                viewHolder.deleteButton.setVisibility(View.INVISIBLE);
+            viewHolder.txtStatus.setVisibility(View.INVISIBLE);
+            viewHolder.deleteButton.setVisibility(View.INVISIBLE);
 
-                viewHolder.downloadButton.setVisibility(View.VISIBLE);
-                viewHolder.txtTitle.setVisibility(View.VISIBLE);
-                viewHolder.stopButton.setVisibility(View.VISIBLE);
-                viewHolder.playButton.setVisibility(View.VISIBLE);
-            }
+            viewHolder.downloadButton.setVisibility(View.VISIBLE);
+            viewHolder.txtTitle.setVisibility(View.VISIBLE);
+            viewHolder.stopButton.setVisibility(View.VISIBLE);
+            viewHolder.playButton.setVisibility(View.VISIBLE);
+        }
 
-            if ((isItInRaw || doesMediaExist) && !ignoreThisItem) {
-                viewHolder.playButton.setImageResource(imageButtonList[0]);
-                viewHolder.deleteButton.setImageResource(imageButtonList[7]);
+        if ((isItInRaw || doesMediaExist) && !ignoreThisItem) {
+            viewHolder.playButton.setImageResource(imageButtonList[0]);
+            viewHolder.deleteButton.setImageResource(imageButtonList[7]);
 
-                viewHolder.downloadButton.setVisibility(View.INVISIBLE);
-                viewHolder.txtStatus.setVisibility(View.INVISIBLE);
-                viewHolder.stopButton.setVisibility(View.INVISIBLE);
+            viewHolder.downloadButton.setVisibility(View.INVISIBLE);
+            viewHolder.txtStatus.setVisibility(View.INVISIBLE);
+            viewHolder.stopButton.setVisibility(View.INVISIBLE);
 
-                viewHolder.deleteButton.setVisibility(View.VISIBLE);
-                viewHolder.playButton.setVisibility(View.VISIBLE);
-            }
+            viewHolder.deleteButton.setVisibility(View.VISIBLE);
+            viewHolder.playButton.setVisibility(View.VISIBLE);
+        }
 
         if (ignoreThisItem) {
             Log.d(TAG, "Ignore This Item: " + mediaFileName);
@@ -395,52 +444,59 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder.txtStatus.setVisibility(View.VISIBLE);
             viewHolder.txtStatus.setText(context.getResources().getString(R.string.downloading));
         }
-            viewHolder.playButton.setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
-                    // if we need to stream this, check for internet connection.
-                    if (!doesMediaExist) {
-                        if (!isNetworkAvailable()) {
-                            Toast.makeText(context, context.getResources().getString(R.string.no_internet_stream),
-                                    Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                    }
+        viewHolder.playButton.setOnClickListener(new View.OnClickListener() {
 
-                    final Intent i = new Intent(context, PlayActivity.class);
-                    i.putExtra("MediaTitle", mediaFileName);
-                    i.putExtra("Selection", artist);
-                    i.putExtra("Title", mediaTitle);
-                    context.startActivity(i);
-                    context.finish();
-                }
-            });
-
-            viewHolder.downloadButton.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-                    if (!mdownloadInProgress) {
-                        mdownloadInProgress = true;
-                    }
-
-                    // if network connection is down, inform the user that we cannot download.
-                    if (!isNetworkAvailable())
-                    {
+            @Override
+            public void onClick(View v) {
+                // if we need to stream this, check for internet connection.
+                if (!doesMediaExist) {
+                    if (!isNetworkAvailable()) {
                         Toast.makeText(context, context.getResources().getString(R.string.no_internet_stream),
                                 Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    mc.downloadMedia(mediaFileName);
-                    dlID = mc.dc.getDlId();
-                    mRemoveList.add(mediaFileName);
-                    db.execSQL("INSERT INTO download VALUES('"+mediaFileName+"', '"+dlID+"');");
-
-                    notifyDataSetChanged();
-                    Toast.makeText(context, context.getResources().getString(R.string.download_in_progress) + mediaFileName, Toast.LENGTH_SHORT).show();
                 }
-            });
+
+                final Intent i = new Intent(context, PlayActivity.class);
+                i.putExtra("MediaTitle", mediaFileName);
+                i.putExtra("Selection", artist);
+                i.putExtra("Title", mediaTitle);
+                context.startActivity(i);
+                context.finish();
+            }
+        });
+
+        viewHolder.downloadButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                if (!mdownloadInProgress) {
+                    mdownloadInProgress = true;
+                }
+
+                // if network connection is down, inform the user that we cannot download.
+                if (!isNetworkAvailable()) {
+                    Toast.makeText(context, context.getResources().getString(R.string.no_internet_stream),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!isExternalStorage())
+                {
+                    Toast.makeText(context, context.getResources().getString(R.string.no_external_storage),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mc.downloadMedia(mediaFileName);
+                dlID = mc.dc.getDlId();
+                mRemoveList.add(mediaFileName);
+                db.execSQL("INSERT INTO download VALUES('" + mediaFileName + "', '" + dlID + "');");
+
+                notifyDataSetChanged();
+                Toast.makeText(context, context.getResources().getString(R.string.download_in_progress) + mediaFileName, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         viewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
 
@@ -454,6 +510,28 @@ public class CustomList extends ArrayAdapter<String> {
         });
 
         return view;
+    }
+
+    public boolean isExternalStorage(){
+        boolean mExternalStorageAvailable = false;
+        boolean mExternalStorageWriteable = false;
+        String state = Environment.getExternalStorageState();
+
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            // We can read and write the media
+            mExternalStorageAvailable = true;
+            mExternalStorageWriteable = true;
+        } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            // We can only read the media
+            // mExternalStorageAvailable = true;
+            mExternalStorageAvailable = false;
+            mExternalStorageWriteable = false;
+        } else {
+            // Something else is wrong. It may be one of many other states, but all we need
+            //  to know is we can neither read nor write
+            mExternalStorageAvailable = mExternalStorageWriteable = false;
+        }
+        return mExternalStorageAvailable;
     }
 
     public void cleanUp(Activity context)

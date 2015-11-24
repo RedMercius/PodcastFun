@@ -38,10 +38,7 @@ public class DownloadControl extends Activity {
     private boolean m_downloadSpaceRemaining;
     private long m_mediaFileSize;
 
-    // TODO: check to see if we can detect an SD card
-    // TODO: check to see if there is enough space to download a file.
-
-    public boolean isExternalStorage(){
+   /* public boolean isExternalStorage(){
         boolean mExternalStorageAvailable = false;
         boolean mExternalStorageWriteable = false;
         String state = Environment.getExternalStorageState();
@@ -60,12 +57,12 @@ public class DownloadControl extends Activity {
             mExternalStorageAvailable = mExternalStorageWriteable = false;
         }
         return mExternalStorageAvailable;
-    }
+    }*/
 
     /** Called when the activity is first created. */
     public DownloadControl(Activity context) {
         webPath = "http://www.JohnnieRuffin.com/audio/";
-        Log.e("DownloadControl:", "DownloadControl -- constructor");
+        Log.d(TAG, "DownloadControl -- constructor");
 
         m_mediaFileSize = 0;
         m_downloadSpaceRemaining = false;
@@ -98,18 +95,21 @@ public class DownloadControl extends Activity {
                 Uri.parse(customfilePath)).setDestinationInExternalPublicDir(Environment.DIRECTORY_MUSIC, filename);
         enqueue = dm.enqueue(request);
 
-
-      /*  Thread thread = new Thread() {
+        /*Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                        sleep(1000);
-                        isSpaceAvailableForDownload();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+              try {
+                  Thread.currentThread().sleep(1000);
+                  isSpaceAvailableForDownload();
+                  Thread.currentThread().interrupt();
+              }
+              catch(InterruptedException e)
+              {
+                  Log.d(TAG, "Interrupted Exception: " + e);
+              }
+
             }
-        };
+        });
 
         thread.start();*/
 
