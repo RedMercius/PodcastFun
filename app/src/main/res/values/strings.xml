@@ -26,6 +26,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="downloading">Downloading....</string>
     <string name="no_internet_stream">No Internet Connection Detected. Cannot Stream Media.</string>
+    <string name="no_external_storage">External Storage Unavailable. Cannot Proceed.</string>
     <string name="no_internet_download">No Internet Connection Detected. Cannot proceed with download.</string>
     <string name="download_in_progress">Download In Progress: </string>
     <string name="deleting">Deleting </string>
