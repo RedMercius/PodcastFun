@@ -151,7 +151,7 @@ public class CustomList extends ArrayAdapter<String> {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    private void checkDownloadStatus(long id, String title)
+    private void checkDownloadStatus(final long id, final String title)
     {
         DownloadManager.Query query;
         Cursor c;
@@ -166,24 +166,63 @@ public class CustomList extends ArrayAdapter<String> {
             switch(status) {
                 case DownloadManager.STATUS_PAUSED:
                     Log.d(TAG, "Download Paused!!");
-                    mRemoveList.add(title);
+                    Toast.makeText(context, context.getResources().getString(R.string.download_in_progress) + title, Toast.LENGTH_SHORT).show();
+                    context.runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            if (!mRemoveList.contains(title)) {
+                                mRemoveList.add(title);
+                            }
+                            notifyDataSetChanged();
+                            new Thread(new delayedCheck()).start();
+                            Log.d(TAG, "mRemoveList Size: " + mRemoveList.size());
+                        }
+                    });
                     break;
                 case DownloadManager.STATUS_PENDING:
                     Log.d(TAG, "Download Pending!!");
-                    mRemoveList.add(title);
-                    notifyDataSetChanged();
+                    Toast.makeText(context, context.getResources().getString(R.string.download_in_pending) + title, Toast.LENGTH_SHORT).show();
+                    context.runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            if (!mRemoveList.contains(title)) {
+                                mRemoveList.add(title);
+                            }
+                            notifyDataSetChanged();
+                            new Thread(new delayedCheck()).start();
+                            Log.d(TAG, "mRemoveList Size: " + mRemoveList.size());
+                        }
+                    });
                     break;
                 case DownloadManager.STATUS_RUNNING:
                     Log.d(TAG, "Download Running!!");
-                    mRemoveList.add(title);
-                    notifyDataSetChanged();
-                    new Thread(new delayedCheck()).start();
+                    context.runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            if (!mRemoveList.contains(title)) {
+                                mRemoveList.add(title);
+                            }
+                            notifyDataSetChanged();
+                            new Thread(new delayedCheck()).start();
+                            Log.d(TAG, "mRemoveList Size: " + mRemoveList.size());
+                        }
+                    });
+
                     break;
                 case DownloadManager.STATUS_SUCCESSFUL:
                     Log.d(TAG, "Download Successful!!");
-                    mRemoveList.remove(title);
-                    db.execSQL("DELETE FROM download WHERE id='" + id + "'");
-                    notifyDataSetChanged();
+
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mRemoveList.remove(title);
+                            db.execSQL("DELETE FROM download WHERE title='" + title + "'");
+                            notifyDataSetChanged();
+                        }
+                    });
                     break;
                 case DownloadManager.STATUS_FAILED:
                     int reason = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_REASON));
@@ -207,6 +246,18 @@ public class CustomList extends ArrayAdapter<String> {
                             break;
                         case DownloadManager.ERROR_INSUFFICIENT_SPACE:
                             Log.d(TAG, "DownloadManager.ERROR_INSUFFICIENT_SPACE");
+                            context.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mRemoveList.remove(title);
+                                    db.execSQL("DELETE FROM download WHERE id='" + id + "'");
+                                    mc.dc.deleteMedia(title);
+                                    notifyDataSetChanged();
+
+                                    Toast.makeText(context, context.getResources().getString(R.string.insufficient_volume),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
                             break;
                         case DownloadManager.ERROR_TOO_MANY_REDIRECTS:
                             Log.d(TAG, "DownloadManager.ERROR_TOO_MANY_REDIRECTS");
@@ -218,10 +269,16 @@ public class CustomList extends ArrayAdapter<String> {
                             Log.d(TAG, "DownloadManager.ERROR_UNKNOWN");
                             break;
                     }
-                    mRemoveList.remove(title);
-                    db.execSQL("DELETE FROM download WHERE id='"+id+"'");
-                    mc.dc.deleteMedia(title);
-                    notifyDataSetChanged();
+                    context.runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            mRemoveList.remove(title);
+                            db.execSQL("DELETE FROM download WHERE id='" + id + "'");
+                            mc.dc.deleteMedia(title);
+                            notifyDataSetChanged();
+                        }
+                    });
                     break;
             }
         }
@@ -234,25 +291,28 @@ public class CustomList extends ArrayAdapter<String> {
         public void run()
         {
             try {
-                Thread.sleep(1000);
-                Cursor b = db.rawQuery("SELECT * FROM download", null);
-                if (b.getCount() == 0) {
-                    return;
+                while (mRemoveList.size() >= 1) {
+                    Thread.sleep(1000);
+                    Log.d(TAG, "mremoveList Size: " + mRemoveList.size());
+                    Cursor b = db.rawQuery("SELECT * FROM download", null);
+                    if (b.getCount() == 0) {
+                        return;
+                    }
+                    StringBuilder buffer = new StringBuilder();
+                    while (b.moveToNext()) {
+                        buffer.append("delayedCheck_title: ");
+                        buffer.append(b.getString(0));
+                        buffer.append("\n");
+
+                        checkDownloadStatus(Long.parseLong(b.getString(1)), b.getString(0));
+
+                        Log.d(TAG, buffer.toString());
+                    }
+
+                    b.close();
                 }
-                StringBuilder buffer = new StringBuilder();
-                while (b.moveToNext()) {
-                    buffer.append("delayedCheck_title: ");
-                    buffer.append(b.getString(0));
-                    buffer.append("\n");
-
-                    checkDownloadStatus(Long.parseLong(b.getString(1)), b.getString(0));
-
-                    Log.d(TAG, buffer.toString());
-                }
-
-                b.close();
             } catch (Exception e) {
-                Log.d(TAG, "Exception: " + e);
+                Log.d(TAG, "delayCheck_Exception: " + e);
             }
             Thread.currentThread().interrupt();
         }
@@ -492,9 +552,9 @@ public class CustomList extends ArrayAdapter<String> {
                 dlID = mc.dc.getDlId();
                 mRemoveList.add(mediaFileName);
                 db.execSQL("INSERT INTO download VALUES('" + mediaFileName + "', '" + dlID + "');");
-
-                notifyDataSetChanged();
+                checkDownloadStatus(dlID, mediaFileName);
                 Toast.makeText(context, context.getResources().getString(R.string.download_in_progress) + mediaFileName, Toast.LENGTH_SHORT).show();
+                notifyDataSetChanged();
             }
         });
 
