@@ -37,9 +37,6 @@ MediaPlayer.OnCompletionListener {
     private TextView duration;
     private ImageView playPic;
 
-    // get the icon images
-    // private ImageControl iconControl;
-
     // media controls
     private MediaControl mc;
     private MediaPlayer mp;
@@ -53,7 +50,11 @@ MediaPlayer.OnCompletionListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.mp = new MediaPlayer();
+
+        if (this.mp == null) {
+            this.mp = new MediaPlayer();
+        }
+
         this.haltRun = false;
 
         ImageControl iconControl;
@@ -124,6 +125,7 @@ MediaPlayer.OnCompletionListener {
         setPlayPic();
         checkForMedia();
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
