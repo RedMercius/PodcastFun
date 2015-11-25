@@ -65,6 +65,7 @@ public class CustomList extends ArrayAdapter<String> {
     private BroadcastReceiver receiver;
     private List<String> mRemoveList;
     private boolean mdownloadInProgress;
+    private boolean mThreadRunning;
     private long dlID;
     final String TAG = "CustomList";
     SQLiteDatabase db;
@@ -81,6 +82,7 @@ public class CustomList extends ArrayAdapter<String> {
         mRemoveList = new ArrayList<>();
         mdownloadInProgress = false;
         dlID = 0;
+        mThreadRunning = false;
 
         mc = new MediaControl(context, mp, artist);
 
@@ -175,7 +177,10 @@ public class CustomList extends ArrayAdapter<String> {
                                 mRemoveList.add(title);
                             }
                             notifyDataSetChanged();
-                            new Thread(new delayedCheck()).start();
+                            if (!mThreadRunning) {
+                                new Thread(new delayedCheck()).start();
+                                mThreadRunning = true;
+                            }
                             Log.d(TAG, "mRemoveList Size: " + mRemoveList.size());
                         }
                     });
@@ -191,8 +196,13 @@ public class CustomList extends ArrayAdapter<String> {
                                 mRemoveList.add(title);
                             }
                             notifyDataSetChanged();
-                            new Thread(new delayedCheck()).start();
                             Log.d(TAG, "mRemoveList Size: " + mRemoveList.size());
+
+                            if (!mThreadRunning) {
+                                new Thread(new delayedCheck()).start();
+                                mThreadRunning = true;
+                            }
+
                         }
                     });
                     break;
@@ -206,7 +216,10 @@ public class CustomList extends ArrayAdapter<String> {
                                 mRemoveList.add(title);
                             }
                             notifyDataSetChanged();
-                            new Thread(new delayedCheck()).start();
+                            if (!mThreadRunning) {
+                                new Thread(new delayedCheck()).start();
+                                mThreadRunning = true;
+                            }
                             Log.d(TAG, "mRemoveList Size: " + mRemoveList.size());
                         }
                     });
@@ -291,7 +304,13 @@ public class CustomList extends ArrayAdapter<String> {
         public void run()
         {
             try {
-                while (mRemoveList.size() >= 1) {
+                while (mRemoveList.size() >=1) {
+                    if (mRemoveList.size() == 0)
+                    {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
+
                     Thread.sleep(1000);
                     Log.d(TAG, "mremoveList Size: " + mRemoveList.size());
                     Cursor b = db.rawQuery("SELECT * FROM download", null);
@@ -442,9 +461,10 @@ public class CustomList extends ArrayAdapter<String> {
             }
         }
 
-            final String mediaFileName = MediaFile;
+        final String mediaFileName = MediaFile;
         boolean isItInRaw = false;
         boolean doesMediaExist_0 = false;
+
         try {
             isItInRaw = mc.checkResourceInRaw(MediaFile);
             doesMediaExist_0 = mc.checkForMedia(MediaFile);
@@ -572,9 +592,9 @@ public class CustomList extends ArrayAdapter<String> {
         return view;
     }
 
-    public boolean isExternalStorage(){
-        boolean mExternalStorageAvailable = false;
-        boolean mExternalStorageWriteable = false;
+    public boolean isExternalStorage() {
+        boolean mExternalStorageAvailable;
+        boolean mExternalStorageWriteable;
         String state = Environment.getExternalStorageState();
 
         if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -584,13 +604,19 @@ public class CustomList extends ArrayAdapter<String> {
         } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
             // We can only read the media
             // mExternalStorageAvailable = true;
-            mExternalStorageAvailable = false;
+            mExternalStorageAvailable = true;
             mExternalStorageWriteable = false;
         } else {
             // Something else is wrong. It may be one of many other states, but all we need
             //  to know is we can neither read nor write
-            mExternalStorageAvailable = mExternalStorageWriteable = false;
+            mExternalStorageAvailable = false;
+            mExternalStorageWriteable = false;
         }
+
+        if (mExternalStorageWriteable) {
+            mExternalStorageAvailable = false;
+        }
+
         return mExternalStorageAvailable;
     }
 
