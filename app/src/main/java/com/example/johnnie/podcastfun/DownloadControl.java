@@ -10,12 +10,8 @@ package com.example.johnnie.podcastfun;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
-import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
-import android.os.StatFs;
-import android.util.Log;
 
 import java.io.File;
 
@@ -34,14 +30,13 @@ public class DownloadControl extends Activity {
     private long enqueue;
     public DownloadManager dm;
     private String webPath;
-    private String TAG = "Download Control: ";
+    //private String TAG = "Download Control: ";
     private Activity context;
 
     /** Called when the activity is first created. */
     public DownloadControl(Activity context) {
         this.context = context;
         webPath = "http://www.JohnnieRuffin.com/audio/";
-        Log.d(TAG, "DownloadControl -- constructor");
     }
 
     public void setWebPath(String url)
@@ -65,15 +60,12 @@ public class DownloadControl extends Activity {
     return enqueue;
     }
 
-    public void downloadFile(String filename, Activity context) {
+    public void downloadFile(String filename) {
 
         String customfilePath =(webPath + filename);
         dm = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
         Request request = new Request(
                 Uri.parse(customfilePath)).setDestinationInExternalPublicDir(Environment.DIRECTORY_MUSIC, filename);
         enqueue = dm.enqueue(request);
-
-        Log.e(TAG, "downloadFile: " + filename);
     }
-
 }

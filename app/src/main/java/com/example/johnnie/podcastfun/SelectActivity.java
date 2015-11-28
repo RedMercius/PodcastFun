@@ -17,24 +17,14 @@ package com.example.johnnie.podcastfun;
 //
 ////////////////////////////////////////////////////////////////////////////
 
-import android.app.DownloadManager;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.webkit.DownloadListener;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
-import java.util.List;
-
-
 public class SelectActivity extends AppCompatActivity {
-    private String TAG = "SelectActivity: ";
-    private ListView listview;
-    private CustomList selectCustomList;
+    // private String TAG = "SelectActivity: ";
+
     private CustomList adapter;
     private RadioTitle radioList;
 
@@ -42,6 +32,8 @@ public class SelectActivity extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_select);
+
+            ListView listview;
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
@@ -65,16 +57,9 @@ public class SelectActivity extends AppCompatActivity {
             adapter =
                     new CustomList(this, titles,
                             iconControl.getImageButtonList(), artist);
-            selectCustomList = adapter;
 
             listview.setAdapter(adapter);
         }
-
-    public void removeItem(String item)
-    {
-       adapter.remove(item);
-        adapter.notifyDataSetChanged();
-    }
 
     public String[] getRadioTitles(String artist)
     {
@@ -191,20 +176,16 @@ public class SelectActivity extends AppCompatActivity {
             }
 
             default: {
-                Log.d(TAG, "In Default");
                 return null;
             }
         }
-
-        // we should never make it here.
-        // return default_title;
     }
+
         @Override
         public void onDestroy()
         {
             // clean up any list activity.
             adapter.cleanUp(this);
             super.onDestroy();
-            System.out.println("OnDestroy");
         }
     }

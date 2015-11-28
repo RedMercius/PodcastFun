@@ -81,5 +81,4 @@ public class ComedyActivity extends AppCompatActivity {
             }
         });
     }
-
 }

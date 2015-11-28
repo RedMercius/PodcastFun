@@ -7,7 +7,9 @@
 
 package com.example.johnnie.podcastfun;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +27,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener,
-MediaPlayer.OnCompletionListener {
+MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
 
     private String TAG = "PlayActivity: ";
     private Integer[] iconImage;
@@ -44,6 +46,7 @@ MediaPlayer.OnCompletionListener {
     private String artist;
     private boolean haltRun;
     private String title;
+    private int mResult;
 
     Handler seekHandler = new Handler();
 
@@ -56,6 +59,14 @@ MediaPlayer.OnCompletionListener {
         }
 
         this.haltRun = false;
+
+        AudioManager am = (AudioManager)this.getSystemService(Context.AUDIO_SERVICE);
+
+        // Request focus for music stream and pass AudioManager.OnAudioFocusChangeListener
+        // implementation reference
+
+        mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
+                  AudioManager.AUDIOFOCUS_GAIN);
 
         ImageControl iconControl;
         if (getSupportActionBar() != null) {
@@ -102,15 +113,13 @@ MediaPlayer.OnCompletionListener {
             int progress = 0;
 
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+            public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
 
-                progress = progresValue;
-                // Log.d(TAG, "Changing Seekbar progress: " + progress);
+                progress = progressValue;
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // Log.d(TAG, "Tracking seekbar touch: " + progress);
             }
 
             @Override
@@ -126,15 +135,43 @@ MediaPlayer.OnCompletionListener {
         checkForMedia();
     }
 
+    @Override
+    public void onAudioFocusChange(int focusChange)
+    {
+        switch(focusChange) {
+            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                Log.d(TAG, "AUDIOFOCUS_LOSS_TRANSIENT");
+                playButton.setImageResource(iconImage[0]);
+                mp.pause();
+                // Pause
+                break;
+            case AudioManager.AUDIOFOCUS_GAIN:
+                Log.d(TAG, "AUDIOFOCUS_GAIN");
+
+                if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
+                {
+                    return;
+                }
+                playButton.setImageResource(iconImage[1]);
+                mp.seekTo(mp.getCurrentPosition());
+                mp.start();
+                // Resume
+                break;
+            case AudioManager.AUDIOFOCUS_LOSS:
+                Log.d(TAG, "AUDIOFOCUS_LOSS");
+                playButton.setImageResource(iconImage[0]);
+                mp.pause();
+                // Stop or pause depending on your need
+            break;
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent i = new Intent(this, SelectActivity.class);
         i.putExtra("Selection", artist);
         this.startActivity(i);
-        mc.stopMedia();
-        haltRun = true;
-        finish();
+        cleanup();
         return true;
     }
 
@@ -213,11 +250,15 @@ MediaPlayer.OnCompletionListener {
         {
             try {
 
-                mc.callMediaFromRaw(mediaName, this);
+                if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
+                {
+                    return;
+                }
+                mc.callMediaFromRaw(mediaName);
             }
             catch (IOException e)
             {
-                Log.d(TAG, "checkForMedia_IOException:  " + e);
+                Log.e(TAG, "checkForMedia_IOException:  " + e);
             }
         }
 
@@ -225,30 +266,38 @@ MediaPlayer.OnCompletionListener {
         {
             try {
 
-                mc.callMediaFromInternet(mediaName, this);
+                if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
+                {
+                    return;
+                }
+                mc.callMediaFromInternet(mediaName);
 
                 titleLine.setText(title);
                 titleLine.setVisibility(View.VISIBLE);
             }
             catch (IOException e)
             {
-                Log.d(TAG, "checkForMedia_IOException:  " + e);
+                Log.e(TAG, "checkForMedia_IOException:  " + e);
             }
             catch (IllegalArgumentException e)
             {
-                Log.d(TAG, "checkForMedia_IllegalArgumentException: " + e);
+                Log.e(TAG, "checkForMedia_IllegalArgumentException: " + e);
             }
         }
 
         if (doesMediaExist) {
             try {
+                if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
+                {
+                    return;
+                }
 
-                mc.callMediaFromExternalDir(mediaName, this);
+                mc.callMediaFromExternalDir(mediaName);
                 mc.getMp3Info(mediaName);
                 titleLine.setText(title);
                 titleLine.setVisibility(View.VISIBLE);
             } catch (IOException e) {
-                Log.d(TAG, "checkForMedia_IOException_media does exist:  " + e);
+                Log.e(TAG, "checkForMedia_IOException_media does exist:  " + e);
             }
         }
     }
@@ -264,7 +313,7 @@ MediaPlayer.OnCompletionListener {
         }
         catch (Exception e)
         {
-            Log.d(TAG, "Exception_enableProgress: " + e);
+            Log.e(TAG, "Exception_enableProgress: " + e);
         }
         duration.setText(myDuration);
     }
@@ -282,7 +331,7 @@ MediaPlayer.OnCompletionListener {
             }
             catch (IllegalStateException e)
             {
-                Log.d(TAG, "IllegalStateException_run: " + e);
+                Log.e(TAG, "IllegalStateException_run: " + e);
             }
         }
     };
@@ -294,7 +343,7 @@ MediaPlayer.OnCompletionListener {
             myDuration =  getDurationInFormat(durationInMil);
         } catch (IllegalStateException e)
         {
-            Log.d(TAG, "IllegalStateException_runProgress: " + e);
+            Log.e(TAG, "IllegalStateException_runProgress: " + e);
             return;
         }
 
@@ -318,7 +367,6 @@ MediaPlayer.OnCompletionListener {
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        Log.d(TAG, "onPrepared called");
         mp.start();
         seekHandler.removeCallbacks(run);
 
@@ -326,22 +374,23 @@ MediaPlayer.OnCompletionListener {
         runProgress();
     }
 
-    @Override
-    public void onCompletion(MediaPlayer mp)
+    private void cleanup()
     {
-        Log.d(TAG, "onCompletion called");
         mc.stopMedia();
         haltRun = true;
         finish();
     }
 
     @Override
+    public void onCompletion(MediaPlayer mp)
+    {
+        cleanup();
+    }
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            mc.stopMedia();
-            haltRun = true;
-            finish();
-            Log.d(TAG, "OnKeyDown");
+            cleanup();
             return true;
         }
 

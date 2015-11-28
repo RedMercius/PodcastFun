@@ -8,13 +8,9 @@
 package com.example.johnnie.podcastfun;
 
 import android.app.Activity;
-import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -34,8 +30,7 @@ import java.io.IOException;
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-public class MediaControl extends Activity implements
-        MediaPlayer.OnCompletionListener {
+public class MediaControl {
 
     private String TAG = "MediaControl: ";
     private final Activity context;
@@ -43,39 +38,24 @@ public class MediaControl extends Activity implements
     private MediaPlayer mp;
     public DownloadControl dc;
     private String url;
-    private String artist;
 
-    private String mtitle;
-    private String myear;
     private String martist;
-    private String malbum;
     private String mfilePath;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate Service");
-    }
 
     public MediaControl(Activity context, MediaPlayer mp, String artist) {
         this.context = context;
         this.mp = mp;
-        this.mp.setOnCompletionListener(this);
-        this.artist = artist;
+        this.martist = artist;
 
         dc = new DownloadControl(context);
 
         getArtistUrl();
 
         mfilePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).toString() + "/";
-        mtitle="DEFAULT_TITLE";
-        myear="DEFAULT_YEAR";
-        martist="DEFAULT_ARTIST";
-        malbum="DEFAULT_ALBUM";
     }
 
     public void getArtistUrl() {
-        switch (artist) {
+        switch (martist) {
             case "Burns And Allen": {
                 url = "http://www.JohnnieRuffin.com/audio/";
                 break;
@@ -154,7 +134,7 @@ public class MediaControl extends Activity implements
         }
         catch (Exception e)
         {
-            Log.d(TAG, "Exception: " + e);
+            Log.e(TAG, "Exception: " + e);
         }
 
         return mediaFound;
@@ -162,17 +142,15 @@ public class MediaControl extends Activity implements
 
     public void downloadMedia(String filename)
     {
-        dc.downloadFile(filename, context);
-        Log.d(TAG, "downloadMedia: " + filename);
+        dc.downloadFile(filename);
     }
 
     public void deleteMedia(String filename)
     {
-        Log.d(TAG, "Delete File: " + filename);
         dc.deleteMedia(filename);
     }
 
-    public void callMediaFromRaw(String item, Activity context) throws IOException {
+    public void callMediaFromRaw(String item) throws IOException {
 
         int mediaId = 0;
 
@@ -203,16 +181,15 @@ public class MediaControl extends Activity implements
             mp.pause();
             Toast.makeText(context, "Pausing!!", Toast.LENGTH_SHORT).show();
         }
-        Log.d(TAG, "callMediaFromRaw");
     }
 
-    public void callMediaFromExternalDir(String filename, Activity context) throws IOException
+    public void callMediaFromExternalDir(String filename) throws IOException
     {
         mp.setDataSource(mfilePath + filename);
         mp.prepareAsync();
     }
 
-    public void callMediaFromInternet(String filename, Activity context) throws IOException
+    public void callMediaFromInternet(String filename) throws IOException
     {
         //TODO verify file exists before playing.
 
@@ -223,24 +200,30 @@ public class MediaControl extends Activity implements
         mp.prepareAsync(); // might take long! (for buffering, etc)
     }
 
-    @Override
-    public void onCompletion(MediaPlayer arg0) {
-        Log.d(TAG, "onCompletion called");
-    }
-
     public void stopMedia() { releaseMediaPlayer(); }
 
-    public String getMP3Artist(){ return martist; }
+    // public String getMP3Artist(){ return martist; }
+
+    private void releaseMediaPlayer()
+    {
+        //if mediaplayer is still holding mediaplayer
+        // release the mediaplayer
+        if (mp != null) {
+            mp.stop();
+            mp.reset();
+            mp.release();
+        }
+    }
 
     public void getMp3Info(String filename)
     {
         final int BYTE_128 = 128;
 
         final int[] OFFSET_TAG = new int[] { 0, 3 };
-        final int[] OFFSET_TITLE = new int[] { 3, 33 };
+        //final int[] OFFSET_TITLE = new int[] { 3, 33 };
         final int[] OFFSET_ARTIST = new int[] { 33, 63 };
-        final int[] OFFSET_YEAR = new int[] { 93, 97 };
-        final int[] OFFSET_ALBUM = new int[] { 63, 93 };
+        //final int[] OFFSET_YEAR = new int[] { 93, 97 };
+        //final int[] OFFSET_ALBUM = new int[] { 63, 93 };
 
         // indexer
         final int FROM = 0;
@@ -248,11 +231,10 @@ public class MediaControl extends Activity implements
         String filePath = "/";
         try {
             filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).toString();
-            Log.d(TAG, "Title: " + filePath);
         }
         catch(Exception e)
         {
-            Log.d(TAG, "Exception: " + e);
+            Log.e(TAG, "Exception: " + e);
         }
         File mp3 = new File(filePath + "/" + filename);
 
@@ -280,39 +262,19 @@ public class MediaControl extends Activity implements
 
             // if equals to "TAG" meaning a valid readable one
             if (tag.equals("TAG")) {
-                mtitle = id3.substring(OFFSET_TITLE[FROM], OFFSET_TITLE[TO]);
+                //mtitle = id3.substring(OFFSET_TITLE[FROM], OFFSET_TITLE[TO]);
                 martist= id3.substring(OFFSET_ARTIST[FROM], OFFSET_ARTIST[TO]);
-                myear = id3.substring(OFFSET_YEAR[FROM], OFFSET_YEAR[TO]);
-                malbum = id3.substring(OFFSET_ALBUM[FROM], OFFSET_ALBUM[TO]);
+                //myear = id3.substring(OFFSET_YEAR[FROM], OFFSET_YEAR[TO]);
+                //malbum = id3.substring(OFFSET_ALBUM[FROM], OFFSET_ALBUM[TO]);
             }
         }
         catch(Exception e)
         {
-            Log.d(TAG, "Exception: " + e);
-        }
-        // Log.d(TAG, "Title: " + mtitle);
-    }
-
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
-        releaseMediaPlayer();
-        System.out.println("MediaControl:::OnDestroy");
-    }
-
-    public void releaseMediaPlayer()
-    {
-        //if mediaplayer is still holding mediaplayer
-        // release the mediaplayer
-        if (mp != null) {
-            mp.stop();
-            mp.reset();
-            mp.release();
+            Log.e(TAG, "Exception: " + e);
         }
     }
 
-    private void scanSdcard(){
+   /* private void scanSdcard(){
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
         String[] projection = {
                 MediaStore.Audio.Media.TITLE,
@@ -347,11 +309,11 @@ public class MediaControl extends Activity implements
             }
 
         } catch (Exception e) {
-            Log.d(TAG, "Exception: " + e);
+            Log.e(TAG, "Exception: " + e);
         }finally{
             if( cursor != null){
                 cursor.close();
             }
         }
-    }
+    }*/
 }
