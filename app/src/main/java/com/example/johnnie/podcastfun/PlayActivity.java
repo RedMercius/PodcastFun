@@ -47,6 +47,7 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
     private boolean haltRun;
     private String title;
     private int mResult;
+    private AudioManager am;
 
     Handler seekHandler = new Handler();
 
@@ -60,13 +61,7 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
 
         this.haltRun = false;
 
-        AudioManager am = (AudioManager)this.getSystemService(Context.AUDIO_SERVICE);
-
-        // Request focus for music stream and pass AudioManager.OnAudioFocusChangeListener
-        // implementation reference
-
-        mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
-                  AudioManager.AUDIOFOCUS_GAIN);
+        am = (AudioManager)this.getSystemService(Context.AUDIO_SERVICE);
 
         ImageControl iconControl;
         if (getSupportActionBar() != null) {
@@ -98,14 +93,15 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
             @Override
             public void onClick(View v) {
 
-                if (mp.isPlaying()) {
-                    playButton.setImageResource(iconImage[0]);
-                    mp.pause();
-                } else {
-                    playButton.setImageResource(iconImage[1]);
-                    mp.seekTo(mp.getCurrentPosition());
-                    mp.start();
-                }
+                    if (mp.isPlaying()) {
+                        playButton.setImageResource(iconImage[0]);
+                        mp.pause();
+                    } else {
+                        playButton.setImageResource(iconImage[1]);
+                        mp.seekTo(mp.getCurrentPosition());
+                        mp.start();
+                    }
+
             }
         });
 
@@ -159,8 +155,14 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
                 break;
             case AudioManager.AUDIOFOCUS_LOSS:
                 Log.d(TAG, "AUDIOFOCUS_LOSS");
-                playButton.setImageResource(iconImage[0]);
-                mp.pause();
+                try {
+                    cleanup();
+                }
+                catch (IllegalStateException e)
+                {
+                    Log.e(TAG, "Illegal State Exception: " + e);
+                }
+                //cleanup();
                 // Stop or pause depending on your need
             break;
         }
@@ -250,8 +252,9 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
         {
             try {
 
-                if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
-                {
+                mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
+                        AudioManager.AUDIOFOCUS_GAIN);
+                if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                     return;
                 }
                 mc.callMediaFromRaw(mediaName);
@@ -266,8 +269,12 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
         {
             try {
 
-                if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
-                {
+                // Request focus for music stream and pass AudioManager.OnAudioFocusChangeListener
+                // implementation reference
+
+                mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
+                        AudioManager.AUDIOFOCUS_GAIN);
+                if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                     return;
                 }
                 mc.callMediaFromInternet(mediaName);
@@ -287,11 +294,14 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
 
         if (doesMediaExist) {
             try {
-                if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
-                {
+                // Request focus for music stream and pass AudioManager.OnAudioFocusChangeListener
+                // implementation reference
+
+                mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
+                        AudioManager.AUDIOFOCUS_GAIN);
+                if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                     return;
                 }
-
                 mc.callMediaFromExternalDir(mediaName);
                 mc.getMp3Info(mediaName);
                 titleLine.setText(title);
@@ -376,6 +386,7 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
 
     private void cleanup()
     {
+        am.abandonAudioFocus(this);
         mc.stopMedia();
         haltRun = true;
         finish();
@@ -390,6 +401,7 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Log.e(TAG, "KeyCode_Back!");
             cleanup();
             return true;
         }

@@ -12,6 +12,7 @@ import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
 import android.net.Uri;
 import android.os.Environment;
+// import android.util.Log;
 
 import java.io.File;
 
@@ -49,6 +50,7 @@ public class DownloadControl extends Activity {
         boolean deleted = false;
         String filePath = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC) + "/" + filename);
         File file = new File(filePath);
+        //Log.d(TAG, "Delete File: " + filePath);
         if (file.exists()) {
             deleted = file.delete();
         }
