@@ -19,7 +19,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
     defaultConfig {
-        applicationId "com.example.johnnie.podcastfun"
+        applicationId "com.RuffinApps.johnnie.oldtimeradio"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1

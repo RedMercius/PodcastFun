@@ -8,7 +8,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.johnnie.podcastfun" >
+    package="com.RuffinApps.johnnie.oldtimeradio" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -35,17 +35,13 @@
             android:theme="@style/AppTheme.NoActionBar"
             >
         </activity>
-        <activity
-            android:name=".DownloadControl"
-            android:label="DownloadActivity" >
-        </activity>
         <activity android:name=".PlayActivity"
                   android:label="@string/title_activity_play"
                   android:parentActivityName=".SelectActivity"
                   android:screenOrientation="portrait">
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.example.johnnie.podcastfun.SelectActivity" />
+            android:value="com.RuffinApps.johnnie.oldtimeradio.SelectActivity" />
         </activity>
         <activity
             android:name=".ComedyActivity"
@@ -54,7 +50,7 @@
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.johnnie.podcastfun.MainActivity" />
+                android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity" />
         </activity>
         <activity
             android:name=".SciFiActivity"
@@ -63,7 +59,7 @@
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.johnnie.podcastfun.MainActivity" />
+                android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity" />
         </activity>
         <activity
             android:name=".ThrillerActivity"
@@ -72,7 +68,7 @@
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.johnnie.podcastfun.MainActivity" />
+                android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity" />
         </activity>
     </application>
 

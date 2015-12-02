@@ -17,7 +17,7 @@
                 android:background="@color/black_overlay"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:showIn="@layout/activity_play"
-                tools:context="com.example.johnnie.podcastfun.PlayActivity">
+                tools:context="com.RuffinApps.johnnie.oldtimeradio.PlayActivity">
 
             <TextView
                 android:id="@+id/txtTitle"
