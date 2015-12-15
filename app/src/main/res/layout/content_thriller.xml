@@ -19,7 +19,34 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_thriller"
     tools:context="com.RuffinApps.johnnie.oldtimeradio.ThrillerActivity">
-
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/activity_comedy"
+        tools:context="com.RuffinApps.johnnie.oldtimeradio.ComedyActivity">
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:id="@+id/tableLayout1"
+                 android:layout_width="fill_parent"
+                 android:layout_height="fill_parent" >
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
     <ImageButton
         android:id="@+id/nbBtn"
         android:layout_width="275dp"
@@ -38,7 +65,9 @@
         android:layout_toRightOf="@id/nbBtn"
         android:src="@drawable/sgimage"
         android:contentDescription="@string/Speed"/>
-
-
-
+    </TableRow>
+    </TableLayout>
+    </LinearLayout>
+    </HorizontalScrollView>
+</ScrollView>
 </RelativeLayout>
