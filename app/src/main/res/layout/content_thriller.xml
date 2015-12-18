@@ -61,8 +61,6 @@
         android:layout_marginLeft="20dp"
         android:layout_width="275dp"
         android:layout_height="275dp"
-        android:layout_toEndOf="@id/nbBtn"
-        android:layout_toRightOf="@id/nbBtn"
         android:src="@drawable/sgimage"
         android:contentDescription="@string/Speed"/>
     </TableRow>

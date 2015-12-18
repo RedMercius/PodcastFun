@@ -41,11 +41,11 @@
         tools:context="com.RuffinApps.johnnie.oldtimeradio.PlayActivity">
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                  android:id="@+id/tableLayout1"
-                 android:layout_width="fill_parent"
-                 android:layout_height="fill_parent" >
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" >
     <TableRow
         android:id="@+id/tableRow1"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dip" >
 
@@ -65,36 +65,40 @@
         android:layout_height="wrap_content"
         >
 
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            >
             <ImageButton
                 android:id="@+id/play_button"
                 style="?metaButtonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:gravity="start"
                 android:contentDescription="@string/play_button"
                     />
+
 
             <SeekBar
                 android:id="@+id/seekBar"
                 android:layout_width="300dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginTop="14dp"
                 android:background="@color/black_overlay"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 />
 
             <TextView
                 android:id="@+id/duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="13dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_gravity="right"
                 android:textColor="#000000"
                 />
+        </LinearLayout>
 </TableRow>
     <TableRow
         android:id="@+id/tableRow3"
