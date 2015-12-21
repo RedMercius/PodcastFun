@@ -66,8 +66,6 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_toRightOf="@id/txt"
-        android:layout_toEndOf="@id/txt"
         android:contentDescription="@string/delete_button"
         />
 </RelativeLayout>
