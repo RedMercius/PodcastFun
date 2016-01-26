@@ -278,7 +278,7 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
                     return;
                 }
                 mc.callMediaFromInternet(mediaName);
-
+                mp.seekTo(checkMediaPos(mediaName));
                 titleLine.setText(title);
                 titleLine.setVisibility(View.VISIBLE);
             }
@@ -304,12 +304,23 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
                 }
                 mc.callMediaFromExternalDir(mediaName);
                 mc.getMp3Info(mediaName);
+                mp.seekTo(checkMediaPos(mediaName));
                 titleLine.setText(title);
                 titleLine.setVisibility(View.VISIBLE);
             } catch (IOException e) {
                 Log.e(TAG, "checkForMedia_IOException_media does exist:  " + e);
             }
         }
+    }
+
+    private int checkMediaPos(String MediaTitle)
+    {
+        return 0;
+    }
+
+    private void saveMediaPos(int pos)
+    {
+
     }
 
     public void enableProgress()
@@ -359,6 +370,7 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
 
         duration.setText(myDuration);
         sb.setProgress(mp.getCurrentPosition());
+        saveMediaPos(mp.getCurrentPosition());
         seekHandler.postDelayed(run, 1000);
     }
 
