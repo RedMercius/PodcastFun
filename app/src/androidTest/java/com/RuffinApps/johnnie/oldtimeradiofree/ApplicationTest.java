@@ -5,7 +5,7 @@
  *
  */
 
-package com.RuffinApps.johnnie.oldtimeradio;
+package com.RuffinApps.johnnie.oldtimeradiofree;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
