@@ -5,23 +5,15 @@
  *
  */
 
-package com.RuffinApps.johnnie.oldtimeradio;
+package com.RuffinApps.johnnie.oldtimeradiofree;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.net.Uri;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.Toast;
 
 /*import com.google.android.vending.licensing.AESObfuscator;
 import com.google.android.vending.licensing.LicenseChecker;
@@ -101,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
                 final Intent i = new Intent(MainActivity.this, SciFiActivity.class);
                 startActivity(i);
+
+                // TODO: Add popup for full version
             }
         });
 
@@ -111,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
 
                 final Intent i = new Intent(MainActivity.this, ThrillerActivity.class);
                 startActivity(i);
+
+                // TODO: Add popup for full version
             }
         });
     }

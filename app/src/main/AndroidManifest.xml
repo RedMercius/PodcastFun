@@ -8,7 +8,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.RuffinApps.johnnie.oldtimeradio" >
+    package="com.RuffinApps.johnnie.oldtimeradiofree" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -43,7 +43,7 @@
                   android:screenOrientation="portrait">
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.RuffinApps.johnnie.oldtimeradio.SelectActivity" />
+            android:value=".SelectActivity" />
         </activity>
         <activity
             android:name=".ComedyActivity"
@@ -52,7 +52,7 @@
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity" />
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".SciFiActivity"
@@ -61,7 +61,7 @@
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity" />
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".ThrillerActivity"
@@ -70,7 +70,7 @@
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity" />
+                android:value=".MainActivity" />
         </activity>
     </application>
 
