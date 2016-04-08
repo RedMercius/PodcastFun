@@ -80,7 +80,7 @@ public class ComedyActivity extends AppCompatActivity {
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
                 i.putExtra("Selection", "The Great GilderSleeves");
                 startActivity(i);
-                // TODO: Add popup for full version 0
+                // TODO: Add popup for full version
             }
         });
     }
