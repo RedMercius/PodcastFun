@@ -236,6 +236,18 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
                 break;
             }
 
+            case "Jack Benny":
+            {
+                playPic.setImageResource(R.drawable.jack_benny);
+                break;
+            }
+
+            case "Bob Hope":
+            {
+                playPic.setImageResource(R.drawable.bob_hope);
+                break;
+            }
+
             default: {
                 playPic.setImageResource(R.drawable.burnsandallen1);
                 break;

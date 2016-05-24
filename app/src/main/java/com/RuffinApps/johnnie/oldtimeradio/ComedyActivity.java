@@ -20,6 +20,8 @@ public class ComedyActivity extends AppCompatActivity {
     ImageButton fbBtn;
     ImageButton mlBtn;
     ImageButton gilBtn;
+    ImageButton jbBtn;
+    ImageButton bhBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,8 @@ public class ComedyActivity extends AppCompatActivity {
         fbBtn = (ImageButton) findViewById(R.id.fbBtn);
         mlBtn = (ImageButton) findViewById(R.id.mlBtn);
         gilBtn = (ImageButton) findViewById(R.id.gilBtn);
+        jbBtn = (ImageButton) findViewById(R.id.jbBtn);
+        bhBtn = (ImageButton) findViewById(R.id.bhBtn);
 
         baBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -77,6 +81,28 @@ public class ComedyActivity extends AppCompatActivity {
 
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
                 i.putExtra("Selection", "The Great GilderSleeves");
+                startActivity(i);
+            }
+        });
+
+        jbBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
+                i.putExtra("Selection", "Jack Benny");
+                startActivity(i);
+            }
+        });
+
+        bhBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
+                i.putExtra("Selection", "Bob Hope");
                 startActivity(i);
             }
         });

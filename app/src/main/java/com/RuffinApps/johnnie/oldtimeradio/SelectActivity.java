@@ -115,6 +115,30 @@ public class SelectActivity extends AppCompatActivity {
                 return titles;
             }
 
+            case "Jack Benny":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getJackBenny().length];
+                for (String title : radioList.getJbMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "Bob Hope":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getBobHope().length];
+                for (String title : radioList.getBhMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
             case "XMinus1":
             {
                 int i = 0;

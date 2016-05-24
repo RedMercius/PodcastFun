@@ -72,26 +72,52 @@
             android:layout_height="wrap_content"
             android:padding="5dip" >
 
-    <ImageButton
-        android:id="@+id/mlBtn"
-        android:layout_marginTop="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="275dp"
-        android:src="@drawable/lewis_and_martin"
-        android:contentDescription="@string/MartinAndLewisImage"
-        />
+            <ImageButton
+                android:id="@+id/mlBtn"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="275dp"
+                android:src="@drawable/lewis_and_martin"
+                android:contentDescription="@string/MartinAndLewisImage"
+                />
 
-    <ImageButton
-        android:id="@+id/gilBtn"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="275dp"
-        android:src="@drawable/greatgildersleeve"
-        android:contentDescription="@string/GilderSleeveImage"
-        />
+            <ImageButton
+                android:id="@+id/gilBtn"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="275dp"
+                android:src="@drawable/greatgildersleeve"
+                android:contentDescription="@string/GilderSleeveImage"
+                />
         </TableRow>
+            <TableRow
+                android:id="@+id/tableRow3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dip" >
+
+                <ImageButton
+                    android:id="@+id/jbBtn"
+                    android:layout_marginTop="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="275dp"
+                    android:src="@drawable/jack_benny"
+                    android:contentDescription="@string/JackBennyImage"
+                    />
+
+                <ImageButton
+                    android:id="@+id/bhBtn"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="275dp"
+                    android:src="@drawable/bob_hope"
+                    android:contentDescription="@string/BobHopeImage"
+                    />
+            </TableRow>
         </TableLayout>
 </LinearLayout>
     </HorizontalScrollView>

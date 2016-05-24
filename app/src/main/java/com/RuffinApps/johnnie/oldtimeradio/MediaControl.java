@@ -101,6 +101,16 @@ public class MediaControl {
                 break;
             }
 
+            case "Jack Benny": {
+                url = "http://www.JohnnieRuffin.com/audio/JackBenny/";
+                break;
+            }
+
+            case "Bob Hope": {
+                url = "http://www.JohnnieRuffin.com/audio/BobHope/";
+                break;
+            }
+
             default: {
                 url = null;
                 break;

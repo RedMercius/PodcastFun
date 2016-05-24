@@ -455,6 +455,26 @@ public class CustomList extends ArrayAdapter<String> {
                 }
                 break;
             }
+
+            case "Jack Benny":
+            {
+                for (String mediaFile : rt.getJbMap().keySet()) {
+                    if (rt.getJbMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+                break;
+            }
+
+            case "Bob Hope":
+            {
+                for (String mediaFile : rt.getBhMap().keySet()) {
+                    if (rt.getBhMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+                break;
+            }
         }
 
         final String mediaFileName = MediaFile;
