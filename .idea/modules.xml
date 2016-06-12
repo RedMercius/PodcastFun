@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PodcastFun.iml" filepath="$PROJECT_DIR$/PodcastFun.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OTR_Free.iml" filepath="$PROJECT_DIR$/OTR_Free.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/license_library/license_library.iml" filepath="$PROJECT_DIR$/license_library/license_library.iml" />
     </modules>
   </component>
 </project>

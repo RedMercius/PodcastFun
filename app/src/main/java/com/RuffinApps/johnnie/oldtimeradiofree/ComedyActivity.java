@@ -5,7 +5,7 @@
  *
  */
 
-package com.RuffinApps.johnnie.oldtimeradio;
+package com.RuffinApps.johnnie.oldtimeradiofree;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -60,6 +60,7 @@ public class ComedyActivity extends AppCompatActivity {
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
                 i.putExtra("Selection", "Fibber McGee And Molly");
                 startActivity(i);
+                // TODO: Add popup for full version
             }
         });
 
@@ -71,6 +72,7 @@ public class ComedyActivity extends AppCompatActivity {
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
                 i.putExtra("Selection", "Martin And Lewis");
                 startActivity(i);
+                // TODO: Add popup for full version
             }
         });
 
@@ -82,6 +84,7 @@ public class ComedyActivity extends AppCompatActivity {
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
                 i.putExtra("Selection", "The Great GilderSleeves");
                 startActivity(i);
+                // TODO: Add popup for full version
             }
         });
 
