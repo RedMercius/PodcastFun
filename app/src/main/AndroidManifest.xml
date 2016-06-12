@@ -1,77 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!--
   ~ Copyright 2015 © Johnnie Ruffin
   ~
   ~ Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~
   -->
+<manifest package="com.RuffinApps.johnnie.oldtimeradio"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.RuffinApps.johnnie.oldtimeradio" >
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="com.android.vending.CHECK_LICENSE"/>
 
     <application
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".SelectActivity"
             android:parentActivityName=".ComedyActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".PlayActivity"
-                  android:label="@string/title_activity_play"
-                  android:parentActivityName=".SelectActivity"
-                  android:screenOrientation="portrait">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.RuffinApps.johnnie.oldtimeradio.SelectActivity" />
+        <activity
+            android:name=".PlayActivity"
+            android:label="@string/title_activity_play"
+            android:parentActivityName=".SelectActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.RuffinApps.johnnie.oldtimeradio.SelectActivity"/>
         </activity>
         <activity
             android:name=".ComedyActivity"
             android:label="@string/title_activity_comedy"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity" />
+                android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity"/>
         </activity>
         <activity
             android:name=".SciFiActivity"
             android:label="@string/title_activity_sci_fi"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity" />
+                android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity"/>
         </activity>
         <activity
             android:name=".ThrillerActivity"
             android:label="@string/title_activity_thriller"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity" />
+                android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity"/>
         </activity>
+        <activity
+            android:name=".WesternActivity"
+            android:label="@string/title_activity_western"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity"/>
+        </activity>
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
     </application>
 
 </manifest>

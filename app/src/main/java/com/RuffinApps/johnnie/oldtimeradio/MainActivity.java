@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     Button comedyButton;
     Button scifiButton;
     Button thrillerButton;
+    Button westernButton;
 
     private static final String BASE64_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgo/IdsqOpiQUVftNMPUJeHQ1JiaNKPD7b1ygx5Lp2XNpfv2NIqKWDftZFW7721kYKdOrG3YJFl1RK/pPQRJstH30OMEnTSSX+1VT3nauMX36GYuJFj4n7HKZcVZ5rndJaDIiBK8qO7xPNaGlJVMMWjnYLlzDpvGCAeNGD+vWc8NAvBrGaE6gWD0/rZByTjjx3RIxp6ZR9jHJEq5zS4ZN019rGQM5WyAxPTz/CL1G6Migojp0pWl3xuzBJgKg5Q0lMriq9JVMR15wL0MLd8c28+o7gy9OVz2e3arvjqXZWN8pV8+dzEStoMcuO07OFwTNoDA0VDvESi5Rp6xoM3LevQIDAQAB";
     private static final byte[] SALT = new byte[] { 99,77,75,29,18,57,73,63,72,32,01,54,54,04,69,29,38,28,56,06 };
@@ -81,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
         comedyButton = (Button) findViewById(R.id.comedyButton);
         scifiButton = (Button) findViewById(R.id.scifiButton);
         thrillerButton = (Button) findViewById(R.id.thrillerButton);
-
-
+        westernButton = (Button) findViewById(R.id.westernButton);
 
         comedyButton.setOnClickListener(new View.OnClickListener() {
 
@@ -113,6 +113,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        westernButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Intent i = new Intent(MainActivity.this, WesternActivity.class);
+                startActivity(i);
+            }
+        });
+
     }
 
     @Override

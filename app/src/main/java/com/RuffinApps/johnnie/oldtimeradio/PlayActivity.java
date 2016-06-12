@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,19 +24,26 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener,
-MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
+        MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
 
     private String TAG = "PlayActivity: ";
     private Integer[] iconImage;
 
     // get the controls
     private ImageButton playButton;
+    private ImageButton rewindButton;
+    private ImageButton forwardButton;
     private SeekBar sb;
     private TextView titleLine;
+    private TextView curPos;
     private TextView duration;
     private ImageView playPic;
 
@@ -49,7 +57,31 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
     private int mResult;
     private AudioManager am;
 
+    public enum buttonPos
+    {
+        play,
+        pause,
+        stop,
+        close,
+        download,
+        download0,
+        info,
+        delete,
+        stream,
+        start,
+        end,
+        lowVolume,
+        highVolume,
+        mute,
+        menu
+    };
+
     Handler seekHandler = new Handler();
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +93,7 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
 
         this.haltRun = false;
 
-        am = (AudioManager)this.getSystemService(Context.AUDIO_SERVICE);
+        am = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
 
         ImageControl iconControl;
         if (getSupportActionBar() != null) {
@@ -82,10 +114,17 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
 
         playPic = (ImageView) findViewById(R.id.fullscreen_content);
         playButton = (ImageButton) findViewById(R.id.play_button);
-        playButton.setImageResource(iconImage[1]);
+        playButton.setImageResource(iconImage[buttonPos.pause.ordinal()]);
+
+        rewindButton = (ImageButton) findViewById(R.id.rewind_button);
+        rewindButton.setImageResource(iconImage[buttonPos.start.ordinal()]);
+
+        forwardButton = (ImageButton) findViewById(R.id.forward_button);
+        forwardButton.setImageResource(iconImage[buttonPos.end.ordinal()]);
 
         sb = (SeekBar) findViewById(R.id.seekBar);
         titleLine = (TextView) findViewById(R.id.txtTitle);
+        curPos = (TextView) findViewById(R.id.txtCurPos);
         duration = (TextView) findViewById(R.id.duration);
 
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -93,15 +132,35 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
             @Override
             public void onClick(View v) {
 
-                    if (mp.isPlaying()) {
-                        playButton.setImageResource(iconImage[0]);
-                        mp.pause();
-                    } else {
-                        playButton.setImageResource(iconImage[1]);
-                        mp.seekTo(mp.getCurrentPosition());
-                        mp.start();
-                    }
+                if (mp.isPlaying()) {
+                    playButton.setImageResource(iconImage[buttonPos.play.ordinal()]);
+                    mp.pause();
+                } else {
+                    playButton.setImageResource(iconImage[buttonPos.pause.ordinal()]);
+                    mp.seekTo(mp.getCurrentPosition());
+                    mp.start();
+                }
 
+            }
+        });
+
+        rewindButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                mp.seekTo((mp.getCurrentPosition() - 15000));
+                mp.start();
+            }
+        });
+
+        forwardButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                mp.seekTo((mp.getCurrentPosition() + 15000));
+                mp.start();
             }
         });
 
@@ -129,12 +188,14 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
         this.mp.setOnCompletionListener(this);
         setPlayPic();
         checkForMedia();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
-    public void onAudioFocusChange(int focusChange)
-    {
-        switch(focusChange) {
+    public void onAudioFocusChange(int focusChange) {
+        switch (focusChange) {
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                 Log.d(TAG, "AUDIOFOCUS_LOSS_TRANSIENT");
                 playButton.setImageResource(iconImage[0]);
@@ -144,8 +205,7 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
             case AudioManager.AUDIOFOCUS_GAIN:
                 Log.d(TAG, "AUDIOFOCUS_GAIN");
 
-                if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
-                {
+                if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                     return;
                 }
                 playButton.setImageResource(iconImage[1]);
@@ -157,14 +217,12 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
                 Log.d(TAG, "AUDIOFOCUS_LOSS");
                 try {
                     cleanup();
-                }
-                catch (IllegalStateException e)
-                {
+                } catch (IllegalStateException e) {
                     Log.e(TAG, "Illegal State Exception: " + e);
                 }
                 //cleanup();
                 // Stop or pause depending on your need
-            break;
+                break;
         }
     }
 
@@ -177,74 +235,71 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
         return true;
     }
 
-    private void setPlayPic()
-    {
-        switch (artist)
-        {
-            case "Burns And Allen":
-            {
+    private void setPlayPic() {
+        switch (artist) {
+            case "Burns And Allen": {
                 playPic.setImageResource(R.drawable.burnsandallen1);
                 break;
             }
 
-            case "Fibber McGee And Molly":
-            {
+            case "Fibber McGee And Molly": {
                 playPic.setImageResource(R.drawable.fibber_and_molly_);
                 break;
             }
 
-            case "Martin And Lewis":
-            {
+            case "Martin And Lewis": {
                 playPic.setImageResource(R.drawable.lewis_and_martin);
                 break;
             }
 
-            case "The Great GilderSleeves":
-            {
+            case "The Great GilderSleeves": {
                 playPic.setImageResource(R.drawable.greatgildersleeve1);
                 break;
             }
 
-            case "XMinus1":
-            {
+            case "XMinus1": {
 
                 playPic.setImageResource(R.drawable.xminusone);
                 break;
             }
 
-            case "Inner Sanctum":
-            {
+            case "Inner Sanctum": {
                 playPic.setImageResource(R.drawable.inner_sanctum);
                 break;
             }
 
-            case "Dimension X":
-            {
+            case "Dimension X": {
                 playPic.setImageResource(R.drawable.dimension_x);
                 break;
             }
 
-            case "Night Beat":
-            {
+            case "Night Beat": {
                 playPic.setImageResource(R.drawable.nightbeat);
                 break;
             }
 
-            case "Speed":
-            {
+            case "Speed": {
                 playPic.setImageResource(R.drawable.sgimage);
                 break;
             }
 
-            case "Jack Benny":
-            {
+            case "Jack Benny": {
                 playPic.setImageResource(R.drawable.jack_benny);
                 break;
             }
 
-            case "Bob Hope":
-            {
+            case "Bob Hope": {
                 playPic.setImageResource(R.drawable.bob_hope);
+                break;
+            }
+
+            case "Hopalong Cassidy": {
+                playPic.setImageResource(R.drawable.hopalongcassidy);
+                break;
+            }
+
+            case "Fort Laramie": {
+                playPic.setImageResource(R.drawable.ftlaramie);
                 break;
             }
 
@@ -255,13 +310,11 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
         }
     }
 
-    private void checkForMedia()
-    {
+    private void checkForMedia() {
         boolean isItInRaw = mc.checkResourceInRaw(mediaName);
         boolean doesMediaExist = mc.checkForMedia(mediaName);
 
-        if (isItInRaw)
-        {
+        if (isItInRaw) {
             try {
 
                 mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
@@ -270,15 +323,12 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
                     return;
                 }
                 mc.callMediaFromRaw(mediaName);
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 Log.e(TAG, "checkForMedia_IOException:  " + e);
             }
         }
 
-        if (!doesMediaExist)
-        {
+        if (!doesMediaExist) {
             try {
 
                 // Request focus for music stream and pass AudioManager.OnAudioFocusChangeListener
@@ -293,13 +343,9 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
 
                 titleLine.setText(title);
                 titleLine.setVisibility(View.VISIBLE);
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 Log.e(TAG, "checkForMedia_IOException:  " + e);
-            }
-            catch (IllegalArgumentException e)
-            {
+            } catch (IllegalArgumentException e) {
                 Log.e(TAG, "checkForMedia_IllegalArgumentException: " + e);
             }
         }
@@ -324,17 +370,14 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
         }
     }
 
-    public void enableProgress()
-    {
+    public void enableProgress() {
         sb.setMax(mp.getDuration());
         int durationInMil = (mp.getDuration());
         String myDuration = "00:00:00";
 
         try {
-            myDuration =  getDurationInFormat(durationInMil);
-        }
-        catch (Exception e)
-        {
+            myDuration = getDurationInFormat(durationInMil);
+        } catch (Exception e) {
             Log.e(TAG, "Exception_enableProgress: " + e);
         }
         duration.setText(myDuration);
@@ -343,39 +386,38 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
     Runnable run = new Runnable() {
         @Override
         public void run() {
-            if (haltRun)
-            {
+            if (haltRun) {
                 return;
             }
 
             try {
                 runProgress();
-            }
-            catch (IllegalStateException e)
-            {
+            } catch (IllegalStateException e) {
                 Log.e(TAG, "IllegalStateException_run: " + e);
             }
         }
     };
 
     private void runProgress() {
+        // TODO: use current position and make duration constant
         int durationInMil = ((mp.getDuration() - mp.getCurrentPosition()));
-        String myDuration;
+        //String myDuration;
+        String myCurPos;
         try {
-            myDuration =  getDurationInFormat(durationInMil);
-        } catch (IllegalStateException e)
-        {
+            //myDuration = getDurationInFormat(durationInMil);
+            myCurPos = getDurationInFormat(mp.getCurrentPosition());
+        } catch (IllegalStateException e) {
             Log.e(TAG, "IllegalStateException_runProgress: " + e);
             return;
         }
 
-        duration.setText(myDuration);
+        //duration.setText(myDuration);
+        curPos.setText(myCurPos);
         sb.setProgress(mp.getCurrentPosition());
         seekHandler.postDelayed(run, 1000);
     }
 
-    public String getDurationInFormat (int duration)
-    {
+    public String getDurationInFormat(int duration) {
         String durationInFormat;
         durationInFormat = String.format("%02d:%02d:%02d",
                 TimeUnit.MILLISECONDS.toHours(duration),
@@ -396,8 +438,7 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
         runProgress();
     }
 
-    private void cleanup()
-    {
+    private void cleanup() {
         am.abandonAudioFocus(this);
         mc.stopMedia();
         haltRun = true;
@@ -405,8 +446,7 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
     }
 
     @Override
-    public void onCompletion(MediaPlayer mp)
-    {
+    public void onCompletion(MediaPlayer mp) {
         cleanup();
     }
 
@@ -419,5 +459,45 @@ MediaPlayer.OnCompletionListener, AudioManager.OnAudioFocusChangeListener {
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Play Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.RuffinApps.johnnie.oldtimeradio/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Play Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.RuffinApps.johnnie.oldtimeradio/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 }

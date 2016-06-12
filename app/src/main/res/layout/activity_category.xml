@@ -57,6 +57,14 @@
         />
 
     <Button
+        android:id="@+id/westernButton"
+        android:layout_below="@id/thrillerButton"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/category_western"
+        />
+    <Button
         android:id="@+id/horrorButton"
         android:layout_below="@id/thrillerButton"
         android:layout_centerHorizontal="true"

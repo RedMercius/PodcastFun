@@ -43,4 +43,5 @@ dependencies {
     compile 'com.android.support:design:23.1.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':license_library')
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }

@@ -475,6 +475,25 @@ public class CustomList extends ArrayAdapter<String> {
                 }
                 break;
             }
+            case "Hopalong Cassidy":
+            {
+                for (String mediaFile : rt.getHcMap().keySet()) {
+                    if (rt.getHcMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+                break;
+            }
+
+            case "Fort Laramie":
+            {
+                for (String mediaFile : rt.getFlMap().keySet()) {
+                    if (rt.getFlMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+                break;
+            }
         }
 
         final String mediaFileName = MediaFile;

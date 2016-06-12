@@ -111,6 +111,15 @@ public class MediaControl {
                 break;
             }
 
+            case "Hopalong Cassidy": {
+                url = "http://www.JohnnieRuffin.com/audio/Hopalong/";
+                break;
+            }
+
+            case "Fort Laramie": {
+                url = "http://www.JohnnieRuffin.com/audio/FtLaramie/";
+                break;
+            }
             default: {
                 url = null;
                 break;

@@ -14,6 +14,8 @@
     <string name="action_search">Search</string>
     <string name="action_compose">Compose</string>
     <string name="play_button">Play Button</string>
+    <string name="rewind_button">Rewind Button</string>
+    <string name="forward_button">Forward Button</string>
     <string name="stop_button">Stop Button</string>
     <string name="close_button">Close Button</string>
     <string name="delete_button">Delete Button</string>
@@ -38,10 +40,12 @@
     <string name="category_drama">Drama</string>
     <string name="category_thriller">Thriller</string>
     <string name="category_horror">Horror</string>
+    <string name="category_western">Western</string>
     <string name="title_activity_comedy">Comedy</string>
     <string name="title_activity_sci_fi">SciFi</string>
     <string name="title_activity_thriller">Thriller</string>
     <string name="title_activity_horror">Horror</string>
+    <string name="title_activity_western">Western</string>
 
     // Comedy
     <string name="BurnsAndAllenImage">Burns And Allen</string>
@@ -62,4 +66,11 @@
     <string name="DimensionX">Dimension X</string>
     <string name="NightBeat">Night Beat</string>
     <string name="Speed">Speed Gibson Of The International Secret Police</string>
+    <string name="TheWhistler">The Whistler</string>
+
+    // Western
+
+    <string name="HopalongCassidy">Hopalong Cassidy</string>
+    <string name="FtLaramie">Fort Laramie</string>
+
 </resources>
