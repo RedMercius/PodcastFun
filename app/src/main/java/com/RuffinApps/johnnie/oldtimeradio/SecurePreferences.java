@@ -5,7 +5,7 @@
  *
  */
 
-package com.RuffinApps.johnnie.oldtimeradiofree;
+package com.RuffinApps.johnnie.oldtimeradio;
 
 import java.io.UnsupportedEncodingException;
         import java.security.GeneralSecurityException;

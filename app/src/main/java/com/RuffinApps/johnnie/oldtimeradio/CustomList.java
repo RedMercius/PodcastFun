@@ -5,7 +5,7 @@
  *
  */
 
-package com.RuffinApps.johnnie.oldtimeradiofree;
+package com.RuffinApps.johnnie.oldtimeradio;
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -406,6 +406,26 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
+            case "Jack Benny":
+            {
+                for (String mediaFile : rt.getJbMap().keySet()) {
+                    if (rt.getJbMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+                break;
+            }
+
+            case "Bob Hope":
+            {
+                for (String mediaFile : rt.getBhMap().keySet()) {
+                    if (rt.getBhMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+                break;
+            }
+
             case "XMinus1":
             {
                 for (String mediaFile : rt.getXMMap().keySet()) {
@@ -456,25 +476,6 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
-            case "Jack Benny":
-            {
-                for (String mediaFile : rt.getJbMap().keySet()) {
-                    if (rt.getJbMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
-                    }
-                }
-                break;
-            }
-
-            case "Bob Hope":
-            {
-                for (String mediaFile : rt.getBhMap().keySet()) {
-                    if (rt.getBhMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
-                    }
-                }
-                break;
-            }
             case "Hopalong Cassidy":
             {
                 for (String mediaFile : rt.getHcMap().keySet()) {

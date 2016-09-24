@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         thrillerButton = (Button) findViewById(R.id.thrillerButton);
         westernButton = (Button) findViewById(R.id.westernButton);
 
+
         comedyButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -123,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
     }
 
     @Override

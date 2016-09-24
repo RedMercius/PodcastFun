@@ -23,11 +23,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
-
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -73,15 +68,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         lowVolume,
         highVolume,
         mute,
-        menu
+        menu,
+        play2
     };
 
     Handler seekHandler = new Handler();
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,9 +179,6 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         this.mp.setOnCompletionListener(this);
         setPlayPic();
         checkForMedia();
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -284,12 +272,12 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             }
 
             case "Jack Benny": {
-                playPic.setImageResource(R.drawable.jack_benny);
+                playPic.setImageResource(R.drawable.jackbenny_fixed);
                 break;
             }
 
             case "Bob Hope": {
-                playPic.setImageResource(R.drawable.bob_hope);
+                playPic.setImageResource(R.drawable.bob_hope_1950_0_fixed_0);
                 break;
             }
 
@@ -464,40 +452,10 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     @Override
     public void onStart() {
         super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Play Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.RuffinApps.johnnie.oldtimeradio/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Play Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.RuffinApps.johnnie.oldtimeradio/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
     }
 }

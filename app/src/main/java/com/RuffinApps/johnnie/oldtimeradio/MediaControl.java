@@ -5,7 +5,7 @@
  *
  */
 
-package com.RuffinApps.johnnie.oldtimeradiofree;
+package com.RuffinApps.johnnie.oldtimeradio;
 
 import android.app.Activity;
 import android.media.AudioManager;
@@ -76,6 +76,18 @@ public class MediaControl {
                 break;
             }
 
+            case "Jack Benny":
+            {
+                url = "http://www.JohnnieRuffin.com/audio/JackBenny/";
+                break;
+            }
+
+            case "Bob Hope":
+            {
+                url = "http://www.JohnnieRuffin.com/audio/BobHope/";
+                break;
+            }
+
             case "XMinus1": {
                 url = "http://www.JohnnieRuffin.com/audio/XMinus1/";
                 break;
@@ -101,25 +113,18 @@ public class MediaControl {
                 break;
             }
 
-            case "Jack Benny": {
-                url = "http://www.JohnnieRuffin.com/audio/JackBenny/";
-                break;
-            }
-
-            case "Bob Hope": {
-                url = "http://www.JohnnieRuffin.com/audio/BobHope/";
-                break;
-            }
-
-            case "Hopalong Cassidy": {
+            case "Hopalong Cassidy":
+            {
                 url = "http://www.JohnnieRuffin.com/audio/Hopalong/";
                 break;
             }
 
-            case "Fort Laramie": {
+            case "Fort Laramie":
+            {
                 url = "http://www.JohnnieRuffin.com/audio/FtLaramie/";
                 break;
             }
+
             default: {
                 url = null;
                 break;

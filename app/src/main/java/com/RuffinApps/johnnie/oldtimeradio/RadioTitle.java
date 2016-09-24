@@ -5,7 +5,7 @@
  *
  */
 
-package com.RuffinApps.johnnie.oldtimeradiofree;
+package com.RuffinApps.johnnie.oldtimeradio;
 
 /////////////////////////////////////////////////////////////////////////////
 //
