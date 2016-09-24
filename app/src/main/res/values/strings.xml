@@ -6,7 +6,7 @@
   -->
 
 <resources>
-    <string name="app_name">Johnnie\'s Old Time Radio -- Free Version</string>
+    <string name="app_name">Johnnie\'s Old Time Radio</string>
 
     <string name="hello_world">Hello world! Johnnie Loves you!</string>
     <string name="action_settings">Settings</string>
