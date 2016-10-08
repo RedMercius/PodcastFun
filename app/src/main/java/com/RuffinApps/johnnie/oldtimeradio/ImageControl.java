@@ -20,8 +20,8 @@ package com.RuffinApps.johnnie.oldtimeradio;
 public class ImageControl {
 
     Integer[] imageButtonList = {
-            R.drawable.play50,
-            R.drawable.pause50,
+            R.mipmap.play50,
+            R.mipmap.pause50,
             R.drawable.ic_stop,
             R.drawable.ic_close,
             R.drawable.ic_download,
@@ -29,8 +29,8 @@ public class ImageControl {
             R.drawable.ic_info,
             R.drawable.ic_delete,
             R.drawable.ic_stream,
-            R.drawable.start50,
-            R.drawable.end50,
+            R.mipmap.start50,
+            R.mipmap.end50,
             R.drawable.lowvolume50,
             R.drawable.highvolume50,
             R.drawable.mute50,
