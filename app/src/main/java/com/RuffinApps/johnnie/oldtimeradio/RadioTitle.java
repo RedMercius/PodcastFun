@@ -2503,7 +2503,7 @@ public class RadioTitle {
             "First Cbs Show amos Andy",
             "Don Wilsons Contract",
             "Easter Parade",
-            "How Jack Fred Allen Met",
+            "How Jack Met Fred Allen",
             "Jack Tries To Buy Usc-Ucla Football Game Tickets3",
             "Mel Blanc As Indian-Si Routine",
             "Palms Springs Show",

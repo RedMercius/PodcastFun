@@ -5,8 +5,9 @@
   ~ Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~
   -->
-<manifest package="com.RuffinApps.johnnie.oldtimeradio"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.RuffinApps.johnnie.oldtimeradio"
+    >
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -21,7 +22,9 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -31,6 +34,7 @@
         <activity
             android:name=".SelectActivity"
             android:parentActivityName=".ComedyActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
@@ -46,7 +50,8 @@
             android:name=".ComedyActivity"
             android:label="@string/title_activity_comedy"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity"/>
@@ -55,7 +60,8 @@
             android:name=".SciFiActivity"
             android:label="@string/title_activity_sci_fi"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity"/>
@@ -64,7 +70,8 @@
             android:name=".ThrillerActivity"
             android:label="@string/title_activity_thriller"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity"/>
@@ -73,7 +80,8 @@
             android:name=".WesternActivity"
             android:label="@string/title_activity_western"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.RuffinApps.johnnie.oldtimeradio.MainActivity"/>
