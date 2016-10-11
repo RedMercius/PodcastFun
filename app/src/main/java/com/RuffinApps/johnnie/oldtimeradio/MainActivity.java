@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         /*** Start License Checking ***/
-        didCheck = false;
+       /* didCheck = false;
         mpreferences = new SecurePreferences(this, "jotr-preferences", "Loki13026044", true);
 
         String user = mpreferences.getString("LicenseCheck");
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Checking application license...", Toast.LENGTH_SHORT).show();
             doCheck();
-        }
+        }*/
         /*** End License Checking ***/
 
         comedyButton = (Button) findViewById(R.id.comedyButton);

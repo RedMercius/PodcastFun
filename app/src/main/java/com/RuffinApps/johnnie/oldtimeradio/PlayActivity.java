@@ -226,73 +226,73 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     private void setPlayPic() {
         switch (artist) {
             case "Burns And Allen": {
-                playPic.setImageResource(R.drawable.burnsandallen1);
+                playPic.setImageResource(R.mipmap.burnsandallen1);
                 break;
             }
 
             case "Fibber McGee And Molly": {
-                playPic.setImageResource(R.drawable.fibber_and_molly_);
+                playPic.setImageResource(R.mipmap.fibber_and_molly_);
                 break;
             }
 
             case "Martin And Lewis": {
-                playPic.setImageResource(R.drawable.lewis_and_martin);
+                playPic.setImageResource(R.mipmap.lewis_and_martin);
                 break;
             }
 
             case "The Great GilderSleeves": {
-                playPic.setImageResource(R.drawable.greatgildersleeve1);
+                playPic.setImageResource(R.mipmap.greatgildersleeve);
                 break;
             }
 
             case "XMinus1": {
 
-                playPic.setImageResource(R.drawable.xminusone);
+                playPic.setImageResource(R.mipmap.xminusone);
                 break;
             }
 
             case "Inner Sanctum": {
-                playPic.setImageResource(R.drawable.inner_sanctum);
+                playPic.setImageResource(R.mipmap.inner_sanctum);
                 break;
             }
 
             case "Dimension X": {
-                playPic.setImageResource(R.drawable.dimension_x);
+                playPic.setImageResource(R.mipmap.dimension_x);
                 break;
             }
 
             case "Night Beat": {
-                playPic.setImageResource(R.drawable.nightbeat);
+                playPic.setImageResource(R.mipmap.nightbeat);
                 break;
             }
 
             case "Speed": {
-                playPic.setImageResource(R.drawable.sgimage);
+                playPic.setImageResource(R.mipmap.sgimage);
                 break;
             }
 
             case "Jack Benny": {
-                playPic.setImageResource(R.drawable.jackbenny_fixed);
+                playPic.setImageResource(R.mipmap.jackbenny_fixed);
                 break;
             }
 
             case "Bob Hope": {
-                playPic.setImageResource(R.drawable.bob_hope_1950_0_fixed_0);
+                playPic.setImageResource(R.mipmap.bob_hope_1950_0_fixed_0);
                 break;
             }
 
             case "Hopalong Cassidy": {
-                playPic.setImageResource(R.drawable.hopalongcassidy);
+                playPic.setImageResource(R.mipmap.hopalongcassidy);
                 break;
             }
 
             case "Fort Laramie": {
-                playPic.setImageResource(R.drawable.ftlaramie);
+                playPic.setImageResource(R.mipmap.ftlaramie);
                 break;
             }
 
             default: {
-                playPic.setImageResource(R.drawable.burnsandallen1);
+                playPic.setImageResource(R.mipmap.burnsandallen1);
                 break;
             }
         }

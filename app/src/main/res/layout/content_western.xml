@@ -52,7 +52,7 @@
                             android:id="@+id/hopalongBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="275dp"
-                            android:src="@drawable/hopalongcassidy"
+                            android:src="@mipmap/hopalongcassidy"
                             android:contentDescription="@string/HopalongCassidy"/>
 
                         <ImageButton
@@ -61,7 +61,7 @@
                             android:layout_marginLeft="20dp"
                             android:layout_width="wrap_content"
                             android:layout_height="275dp"
-                            android:src="@drawable/ftlaramie"
+                            android:src="@mipmap/ftlaramie"
                             android:contentDescription="@string/FtLaramie"
                             />
                     </TableRow>

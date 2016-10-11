@@ -52,7 +52,7 @@
         android:id="@+id/xm1Btn"
         android:layout_width="275dp"
         android:layout_height="275dp"
-        android:src="@drawable/xminusone"
+        android:src="@mipmap/xminusone"
         android:contentDescription="@string/XMinus1"/>
 
     <ImageButton
@@ -61,7 +61,7 @@
         android:layout_marginLeft="20dp"
         android:layout_width="275dp"
         android:layout_height="275dp"
-        android:src="@drawable/inner_sanctum"
+        android:src="@mipmap/inner_sanctum"
         android:contentDescription="@string/InnerSactum"
         />
     </TableRow>
@@ -76,7 +76,7 @@
         android:layout_marginTop="15dp"
         android:layout_width="275dp"
         android:layout_height="275dp"
-        android:src="@drawable/dimension_x"
+        android:src="@mipmap/dimension_x"
         android:contentDescription="@string/DimensionX"/>
     </TableRow>
     </TableLayout>

@@ -51,7 +51,7 @@
         android:id="@+id/nbBtn"
         android:layout_width="275dp"
         android:layout_height="275dp"
-        android:src="@drawable/nightbeat"
+        android:src="@mipmap/nightbeat"
         android:contentDescription="@string/NightBeat"
         />
 
@@ -61,7 +61,7 @@
         android:layout_marginLeft="20dp"
         android:layout_width="275dp"
         android:layout_height="275dp"
-        android:src="@drawable/sgimage"
+        android:src="@mipmap/sgimage"
         android:contentDescription="@string/Speed"/>
     </TableRow>
     </TableLayout>
