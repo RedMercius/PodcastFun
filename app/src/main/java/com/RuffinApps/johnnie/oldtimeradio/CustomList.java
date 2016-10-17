@@ -102,7 +102,7 @@ public class CustomList extends ArrayAdapter<String> {
                     if (c.moveToFirst()) {
                         int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
                         if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                            String filePath = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME));
+                            String filePath = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
                             filename = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length());
                             deleteFromList(filename);
                         }
