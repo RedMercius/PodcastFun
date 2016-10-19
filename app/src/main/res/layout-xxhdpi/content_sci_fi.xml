@@ -61,7 +61,7 @@
         android:layout_marginLeft="20dp"
         android:layout_width="275dp"
         android:layout_height="275dp"
-        android:src="@mipmap/inner_sanctum"
+        android:src="@mipmap/innersanctum0"
         android:contentDescription="@string/InnerSactum"
         />
     </TableRow>

@@ -226,7 +226,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     private void setPlayPic() {
         switch (artist) {
             case "Burns And Allen": {
-                playPic.setImageResource(R.mipmap.burnsandallen1);
+                playPic.setImageResource(R.mipmap.burnsandallen);
                 break;
             }
 
@@ -252,7 +252,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             }
 
             case "Inner Sanctum": {
-                playPic.setImageResource(R.mipmap.inner_sanctum);
+                playPic.setImageResource(R.mipmap.innersanctum0);
                 break;
             }
 
@@ -292,7 +292,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             }
 
             default: {
-                playPic.setImageResource(R.mipmap.burnsandallen1);
+                playPic.setImageResource(R.mipmap.burnsandallen);
                 break;
             }
         }

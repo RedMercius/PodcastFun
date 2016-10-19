@@ -5,7 +5,9 @@
   ~ Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~
   -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest android:versionCode="15"
+    android:versionName = "2.5"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.RuffinApps.johnnie.oldtimeradio"
     >
 
@@ -13,9 +15,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="com.android.vending.CHECK_LICENSE"/>
 
     <uses-configuration />
+
+    <uses-sdk android:minSdkVersion="10" />
 
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 

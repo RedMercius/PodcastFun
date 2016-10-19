@@ -52,7 +52,7 @@
 
     <ImageButton
         android:id="@+id/imageBtn1"
-        android:src="@mipmap/burnsandallen1"
+        android:src="@mipmap/burnsandallen"
         android:contentDescription="@string/BurnsAndAllenImage"/>
 
     <ImageButton
