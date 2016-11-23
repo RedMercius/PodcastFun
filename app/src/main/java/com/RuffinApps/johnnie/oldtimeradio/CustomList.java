@@ -476,6 +476,16 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
+            case "The Whistler":
+            {
+                for (String mediaFile : rt.getWsMap().keySet()) {
+                    if (rt.getWsMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+                break;
+            }
+
             case "Hopalong Cassidy":
             {
                 for (String mediaFile : rt.getHcMap().keySet()) {

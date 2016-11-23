@@ -199,6 +199,18 @@ public class SelectActivity extends AppCompatActivity {
                 return titles;
             }
 
+            case "The Whistler":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getws().length];
+                for (String title : radioList.getWsMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
             case "Hopalong Cassidy":
             {
                 int i = 0;

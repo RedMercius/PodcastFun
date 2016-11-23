@@ -113,6 +113,11 @@ public class MediaControl {
                 break;
             }
 
+            case "The Whistler": {
+                url = "http://www.JohnnieRuffin.com/audio/TheWhistler/";
+                break;
+            }
+
             case "Hopalong Cassidy":
             {
                 url = "http://www.JohnnieRuffin.com/audio/Hopalong/";

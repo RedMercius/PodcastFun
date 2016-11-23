@@ -18,6 +18,7 @@ public class ThrillerActivity extends AppCompatActivity {
 
     ImageButton nbBtn;
     ImageButton sgBtn;
+    ImageButton wsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class ThrillerActivity extends AppCompatActivity {
 
         nbBtn = (ImageButton) findViewById(R.id.nbBtn);
         sgBtn = (ImageButton) findViewById(R.id.sgBtn);
+        wsBtn = (ImageButton) findViewById(R.id.wsBtn);
 
         nbBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -54,6 +56,18 @@ public class ThrillerActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        wsBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Intent i = new Intent(ThrillerActivity.this, SelectActivity.class);
+                i.putExtra("Selection", "The Whistler");
+                startActivity(i);
+            }
+        });
+
     }
 
 }

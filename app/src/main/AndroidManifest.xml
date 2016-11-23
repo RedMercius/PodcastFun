@@ -5,8 +5,8 @@
   ~ Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~
   -->
-<manifest android:versionCode="15"
-    android:versionName = "2.5"
+<manifest android:versionCode="16"
+    android:versionName = "2.6"
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.RuffinApps.johnnie.oldtimeradio"
     >
@@ -41,7 +41,6 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>

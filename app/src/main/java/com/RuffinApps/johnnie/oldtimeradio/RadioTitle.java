@@ -39,6 +39,7 @@ public class RadioTitle {
     // Thriller Maps
     private HashMap<String, String> nbMap = new HashMap<>();
     private HashMap<String, String> sgMap = new HashMap<>();
+    private HashMap<String, String> wsMap = new HashMap<>();
 
     // Western Maps
     private HashMap<String, String> hcMap = new HashMap<>();
@@ -3235,6 +3236,48 @@ public class RadioTitle {
             "Army Wife finale"
     };
 
+    private final String[] theWhistler = {
+            "Whistler_420516_Retribution.mp3",
+            "Whistler_420613_Shrunken_Head.mp3",
+            "Whistler_420627_Notes_in_the_Night.mp3",
+            "Whistler_420822_Death_has_a_Thirst.mp3",
+            "Whistler_420829_The_Letter.mp3",
+            "Whistler_420905_House_of_Greed.mp3",
+            "Whistler_420913_Mirage.mp3",
+            "Whistler_420920_Fog.mp3",
+            "Whistler_420927_Jealousy.mp3",
+            "Whistler_421004_Urge_to_Kill.mp3",
+            "Whistler_421011_Malice.mp3",
+            "Whistler_421018_Death_Comes_at_Midnight.mp3",
+            "Whistler_421025_The_Alibi.mp3",
+            "Whistler_421115_Appariation.mp3",
+            "Whistler_421122_The_Other_Woman.mp3",
+            "Whistler_421129_Avarice.mp3",
+            "Whistler_421213_The_Accounting.mp3",
+            "Whistler_421227_Double_Cross.mp3"
+    };
+
+    private final String[] theWhistlerTitle = {
+            "Retribution",
+            "Shrunken Head",
+            "Notes in the Night",
+            "Death has a Thirst",
+            "The Letter",
+            "House of Greed",
+            "Mirage",
+            "Fog",
+            "Jealousy",
+            "Urge to Kill",
+            "Malice",
+            "Death Comes at Midnight",
+            "The Alibi",
+            "Appariation",
+            "The Other Woman",
+            "Avarice",
+            "The Accounting",
+            "Double Cross"
+    };
+
     public void initTitles()
     {
         for (int i = 0; i < burnsAllen.length; ++i)
@@ -3292,6 +3335,11 @@ public class RadioTitle {
             sgMap.put(speed[i], speedTitle[i]);
         }
 
+        for (int i = 0; i < theWhistler.length; ++i)
+        {
+            wsMap.put(theWhistler[i], theWhistlerTitle[i]);
+        }
+
         for (int i = 0; i < hopalong.length; ++i)
         {
             hcMap.put(hopalong[i], hopalongTitle[i]);
@@ -3332,9 +3380,11 @@ public class RadioTitle {
     // Thriller
     public String[] getnb() { return nightBeat; }
     public String[] getsg() { return speed; }
+    public String [] getws() { return theWhistler; }
 
     public HashMap<String, String> getNbMap() { return nbMap; }
     public HashMap<String, String> getSgMap() { return sgMap; }
+    public HashMap<String, String> getWsMap() { return wsMap; }
 
     // Western
     public String[] gethc() { return hopalong; }

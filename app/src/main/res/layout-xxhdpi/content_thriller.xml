@@ -16,6 +16,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation= "horizontal"
+    android:layout_gravity="center"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_thriller"
     tools:context=".ThrillerActivity">
@@ -64,6 +66,17 @@
         android:src="@mipmap/sgimage"
         android:contentDescription="@string/Speed"/>
     </TableRow>
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip" >
+            <ImageButton
+                android:id="@+id/wsBtn"
+                android:src="@mipmap/thewhistler"
+                android:contentDescription="@string/TheWhistler"
+                />
+        </TableRow>
     </TableLayout>
     </LinearLayout>
     </HorizontalScrollView>
