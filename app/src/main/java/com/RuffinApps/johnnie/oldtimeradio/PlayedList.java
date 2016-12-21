@@ -8,13 +8,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by MOTAH on 12/19/2016.
  */
+
 
 public class PlayedList extends SQLiteOpenHelper {
 
@@ -33,6 +33,8 @@ public class PlayedList extends SQLiteOpenHelper {
             "CREATE TABLE " + PLAYED_TABLE_NAME + " (" +
                     SHOW_ID + "TEXT, " +
                     SHOW_TITLE + " TEXT);";
+
+    // TODO: Need to verify the integrity of the database.
 
     public static synchronized PlayedList getInstance(Context context) {
         // Use the application context, which will ensure that you
@@ -57,9 +59,9 @@ public class PlayedList extends SQLiteOpenHelper {
         }
     }
 
-   /* public List<String> getPlayedList()
+    public List<PlayData> getPlayedList()
     {
-        List<String> playedList = new ArrayList<>();
+        List<PlayData> playedList = new ArrayList<>();
 
         String PLAYED_LIST_SELECT_QUERY = "SELECT * FROM " + PLAYED_TABLE_NAME;
 
@@ -70,15 +72,11 @@ public class PlayedList extends SQLiteOpenHelper {
         try {
             if (cursor.moveToFirst()) {
                 do {
+                    PlayData playData = new PlayData();
+                    playData.showId = cursor.getString(cursor.getColumnIndex(SHOW_ID));
+                    playData.showTitle = cursor.getString(cursor.getColumnIndex(SHOW_TITLE));
 
-                    playData.showId = cursor.getString(cursor.getColumnIndex(NAME));
-                    userData.college = cursor.getString(cursor.getColumnIndex(COLLEGE));
-                    userData.place = cursor.getString(cursor.getColumnIndex(PLACE));
-                    userData.user_id = cursor.getString(cursor.getColumnIndex(USER_ID));
-                    userData.number = cursor.getString(cursor.getColumnIndex(NUMBER));
-
-
-                    usersdetail.add(userData);
+                    playedList.add(playData);
 
                 } while (cursor.moveToNext());
             }
@@ -89,7 +87,8 @@ public class PlayedList extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
-    }*/
+        return playedList;
+    }
 
     public void add(String showId, String title)
     {
@@ -139,8 +138,28 @@ public class PlayedList extends SQLiteOpenHelper {
         Log.d(TAG, "Comment deleted with title: " + title);
         database.delete(showId, title
                 + " = " + title, null);
-        // TODO: Input query to verify that the entry has been deleted.
+
+        if (!doesEntryExist(showId, title))
+        {
+            deleteSuccessful = false;
+        }
+
         return deleteSuccessful;
+    }
+
+    private boolean doesEntryExist(String showId, String title)
+    {
+        boolean entryExists = false;
+
+        List<PlayData> updatedList = getPlayedList();
+
+        for (PlayData playData : updatedList) {
+            if (playData.showId.matches(showId) && playData.showTitle.matches(title)) {
+                entryExists = true;
+            }
+        }
+
+        return entryExists;
     }
 
     public void open() throws SQLException {
