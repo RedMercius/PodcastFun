@@ -20,7 +20,9 @@ package com.RuffinApps.johnnie.oldtimeradio;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ToggleButton;
 
 import java.util.Collections;
 
@@ -29,6 +31,8 @@ public class SelectActivity extends AppCompatActivity {
 
     private CustomList adapter;
     private RadioTitle radioList;
+    private ToggleButton playedListBtn;
+    private ToggleButton unplayedListBtn;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,8 @@ public class SelectActivity extends AppCompatActivity {
 
             String[] titles = getRadioTitles(artist);
             listview = (ListView) findViewById(R.id.listview);
+            playedListBtn = (ToggleButton) findViewById(R.id.playedList);
+            unplayedListBtn = (ToggleButton) findViewById(R.id.unplayedList);
 
             // set the list adapter
             adapter =
@@ -61,19 +67,40 @@ public class SelectActivity extends AppCompatActivity {
                             iconControl.getImageButtonList(), artist);
 
             listview.setAdapter(adapter);
+
+            playedListBtn.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    // TODO: Reset list adapter and modify button to indicate selection.
+                }
+            });
+
+            unplayedListBtn.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    // TODO: Reset list adapter and modify button to indicate selection.
+                }
+            });
+
         }
 
+    //TODO: add a boolean for played or unplayed based on button press.
     public String[] getRadioTitles(String artist)
     {
         radioList.initTitles();
+        // TODO: control toggle button elements here
         switch (artist)
         {
             case "Burns And Allen":
             {
                 int i = 0;
-
+                // TODO: get the values for played from the database here
                 String[] titles = new String[radioList.getBurnsAllen().length];
                 for (String title : radioList.getBaMap().values()){
+                    // TODO: check the database for the title before adding to the list based on
+                    // TODO: whether this is a played list or an unplayed list.
                     titles[i] = title;
                     i++;
                 }
