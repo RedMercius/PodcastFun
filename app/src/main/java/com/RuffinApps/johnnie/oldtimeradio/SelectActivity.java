@@ -17,12 +17,13 @@ package com.RuffinApps.johnnie.oldtimeradio;
 //
 ////////////////////////////////////////////////////////////////////////////
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ToggleButton;
 
 import java.util.Collections;
 
@@ -31,8 +32,9 @@ public class SelectActivity extends AppCompatActivity {
 
     private CustomList adapter;
     private RadioTitle radioList;
-    private ToggleButton playedListBtn;
-    private ToggleButton unplayedListBtn;
+    private Button playedListBtn;
+    private Button unplayedListBtn;
+    private Button allShowsBtn;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +60,9 @@ public class SelectActivity extends AppCompatActivity {
 
             String[] titles = getRadioTitles(artist);
             listview = (ListView) findViewById(R.id.listview);
-            playedListBtn = (ToggleButton) findViewById(R.id.playedList);
-            unplayedListBtn = (ToggleButton) findViewById(R.id.unplayedList);
+            playedListBtn = (Button) findViewById(R.id.playedList);
+            unplayedListBtn = (Button) findViewById(R.id.unplayedList);
+            allShowsBtn = (Button) findViewById(R.id.allShowsList);
 
             // set the list adapter
             adapter =
@@ -68,11 +71,25 @@ public class SelectActivity extends AppCompatActivity {
 
             listview.setAdapter(adapter);
 
+            unplayedListBtn.setBackgroundColor(Color.TRANSPARENT);
+            unplayedListBtn.setTextColor(Color.BLACK);
+            allShowsBtn.setBackgroundColor(Color.BLACK);
+            allShowsBtn.setTextColor(Color.WHITE);
+            playedListBtn.setBackgroundColor(Color.TRANSPARENT);
+            playedListBtn.setTextColor(Color.BLACK);
+
             playedListBtn.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View arg0) {
                     // TODO: Reset list adapter and modify button to indicate selection.
+
+                    unplayedListBtn.setBackgroundColor(Color.TRANSPARENT);
+                    unplayedListBtn.setTextColor(Color.BLACK);
+                    allShowsBtn.setBackgroundColor(Color.TRANSPARENT);
+                    allShowsBtn.setTextColor(Color.BLACK);
+                    playedListBtn.setBackgroundColor(Color.BLACK);
+                    playedListBtn.setTextColor(Color.WHITE);
                 }
             });
 
@@ -81,9 +98,30 @@ public class SelectActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View arg0) {
                     // TODO: Reset list adapter and modify button to indicate selection.
+
+                    unplayedListBtn.setBackgroundColor(Color.BLACK);
+                    unplayedListBtn.setTextColor(Color.WHITE);
+                    allShowsBtn.setBackgroundColor(Color.TRANSPARENT);
+                    allShowsBtn.setTextColor(Color.BLACK);
+                    playedListBtn.setBackgroundColor(Color.TRANSPARENT);
+                    playedListBtn.setTextColor(Color.BLACK);
                 }
             });
 
+            allShowsBtn.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View arg0) {
+                    // TODO: Reset list adapter and modify button to indicate selection.
+
+                    unplayedListBtn.setBackgroundColor(Color.TRANSPARENT);
+                    unplayedListBtn.setTextColor(Color.BLACK);
+                    allShowsBtn.setBackgroundColor(Color.BLACK);
+                    allShowsBtn.setTextColor(Color.WHITE);
+                    playedListBtn.setBackgroundColor(Color.TRANSPARENT);
+                    playedListBtn.setTextColor(Color.BLACK);
+                }
+            });
         }
 
     //TODO: add a boolean for played or unplayed based on button press.

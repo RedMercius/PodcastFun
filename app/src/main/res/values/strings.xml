@@ -34,8 +34,9 @@
     <string name="download_in_pending">Download Pending: </string>
     <string name="insufficient_volume">Cannot Download due to insufficient Volume. Please delete an item to download.</string>
     <string name="deleting">Deleting </string>
-    <string name="toggle_button_played">Played</string>
-    <string name="toggle_button_not_played">Not Played</string>
+    <string name="button_played">Played</string>
+    <string name="button_not_played">Not Played</string>
+    <string name="button_all_shows">All Shows</string>
 
     <string name="category_comedy">Comedy</string>
     <string name="category_scifi">Science-Fiction</string>

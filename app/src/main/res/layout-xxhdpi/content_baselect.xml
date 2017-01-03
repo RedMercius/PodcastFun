@@ -20,23 +20,31 @@
     tools:showIn="@layout/activity_select"
     tools:context=".ComedyActivity">
 
-    <ToggleButton
+    <Button
         android:id="@+id/playedList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/AppTheme"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="@string/toggle_button_played"/>
+        android:text="@string/button_played"/>
 
-    <ToggleButton
+    <Button
         android:id="@+id/unplayedList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_toRightOf="@id/playedList"
         android:layout_toEndOf="@id/playedList"
-        android:text="@string/toggle_button_not_played"/>
+        android:layout_alignParentTop="true"
+        android:text="@string/button_not_played"/>
+
+    <Button
+        android:id="@+id/allShowsList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/unplayedList"
+        android:layout_toEndOf="@id/unplayedList"
+        android:layout_alignParentTop="true"
+        android:text="@string/button_all_shows"/>
 
     <ListView
         android:id="@+id/listview"
