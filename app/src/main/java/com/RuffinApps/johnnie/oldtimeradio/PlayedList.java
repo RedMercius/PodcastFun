@@ -24,6 +24,7 @@ public class PlayedList extends SQLiteOpenHelper {
     private static PlayedList mDbHelper;
     private SQLiteDatabase database;
     private SQLiteOpenHelper dbHelper;
+    private RadioTitle radioList;
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "played.db";
@@ -49,6 +50,9 @@ public class PlayedList extends SQLiteOpenHelper {
 
     public PlayedList(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
+        // get the radio titles
+        radioList = new RadioTitle();
     }
 
     @Override
@@ -77,8 +81,8 @@ public class PlayedList extends SQLiteOpenHelper {
         return res;
     }
 
-    public String[] getPlayedTitles() {
-        Cursor rs = getData("Burns And Allen");
+    public String[] getPlayedTitles(String artist) {
+        Cursor rs = getData(artist);
         String[] myTitleData = new String[rs.getCount()];
         int i = 0;
 
@@ -96,6 +100,228 @@ public class PlayedList extends SQLiteOpenHelper {
         }
 
         return myTitleData;
+    }
+
+    public String[] getUnplayedTitles(String artist) {
+        Cursor rs = getData(artist);
+        String[] myTitleData = new String[rs.getCount()];
+        int i = 0;
+
+        rs.moveToFirst();
+
+        myTitleData[i] = rs.getString(2);
+        i++;
+
+        while(rs.moveToNext())
+        {
+            myTitleData[i] = rs.getString(2);
+            i++;
+        }
+
+        String[] allTitles = getRadioTitles(artist);
+        String[] unplayedBuilder = new String[(allTitles.length - myTitleData.length)];
+        int unplayedCount = 0;
+
+        for (int b = 0; b < (allTitles.length - 1); ++b)
+        {
+            if (b < myTitleData.length) {
+                if (!myTitleData[b].equals(allTitles[b])) {
+                    unplayedBuilder[unplayedCount] = allTitles[b];
+                    unplayedCount++;
+                }
+            }
+            else
+            {
+                unplayedBuilder[unplayedCount] = allTitles[b];
+                unplayedCount++;
+            }
+        }
+
+        return unplayedBuilder;
+    }
+
+    //TODO: add a boolean for played or unplayed based on button press.
+    public String[] getRadioTitles(String artist)
+    {
+        radioList.initTitles();
+        // TODO: control toggle button elements here
+        switch (artist)
+        {
+            case "Burns And Allen":
+            {
+                int i = 0;
+                // TODO: get the values for played from the database here
+                String[] titles = new String[radioList.getBurnsAllen().length];
+                for (String title : radioList.getBaMap().values()){
+                    // TODO: check the database for the title before adding to the list based on
+                    // TODO: whether this is a played list or an unplayed list.
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "Fibber McGee And Molly":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getFibber().length];
+                for (String title : radioList.getFbMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "Martin And Lewis":
+            {
+                int i = 0;
+
+                String[] titles = new String[radioList.getMartin().length];
+                for (String title : radioList.getMlMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "The Great GilderSleeves":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getGilder().length];
+                for (String title : radioList.getGlMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "Jack Benny":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getJackBenny().length];
+                for (String title : radioList.getJbMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "Bob Hope":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getBobHope().length];
+                for (String title : radioList.getBhMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "XMinus1":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getXM().length];
+                for (String title : radioList.getXMMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "Inner Sanctum":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getIs().length];
+                for (String title : radioList.getIsMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "Dimension X":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getDx().length];
+                for (String title : radioList.getDxMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "Night Beat":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getnb().length];
+                for (String title : radioList.getNbMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "Speed":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getsg().length];
+                for (String title : radioList.getSgMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "The Whistler":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getws().length];
+                for (String title : radioList.getWsMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "Hopalong Cassidy":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.gethc().length];
+                for (String title : radioList.getHcMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "Fort Laramie":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getfl().length];
+                for (String title : radioList.getFlMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            default: {
+                return null;
+            }
+        }
     }
 
     public List<PlayData> getPlayedList()

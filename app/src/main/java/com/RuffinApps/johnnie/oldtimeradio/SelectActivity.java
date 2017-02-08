@@ -68,7 +68,6 @@ public class SelectActivity extends AppCompatActivity {
             // get the radio titles
             radioList = new RadioTitle();
 
-
             // get and set the instance for the played list
             playList = new PlayedList(this);
 
@@ -76,11 +75,12 @@ public class SelectActivity extends AppCompatActivity {
 
             String playedTitles[] = new String[playList.numberOfRows()];
 
-            Log.d(TAG, "Number of Rows: " + playList.numberOfRows());
+            String[] notPlayedTitles = new String[playList.getUnplayedTitles(artist).length];
 
-            String[] notPlayedTitles = {"NotPlayedTitle"};
+            Log.d(TAG, "Unplayed Length: " + playList.getUnplayedTitles(artist).length);
 
-            playedTitles = playList.getPlayedTitles();
+            notPlayedTitles = playList.getUnplayedTitles(artist);
+            playedTitles = playList.getPlayedTitles(artist);
 
             listview = (ListView) findViewById(R.id.listview);
             playedListBtn = (Button) findViewById(playedList);

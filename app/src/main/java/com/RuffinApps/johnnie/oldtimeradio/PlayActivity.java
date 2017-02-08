@@ -51,6 +51,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     private String title;
     private int mResult;
     private AudioManager am;
+    private PlayedList playList;
 
     public enum buttonPos
     {
@@ -97,6 +98,8 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         mediaName = extra.getString("MediaTitle");
         artist = extra.getString("Selection");
         title = extra.getString("Title");
+
+        playList = new PlayedList(this);
 
         this.mc = new MediaControl(this, mp, artist);
 
@@ -432,6 +435,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     }
 
     private void cleanup() {
+        playList.add(0, artist, title);
         am.abandonAudioFocus(this);
         mc.stopMedia();
         haltRun = true;
