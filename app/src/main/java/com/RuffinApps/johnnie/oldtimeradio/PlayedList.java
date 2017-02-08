@@ -3,6 +3,7 @@ package com.RuffinApps.johnnie.oldtimeradio;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -27,28 +28,33 @@ public class PlayedList extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "played.db";
     private static final String PLAYED_TABLE_NAME = "played";
+    private static final Integer _ID = 0;
     private static final String SHOW_ID = "show_id";
     private static final String SHOW_TITLE = "radio_show_title";
     private static final String PLAYED_TABLE_CREATE =
-            "CREATE TABLE " + PLAYED_TABLE_NAME + " (" +
-                    SHOW_ID + "TEXT, " +
-                    SHOW_TITLE + " TEXT);";
+            "CREATE TABLE " + PLAYED_TABLE_NAME + "(_id INTEGER,show_id TEXT,radio_show_title TEXT)";
 
     // TODO: Need to verify the integrity of the database.
 
-    public static synchronized PlayedList getInstance(Context context) {
+    /*public static synchronized PlayedList getInstance(Context context) {
         // Use the application context, which will ensure that you
         // don't accidentally leak an Activity's context.
 
         if (mDbHelper == null) {
             mDbHelper = new PlayedList(context.getApplicationContext());
+            Log.w("PlayedList_Static", "getInstance");
         }
         return mDbHelper;
+    }*/
+
+    public PlayedList(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(PLAYED_TABLE_CREATE);
+        Log.d(TAG, "OnCreate db");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVer, int newVer)
@@ -59,13 +65,46 @@ public class PlayedList extends SQLiteOpenHelper {
         }
     }
 
+    public int numberOfRows(){
+        database = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(database, PLAYED_TABLE_NAME );
+        return numRows;
+    }
+
+    public Cursor getData(String id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from played", null );
+        return res;
+    }
+
+    public String[] getPlayedTitles() {
+        Cursor rs = getData("Burns And Allen");
+        String[] myTitleData = new String[rs.getCount()];
+        int i = 0;
+
+        rs.moveToFirst();
+
+        myTitleData[i] = rs.getString(2);
+        Log.d(TAG, "Row: " + i + " out of " + rs.getCount() + "\n"  + "Played Titles: " + rs.getString(2));
+        i++;
+
+        while(rs.moveToNext())
+        {
+            myTitleData[i] = rs.getString(2);
+            Log.d(TAG, "Row: " + i + " out of " + rs.getCount() + "\n"  + "Played Titles: " + rs.getString(2));
+            i++;
+        }
+
+        return myTitleData;
+    }
+
     public List<PlayData> getPlayedList()
     {
         List<PlayData> playedList = new ArrayList<>();
 
         String PLAYED_LIST_SELECT_QUERY = "SELECT * FROM " + PLAYED_TABLE_NAME;
 
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(PLAYED_LIST_SELECT_QUERY, null);
 
@@ -73,6 +112,7 @@ public class PlayedList extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     PlayData playData = new PlayData();
+                    playData._id = cursor.getInt(cursor.getColumnIndex("_id"));
                     playData.showId = cursor.getString(cursor.getColumnIndex(SHOW_ID));
                     playData.showTitle = cursor.getString(cursor.getColumnIndex(SHOW_TITLE));
 
@@ -90,9 +130,9 @@ public class PlayedList extends SQLiteOpenHelper {
         return playedList;
     }
 
-    public void add(String showId, String title)
+    public void add(Integer id, String showId, String title)
     {
-        store(showId, title);
+        store(id, showId, title);
     }
 
     public void remove(String showId, String title)
@@ -100,33 +140,29 @@ public class PlayedList extends SQLiteOpenHelper {
        delete(showId, title);
     }
 
-    private PlayedList(Context context) {
+    /*private PlayedList(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
+    }*/
 
-    private boolean store(String showId, String title)
+    private boolean store(Integer id, String showId, String title)
     {
         boolean successfulStore = true;
 
-        // Make database writable.
-        open();
-
-        database.beginTransaction();
+        SQLiteDatabase db = this.getWritableDatabase();
 
         try {
             ContentValues values = new ContentValues();
+            values.put("_id", id);
             values.put(SHOW_ID, showId);
             values.put(SHOW_TITLE, title);
-            database.insertOrThrow(PLAYED_TABLE_NAME, null, values);
-            database.setTransactionSuccessful();
+            db.insert(PLAYED_TABLE_NAME, null, values);
         } catch (SQLException e) {
             e.printStackTrace();
             Log.d(TAG, "Error while attempting add to Played database.");
             successfulStore = false;
         }
         finally {
-            database.endTransaction();
-            close();
+            db.close();
         }
         return successfulStore;
     }
@@ -163,10 +199,10 @@ public class PlayedList extends SQLiteOpenHelper {
     }
 
     public void open() throws SQLException {
-        database = dbHelper.getWritableDatabase();
+        database = this.getWritableDatabase();
     }
 
     public void close() {
-        dbHelper.close();
+        database.close();
     }
 }

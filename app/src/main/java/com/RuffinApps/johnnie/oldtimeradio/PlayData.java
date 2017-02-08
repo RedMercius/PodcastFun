@@ -5,6 +5,7 @@ package com.RuffinApps.johnnie.oldtimeradio;
  */
 
 public class PlayData {
+    public Integer _id;
     public String showId;
     public String showTitle;
 }

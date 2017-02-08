@@ -21,31 +21,30 @@
     tools:context=".CustomList">
 
     <Button
-        android:id="@+id/playedList"
+        android:id="@+id/allShowsList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="@string/button_played"/>
+        android:text="@string/button_all_shows"/>
 
     <Button
         android:id="@+id/unplayedList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_toRightOf="@id/playedList"
-        android:layout_toEndOf="@id/playedList"
+        android:layout_toRightOf="@id/allShowsList"
+        android:layout_toEndOf="@id/allShowsList"
         android:layout_alignParentTop="true"
         android:text="@string/button_not_played"/>
 
     <Button
-        android:id="@+id/allShowsList"
+        android:id="@+id/playedList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/unplayedList"
         android:layout_toEndOf="@id/unplayedList"
         android:layout_alignParentTop="true"
-        android:text="@string/button_all_shows"/>
-
+        android:text="@string/button_played"/>
 
     <ListView
         android:id="@+id/listview"

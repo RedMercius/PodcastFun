@@ -17,31 +17,41 @@ package com.RuffinApps.johnnie.oldtimeradio;
 //
 ////////////////////////////////////////////////////////////////////////////
 
+import android.content.ClipData;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.Collections;
+import java.util.List;
+
+import static com.RuffinApps.johnnie.oldtimeradio.R.id.playedList;
 
 public class SelectActivity extends AppCompatActivity {
-    // private String TAG = "SelectActivity: ";
+    private String TAG = "SelectActivity: ";
 
     private CustomList adapter;
+    private CustomList playedAdapter;
+    private CustomList notPlayedAdapter;
     private RadioTitle radioList;
     private Button playedListBtn;
     private Button unplayedListBtn;
     private Button allShowsBtn;
+    private PlayedList playList;
+    private ListView listview;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_select);
-
-            ListView listview;
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
@@ -58,9 +68,22 @@ public class SelectActivity extends AppCompatActivity {
             // get the radio titles
             radioList = new RadioTitle();
 
+
+            // get and set the instance for the played list
+            playList = new PlayedList(this);
+
             String[] titles = getRadioTitles(artist);
+
+            String playedTitles[] = new String[playList.numberOfRows()];
+
+            Log.d(TAG, "Number of Rows: " + playList.numberOfRows());
+
+            String[] notPlayedTitles = {"NotPlayedTitle"};
+
+            playedTitles = playList.getPlayedTitles();
+
             listview = (ListView) findViewById(R.id.listview);
-            playedListBtn = (Button) findViewById(R.id.playedList);
+            playedListBtn = (Button) findViewById(playedList);
             unplayedListBtn = (Button) findViewById(R.id.unplayedList);
             allShowsBtn = (Button) findViewById(R.id.allShowsList);
 
@@ -70,6 +93,17 @@ public class SelectActivity extends AppCompatActivity {
                             iconControl.getImageButtonList(), artist);
 
             listview.setAdapter(adapter);
+
+            // TODO: Extract titles from List object
+            // set the played adapter
+            playedAdapter =
+                    new CustomList(this, playedTitles,
+                            iconControl.getImageButtonList(), artist);
+
+            // set the notPlayed adapter
+            notPlayedAdapter =
+                    new CustomList(this, notPlayedTitles,
+                            iconControl.getImageButtonList(), artist);
 
             unplayedListBtn.setBackgroundColor(Color.TRANSPARENT);
             unplayedListBtn.setTextColor(Color.BLACK);
@@ -90,6 +124,8 @@ public class SelectActivity extends AppCompatActivity {
                     allShowsBtn.setTextColor(Color.BLACK);
                     playedListBtn.setBackgroundColor(Color.BLACK);
                     playedListBtn.setTextColor(Color.WHITE);
+
+                    listview.setAdapter(playedAdapter);
                 }
             });
 
@@ -105,6 +141,8 @@ public class SelectActivity extends AppCompatActivity {
                     allShowsBtn.setTextColor(Color.BLACK);
                     playedListBtn.setBackgroundColor(Color.TRANSPARENT);
                     playedListBtn.setTextColor(Color.BLACK);
+
+                    listview.setAdapter(notPlayedAdapter);
                 }
             });
 
@@ -120,6 +158,8 @@ public class SelectActivity extends AppCompatActivity {
                     allShowsBtn.setTextColor(Color.WHITE);
                     playedListBtn.setBackgroundColor(Color.TRANSPARENT);
                     playedListBtn.setTextColor(Color.BLACK);
+
+                    listview.setAdapter(adapter);
                 }
             });
         }
