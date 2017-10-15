@@ -163,11 +163,8 @@ public class PlayedList extends SQLiteOpenHelper {
             case "Burns And Allen":
             {
                 int i = 0;
-                // TODO: get the values for played from the database here
                 String[] titles = new String[radioList.getBurnsAllen().length];
                 for (String title : radioList.getBaMap().values()){
-                    // TODO: check the database for the title before adding to the list based on
-                    // TODO: whether this is a played list or an unplayed list.
                     titles[i] = title;
                     Log.d(TAG, "BurnsAndAllen_Titles: " + title);
                     i++;

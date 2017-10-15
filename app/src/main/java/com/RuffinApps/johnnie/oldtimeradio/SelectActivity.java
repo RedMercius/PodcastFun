@@ -93,7 +93,7 @@ public class SelectActivity extends AppCompatActivity {
             listview.setAdapter(adapter);
 
             // TODO: Extract titles from List object
-            // TODO: Look into unregistering reciever
+            // TODO: Look into unregistering receiver
             // set the played adapter
             playedAdapter =
                     new CustomList(this, playedTitles,
@@ -361,6 +361,8 @@ public class SelectActivity extends AppCompatActivity {
         {
             // clean up any list activity.
             adapter.cleanUp(this);
+            notPlayedAdapter.cleanUp(this);
+            playedAdapter.cleanUp(this);
             super.onDestroy();
         }
     }
