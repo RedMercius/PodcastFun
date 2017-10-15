@@ -68,8 +68,10 @@ public class CustomList extends ArrayAdapter<String> {
     private boolean mdownloadInProgress;
     private boolean mThreadRunning;
     private long mdlID;
+    private boolean removeButtons;
     final String TAG = "CustomList";
     SQLiteDatabase db;
+    private PlayedList playList;
 
     public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, String artist) {
         super(context, R.layout.custom_list_multi, radioTitle);
@@ -78,6 +80,7 @@ public class CustomList extends ArrayAdapter<String> {
         this.radioTitle = radioTitle;
         this.imageButtonList = imageButtonList;
         this.artist = artist;
+        this.removeButtons = false;
 
         MediaPlayer mp = new MediaPlayer();
         mRemoveList = new ArrayList<>();
@@ -133,6 +136,11 @@ public class CustomList extends ArrayAdapter<String> {
         }
 
         b.close();
+    }
+
+    public void removeButtonsFromView(boolean rem)
+    {
+      removeButtons = rem;
     }
 
     public void deleteFromList(String filename)
@@ -535,6 +543,7 @@ public class CustomList extends ArrayAdapter<String> {
             }
         }
 
+        // setting the buttons for list items
         if (!isItInRaw && !doesMediaExist && !ignoreThisItem) {
             viewHolder.downloadButton.setImageResource(imageButtonList[4]);
             viewHolder.playButton.setImageResource(imageButtonList[0]);
@@ -568,6 +577,15 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder.deleteButton.setVisibility(View.INVISIBLE);
             viewHolder.txtStatus.setVisibility(View.VISIBLE);
             viewHolder.txtStatus.setText(context.getResources().getString(R.string.downloading));
+        }
+
+        if (removeButtons == true)
+        {
+            viewHolder.downloadButton.setVisibility(View.INVISIBLE);
+            viewHolder.playButton.setVisibility(View.INVISIBLE);
+            viewHolder.stopButton.setVisibility(View.INVISIBLE);
+            viewHolder.deleteButton.setVisibility(View.INVISIBLE);
+            viewHolder.txtStatus.setVisibility(View.VISIBLE);
         }
 
         viewHolder.playButton.setOnClickListener(new View.OnClickListener() {

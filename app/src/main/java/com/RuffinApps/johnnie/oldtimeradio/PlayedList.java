@@ -76,8 +76,9 @@ public class PlayedList extends SQLiteOpenHelper {
     }
 
     public Cursor getData(String id) {
+        String [] artist = {id};
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from played", null );
+        Cursor res =  db.rawQuery( "select * from played where show_id=?", artist);
         return res;
     }
 
@@ -108,9 +109,10 @@ public class PlayedList extends SQLiteOpenHelper {
     public String[] getUnplayedTitles(String artist) {
         Cursor rs = getData(artist);
         String[] myTitleData = new String[rs.getCount()];
-        String[] emptyList = {"No played shows."};
+        String[] emptyList = getRadioTitles(artist);
+        String[] fullList = {"All shows have been played."};
 
-        if (rs.getCount() == 0) {
+        if (rs.getCount() > 0) {
             int i = 0;
 
             rs.moveToFirst();
@@ -124,20 +126,27 @@ public class PlayedList extends SQLiteOpenHelper {
             }
 
             String[] allTitles = getRadioTitles(artist);
-            String[] unplayedBuilder = new String[(allTitles.length)];
+            String[] unplayedBuilder = new String[(allTitles.length - myTitleData.length)];
             int unplayedCount = 0;
 
-            for (int b = 0; b < (allTitles.length - 1); ++b) {
+            for (int b = 0; b < (allTitles.length); ++b) {
                 if (b < myTitleData.length) {
-                    if (!myTitleData[b].equals(allTitles[b])) {
-                        unplayedBuilder[unplayedCount] = allTitles[b];
+                    if (myTitleData[b].equals(allTitles[b])) {
+                        // if what exists in the databse equals one of the titles, do not add it.
                         Log.d(TAG, "Played_Titles: " + allTitles[b]);
                     }
                 } else {
+                    // otherwise, the rest are unplayed
                     unplayedBuilder[unplayedCount] = allTitles[b];
+                    unplayedCount++;
                     Log.d(TAG, "Unplayed_Titles: " + allTitles[b]);
                 }
-                unplayedCount++;
+            }
+
+            // if the count matches all titles, we have played everything that exists
+            if (unplayedCount == allTitles.length)
+            {
+                return fullList;
             }
             return unplayedBuilder;
         }

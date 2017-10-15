@@ -72,15 +72,13 @@ public class SelectActivity extends AppCompatActivity {
             playList = new PlayedList(this);
 
             String[] titles = getRadioTitles(artist);
-
-            String[] playedTitles = new String[playList.numberOfRows()];
-
-            String[] notPlayedTitles = new String[playList.getUnplayedTitles(artist).length];
+            //String[] playedTitles = new String[playList.numberOfRows()];
+            //String[] notPlayedTitles = new String[playList.getUnplayedTitles(artist).length];
 
             Log.d(TAG, "Unplayed Length: " + playList.getUnplayedTitles(artist).length);
 
-            notPlayedTitles = playList.getUnplayedTitles(artist);
-            playedTitles = playList.getPlayedTitles(artist);
+            final String [] notPlayedTitles = playList.getUnplayedTitles(artist);
+            final String [] playedTitles = playList.getPlayedTitles(artist);
 
             listview = (ListView) findViewById(R.id.listview);
             playedListBtn = (Button) findViewById(playedList);
@@ -95,15 +93,18 @@ public class SelectActivity extends AppCompatActivity {
             listview.setAdapter(adapter);
 
             // TODO: Extract titles from List object
+            // TODO: Look into unregistering reciever
             // set the played adapter
             playedAdapter =
                     new CustomList(this, playedTitles,
                             iconControl.getImageButtonList(), artist);
 
-            // set the notPlayed adapter
-            notPlayedAdapter =
-                    new CustomList(this, notPlayedTitles,
-                            iconControl.getImageButtonList(), artist);
+
+                // set the notPlayed adapter
+                notPlayedAdapter =
+                        new CustomList(this, notPlayedTitles,
+                                iconControl.getImageButtonList(), artist);
+
 
             unplayedListBtn.setBackgroundColor(Color.TRANSPARENT);
             unplayedListBtn.setTextColor(Color.BLACK);
@@ -126,6 +127,9 @@ public class SelectActivity extends AppCompatActivity {
                     playedListBtn.setTextColor(Color.WHITE);
 
                     listview.setAdapter(playedAdapter);
+                    if (true == playedTitles[0].contains("No played shows.")) {
+                        playedAdapter.removeButtonsFromView(true);
+                    }
                 }
             });
 
@@ -143,6 +147,10 @@ public class SelectActivity extends AppCompatActivity {
                     playedListBtn.setTextColor(Color.BLACK);
 
                     listview.setAdapter(notPlayedAdapter);
+
+                    if (true == notPlayedTitles[0].contains("All shows have been played.")) {
+                        notPlayedAdapter.removeButtonsFromView(true);
+                    }
                 }
             });
 
