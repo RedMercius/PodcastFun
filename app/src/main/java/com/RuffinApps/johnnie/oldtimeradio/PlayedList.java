@@ -84,60 +84,64 @@ public class PlayedList extends SQLiteOpenHelper {
     public String[] getPlayedTitles(String artist) {
         Cursor rs = getData(artist);
         String[] myTitleData = new String[rs.getCount()];
-        int i = 0;
+        String[] emptyList = {"No played shows."};
 
-        rs.moveToFirst();
+        if (rs.getCount() > 0) {
+            int i = 0;
 
-        myTitleData[i] = rs.getString(2);
-        Log.d(TAG, "Row: " + i + " out of " + rs.getCount() + "\n"  + "Played Titles: " + rs.getString(2));
-        i++;
+            rs.moveToFirst();
 
-        while(rs.moveToNext())
-        {
             myTitleData[i] = rs.getString(2);
-            Log.d(TAG, "Row: " + i + " out of " + rs.getCount() + "\n"  + "Played Titles: " + rs.getString(2));
+            Log.d(TAG, "Row: " + i + " out of " + rs.getCount() + "\n" + "Played Titles: " + rs.getString(2));
             i++;
-        }
 
-        return myTitleData;
+            while (rs.moveToNext()) {
+                myTitleData[i] = rs.getString(2);
+                Log.d(TAG, "Row: " + i + " out of " + rs.getCount() + "\n" + "Played Titles: " + rs.getString(2));
+                i++;
+            }
+            return myTitleData;
+        }
+        return emptyList;
     }
 
     public String[] getUnplayedTitles(String artist) {
         Cursor rs = getData(artist);
         String[] myTitleData = new String[rs.getCount()];
-        int i = 0;
+        String[] emptyList = {"No played shows."};
 
-        rs.moveToFirst();
+        if (rs.getCount() == 0) {
+            int i = 0;
 
-        myTitleData[i] = rs.getString(2);
-        i++;
+            rs.moveToFirst();
 
-        while(rs.moveToNext())
-        {
             myTitleData[i] = rs.getString(2);
             i++;
-        }
 
-        String[] allTitles = getRadioTitles(artist);
-        String[] unplayedBuilder = new String[(allTitles.length - myTitleData.length)];
-        int unplayedCount = 0;
-
-        for (int b = 0; b < (allTitles.length - 1); ++b)
-        {
-            if (b < myTitleData.length) {
-                if (!myTitleData[b].equals(allTitles[b])) {
-                    unplayedBuilder[unplayedCount] = allTitles[b];
-                    unplayedCount++;
-                }
+            while (rs.moveToNext()) {
+                myTitleData[i] = rs.getString(2);
+                i++;
             }
-            else
-            {
-                unplayedBuilder[unplayedCount] = allTitles[b];
+
+            String[] allTitles = getRadioTitles(artist);
+            String[] unplayedBuilder = new String[(allTitles.length)];
+            int unplayedCount = 0;
+
+            for (int b = 0; b < (allTitles.length - 1); ++b) {
+                if (b < myTitleData.length) {
+                    if (!myTitleData[b].equals(allTitles[b])) {
+                        unplayedBuilder[unplayedCount] = allTitles[b];
+                        Log.d(TAG, "Played_Titles: " + allTitles[b]);
+                    }
+                } else {
+                    unplayedBuilder[unplayedCount] = allTitles[b];
+                    Log.d(TAG, "Unplayed_Titles: " + allTitles[b]);
+                }
                 unplayedCount++;
             }
+            return unplayedBuilder;
         }
-
-        return unplayedBuilder;
+        return emptyList;
     }
 
     //TODO: add a boolean for played or unplayed based on button press.
@@ -156,6 +160,7 @@ public class PlayedList extends SQLiteOpenHelper {
                     // TODO: check the database for the title before adding to the list based on
                     // TODO: whether this is a played list or an unplayed list.
                     titles[i] = title;
+                    Log.d(TAG, "BurnsAndAllen_Titles: " + title);
                     i++;
                 }
                 return titles;
@@ -168,6 +173,7 @@ public class PlayedList extends SQLiteOpenHelper {
                 for (String title : radioList.getFbMap().values())
                 {
                     titles[i] = title;
+                    Log.d(TAG, "Fibber Mcgee_Titles: " + titles);
                     i++;
                 }
                 return titles;
@@ -181,6 +187,7 @@ public class PlayedList extends SQLiteOpenHelper {
                 for (String title : radioList.getMlMap().values())
                 {
                     titles[i] = title;
+                    Log.d(TAG, "MartinAndLewis_Titles: " + title);
                     i++;
                 }
                 return titles;
@@ -319,16 +326,17 @@ public class PlayedList extends SQLiteOpenHelper {
             }
 
             default: {
+                Log.d(TAG, "Returning Null!!");
                 return null;
             }
         }
     }
 
-    public List<PlayData> getPlayedList()
+    public List<PlayData> getPlayedList(String showId)
     {
         List<PlayData> playedList = new ArrayList<>();
 
-        String PLAYED_LIST_SELECT_QUERY = "SELECT * FROM " + PLAYED_TABLE_NAME;
+        String PLAYED_LIST_SELECT_QUERY = "SELECT * FROM " + PLAYED_TABLE_NAME + "WHERE SHOW_ID="+showId+"";
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -413,7 +421,7 @@ public class PlayedList extends SQLiteOpenHelper {
     {
         boolean entryExists = false;
 
-        List<PlayData> updatedList = getPlayedList();
+        List<PlayData> updatedList = getPlayedList(showId);
 
         for (PlayData playData : updatedList) {
             if (playData.showId.matches(showId) && playData.showTitle.matches(title)) {

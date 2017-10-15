@@ -73,7 +73,7 @@ public class SelectActivity extends AppCompatActivity {
 
             String[] titles = getRadioTitles(artist);
 
-            String playedTitles[] = new String[playList.numberOfRows()];
+            String[] playedTitles = new String[playList.numberOfRows()];
 
             String[] notPlayedTitles = new String[playList.getUnplayedTitles(artist).length];
 
