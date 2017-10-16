@@ -38,8 +38,8 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/activity_comedy"
-        tools:context=".ComedyActivity">
+        tools:showIn="@layout/activity_thriller"
+        tools:context=".ThrillerActivity">
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                  android:id="@+id/tableLayout1"
                  android:layout_width="fill_parent"
@@ -51,6 +51,8 @@
         android:padding="5dip" >
     <ImageButton
         android:id="@+id/nbBtn"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
         android:src="@mipmap/nightbeat"
         android:contentDescription="@string/NightBeat"
         />
@@ -59,6 +61,8 @@
         android:id="@+id/sgBtn"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="275dp"
         android:src="@mipmap/sgimage"
         android:contentDescription="@string/Speed"/>
     </TableRow>
@@ -69,6 +73,9 @@
             android:padding="5dip" >
             <ImageButton
                 android:id="@+id/wsBtn"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="275dp"
                 android:src="@mipmap/thewhistler"
                 android:contentDescription="@string/TheWhistler"
                 />
