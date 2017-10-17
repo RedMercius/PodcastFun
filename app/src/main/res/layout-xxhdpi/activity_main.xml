@@ -27,17 +27,17 @@
         android:layout_height="wrap_content"
         android:text="@string/title_category"
         android:textColor="@color/black"
-        android:textSize="30pt"
+        android:textSize="16pt"
         android:textStyle="bold"/>
 
     <Button
         android:id="@+id/comedyButton"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@id/txtcat"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20pt"
+        android:textSize="13pt"
         android:text="@string/category_comedy"
         />
 
@@ -47,7 +47,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20pt"
+        android:textSize="13pt"
         android:text="@string/category_scifi"
         />
 
@@ -57,7 +57,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20pt"
+        android:textSize="13pt"
         android:text="@string/category_thriller"
         />
 
@@ -67,7 +67,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20pt"
+        android:textSize="13pt"
         android:text="@string/category_western"
         />
 
