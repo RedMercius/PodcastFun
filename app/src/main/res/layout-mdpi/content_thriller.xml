@@ -40,32 +40,33 @@
                 tools:context=".ThrillerActivity">
                 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/tableLayout1"
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="fill_parent" >
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dip" >
 
-        <ImageButton
-            android:id="@+id/nbBtn"
-            android:layout_width="275dp"
-            android:layout_height="275dp"
-            android:src="@mipmap/nightbeat"
-            android:contentDescription="@string/NightBeat"
-            />
+                    <TableRow
+                        android:id="@+id/tableRow1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dip">
 
-        <ImageButton
-            android:id="@+id/sgBtn"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="275dp"
-            android:src="@mipmap/sgimage"
-            android:contentDescription="@string/Speed"/>
-    </TableRow>
-        <TableRow
+                        <ImageButton
+                            android:id="@+id/nbBtn"
+                            android:layout_width="275dp"
+                            android:layout_height="275dp"
+                            android:contentDescription="@string/NightBeat"
+                            android:src="@mipmap/nightbeat" />
+
+                        <ImageButton
+                            android:id="@+id/sgBtn"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="275dp"
+                            android:contentDescription="@string/Speed"
+                            android:src="@mipmap/sgimage" />
+                    </TableRow>
+
+                    <TableRow
             android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
