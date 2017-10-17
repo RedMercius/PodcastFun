@@ -62,7 +62,6 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="275dp"
         android:src="@mipmap/sgimage"
         android:contentDescription="@string/Speed"/>
     </TableRow>
@@ -75,7 +74,6 @@
                 android:id="@+id/wsBtn"
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
-                android:layout_height="275dp"
                 android:src="@mipmap/thewhistler"
                 android:contentDescription="@string/TheWhistler"
                 />
