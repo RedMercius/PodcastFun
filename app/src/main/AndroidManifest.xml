@@ -5,11 +5,15 @@
   ~ Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~
   -->
-<manifest android:versionCode="16"
-    android:versionName = "2.6"
+<manifest android:versionCode="17"
+    android:versionName = "3.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.RuffinApps.johnnie.oldtimeradio"
     >
+
+    // TODO: Remember to remove this for android builds...or comment out.
+    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -18,7 +22,11 @@
 
     <uses-configuration />
 
-    <uses-sdk android:minSdkVersion="10" />
+    <uses-sdk tools:overrideLibrary="android.support.design, android.support.v7.appcompat,
+                                     android.support.graphics.drawable, android.support.v7.recyclerview,
+                                     android.support.v4, android.support.mediacompat,android.support.fragment,
+                                     android.support.coreui, android.support.coreutils, android.support.compat"
+      android:minSdkVersion="10" />
 
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
