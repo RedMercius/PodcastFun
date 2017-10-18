@@ -384,6 +384,7 @@ public class PlayedList extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }*/
 
+    // TODO: Check to see if the item exists so we don't get duplicates.
     private boolean store(Integer id, String showId, String title)
     {
         boolean successfulStore = true;
