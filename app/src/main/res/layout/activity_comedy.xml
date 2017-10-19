@@ -29,6 +29,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_comedy"/>
+    <include layout="@layout/content_comedy" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -121,5 +121,6 @@
     <orderEntry type="library" exported="" name="transition-26.0.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-gcm-9.6.1" level="project" />
     <orderEntry type="module" module-name="license_library" exported="" />
+    <orderEntry type="library" exported="" name="android-android-26" level="project" />
   </component>
 </module>
