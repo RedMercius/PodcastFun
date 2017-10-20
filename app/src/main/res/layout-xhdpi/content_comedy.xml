@@ -9,25 +9,23 @@
 
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/tableLayout1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" >
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:layout_gravity="center">
                     <TableRow
                         android:id="@+id/tableRow1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="5dip" >
+                        android:padding="3dip" >
 
                         <ImageButton
                             android:id="@+id/imageBtn1"
-                            android:layout_marginTop="20dp"
                             android:src="@mipmap/burnsandallen"
                             android:contentDescription="@string/BurnsAndAllenImage"/>
 
                         <ImageButton
                             android:id="@+id/fbBtn"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginLeft="20dp"
                             android:layout_width="wrap_content"
                             android:src="@mipmap/fibber_and_molly_"
                             android:contentDescription="@string/FibberMcGeeImage"
@@ -35,8 +33,6 @@
 
                         <ImageButton
                             android:id="@+id/mlBtn"
-                            android:layout_marginTop="20dp"
-                            android:layout_width="wrap_content"
                             android:src="@mipmap/lewis_and_martin"
                             android:contentDescription="@string/MartinAndLewisImage"
                             />
@@ -46,8 +42,7 @@
                         android:id="@+id/tableRow2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="3dip" >
-
+                        >
 
                         <ImageButton
                             android:id="@+id/gilBtn"
