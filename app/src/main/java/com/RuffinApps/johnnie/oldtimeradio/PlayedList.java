@@ -372,6 +372,11 @@ public class PlayedList extends SQLiteOpenHelper {
 
     public void add(Integer id, String showId, String title)
     {
+        // if entry exists, do not store.
+        if ( doesEntryExist(showId, title) )
+        {
+            return;
+        }
         store(id, showId, title);
     }
 
