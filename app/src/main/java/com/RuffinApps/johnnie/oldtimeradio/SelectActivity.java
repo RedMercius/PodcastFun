@@ -19,6 +19,7 @@ package com.RuffinApps.johnnie.oldtimeradio;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -26,6 +27,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -172,6 +176,25 @@ public class SelectActivity extends AppCompatActivity {
             });
         }
 
+    public boolean onCreateContextMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_context, menu);
+        return true;
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.markedPlayed:
+                Log.d(TAG, "Mark as played.");
+                return true;
+            case R.id.restart:
+                Log.d(TAG, "restart play.");
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
     //TODO: add a boolean for played or unplayed based on button press.
     public String[] getRadioTitles(String artist)
     {
