@@ -23,15 +23,15 @@ public class WesternActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_western);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        hopalongBtn = (ImageButton) findViewById(R.id.hopalongBtn);
-        ftLaramieBtn = (ImageButton) findViewById(R.id.ftLaramieBtn);
+        hopalongBtn = findViewById(R.id.hopalongBtn);
+        ftLaramieBtn = findViewById(R.id.ftLaramieBtn);
 
         hopalongBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -39,7 +39,8 @@ public class WesternActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(WesternActivity.this, SelectActivity.class);
-                i.putExtra("Selection", "Hopalong Cassidy");
+                // i.putExtra("Selection", "Hopalong Cassidy");
+                CurrentArtist.getInstance().setCurrentArtist("Hopalong Cassidy");
                 startActivity(i);
             }
         });
@@ -50,7 +51,8 @@ public class WesternActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(WesternActivity.this, SelectActivity.class);
-                i.putExtra("Selection", "Fort Laramie");
+                // i.putExtra("Selection", "Fort Laramie");
+                CurrentArtist.getInstance().setCurrentArtist("Fort Laramie");
                 startActivity(i);
             }
         });

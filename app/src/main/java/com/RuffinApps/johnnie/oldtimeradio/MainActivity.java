@@ -124,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        CurrentArtist.getInstance().init(this);
     }
 
     private void doCheck() {

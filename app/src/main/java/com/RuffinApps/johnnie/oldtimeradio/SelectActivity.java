@@ -17,11 +17,6 @@ package com.RuffinApps.johnnie.oldtimeradio;
 //
 ////////////////////////////////////////////////////////////////////////////
 
-import android.content.ClipData;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -33,9 +28,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-
-import java.util.Collections;
-import java.util.List;
 
 import static com.RuffinApps.johnnie.oldtimeradio.R.id.playedList;
 
@@ -57,14 +49,13 @@ public class SelectActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_select);
 
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
 
-            Bundle extra = getIntent().getExtras();
-            String artist = extra.getString("Selection");
+            String artist = CurrentArtist.getInstance().getCurrentArtist();
 
             // get the icon images
             ImageControl iconControl = new ImageControl();
@@ -84,15 +75,15 @@ public class SelectActivity extends AppCompatActivity {
             final String [] notPlayedTitles = playList.getUnplayedTitles(artist);
             final String [] playedTitles = playList.getPlayedTitles(artist);
 
-            listview = (ListView) findViewById(R.id.listview);
-            playedListBtn = (Button) findViewById(playedList);
-            unplayedListBtn = (Button) findViewById(R.id.unplayedList);
-            allShowsBtn = (Button) findViewById(R.id.allShowsList);
+            listview = findViewById(R.id.listview);
+            playedListBtn = findViewById(playedList);
+            unplayedListBtn = findViewById(R.id.unplayedList);
+            allShowsBtn = findViewById(R.id.allShowsList);
 
             // set the list adapter
             adapter =
                     new CustomList(this, titles,
-                            iconControl.getImageButtonList(), artist);
+                            iconControl.getImageButtonList());
 
             listview.setAdapter(adapter);
 
@@ -101,13 +92,13 @@ public class SelectActivity extends AppCompatActivity {
             // set the played adapter
             playedAdapter =
                     new CustomList(this, playedTitles,
-                            iconControl.getImageButtonList(), artist);
+                            iconControl.getImageButtonList());
 
 
                 // set the notPlayed adapter
                 notPlayedAdapter =
                         new CustomList(this, notPlayedTitles,
-                                iconControl.getImageButtonList(), artist);
+                                iconControl.getImageButtonList());
 
 
             unplayedListBtn.setBackgroundColor(Color.TRANSPARENT);
@@ -131,7 +122,7 @@ public class SelectActivity extends AppCompatActivity {
                     playedListBtn.setTextColor(Color.WHITE);
 
                     listview.setAdapter(playedAdapter);
-                    if (true == playedTitles[0].contains("No played shows.")) {
+                    if (playedTitles[0].contains("No played shows.")) {
                         playedAdapter.removeButtonsFromView(true);
                     }
                 }
@@ -152,7 +143,7 @@ public class SelectActivity extends AppCompatActivity {
 
                     listview.setAdapter(notPlayedAdapter);
 
-                    if (true == notPlayedTitles[0].contains("All shows have been played.")) {
+                    if (notPlayedTitles[0].contains("All shows have been played.")) {
                         notPlayedAdapter.removeButtonsFromView(true);
                     }
                 }

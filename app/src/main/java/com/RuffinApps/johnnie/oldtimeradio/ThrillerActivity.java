@@ -24,16 +24,16 @@ public class ThrillerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thriller);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        nbBtn = (ImageButton) findViewById(R.id.nbBtn);
-        sgBtn = (ImageButton) findViewById(R.id.sgBtn);
-        wsBtn = (ImageButton) findViewById(R.id.wsBtn);
+        nbBtn = findViewById(R.id.nbBtn);
+        sgBtn = findViewById(R.id.sgBtn);
+        wsBtn = findViewById(R.id.wsBtn);
 
         nbBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -41,7 +41,8 @@ public class ThrillerActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ThrillerActivity.this, SelectActivity.class);
-                i.putExtra("Selection", "Night Beat");
+                // i.putExtra("Selection", "Night Beat");
+                CurrentArtist.getInstance().setCurrentArtist("Night Beat");
                 startActivity(i);
             }
         });
@@ -52,7 +53,8 @@ public class ThrillerActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ThrillerActivity.this, SelectActivity.class);
-                i.putExtra("Selection", "Speed");
+                // i.putExtra("Selection", "Speed");
+                CurrentArtist.getInstance().setCurrentArtist("Speed");
                 startActivity(i);
             }
         });
@@ -63,7 +65,8 @@ public class ThrillerActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ThrillerActivity.this, SelectActivity.class);
-                i.putExtra("Selection", "The Whistler");
+                // i.putExtra("Selection", "The Whistler");
+                CurrentArtist.getInstance().setCurrentArtist("The Whistler");
                 startActivity(i);
             }
         });

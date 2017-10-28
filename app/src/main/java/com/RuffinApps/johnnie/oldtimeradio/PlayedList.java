@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -76,9 +77,10 @@ public class PlayedList extends SQLiteOpenHelper {
     }
 
     public Cursor getData(String id) {
-        String [] artist = {id};
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from played where show_id=?", artist);
+        String [] artist = {id};
+        String query = ( "select * from played where show_id=?" );
+        Cursor res =  db.rawQuery( query, artist );
         return res;
     }
 
@@ -179,7 +181,6 @@ public class PlayedList extends SQLiteOpenHelper {
                 for (String title : radioList.getFbMap().values())
                 {
                     titles[i] = title;
-                    Log.d(TAG, "Fibber Mcgee_Titles: " + titles);
                     i++;
                 }
                 return titles;
@@ -193,7 +194,6 @@ public class PlayedList extends SQLiteOpenHelper {
                 for (String title : radioList.getMlMap().values())
                 {
                     titles[i] = title;
-                    Log.d(TAG, "MartinAndLewis_Titles: " + title);
                     i++;
                 }
                 return titles;
@@ -341,14 +341,14 @@ public class PlayedList extends SQLiteOpenHelper {
     public List<PlayData> getPlayedList(String showId)
     {
         List<PlayData> playedList = new ArrayList<>();
-
-        String PLAYED_LIST_SELECT_QUERY = "SELECT * FROM " + PLAYED_TABLE_NAME + "WHERE SHOW_ID="+showId+"";
+        String [] artist = {showId};
+        String PLAYED_LIST_SELECT_QUERY = "SELECT * FROM " + PLAYED_TABLE_NAME + "WHERE SHOW_ID=?";
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery(PLAYED_LIST_SELECT_QUERY, null);
-
         try {
+            Cursor cursor = db.rawQuery(PLAYED_LIST_SELECT_QUERY, artist);
+
             if (cursor.moveToFirst()) {
                 do {
                     PlayData playData = new PlayData();
@@ -362,11 +362,8 @@ public class PlayedList extends SQLiteOpenHelper {
             }
         } catch (Exception e) {
             Log.d(TAG, "Error while trying to get posts from database");
-        } finally {
-            if (cursor != null && !cursor.isClosed()) {
-                cursor.close();
-            }
         }
+
         return playedList;
     }
 
@@ -433,10 +430,10 @@ public class PlayedList extends SQLiteOpenHelper {
     {
         boolean entryExists = false;
 
-        List<PlayData> updatedList = getPlayedList(showId);
+        String [] updatedList = getPlayedTitles(showId);
 
-        for (PlayData playData : updatedList) {
-            if (playData.showId.matches(showId) && playData.showTitle.matches(title)) {
+        for (int i = 0; i < updatedList.length; i++) {
+            if (updatedList[i].contentEquals(title)) {
                 entryExists = true;
             }
         }

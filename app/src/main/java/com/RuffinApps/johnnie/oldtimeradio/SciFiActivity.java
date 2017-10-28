@@ -40,7 +40,8 @@ public class SciFiActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(SciFiActivity.this, SelectActivity.class);
-                i.putExtra("Selection", "XMinus1");
+                // i.putExtra("Selection", "XMinus1");
+                CurrentArtist.getInstance().setCurrentArtist("XMinus1");
                 startActivity(i);
             }
         });
@@ -51,7 +52,8 @@ public class SciFiActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(SciFiActivity.this, SelectActivity.class);
-                i.putExtra("Selection", "Inner Sanctum");
+                // i.putExtra("Selection", "Inner Sanctum");
+                CurrentArtist.getInstance().setCurrentArtist("Inner Sanctum");
                 startActivity(i);
             }
         });
@@ -62,7 +64,8 @@ public class SciFiActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(SciFiActivity.this, SelectActivity.class);
-                i.putExtra("Selection", "Dimension X");
+                // i.putExtra("Selection", "Dimension X");
+                CurrentArtist.getInstance().setCurrentArtist("Dimension X");
                 startActivity(i);
             }
         });

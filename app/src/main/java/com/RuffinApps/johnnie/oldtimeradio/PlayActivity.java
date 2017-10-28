@@ -96,12 +96,12 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
         Bundle extra = getIntent().getExtras();
         mediaName = extra.getString("MediaTitle");
-        artist = extra.getString("Selection");
+        artist = CurrentArtist.getInstance().getCurrentArtist();
         title = extra.getString("Title");
 
         playList = new PlayedList(this);
 
-        this.mc = new MediaControl(this, mp, artist);
+        this.mc = new MediaControl(this, mp);
 
         iconControl = new ImageControl();
         iconImage = iconControl.getImageButtonList();

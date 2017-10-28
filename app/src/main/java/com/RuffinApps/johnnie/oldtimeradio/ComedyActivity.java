@@ -47,7 +47,8 @@ public class ComedyActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
-                i.putExtra("Selection", "Burns And Allen");
+                // i.putExtra("Selection", "Burns And Allen");
+                CurrentArtist.getInstance().setCurrentArtist("Burns And Allen");
                 startActivity(i);
             }
         });
@@ -58,7 +59,8 @@ public class ComedyActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
-                i.putExtra("Selection", "Fibber McGee And Molly");
+                // i.putExtra("Selection", "Fibber McGee And Molly");
+                CurrentArtist.getInstance().setCurrentArtist("Fibber McGee And Molly");
                 startActivity(i);
                 // TODO: Add popup for full version
             }
@@ -70,7 +72,8 @@ public class ComedyActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
-                i.putExtra("Selection", "Martin And Lewis");
+                // i.putExtra("Selection", "Martin And Lewis");
+                CurrentArtist.getInstance().setCurrentArtist("Martin And Lewis");
                 startActivity(i);
                 // TODO: Add popup for full version
             }
@@ -82,7 +85,8 @@ public class ComedyActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
-                i.putExtra("Selection", "The Great GilderSleeves");
+                // i.putExtra("Selection", "The Great GilderSleeves");
+                CurrentArtist.getInstance().setCurrentArtist("The Great GilderSleeves");
                 startActivity(i);
                 // TODO: Add popup for full version
             }
@@ -94,7 +98,8 @@ public class ComedyActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
-                i.putExtra("Selection", "Jack Benny");
+                // i.putExtra("Selection", "Jack Benny");
+                CurrentArtist.getInstance().setCurrentArtist("Jack Benny");
                 startActivity(i);
             }
         });
@@ -105,7 +110,8 @@ public class ComedyActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
-                i.putExtra("Selection", "Bob Hope");
+                // i.putExtra("Selection", "Bob Hope");
+                CurrentArtist.getInstance().setCurrentArtist("Bob Hope");
                 startActivity(i);
             }
         });

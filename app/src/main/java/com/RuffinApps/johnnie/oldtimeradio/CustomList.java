@@ -41,7 +41,6 @@ import android.widget.Toast;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CustomList extends ArrayAdapter<String> {
@@ -71,15 +70,14 @@ public class CustomList extends ArrayAdapter<String> {
     private boolean removeButtons;
     final String TAG = "CustomList";
     SQLiteDatabase db;
-    private PlayedList playList;
 
-    public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList, String artist) {
+    public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList) {
         super(context, R.layout.custom_list_multi, radioTitle);
 
         this.context = context;
         this.radioTitle = radioTitle;
         this.imageButtonList = imageButtonList;
-        this.artist = artist;
+        this.artist = CurrentArtist.getInstance().getCurrentArtist();
         this.removeButtons = false;
 
         MediaPlayer mp = new MediaPlayer();
@@ -88,7 +86,7 @@ public class CustomList extends ArrayAdapter<String> {
         mdlID = 0;
         mThreadRunning = false;
 
-        mc = new MediaControl(context, mp, artist);
+        mc = new MediaControl(context, mp);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
@@ -579,7 +577,7 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder.txtStatus.setText(context.getResources().getString(R.string.downloading));
         }
 
-        if (removeButtons == true)
+        if (removeButtons)
         {
             viewHolder.downloadButton.setVisibility(View.INVISIBLE);
             viewHolder.playButton.setVisibility(View.INVISIBLE);

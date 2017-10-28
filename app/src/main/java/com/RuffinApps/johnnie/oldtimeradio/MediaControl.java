@@ -42,10 +42,10 @@ public class MediaControl {
     private String martist;
     private String mfilePath;
 
-    public MediaControl(Activity context, MediaPlayer mp, String artist) {
+    public MediaControl(Activity context, MediaPlayer mp) {
         this.context = context;
         this.mp = mp;
-        this.martist = artist;
+        this.martist = CurrentArtist.getInstance().getCurrentArtist();
 
         dc = new DownloadControl(context);
 
