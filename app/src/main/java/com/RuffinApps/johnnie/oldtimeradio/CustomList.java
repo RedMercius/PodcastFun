@@ -23,6 +23,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
@@ -643,6 +644,13 @@ public class CustomList extends ArrayAdapter<String> {
             @Override
             public void onClick(View arg0) {
 
+                if (!isExternalStorage())
+                {
+                    Toast.makeText(context, context.getResources().getString(R.string.no_external_storage),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 mc.deleteMedia(mediaFileName);
                 notifyDataSetChanged();
                 Toast.makeText(context, context.getResources().getString(R.string.deleting) + " " + mediaFileName, Toast.LENGTH_SHORT).show();
@@ -655,20 +663,32 @@ public class CustomList extends ArrayAdapter<String> {
     private boolean isExternalStorage() {
         boolean mExternalStorageAvailable;
         boolean mExternalStorageWriteable;
+
+        String permission = "android.permission.WRITE_EXTERNAL_STORAGE";
+        int res = context.checkCallingOrSelfPermission(permission);
+
         String state = Environment.getExternalStorageState();
 
         if (Environment.MEDIA_MOUNTED.equals(state)) {
             // We can read and write the media
             mExternalStorageAvailable = true;
             mExternalStorageWriteable = true;
-        } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+        }
+        else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
             // We can only read the media
             // mExternalStorageAvailable = true;
             mExternalStorageAvailable = true;
             mExternalStorageWriteable = false;
-        } else {
+        }
+        else {
             // Something else is wrong. It may be one of many other states, but all we need
             //  to know is we can neither read nor write
+            mExternalStorageAvailable = false;
+            mExternalStorageWriteable = false;
+        }
+
+        if (res != PackageManager.PERMISSION_GRANTED)
+        {
             mExternalStorageAvailable = false;
             mExternalStorageWriteable = false;
         }
