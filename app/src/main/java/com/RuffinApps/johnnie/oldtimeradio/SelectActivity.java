@@ -87,8 +87,6 @@ public class SelectActivity extends AppCompatActivity {
 
             listview.setAdapter(adapter);
 
-            // TODO: Extract titles from List object
-            // TODO: Look into unregistering receiver
             // set the played adapter
             playedAdapter =
                     new CustomList(this, playedTitles,
@@ -112,7 +110,6 @@ public class SelectActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View arg0) {
-                    // TODO: Reset list adapter and modify button to indicate selection.
 
                     unplayedListBtn.setBackgroundColor(Color.TRANSPARENT);
                     unplayedListBtn.setTextColor(Color.BLACK);
@@ -132,7 +129,6 @@ public class SelectActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View arg0) {
-                    // TODO: Reset list adapter and modify button to indicate selection.
 
                     unplayedListBtn.setBackgroundColor(Color.BLACK);
                     unplayedListBtn.setTextColor(Color.WHITE);
@@ -153,7 +149,6 @@ public class SelectActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View arg0) {
-                    // TODO: Reset list adapter and modify button to indicate selection.
 
                     unplayedListBtn.setBackgroundColor(Color.TRANSPARENT);
                     unplayedListBtn.setTextColor(Color.BLACK);
@@ -186,21 +181,17 @@ public class SelectActivity extends AppCompatActivity {
                 return super.onContextItemSelected(item);
         }
     }
-    //TODO: add a boolean for played or unplayed based on button press.
+
     public String[] getRadioTitles(String artist)
     {
         radioList.initTitles();
-        // TODO: control toggle button elements here
         switch (artist)
         {
             case "Burns And Allen":
             {
                 int i = 0;
-                // TODO: get the values for played from the database here
                 String[] titles = new String[radioList.getBurnsAllen().length];
                 for (String title : radioList.getBaMap().values()){
-                    // TODO: check the database for the title before adding to the list based on
-                    // TODO: whether this is a played list or an unplayed list.
                     titles[i] = title;
                     i++;
                 }

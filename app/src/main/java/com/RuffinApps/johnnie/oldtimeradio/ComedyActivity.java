@@ -27,19 +27,19 @@ public class ComedyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comedy);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        baBtn = (ImageButton) findViewById(R.id.imageBtn1);
-        fbBtn = (ImageButton) findViewById(R.id.fbBtn);
-        mlBtn = (ImageButton) findViewById(R.id.mlBtn);
-        gilBtn = (ImageButton) findViewById(R.id.gilBtn);
-        jbBtn = (ImageButton) findViewById(R.id.jbBtn);
-        bhBtn = (ImageButton) findViewById(R.id.bhBtn);
+        baBtn = findViewById(R.id.imageBtn1);
+        fbBtn = findViewById(R.id.fbBtn);
+        mlBtn = findViewById(R.id.mlBtn);
+        gilBtn = findViewById(R.id.gilBtn);
+        jbBtn =  findViewById(R.id.jbBtn);
+        bhBtn = findViewById(R.id.bhBtn);
 
         baBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -47,7 +47,6 @@ public class ComedyActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
-                // i.putExtra("Selection", "Burns And Allen");
                 CurrentArtist.getInstance().setCurrentArtist("Burns And Allen");
                 startActivity(i);
             }
@@ -59,10 +58,8 @@ public class ComedyActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
-                // i.putExtra("Selection", "Fibber McGee And Molly");
                 CurrentArtist.getInstance().setCurrentArtist("Fibber McGee And Molly");
                 startActivity(i);
-                // TODO: Add popup for full version
             }
         });
 
@@ -72,10 +69,8 @@ public class ComedyActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
-                // i.putExtra("Selection", "Martin And Lewis");
                 CurrentArtist.getInstance().setCurrentArtist("Martin And Lewis");
                 startActivity(i);
-                // TODO: Add popup for full version
             }
         });
 
@@ -85,10 +80,8 @@ public class ComedyActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
-                // i.putExtra("Selection", "The Great GilderSleeves");
                 CurrentArtist.getInstance().setCurrentArtist("The Great GilderSleeves");
                 startActivity(i);
-                // TODO: Add popup for full version
             }
         });
 
@@ -98,7 +91,6 @@ public class ComedyActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
-                // i.putExtra("Selection", "Jack Benny");
                 CurrentArtist.getInstance().setCurrentArtist("Jack Benny");
                 startActivity(i);
             }
@@ -110,7 +102,6 @@ public class ComedyActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
-                // i.putExtra("Selection", "Bob Hope");
                 CurrentArtist.getInstance().setCurrentArtist("Bob Hope");
                 startActivity(i);
             }

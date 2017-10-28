@@ -24,15 +24,15 @@ public class SciFiActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sci_fi);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        xm1Btn = (ImageButton) findViewById(R.id.xm1Btn);
-        innSancBtn = (ImageButton) findViewById(R.id.innSancBtn);
-        dxBtn = (ImageButton) findViewById(R.id.dxBtn);
+        xm1Btn = findViewById(R.id.xm1Btn);
+        innSancBtn = findViewById(R.id.innSancBtn);
+        dxBtn = findViewById(R.id.dxBtn);
 
         xm1Btn.setOnClickListener(new View.OnClickListener() {
 
@@ -40,7 +40,6 @@ public class SciFiActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(SciFiActivity.this, SelectActivity.class);
-                // i.putExtra("Selection", "XMinus1");
                 CurrentArtist.getInstance().setCurrentArtist("XMinus1");
                 startActivity(i);
             }
@@ -52,7 +51,6 @@ public class SciFiActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(SciFiActivity.this, SelectActivity.class);
-                // i.putExtra("Selection", "Inner Sanctum");
                 CurrentArtist.getInstance().setCurrentArtist("Inner Sanctum");
                 startActivity(i);
             }
@@ -64,7 +62,6 @@ public class SciFiActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(SciFiActivity.this, SelectActivity.class);
-                // i.putExtra("Selection", "Dimension X");
                 CurrentArtist.getInstance().setCurrentArtist("Dimension X");
                 startActivity(i);
             }

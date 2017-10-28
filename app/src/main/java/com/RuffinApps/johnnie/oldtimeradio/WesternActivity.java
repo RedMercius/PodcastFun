@@ -39,7 +39,6 @@ public class WesternActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(WesternActivity.this, SelectActivity.class);
-                // i.putExtra("Selection", "Hopalong Cassidy");
                 CurrentArtist.getInstance().setCurrentArtist("Hopalong Cassidy");
                 startActivity(i);
             }
@@ -51,7 +50,6 @@ public class WesternActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(WesternActivity.this, SelectActivity.class);
-                // i.putExtra("Selection", "Fort Laramie");
                 CurrentArtist.getInstance().setCurrentArtist("Fort Laramie");
                 startActivity(i);
             }

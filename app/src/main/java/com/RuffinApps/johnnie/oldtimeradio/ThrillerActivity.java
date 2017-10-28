@@ -41,7 +41,6 @@ public class ThrillerActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ThrillerActivity.this, SelectActivity.class);
-                // i.putExtra("Selection", "Night Beat");
                 CurrentArtist.getInstance().setCurrentArtist("Night Beat");
                 startActivity(i);
             }
@@ -53,7 +52,6 @@ public class ThrillerActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ThrillerActivity.this, SelectActivity.class);
-                // i.putExtra("Selection", "Speed");
                 CurrentArtist.getInstance().setCurrentArtist("Speed");
                 startActivity(i);
             }
@@ -65,7 +63,6 @@ public class ThrillerActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 final Intent i = new Intent(ThrillerActivity.this, SelectActivity.class);
-                // i.putExtra("Selection", "The Whistler");
                 CurrentArtist.getInstance().setCurrentArtist("The Whistler");
                 startActivity(i);
             }

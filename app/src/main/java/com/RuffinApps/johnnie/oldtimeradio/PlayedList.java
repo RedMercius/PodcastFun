@@ -155,11 +155,9 @@ public class PlayedList extends SQLiteOpenHelper {
         return emptyList;
     }
 
-    //TODO: add a boolean for played or unplayed based on button press.
     public String[] getRadioTitles(String artist)
     {
         radioList.initTitles();
-        // TODO: control toggle button elements here
         switch (artist)
         {
             case "Burns And Allen":
@@ -338,7 +336,7 @@ public class PlayedList extends SQLiteOpenHelper {
         }
     }
 
-    public List<PlayData> getPlayedList(String showId)
+   /* public List<PlayData> getPlayedList(String showId)
     {
         List<PlayData> playedList = new ArrayList<>();
         String [] artist = {showId};
@@ -365,7 +363,7 @@ public class PlayedList extends SQLiteOpenHelper {
         }
 
         return playedList;
-    }
+    }*/
 
     public void add(Integer id, String showId, String title)
     {
@@ -386,7 +384,6 @@ public class PlayedList extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }*/
 
-    // TODO: Check to see if the item exists so we don't get duplicates.
     private boolean store(Integer id, String showId, String title)
     {
         boolean successfulStore = true;

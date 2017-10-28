@@ -79,10 +79,10 @@ public class MainActivity extends AppCompatActivity {
         }*/
         /*** End License Checking ***/
 
-        comedyButton = (Button) findViewById(R.id.comedyButton);
-        scifiButton = (Button) findViewById(R.id.scifiButton);
-        thrillerButton = (Button) findViewById(R.id.thrillerButton);
-        westernButton = (Button) findViewById(R.id.westernButton);
+        comedyButton = findViewById(R.id.comedyButton);
+        scifiButton = findViewById(R.id.scifiButton);
+        thrillerButton = findViewById(R.id.thrillerButton);
+        westernButton = findViewById(R.id.westernButton);
 
 
         comedyButton.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void allow(int reason) {
-            // TODO Auto-generated method stub
+
             if (isFinishing()) {
                 // Don't update UI if Activity is finishing.
                 return;
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         @SuppressWarnings("deprecation")
         @Override
         public void dontAllow(int reason) {
-            // TODO Auto-generated method stub
+
             if (isFinishing()) {
                 // Don't update UI if Activity is finishing.
                 return;
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
         @SuppressWarnings("deprecation")
         @Override
         public void applicationError(int reason) {
-            // TODO Auto-generated method stub
+
             Log.i("License", "Error: " + reason);
             if (isFinishing()) {
                 // Don't update UI if Activity is finishing.

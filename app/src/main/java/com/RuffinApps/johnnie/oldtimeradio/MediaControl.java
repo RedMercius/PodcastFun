@@ -220,8 +220,6 @@ public class MediaControl {
 
     public void callMediaFromInternet(String filename) throws IOException
     {
-        //TODO verify file exists before playing.
-
         url = url + filename; // your URL here
 
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);

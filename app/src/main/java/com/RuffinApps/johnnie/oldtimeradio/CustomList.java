@@ -350,13 +350,13 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder = new ViewHolderItem();
 
             view = View.inflate( context, R.layout.custom_list_multi, null);
-            viewHolder.txtTitle = (TextView) view.findViewById(R.id.txt);
-            viewHolder.txtStatus = (TextView) view.findViewById(R.id.txtstatus);
+            viewHolder.txtTitle = view.findViewById(R.id.txt);
+            viewHolder.txtStatus =  view.findViewById(R.id.txtstatus);
 
-            viewHolder.playButton = (ImageButton) view.findViewById(R.id.playbtn);
-            viewHolder.stopButton = (ImageView) view.findViewById(R.id.stopbtn);
-            viewHolder.deleteButton = (ImageButton) view.findViewById(R.id.deletebtn);
-            viewHolder.downloadButton = (ImageButton) view.findViewById(R.id.downloadbtn);
+            viewHolder.playButton = view.findViewById(R.id.playbtn);
+            viewHolder.stopButton = view.findViewById(R.id.stopbtn);
+            viewHolder.deleteButton = view.findViewById(R.id.deletebtn);
+            viewHolder.downloadButton = view.findViewById(R.id.downloadbtn);
 
             view.setTag(viewHolder);
         }
@@ -652,7 +652,7 @@ public class CustomList extends ArrayAdapter<String> {
         return view;
     }
 
-    public boolean isExternalStorage() {
+    private boolean isExternalStorage() {
         boolean mExternalStorageAvailable;
         boolean mExternalStorageWriteable;
         String state = Environment.getExternalStorageState();
