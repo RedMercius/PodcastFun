@@ -34,7 +34,8 @@ public class ImageControl {
             R.drawable.lowvolume50,
             R.drawable.highvolume50,
             R.drawable.mute50,
-            R.drawable.menu2
+            R.drawable.menu2,
+            R.mipmap.menu5_horizontal
     };
 
     public Integer[] getImageButtonList(){

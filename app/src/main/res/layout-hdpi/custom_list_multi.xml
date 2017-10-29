@@ -68,4 +68,15 @@
         android:layout_toRightOf="@id/txt"
         android:contentDescription="@string/delete_button"
         />
+
+    <ImageButton
+        android:id="@+id/menuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/txt"
+        android:layout_toRightOf="@id/txt"
+        android:layout_below="@id/deletebtn"
+        android:src="@mipmap/menu5_horizontal"
+        android:contentDescription="@string/menu_button"
+        />
 </RelativeLayout>

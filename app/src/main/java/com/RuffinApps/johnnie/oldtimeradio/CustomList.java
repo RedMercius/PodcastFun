@@ -26,6 +26,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.view.MenuItem;
+import android.view.Menu;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -37,6 +39,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +59,7 @@ public class CustomList extends ArrayAdapter<String> {
         ImageView stopButton;
         ImageButton deleteButton;
         ImageButton downloadButton;
+        ImageButton menuButton;
     }
 
     private final Activity context;
@@ -350,19 +354,18 @@ public class CustomList extends ArrayAdapter<String> {
         if (view == null) {
             viewHolder = new ViewHolderItem();
 
-            view = View.inflate( context, R.layout.custom_list_multi, null);
+            view = View.inflate(context, R.layout.custom_list_multi, null);
             viewHolder.txtTitle = view.findViewById(R.id.txt);
-            viewHolder.txtStatus =  view.findViewById(R.id.txtstatus);
+            viewHolder.txtStatus = view.findViewById(R.id.txtstatus);
 
             viewHolder.playButton = view.findViewById(R.id.playbtn);
             viewHolder.stopButton = view.findViewById(R.id.stopbtn);
             viewHolder.deleteButton = view.findViewById(R.id.deletebtn);
             viewHolder.downloadButton = view.findViewById(R.id.downloadbtn);
+            viewHolder.menuButton = view.findViewById(R.id.menuButton);
 
             view.setTag(viewHolder);
-        }
-        else
-        {
+        } else {
             viewHolder = (ViewHolderItem) view.getTag();
         }
 
@@ -384,8 +387,7 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
-            case "Fibber McGee And Molly":
-            {
+            case "Fibber McGee And Molly": {
                 for (String mediaFile : rt.getFbMap().keySet()) {
                     if (rt.getFbMap().get(mediaFile).equals(mediaTitle)) {
                         MediaFile = mediaFile;
@@ -394,8 +396,7 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
-            case "Martin And Lewis":
-            {
+            case "Martin And Lewis": {
                 for (String mediaFile : rt.getMlMap().keySet()) {
                     if (rt.getMlMap().get(mediaFile).equals(mediaTitle)) {
                         MediaFile = mediaFile;
@@ -404,8 +405,7 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
-            case "The Great GilderSleeves":
-            {
+            case "The Great GilderSleeves": {
                 for (String mediaFile : rt.getGlMap().keySet()) {
                     if (rt.getGlMap().get(mediaFile).equals(mediaTitle)) {
                         MediaFile = mediaFile;
@@ -414,8 +414,7 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
-            case "Jack Benny":
-            {
+            case "Jack Benny": {
                 for (String mediaFile : rt.getJbMap().keySet()) {
                     if (rt.getJbMap().get(mediaFile).equals(mediaTitle)) {
                         MediaFile = mediaFile;
@@ -424,8 +423,7 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
-            case "Bob Hope":
-            {
+            case "Bob Hope": {
                 for (String mediaFile : rt.getBhMap().keySet()) {
                     if (rt.getBhMap().get(mediaFile).equals(mediaTitle)) {
                         MediaFile = mediaFile;
@@ -434,8 +432,7 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
-            case "XMinus1":
-            {
+            case "XMinus1": {
                 for (String mediaFile : rt.getXMMap().keySet()) {
                     if (rt.getXMMap().get(mediaFile).equals(mediaTitle)) {
                         MediaFile = mediaFile;
@@ -444,8 +441,7 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
-            case "Inner Sanctum":
-            {
+            case "Inner Sanctum": {
                 for (String mediaFile : rt.getIsMap().keySet()) {
                     if (rt.getIsMap().get(mediaFile).equals(mediaTitle)) {
                         MediaFile = mediaFile;
@@ -454,8 +450,7 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
-            case "Dimension X":
-            {
+            case "Dimension X": {
                 for (String mediaFile : rt.getDxMap().keySet()) {
                     if (rt.getDxMap().get(mediaFile).equals(mediaTitle)) {
                         MediaFile = mediaFile;
@@ -464,8 +459,7 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
-            case "Night Beat":
-            {
+            case "Night Beat": {
                 for (String mediaFile : rt.getNbMap().keySet()) {
                     if (rt.getNbMap().get(mediaFile).equals(mediaTitle)) {
                         MediaFile = mediaFile;
@@ -474,8 +468,7 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
-            case "Speed":
-            {
+            case "Speed": {
                 for (String mediaFile : rt.getSgMap().keySet()) {
                     if (rt.getSgMap().get(mediaFile).equals(mediaTitle)) {
                         MediaFile = mediaFile;
@@ -484,8 +477,7 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
-            case "The Whistler":
-            {
+            case "The Whistler": {
                 for (String mediaFile : rt.getWsMap().keySet()) {
                     if (rt.getWsMap().get(mediaFile).equals(mediaTitle)) {
                         MediaFile = mediaFile;
@@ -494,8 +486,7 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
-            case "Hopalong Cassidy":
-            {
+            case "Hopalong Cassidy": {
                 for (String mediaFile : rt.getHcMap().keySet()) {
                     if (rt.getHcMap().get(mediaFile).equals(mediaTitle)) {
                         MediaFile = mediaFile;
@@ -504,8 +495,7 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
-            case "Fort Laramie":
-            {
+            case "Fort Laramie": {
                 for (String mediaFile : rt.getFlMap().keySet()) {
                     if (rt.getFlMap().get(mediaFile).equals(mediaTitle)) {
                         MediaFile = mediaFile;
@@ -522,9 +512,7 @@ public class CustomList extends ArrayAdapter<String> {
         try {
             isItInRaw = mc.checkResourceInRaw(MediaFile);
             doesMediaExist_0 = mc.checkForMedia(MediaFile);
-        }
-        catch(NullPointerException e)
-        {
+        } catch (NullPointerException e) {
             Log.e(TAG, "Null Exception: " + e);
 
         }
@@ -578,8 +566,7 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder.txtStatus.setText(context.getResources().getString(R.string.downloading));
         }
 
-        if (removeButtons)
-        {
+        if (removeButtons) {
             viewHolder.downloadButton.setVisibility(View.INVISIBLE);
             viewHolder.playButton.setVisibility(View.INVISIBLE);
             viewHolder.stopButton.setVisibility(View.INVISIBLE);
@@ -624,8 +611,7 @@ public class CustomList extends ArrayAdapter<String> {
                     return;
                 }
 
-                if (!isExternalStorage())
-                {
+                if (!isExternalStorage()) {
                     Toast.makeText(context, context.getResources().getString(R.string.no_external_storage),
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -644,8 +630,7 @@ public class CustomList extends ArrayAdapter<String> {
             @Override
             public void onClick(View arg0) {
 
-                if (!isExternalStorage())
-                {
+                if (!isExternalStorage()) {
                     Toast.makeText(context, context.getResources().getString(R.string.no_external_storage),
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -657,6 +642,30 @@ public class CustomList extends ArrayAdapter<String> {
             }
         });
 
+        viewHolder.menuButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Menu Button Pressed!!");
+// TODO: Conditional mark as played if not mark as played or mark as not played if played.
+                //Creating the instance of PopupMenu
+                PopupMenu popup = new PopupMenu(context, viewHolder.menuButton);
+
+                //Inflating the Popup using xml file
+                popup.getMenuInflater().inflate(R.menu.menu_context, popup.getMenu());
+
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Toast.makeText(context, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                        return true;
+
+                    }
+                });
+
+                popup.show();
+            }
+        });
         return view;
     }
 

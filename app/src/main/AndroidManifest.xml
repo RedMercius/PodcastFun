@@ -28,7 +28,7 @@
                                      android.support.coreui, android.support.coreutils, android.support.compat,
                                      com.google.android.gms.gcm, com.google.android.gms.iid, com.google.android.gms.base,
                                      com.google.android.gms.tasks, com.google.android.gms"
-      android:minSdkVersion="10" />
+      android:minSdkVersion="11" />
 
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 

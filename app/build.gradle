@@ -29,7 +29,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.RuffinApps.johnnie.oldtimeradio"
-        minSdkVersion 10
+        minSdkVersion 11
         targetSdkVersion 26
         versionCode 17
         versionName "3.0"
