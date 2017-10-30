@@ -62,7 +62,7 @@ public class CustomList extends ArrayAdapter<String> {
     }
 
     private final Activity context;
-    private final String[] radioTitle;
+    public String[] radioTitle;
     private final Integer[] imageButtonList;
     private String artist;
     private MediaControl mc;
@@ -78,7 +78,6 @@ public class CustomList extends ArrayAdapter<String> {
 
     public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList) {
         super(context, R.layout.custom_list_multi, radioTitle);
-
         this.context = context;
         this.radioTitle = radioTitle;
         this.imageButtonList = imageButtonList;
@@ -685,23 +684,39 @@ public class CustomList extends ArrayAdapter<String> {
                             playList.remove(artist, viewHolder.txtTitle.getText().toString());
                             Log.d(TAG, "Deleting Title: " + viewHolder.txtTitle.getText().toString() + " For Show: " + artist);
                         }
+
+                        Log.d(TAG, "Menu Item: " + item.getTitle().toString());
+
                         final SelectActivity selectActivity = (SelectActivity) context;
 
                         Runnable run = new Runnable(){
                             public void run(){
                                 selectActivity.update();
+                                notifyDataSetChanged();
                             }
                         };
 
                         selectActivity.runOnUiThread(run);
-
-                        Log.d(TAG, "Menu Item: " + item.getTitle().toString());
-
                         return true;
                     }
                 });
                 popup.show();
 
+              /*  if (AdapterState.getInstance().getCurrentState().contentEquals("played"))
+                {
+                    radioTitle = playList.getPlayedTitles(artist);
+                }
+                else if (AdapterState.getInstance().getCurrentState().contentEquals("not_played"))
+                {
+                    radioTitle = playList.getUnplayedTitles(artist);
+                }
+                else if (!AdapterState.getInstance().getCurrentState().contentEquals("not_played") &&
+                        !AdapterState.getInstance().getCurrentState().contentEquals("played"))
+                {
+                    // radioTitle = radioTitle;
+                    // do nothing..the list is good.
+                }*/
+                // notifyDataSetChanged();
             }
         });
         return view;

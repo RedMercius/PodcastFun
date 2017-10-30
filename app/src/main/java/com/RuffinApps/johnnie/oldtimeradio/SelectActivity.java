@@ -180,10 +180,13 @@ public class SelectActivity extends AppCompatActivity {
                     new CustomList(this, notPlayedTitles,
                             iconControl.getImageButtonList());*/
 
-            this.playedAdapter.notifyDataSetInvalidated();
+            this.playedAdapter.radioTitle = playedTitles;
            // this.playedAdapter.notifyDataSetChanged();
            // this.notPlayedAdapter.clear();
-            this.notPlayedAdapter.notifyDataSetInvalidated();
+            this.notPlayedAdapter.radioTitle = notPlayedTitles;
+            this.playedAdapter.notifyDataSetChanged();
+
+            this.notPlayedAdapter.notifyDataSetChanged();
 
             Log.d(TAG, "In update!!");
         }
