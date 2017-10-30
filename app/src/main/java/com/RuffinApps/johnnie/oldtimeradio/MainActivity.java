@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         CurrentArtist.getInstance().init(this);
+        AdapterState.getInstance().init(this);
     }
 
     private void doCheck() {

@@ -43,6 +43,8 @@ public class SelectActivity extends AppCompatActivity {
     private Button allShowsBtn;
     private PlayedList playList;
     private ListView listview;
+    private String artist;
+    private ImageControl iconControl;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +57,10 @@ public class SelectActivity extends AppCompatActivity {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
 
-            String artist = CurrentArtist.getInstance().getCurrentArtist();
+            artist = CurrentArtist.getInstance().getCurrentArtist();
 
             // get the icon images
-            ImageControl iconControl = new ImageControl();
+            iconControl = new ImageControl();
 
             // get the radio titles
             radioList = new RadioTitle();
@@ -122,6 +124,7 @@ public class SelectActivity extends AppCompatActivity {
                     if (playedTitles[0].contains("No played shows.")) {
                         playedAdapter.removeButtonsFromView(true);
                     }
+                    AdapterState.getInstance().setCurrentState("played");
                 }
             });
 
@@ -142,6 +145,7 @@ public class SelectActivity extends AppCompatActivity {
                     if (notPlayedTitles[0].contains("All shows have been played.")) {
                         notPlayedAdapter.removeButtonsFromView(true);
                     }
+                    AdapterState.getInstance().setCurrentState("not_played");
                 }
             });
 
@@ -158,29 +162,31 @@ public class SelectActivity extends AppCompatActivity {
                     playedListBtn.setTextColor(Color.BLACK);
 
                     listview.setAdapter(adapter);
+                    AdapterState.getInstance().setCurrentState("all");
                 }
             });
         }
 
-    public boolean onCreateContextMenu(Menu menu) {
+        public void update()
+        {
+            final String [] notPlayedTitles = playList.getUnplayedTitles(artist);
+            final String [] playedTitles = playList.getPlayedTitles(artist);
 
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_context, menu);
-        return true;
-    }
+          /*  this.playedAdapter = new CustomList(this, playedTitles,
+                            iconControl.getImageButtonList());
 
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.markedPlayed:
-                Log.d(TAG, "Mark as played.");
-                return true;
-            case R.id.restart:
-                Log.d(TAG, "restart play.");
-                return true;
-            default:
-                return super.onContextItemSelected(item);
+            // set the notPlayed adapter
+            this.notPlayedAdapter =
+                    new CustomList(this, notPlayedTitles,
+                            iconControl.getImageButtonList());*/
+
+            this.playedAdapter.notifyDataSetInvalidated();
+           // this.playedAdapter.notifyDataSetChanged();
+           // this.notPlayedAdapter.clear();
+            this.notPlayedAdapter.notifyDataSetInvalidated();
+
+            Log.d(TAG, "In update!!");
         }
-    }
 
     public String[] getRadioTitles(String artist)
     {

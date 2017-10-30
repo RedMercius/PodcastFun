@@ -51,6 +51,10 @@
     <string name="title_activity_horror">Horror</string>
     <string name="title_activity_western">Western</string>
 
+    // Menus
+    <string name="mark_as_played">Mark As Played</string>
+    <string name="mark_as_unplayed">Mark As Not Played</string>
+
     // Comedy
     <string name="BurnsAndAllenImage">Burns And Allen</string>
     <string name="FibberMcGeeImage">Fibber McGee and Molly</string>

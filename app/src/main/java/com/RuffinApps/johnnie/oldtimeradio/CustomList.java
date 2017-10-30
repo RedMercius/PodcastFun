@@ -27,7 +27,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.MenuItem;
-import android.view.Menu;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -75,6 +74,7 @@ public class CustomList extends ArrayAdapter<String> {
     private boolean removeButtons;
     final String TAG = "CustomList";
     SQLiteDatabase db;
+    private PlayedList playList;
 
     public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList) {
         super(context, R.layout.custom_list_multi, radioTitle);
@@ -84,6 +84,9 @@ public class CustomList extends ArrayAdapter<String> {
         this.imageButtonList = imageButtonList;
         this.artist = CurrentArtist.getInstance().getCurrentArtist();
         this.removeButtons = false;
+        this.playList = new PlayedList(context);
+
+
 
         MediaPlayer mp = new MediaPlayer();
         mRemoveList = new ArrayList<>();
@@ -572,6 +575,7 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder.stopButton.setVisibility(View.INVISIBLE);
             viewHolder.deleteButton.setVisibility(View.INVISIBLE);
             viewHolder.txtStatus.setVisibility(View.VISIBLE);
+            viewHolder.menuButton.setVisibility(View.INVISIBLE);
         }
 
         viewHolder.playButton.setOnClickListener(new View.OnClickListener() {
@@ -647,23 +651,57 @@ public class CustomList extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Menu Button Pressed!!");
-// TODO: Conditional mark as played if not mark as played or mark as not played if played.
+
                 //Creating the instance of PopupMenu
                 PopupMenu popup = new PopupMenu(context, viewHolder.menuButton);
 
-                //Inflating the Popup using xml file
-                popup.getMenuInflater().inflate(R.menu.menu_context, popup.getMenu());
-
+                // show the menu based on the adapter state.
+                switch(AdapterState.getInstance().getCurrentState()) {
+                    case "played":
+                    //Inflating the Popup using xml file
+                    popup.getMenuInflater().inflate(R.menu.menu_played, popup.getMenu());
+                        break;
+                    case "not_played":
+                        //Inflating the Popup using xml file
+                        popup.getMenuInflater().inflate(R.menu.menu_not_played, popup.getMenu());
+                        break;
+                    case "all":
+                        //Inflating the Popup using xml file
+                        popup.getMenuInflater().inflate(R.menu.menu_all, popup.getMenu());
+                        break;
+                }
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         Toast.makeText(context, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
-                        return true;
+                        if (item.getTitle().toString().contentEquals("Mark as Played"))
+                        {
+                            playList.add(0, artist, viewHolder.txtTitle.getText().toString() );
+                            Log.d(TAG, "Adding Title: " + viewHolder.txtTitle.getText().toString() + " For Show: " + artist);
+                        }
 
+                        if (item.getTitle().toString().contentEquals("Mark as Not Played"))
+                        {
+                            playList.remove(artist, viewHolder.txtTitle.getText().toString());
+                            Log.d(TAG, "Deleting Title: " + viewHolder.txtTitle.getText().toString() + " For Show: " + artist);
+                        }
+                        final SelectActivity selectActivity = (SelectActivity) context;
+
+                        Runnable run = new Runnable(){
+                            public void run(){
+                                selectActivity.update();
+                            }
+                        };
+
+                        selectActivity.runOnUiThread(run);
+
+                        Log.d(TAG, "Menu Item: " + item.getTitle().toString());
+
+                        return true;
                     }
                 });
-
                 popup.show();
+
             }
         });
         return view;

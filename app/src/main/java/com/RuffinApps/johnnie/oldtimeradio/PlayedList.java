@@ -38,17 +38,6 @@ public class PlayedList extends SQLiteOpenHelper {
 
     // TODO: Need to verify the integrity of the database.
 
-    /*public static synchronized PlayedList getInstance(Context context) {
-        // Use the application context, which will ensure that you
-        // don't accidentally leak an Activity's context.
-
-        if (mDbHelper == null) {
-            mDbHelper = new PlayedList(context.getApplicationContext());
-            Log.w("PlayedList_Static", "getInstance");
-        }
-        return mDbHelper;
-    }*/
-
     public PlayedList(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
@@ -377,7 +366,10 @@ public class PlayedList extends SQLiteOpenHelper {
 
     public void remove(String showId, String title)
     {
-       delete(showId, title);
+        // if the entry exists, delete it.
+       if(doesEntryExist(showId, title)) {
+           delete(showId, title);
+       }
     }
 
     /*private PlayedList(Context context) {
@@ -412,14 +404,20 @@ public class PlayedList extends SQLiteOpenHelper {
         boolean deleteSuccessful = true;
 
         Log.d(TAG, "Comment deleted with title: " + title);
-        database.delete(showId, title
-                + " = " + title, null);
+        SQLiteDatabase db = this.getWritableDatabase();
 
-        if (!doesEntryExist(showId, title))
-        {
+        String [] show = {showId, title};
+
+        try {
+            db.delete("played", "show_id=? and radio_show_title=?", show);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Log.d(TAG, "Error while attempting add to Played database.");
             deleteSuccessful = false;
         }
-
+        finally {
+            db.close();
+        }
         return deleteSuccessful;
     }
 
