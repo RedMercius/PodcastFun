@@ -26,6 +26,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
@@ -62,7 +63,7 @@ public class CustomList extends ArrayAdapter<String> {
     }
 
     private final Activity context;
-    public String[] radioTitle;
+    private String[] radioTitle;
     private final Integer[] imageButtonList;
     private String artist;
     private MediaControl mc;
@@ -84,8 +85,6 @@ public class CustomList extends ArrayAdapter<String> {
         this.artist = CurrentArtist.getInstance().getCurrentArtist();
         this.removeButtons = false;
         this.playList = new PlayedList(context);
-
-
 
         MediaPlayer mp = new MediaPlayer();
         mRemoveList = new ArrayList<>();
@@ -146,6 +145,11 @@ public class CustomList extends ArrayAdapter<String> {
     public void removeButtonsFromView(boolean rem)
     {
       removeButtons = rem;
+    }
+
+    public void updateRadioTitle(String[] titles )
+    {
+        this.radioTitle = titles;
     }
 
     public void deleteFromList(String filename)
@@ -348,7 +352,13 @@ public class CustomList extends ArrayAdapter<String> {
     }
 
     @Override
-    public View getView(final int position, View view, ViewGroup parent) {
+    public int getCount()
+    {
+        return radioTitle.length;
+    }
+
+    @Override @NonNull
+    public View getView(final int position, View view, @NonNull ViewGroup parent) {
 
         final ViewHolderItem viewHolder;
 
@@ -371,7 +381,7 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder = (ViewHolderItem) view.getTag();
         }
 
-        final String mediaTitle = radioTitle[position];
+        final String mediaTitle = this.radioTitle[position];
 
         RadioTitle rt = new RadioTitle();
 
@@ -691,15 +701,16 @@ public class CustomList extends ArrayAdapter<String> {
 
                         Runnable run = new Runnable(){
                             public void run(){
-                                selectActivity.update();
-                                notifyDataSetChanged();
+                                selectActivity.updateAdapters();
                             }
                         };
-
                         selectActivity.runOnUiThread(run);
+
+                        notifyDataSetInvalidated();
                         return true;
                     }
                 });
+                Log.d(TAG, "After Popup!!");
                 popup.show();
 
               /*  if (AdapterState.getInstance().getCurrentState().contentEquals("played"))
@@ -719,6 +730,7 @@ public class CustomList extends ArrayAdapter<String> {
                 // notifyDataSetChanged();
             }
         });
+        view.refreshDrawableState();
         return view;
     }
 

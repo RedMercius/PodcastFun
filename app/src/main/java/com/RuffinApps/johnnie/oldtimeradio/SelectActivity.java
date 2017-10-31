@@ -167,28 +167,30 @@ public class SelectActivity extends AppCompatActivity {
             });
         }
 
-        public void update()
+        public void updateAdapters()
         {
             final String [] notPlayedTitles = playList.getUnplayedTitles(artist);
             final String [] playedTitles = playList.getPlayedTitles(artist);
+            this.playedAdapter.updateRadioTitle(playedTitles);
+            this.notPlayedAdapter.updateRadioTitle(notPlayedTitles);
 
-          /*  this.playedAdapter = new CustomList(this, playedTitles,
-                            iconControl.getImageButtonList());
+            if (playedTitles[0].contains("No played shows.")) {
+                playedAdapter.removeButtonsFromView(true);
+            }
+            else
+            {
+                playedAdapter.removeButtonsFromView(false);
+            }
 
-            // set the notPlayed adapter
-            this.notPlayedAdapter =
-                    new CustomList(this, notPlayedTitles,
-                            iconControl.getImageButtonList());*/
-
-            this.playedAdapter.radioTitle = playedTitles;
-           // this.playedAdapter.notifyDataSetChanged();
-           // this.notPlayedAdapter.clear();
-            this.notPlayedAdapter.radioTitle = notPlayedTitles;
-            this.playedAdapter.notifyDataSetChanged();
-
-            this.notPlayedAdapter.notifyDataSetChanged();
-
-            Log.d(TAG, "In update!!");
+            if (notPlayedTitles[0].contains("All shows have been played.")) {
+                notPlayedAdapter.removeButtonsFromView(true);
+            }
+            else
+            {
+                notPlayedAdapter.removeButtonsFromView(false);
+            }
+            this.notPlayedAdapter.notifyDataSetInvalidated();
+            this.playedAdapter.notifyDataSetInvalidated();
         }
 
     public String[] getRadioTitles(String artist)
