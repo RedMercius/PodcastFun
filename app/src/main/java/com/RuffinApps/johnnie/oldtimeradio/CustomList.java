@@ -702,6 +702,7 @@ public class CustomList extends ArrayAdapter<String> {
                         Runnable run = new Runnable(){
                             public void run(){
                                 selectActivity.updateAdapters();
+                                notifyDataSetInvalidated();
                             }
                         };
                         selectActivity.runOnUiThread(run);
@@ -710,24 +711,7 @@ public class CustomList extends ArrayAdapter<String> {
                         return true;
                     }
                 });
-                Log.d(TAG, "After Popup!!");
                 popup.show();
-
-              /*  if (AdapterState.getInstance().getCurrentState().contentEquals("played"))
-                {
-                    radioTitle = playList.getPlayedTitles(artist);
-                }
-                else if (AdapterState.getInstance().getCurrentState().contentEquals("not_played"))
-                {
-                    radioTitle = playList.getUnplayedTitles(artist);
-                }
-                else if (!AdapterState.getInstance().getCurrentState().contentEquals("not_played") &&
-                        !AdapterState.getInstance().getCurrentState().contentEquals("played"))
-                {
-                    // radioTitle = radioTitle;
-                    // do nothing..the list is good.
-                }*/
-                // notifyDataSetChanged();
             }
         });
         view.refreshDrawableState();

@@ -22,9 +22,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -44,7 +41,8 @@ public class SelectActivity extends AppCompatActivity {
     private PlayedList playList;
     private ListView listview;
     private String artist;
-    private ImageControl iconControl;
+    private String [] notPlayedTitles;
+    private String [] playedTitles;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +58,7 @@ public class SelectActivity extends AppCompatActivity {
             artist = CurrentArtist.getInstance().getCurrentArtist();
 
             // get the icon images
-            iconControl = new ImageControl();
+            ImageControl iconControl = new ImageControl();
 
             // get the radio titles
             radioList = new RadioTitle();
@@ -69,13 +67,11 @@ public class SelectActivity extends AppCompatActivity {
             playList = new PlayedList(this);
 
             String[] titles = getRadioTitles(artist);
-            //String[] playedTitles = new String[playList.numberOfRows()];
-            //String[] notPlayedTitles = new String[playList.getUnplayedTitles(artist).length];
 
             Log.d(TAG, "Unplayed Length: " + playList.getUnplayedTitles(artist).length);
 
-            final String [] notPlayedTitles = playList.getUnplayedTitles(artist);
-            final String [] playedTitles = playList.getPlayedTitles(artist);
+            notPlayedTitles = playList.getUnplayedTitles(artist);
+            playedTitles = playList.getPlayedTitles(artist);
 
             listview = findViewById(R.id.listview);
             playedListBtn = findViewById(playedList);
@@ -169,8 +165,9 @@ public class SelectActivity extends AppCompatActivity {
 
         public void updateAdapters()
         {
-            final String [] notPlayedTitles = playList.getUnplayedTitles(artist);
-            final String [] playedTitles = playList.getPlayedTitles(artist);
+            notPlayedTitles = playList.getUnplayedTitles(artist);
+            playedTitles = playList.getPlayedTitles(artist);
+
             this.playedAdapter.updateRadioTitle(playedTitles);
             this.notPlayedAdapter.updateRadioTitle(notPlayedTitles);
 

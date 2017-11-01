@@ -62,7 +62,8 @@
         <activity
             android:name=".PlayActivity"
             android:label="@string/title_activity_play"
-            android:parentActivityName=".SelectActivity">
+            android:parentActivityName=".SelectActivity"
+            android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.RuffinApps.johnnie.oldtimeradio.SelectActivity"/>
