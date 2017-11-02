@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2015 © Johnnie Ruffin
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~
+  -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_sci_fi"
+    tools:context=".SciFiActivity">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/activity_comedy"
+        tools:context=".ComedyActivity">
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:id="@+id/tableLayout1"
+                 android:layout_width="fill_parent"
+                 android:layout_height="fill_parent" >
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+
+    <ImageButton
+        android:id="@+id/xm1Btn"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
+        android:src="@mipmap/xminusone"
+        android:contentDescription="@string/XMinus1"/>
+
+    <ImageButton
+        android:id="@+id/innSancBtn"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
+        android:src="@mipmap/innersanctum0"
+        android:contentDescription="@string/InnerSactum"
+        />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+    <ImageButton
+        android:id="@+id/dxBtn"
+        android:layout_marginTop="15dp"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
+        android:src="@mipmap/dimension_x"
+        android:contentDescription="@string/DimensionX"/>
+    </TableRow>
+    </TableLayout>
+    </LinearLayout>
+    </HorizontalScrollView>
+    </ScrollView>
+</RelativeLayout>

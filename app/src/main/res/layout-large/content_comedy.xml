@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2015 © Johnnie Ruffin
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~
+  -->
+
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/tableLayout1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:layout_gravity="center">
+                    <TableRow
+                        android:id="@+id/tableRow1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dip" >
+
+                        <ImageButton
+                            android:id="@+id/imageBtn1"
+                            android:src="@mipmap/burnsandallen"
+                            android:contentDescription="@string/BurnsAndAllenImage"/>
+
+                        <ImageButton
+                            android:id="@+id/fbBtn"
+                            android:layout_width="wrap_content"
+                            android:src="@mipmap/fibber_and_molly_"
+                            android:contentDescription="@string/FibberMcGeeImage"
+                            />
+
+                        <ImageButton
+                            android:id="@+id/mlBtn"
+                            android:src="@mipmap/lewis_and_martin"
+                            android:contentDescription="@string/MartinAndLewisImage"
+                            />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <ImageButton
+                            android:id="@+id/gilBtn"
+                            android:layout_width="wrap_content"
+                            android:src="@mipmap/greatgildersleeve"
+                            android:contentDescription="@string/GilderSleeveImage"
+                            />
+
+                        <ImageButton
+                            android:id="@+id/jbBtn"
+                            android:layout_width="wrap_content"
+                            android:src="@mipmap/jackbenny_fixed"
+                            android:contentDescription="@string/JackBennyImage"
+                            />
+
+                        <ImageButton
+                            android:id="@+id/bhBtn"
+                            android:src="@mipmap/bob_hope_1950_0_fixed_0"
+                            android:contentDescription="@string/BobHopeImage"
+                            />
+                    </TableRow>
+
+</TableLayout>

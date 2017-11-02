@@ -435,11 +435,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     }
 
     private void cleanup() {
-       /* playList.add(0, artist, title);
+        playList.add(0, artist, title);
         am.abandonAudioFocus(this);
         mc.stopMedia();
         haltRun = true;
-        finish();*/
+        finish();
     }
 
     @Override

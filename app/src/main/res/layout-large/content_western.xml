@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2015 © Johnnie Ruffin
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~
+  -->
+ <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                             android:id="@+id/tableLayout1"
+                             android:layout_width="fill_parent"
+                             android:layout_height="fill_parent" >
+
+                        <ImageButton
+                            android:id="@+id/hopalongBtn"
+                            android:layout_marginTop="75dp"
+                            android:layout_marginStart="75dp"
+                            android:layout_marginLeft="75dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="275dp"
+                            android:src="@mipmap/hopalongcassidy"
+                            android:contentDescription="@string/HopalongCassidy"/>
+
+                        <ImageButton
+                            android:id="@+id/ftLaramieBtn"
+                            android:layout_marginTop="75dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_toEndOf="@id/hopalongBtn"
+                            android:layout_toRightOf="@id/hopalongBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="275dp"
+                            android:src="@mipmap/ftlaramie"
+                            android:contentDescription="@string/FtLaramie"
+                            />
+                </RelativeLayout>
+
