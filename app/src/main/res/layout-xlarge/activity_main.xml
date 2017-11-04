@@ -20,14 +20,13 @@
 
     <TextView
         android:id="@+id/txtcat"
-        android:layout_marginTop="100dp"
-        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize = "200pt"
         android:text="@string/title_category"
-        android:textColor="@color/black"
-        android:textSize="16pt"
-        android:textStyle="bold"/>
+         />
 
     <Button
         android:id="@+id/comedyButton"
@@ -36,7 +35,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13pt"
+        android:textSize="160pt"
         android:text="@string/category_comedy"
         />
 
@@ -46,7 +45,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13pt"
+        android:textSize="160pt"
         android:text="@string/category_scifi"
         />
 
@@ -56,7 +55,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13pt"
+        android:textSize="160pt"
         android:text="@string/category_thriller"
         />
 
@@ -66,7 +65,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13pt"
+        android:textSize="160pt"
         android:text="@string/category_western"
         />
 
