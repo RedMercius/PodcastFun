@@ -48,12 +48,9 @@
 
                 <ImageButton
                     android:id="@+id/imageBtn1"
-                    style="@android:style/Widget.ImageButton"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:adjustViewBounds="false"
                     android:contentDescription="@string/BurnsAndAllenImage"
-                    android:cropToPadding="false"
                     android:src="@mipmap/burnsandallen" />
 
                 <ImageButton
@@ -64,59 +61,55 @@
                     android:layout_marginStart="20dp"
                     android:contentDescription="@string/FibberMcGeeImage"
                     android:src="@mipmap/fibber_and_molly_" />
+
+                <ImageButton
+                    android:id="@+id/mlBtn"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:contentDescription="@string/MartinAndLewisImage"
+                    android:src="@mipmap/lewis_and_martin" />
             </TableRow>
 
         <TableRow
             android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dip" >
+            android:padding="1dip" >
 
-            <ImageButton
-                android:id="@+id/mlBtn"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="15dp"
-                android:contentDescription="@string/MartinAndLewisImage"
-                android:src="@mipmap/lewis_and_martin" />
 
             <ImageButton
                 android:id="@+id/gilBtn"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:src="@mipmap/greatgildersleeve"
                 android:contentDescription="@string/GilderSleeveImage"
                 />
+
+            <ImageButton
+                android:id="@+id/jbBtn"
+                android:layout_marginTop="5dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:src="@mipmap/jackbenny_fixed"
+                android:contentDescription="@string/JackBennyImage"
+                />
+
+            <ImageButton
+                android:id="@+id/bhBtn"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/bob_hope_1950_0_fixed_0"
+                android:contentDescription="@string/BobHopeImage"
+                />
         </TableRow>
-            <TableRow
-                android:id="@+id/tableRow3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dip" >
-
-                <ImageButton
-                    android:id="@+id/jbBtn"
-                    android:layout_marginTop="15dp"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@mipmap/jackbenny_fixed"
-                    android:contentDescription="@string/JackBennyImage"
-                    />
-
-                <ImageButton
-                    android:id="@+id/bhBtn"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@mipmap/bob_hope_1950_0_fixed_0"
-                    android:contentDescription="@string/BobHopeImage"
-                    />
-            </TableRow>
         </TableLayout>
 </LinearLayout>
     </HorizontalScrollView>

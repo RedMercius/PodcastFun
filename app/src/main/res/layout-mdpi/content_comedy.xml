@@ -16,6 +16,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background = "@color/lightgray"
+    android:gravity="center"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_comedy"
     tools:context=".ComedyActivity">
@@ -50,8 +52,6 @@
 
     <ImageButton
         android:id="@+id/imageBtn1"
-        android:layout_width="275dp"
-        android:layout_height="275dp"
         android:src="@mipmap/burnsandallen"
         android:contentDescription="@string/BurnsAndAllenImage"/>
 
@@ -60,7 +60,6 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="275dp"
         android:src="@mipmap/fibber_and_molly_"
         android:contentDescription="@string/FibberMcGeeImage"
         />
@@ -76,7 +75,6 @@
                 android:id="@+id/mlBtn"
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
-                android:layout_height="275dp"
                 android:src="@mipmap/lewis_and_martin"
                 android:contentDescription="@string/MartinAndLewisImage"
                 />
@@ -87,7 +85,6 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_width="wrap_content"
-                android:layout_height="275dp"
                 android:src="@mipmap/greatgildersleeve"
                 android:contentDescription="@string/GilderSleeveImage"
                 />
@@ -102,7 +99,6 @@
                     android:id="@+id/jbBtn"
                     android:layout_marginTop="15dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="275dp"
                     android:src="@mipmap/jackbenny_fixed"
                     android:contentDescription="@string/JackBennyImage"
                     />
@@ -112,8 +108,6 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_width="275dp"
-                    android:layout_height="275dp"
                     android:src="@mipmap/bob_hope_1950_0_fixed_0"
                     android:contentDescription="@string/BobHopeImage"
                     />

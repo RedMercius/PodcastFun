@@ -22,19 +22,19 @@ public class ImageControl {
     Integer[] imageButtonList = {
             R.mipmap.play50,
             R.mipmap.pause50,
-            R.drawable.ic_stop,
-            R.drawable.ic_close,
+            R.mipmap.ic_stop,
+            R.mipmap.ic_close,
             R.mipmap.ic_download,
-            R.drawable.ic_download_0,
-            R.drawable.ic_info,
-            R.drawable.ic_delete,
+            R.mipmap.ic_download_0,
+            R.mipmap.ic_info,
+            R.mipmap.ic_delete,
             R.mipmap.ic_stream,
             R.mipmap.start50,
             R.mipmap.end50,
-            R.drawable.lowvolume50,
-            R.drawable.highvolume50,
-            R.drawable.mute50,
-            R.drawable.menu2,
+            R.mipmap.lowvolume50,
+            R.mipmap.highvolume50,
+            R.mipmap.mute50,
+            R.mipmap.menu2,
             R.mipmap.menu5_horizontal
     };
 

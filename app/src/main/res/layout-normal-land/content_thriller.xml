@@ -56,21 +56,18 @@
         android:layout_height="120dp"
         android:src="@mipmap/sgimage"
         android:contentDescription="@string/Speed"/>
+
+        <ImageButton
+            android:id="@+id/wsBtn"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@mipmap/thewhistler"
+            android:contentDescription="@string/TheWhistler"
+            />
+
     </TableRow>
-        <TableRow
-            android:id="@+id/tableRow2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dip" >
-            <ImageButton
-                android:id="@+id/wsBtn"
-                android:layout_marginTop="15dp"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src="@mipmap/thewhistler"
-                android:contentDescription="@string/TheWhistler"
-                />
-        </TableRow>
     </TableLayout>
     </LinearLayout>
     </HorizontalScrollView>
