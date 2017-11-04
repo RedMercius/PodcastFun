@@ -7,14 +7,13 @@
   -->
  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                              android:id="@+id/tableLayout1"
-                             android:layout_width="fill_parent"
-                             android:layout_height="fill_parent" >
+                             android:layout_width="match_parent"
+                             android:layout_height="match_parent"
+                             android:layout_gravity="center">
 
                         <ImageButton
                             android:id="@+id/hopalongBtn"
                             android:layout_marginTop="75dp"
-                            android:layout_marginStart="75dp"
-                            android:layout_marginLeft="75dp"
                             android:layout_width="wrap_content"
                             android:layout_height="275dp"
                             android:src="@mipmap/hopalongcassidy"
@@ -23,8 +22,6 @@
                         <ImageButton
                             android:id="@+id/ftLaramieBtn"
                             android:layout_marginTop="75dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginLeft="20dp"
                             android:layout_toEndOf="@id/hopalongBtn"
                             android:layout_toRightOf="@id/hopalongBtn"
                             android:layout_width="wrap_content"
