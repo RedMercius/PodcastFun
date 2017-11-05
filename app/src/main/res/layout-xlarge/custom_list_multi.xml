@@ -8,8 +8,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
               android:background = "@color/lightgray">
     <ImageButton
         android:id="@+id/playbtn"
@@ -48,7 +48,7 @@
         android:layout_toRightOf="@id/downloadbtn"
         android:layout_marginRight="60dp"
         android:layout_marginEnd="60dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textSize="20pt" />
 
     <TextView
         android:id="@+id/txtstatus"
@@ -57,7 +57,7 @@
         android:layout_below="@id/txt"
         android:layout_toEndOf="@id/downloadbtn"
         android:layout_toRightOf="@id/downloadbtn"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textSize="15pt" />
 
     <ImageButton
         android:id="@+id/deletebtn"

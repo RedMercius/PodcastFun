@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:textSize = "200pt"
+        android:textSize = "40pt"
         android:text="@string/title_category"
          />
 
@@ -35,7 +35,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="160pt"
+        android:textSize="20pt"
         android:text="@string/category_comedy"
         />
 
@@ -45,7 +45,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="160pt"
+        android:textSize="20pt"
         android:text="@string/category_scifi"
         />
 
@@ -55,7 +55,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="160pt"
+        android:textSize="20pt"
         android:text="@string/category_thriller"
         />
 
@@ -65,7 +65,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="160pt"
+        android:textSize="20pt"
         android:text="@string/category_western"
         />
 

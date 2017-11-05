@@ -4,17 +4,17 @@
   ~ Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~
   -->
-
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:id="@+id/tableLayout1"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_gravity="center" >
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dip" >
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background = "@color/lightgray"
+    android:gravity="center"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_play"
+    tools:context="PlayActivity">
 
             <TextView
                 android:id="@+id/txtTitle"
@@ -23,32 +23,30 @@
                 android:layout_marginLeft="13dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15pt"
                 android:textColor="#000000"
                 />
-    </TableRow>
-    <TableRow
-        android:id="@+id/tableRow2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
 
         <TextView
             android:id="@+id/txtCurPos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="13dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
+            android:textSize="12pt"
+            android:layout_below="@id/txtTitle"
             android:textColor="#000000"
             />
 
         <SeekBar
             android:id="@+id/seekBar"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_width="250dp"
+            android:layout_height="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/txtCurPos"
+            android:layout_toEndOf="@id/txtCurPos"
+            android:layout_below="@id/txtTitle"
             android:background="@color/black_overlay"
             />
 
@@ -57,17 +55,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
-            android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:textSize="12pt"
+            android:layout_below="@id/txtTitle"
+            android:layout_toRightOf="@id/seekBar"
+            android:layout_toEndOf="@id/seekBar"
             android:textColor="#000000"
             />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            >
 
             <ImageButton
                 android:id="@+id/rewind_button"
@@ -76,6 +71,7 @@
                 android:layout_marginTop="13dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
+                android:layout_below="@id/txtCurPos"
                 android:contentDescription="@string/rewind_button"
                 />
 
@@ -86,6 +82,9 @@
                 android:layout_marginTop="13dp"
                 android:layout_marginStart="55dp"
                 android:layout_marginLeft="55dp"
+                android:layout_below="@id/txtCurPos"
+                android:layout_toRightOf="@id/rewind_button"
+                android:layout_toEndOf="@id/rewind_button"
                 android:contentDescription="@string/play_button"
                     />
 
@@ -96,18 +95,17 @@
                 android:layout_marginTop="13dp"
                 android:layout_marginStart="65dp"
                 android:layout_marginLeft="65dp"
+                android:layout_below="@id/txtCurPos"
+                android:layout_toRightOf="@id/play_button"
+                android:layout_toEndOf="@id/play_button"
                 android:contentDescription="@string/forward_button"
                 />
-</TableRow>
-    <TableRow
-        android:id="@+id/tableRow4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
 
     <ImageView android:id="@+id/fullscreen_content"
+               android:layout_height="wrap_content"
+               android:layout_width="wrap_content"
                android:layout_marginTop="30dp"
                android:keepScreenOn="true"
+               android:layout_below="@id/play_button"
                android:contentDescription="@string/title_activity_play"/>
-    </TableRow>
-</TableLayout>
+</RelativeLayout>
