@@ -10,7 +10,6 @@ android {
     buildToolsVersion '26.0.2'
 
     defaultConfig {
-        //noinspection MinSdkTooLow
         minSdkVersion 11
         targetSdkVersion 26
     }
@@ -22,8 +21,11 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_7
     }
+}
+android {
+    useLibrary 'org.apache.http.legacy'
 }
 dependencies {
 }
