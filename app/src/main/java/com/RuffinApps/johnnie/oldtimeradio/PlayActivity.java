@@ -447,7 +447,30 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         cleanup();
     }
 
+    // TODO: Handle hard input button presses or joystick button presses.
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        boolean handled = false;
+
+        switch (keyCode){
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_BUTTON_A:
+                // ... handle selections
+                handled = true;
+                break;
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                // ... handle left action
+                handled = true;
+                break;
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                // ... handle right action
+                handled = true;
+                break;
+        }
+        return handled || super.onKeyDown(keyCode, event);
+    }
+
+    /*@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Log.e(TAG, "KeyCode_Back!");
@@ -456,7 +479,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         }
 
         return super.onKeyDown(keyCode, event);
-    }
+    }*/
 
     @Override
     public void onStart() {

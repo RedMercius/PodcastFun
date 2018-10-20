@@ -10,6 +10,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
+import android.os.Environment;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,6 +152,28 @@ public class PlayedList extends SQLiteOpenHelper {
         return emptyList;
     }
 
+    public void showFileNames()
+    {
+       /* URI uri = new URI("http://www.JohnnieRuffin.com/audio/");
+        Log.d("Files", "Path: " + path);
+        File directory = new File(URI: path);
+        File[] files = directory.listFiles();*/
+
+        /*Log.d("Files", "Size: "+ files.length);
+        for (int i = 0; i < files.length; i++)
+        {
+            Log.d("Files", "FileName:" + files[i].getName());
+        }*/
+
+        /*String[] filenames = new String[radioList.getBurnsAllen().length];
+        int i = 0;
+        for (String filename : radioList.getBaMap().values()){
+            filenames[i] = filename;
+            Log.d(TAG, "BurnsAndAllen_Titles: " + filename);
+            i++;
+        }*/
+    }
+
     public String[] getRadioTitles(String artist)
     {
         radioList.initTitles();
@@ -158,6 +188,7 @@ public class PlayedList extends SQLiteOpenHelper {
                     Log.d(TAG, "BurnsAndAllen_Titles: " + title);
                     i++;
                 }
+                showFileNames();
                 return titles;
             }
 

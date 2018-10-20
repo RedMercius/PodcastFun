@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -369,6 +370,28 @@ public class SelectActivity extends AppCompatActivity {
         }
     }
 
+    // TODO: Handle hard input button presses or joystick button presses.
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        boolean handled = false;
+
+        switch (keyCode){
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_BUTTON_A:
+                // ... handle selections
+                handled = true;
+                break;
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                // ... handle left action
+                handled = true;
+                break;
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                // ... handle right action
+                handled = true;
+                break;
+        }
+        return handled || super.onKeyDown(keyCode, event);
+    }
         @Override
         public void onDestroy()
         {

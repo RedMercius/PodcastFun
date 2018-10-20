@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         /*** Start License Checking ***/
-        didCheck = false;
+       /* didCheck = false;
         mpreferences = new SecurePreferences(this, "jotr-preferences", "Loki13026044", true);
 
         String user = mpreferences.getString("LicenseCheck");
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Checking application license...", Toast.LENGTH_SHORT).show();
             doCheck();
-        }
+        }*/
         /*** End License Checking ***/
 
         comedyButton = findViewById(R.id.comedyButton);
@@ -125,8 +125,94 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        comedyButton.requestFocus();
+
         CurrentArtist.getInstance().init(this);
         AdapterState.getInstance().init(this);
+    }
+
+    // TODO: Handle hard input button presses or joystick button presses.
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        boolean handled = false;
+
+        switch (keyCode){
+            case KeyEvent.KEYCODE_ENTER:
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_BUTTON_A:
+                if (comedyButton.isFocused())
+                {
+                    comedyButton.clearFocus();
+                    comedyButton.performClick();
+                }
+                if (thrillerButton.isFocused())
+                {
+                    thrillerButton.clearFocus();
+                    thrillerButton.performClick();
+                }
+                if (scifiButton.isFocused())
+                {
+                    scifiButton.clearFocus();
+                    scifiButton.performClick();
+                }
+                if (westernButton.isFocused()) {
+                    westernButton.clearFocus();
+                    westernButton.performClick();
+                }
+                handled = true;
+                break;
+            case KeyEvent.ACTION_UP:
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                // ... handle left action
+                if (comedyButton.isFocused())
+                {
+                    comedyButton.clearFocus();
+                    westernButton.requestFocus();
+                }
+                if (scifiButton.isFocused())
+                {
+                    scifiButton.clearFocus();
+                    comedyButton.requestFocus();
+                }
+                if (thrillerButton.isFocused())
+                {
+                    thrillerButton.clearFocus();
+                    scifiButton.requestFocus();
+                }
+                if (westernButton.isFocused())
+                {
+                    westernButton.clearFocus();
+                    thrillerButton.requestFocus();
+                }
+                handled = true;
+                break;
+            case KeyEvent.ACTION_DOWN:
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                // ... handle right action
+                if (comedyButton.isFocused())
+                {
+                    comedyButton.clearFocus();
+                    scifiButton.requestFocus();
+                }
+                if (scifiButton.isFocused())
+                {
+                    scifiButton.clearFocus();
+                    thrillerButton.requestFocus();
+                }
+                if (thrillerButton.isFocused())
+                {
+                    thrillerButton.clearFocus();
+                    westernButton.requestFocus();
+                }
+                if (westernButton.isFocused())
+                {
+                    westernButton.clearFocus();
+                    comedyButton.requestFocus();
+                }
+                handled = true;
+                break;
+        }
+        return handled || super.onKeyDown(keyCode, event);
     }
 
     private void doCheck() {

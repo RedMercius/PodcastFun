@@ -5,15 +5,14 @@
   ~ Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~
   -->
-<manifest android:versionCode="18"
-    android:versionName = "3.0"
+<manifest 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.RuffinApps.johnnie.oldtimeradio"
     >
 
-    // TODO: Remember to remove this for android builds...or comment out.
-    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
+    // TODO: Remember to remove this for Amazon builds...or comment out.
+    // <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -27,7 +26,7 @@
                                      android.support.coreui, android.support.coreutils, android.support.compat,
                                      com.google.android.gms.gcm, com.google.android.gms.iid, com.google.android.gms.base,
                                      com.google.android.gms.tasks, com.google.android.gms"
-      android:minSdkVersion="11" />
+      />
 
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
