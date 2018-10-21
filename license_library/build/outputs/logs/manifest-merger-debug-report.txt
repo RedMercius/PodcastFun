@@ -1,0 +1,41 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml:8:1-15:12
+INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml:8:1-15:12
+INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml:8:1-15:12
+INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml:8:1-15:12
+INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml:8:1-15:12
+INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml:8:1-15:12
+INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml:8:1-15:12
+	package
+		ADDED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml:9:5-51
+		INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
+	android:versionName
+		ADDED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml:11:5-30
+		INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml:8:11-69
+	android:versionCode
+		ADDED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml:10:5-28
+		INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
+uses-permission#com.android.vending.CHECK_LICENSE
+ADDED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml:14:5-73
+	android:name
+		ADDED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml:14:22-70
+uses-sdk
+INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
+INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
+INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
+INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
+		ADDED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
+		ADDED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\johnnie\AndroidStudioProjects\PodcastFun\license_library\src\main\AndroidManifest.xml
