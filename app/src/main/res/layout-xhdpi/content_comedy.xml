@@ -117,6 +117,20 @@
                             android:contentDescription="@string/BobHopeImage"
                             />
                     </TableRow>
+                    <TableRow
+                        android:id="@+id/tableRow4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="1dip" >
+
+                        <ImageButton
+                            android:id="@+id/mbBtn"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:src="@mipmap/ourmissbrooks"
+                            android:contentDescription="@string/OurMissBrooksImage"
+                            />
+                    </TableRow>
                 </TableLayout>
             </LinearLayout>
         </HorizontalScrollView>

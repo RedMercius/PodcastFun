@@ -25,7 +25,7 @@
                      android:layout_height="wrap_content" >
 
             <TableRow
-                android:id="@+id/tableRow3"
+                android:id="@+id/tableRow1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 >
@@ -48,7 +48,7 @@
             </TableRow>
 
             <TableRow
-                android:id="@+id/tableRow1"
+                android:id="@+id/tableRow2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 >
@@ -71,7 +71,7 @@
             </TableRow>
 
             <TableRow
-                android:id="@+id/tableRow2"
+                android:id="@+id/tableRow3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 >
@@ -91,6 +91,20 @@
                     android:layout_marginStart="20dp"
                     android:contentDescription="@string/GilderSleeveImage"
                     android:src="@mipmap/greatgildersleeve" />
+            </TableRow>
+            <TableRow
+                android:id="@+id/tableRow4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="1dip" >
+
+                <ImageButton
+                    android:id="@+id/mbBtn"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@mipmap/ourmissbrooks"
+                    android:contentDescription="@string/OurMissBrooksImage"
+                    />
             </TableRow>
         </TableLayout>
     </ScrollView>

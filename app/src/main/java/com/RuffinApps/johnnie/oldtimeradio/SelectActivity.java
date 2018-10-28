@@ -359,7 +359,7 @@ public class SelectActivity extends AppCompatActivity {
                 return titles;
             }
 
-            case "Miss Brooks":
+            case "Our Miss Brooks":
             {
                 int i = 0;
                 String[] titles = new String[radioList.getMissBrooks().length];

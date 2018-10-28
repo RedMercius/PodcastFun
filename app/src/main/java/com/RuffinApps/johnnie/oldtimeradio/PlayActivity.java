@@ -299,6 +299,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 break;
             }
 
+            case "Our Miss Brooks": {
+                playPic.setImageResource(R.mipmap.ourmissbrooks);
+                break;
+            }
+
             default: {
                 playPic.setImageResource(R.mipmap.burnsandallen);
                 break;

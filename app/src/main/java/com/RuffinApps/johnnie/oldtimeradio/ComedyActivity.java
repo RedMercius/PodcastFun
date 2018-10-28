@@ -23,6 +23,7 @@ public class ComedyActivity extends AppCompatActivity {
     ImageButton gilBtn;
     ImageButton jbBtn;
     ImageButton bhBtn;
+    ImageButton mbBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class ComedyActivity extends AppCompatActivity {
         gilBtn = findViewById(R.id.gilBtn);
         jbBtn =  findViewById(R.id.jbBtn);
         bhBtn = findViewById(R.id.bhBtn);
+        mbBtn = findViewById(R.id.mbBtn);
 
         baBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -108,6 +110,16 @@ public class ComedyActivity extends AppCompatActivity {
             }
         });
 
+        mbBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
+                CurrentArtist.getInstance().setCurrentArtist("Our Miss Brooks");
+                startActivity(i);
+            }
+        });
     }
 
     // TODO: Handle hard input button presses or joystick button presses.

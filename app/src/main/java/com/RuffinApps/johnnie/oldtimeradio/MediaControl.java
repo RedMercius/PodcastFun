@@ -130,6 +130,12 @@ public class MediaControl {
                 break;
             }
 
+            case "Our Miss Brooks":
+            {
+                url = "http://www.JohnnieRuffin.com/audio/Brooks/";
+                break;
+            }
+
             default: {
                 url = null;
                 break;
@@ -229,8 +235,6 @@ public class MediaControl {
 
     public void stopMedia() { releaseMediaPlayer(); }
 
-    // public String getMP3Artist(){ return martist; }
-
     private void releaseMediaPlayer()
     {
         //if mediaplayer is still holding mediaplayer
@@ -300,47 +304,4 @@ public class MediaControl {
             Log.e(TAG, "Exception: " + e);
         }
     }
-
-   /* private void scanSdcard(){
-        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
-        String[] projection = {
-                MediaStore.Audio.Media.TITLE,
-                MediaStore.Audio.Media.ARTIST,
-                MediaStore.Audio.Media.DATA,
-                MediaStore.Audio.Media.DISPLAY_NAME,
-                MediaStore.Audio.Media.DURATION
-        };
-        final String sortOrder = MediaStore.Audio.AudioColumns.TITLE + " COLLATE LOCALIZED ASC";
-
-        Cursor cursor = null;
-        try {
-            Uri uri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-            cursor = context.getContentResolver().query(uri, projection, selection, null, sortOrder);
-            if( cursor != null){
-                cursor.moveToFirst();
-                while( !cursor.isAfterLast() ){
-                    //MediaData media = new MediaData();
-                    String title = cursor.getString(0);
-                    String artist = cursor.getString(1);
-                    String path = cursor.getString(2);
-                    String displayName  = cursor.getString(3);
-                    String songDuration = cursor.getString(4);
-                    cursor.moveToNext();
-                    //Log.d(TAG, "Title: " + title);
-                    //Log.d(TAG, "artist: " + artist);
-                    //Log.d(TAG, "path: " + path);
-                    //Log.d(TAG, "displayName: " + displayName);
-                    //Log.d(TAG, "songDuration: " + songDuration);
-                }
-
-            }
-
-        } catch (Exception e) {
-            Log.e(TAG, "Exception: " + e);
-        }finally{
-            if( cursor != null){
-                cursor.close();
-            }
-        }
-    }*/
 }
