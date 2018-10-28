@@ -164,8 +164,7 @@ public class SelectActivity extends AppCompatActivity {
             });
         }
 
-        public void updateAdapters()
-        {
+        public void updateAdapters() {
             notPlayedTitles = playList.getUnplayedTitles(artist);
             playedTitles = playList.getPlayedTitles(artist);
 
@@ -174,17 +173,13 @@ public class SelectActivity extends AppCompatActivity {
 
             if (playedTitles[0].contains("No played shows.")) {
                 playedAdapter.removeButtonsFromView(true);
-            }
-            else
-            {
+            } else {
                 playedAdapter.removeButtonsFromView(false);
             }
 
             if (notPlayedTitles[0].contains("All shows have been played.")) {
                 notPlayedAdapter.removeButtonsFromView(true);
-            }
-            else
-            {
+            } else {
                 notPlayedAdapter.removeButtonsFromView(false);
             }
             this.notPlayedAdapter.notifyDataSetInvalidated();
@@ -357,6 +352,18 @@ public class SelectActivity extends AppCompatActivity {
                 int i = 0;
                 String[] titles = new String[radioList.getfl().length];
                 for (String title : radioList.getFlMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "Miss Brooks":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getMissBrooks().length];
+                for (String title : radioList.getMbMap().values())
                 {
                     titles[i] = title;
                     i++;

@@ -7,19 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
-
-import android.os.Environment;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
-
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by MOTAH on 12/19/2016.
@@ -28,7 +16,7 @@ import java.util.List;
 
 public class PlayedList extends SQLiteOpenHelper {
 
-    String TAG = "PlayList";
+    private String TAG = "PlayList";
 
     private static PlayedList mDbHelper;
     private SQLiteDatabase database;
@@ -152,28 +140,6 @@ public class PlayedList extends SQLiteOpenHelper {
         return emptyList;
     }
 
-    public void showFileNames()
-    {
-       /* URI uri = new URI("http://www.JohnnieRuffin.com/audio/");
-        Log.d("Files", "Path: " + path);
-        File directory = new File(URI: path);
-        File[] files = directory.listFiles();*/
-
-        /*Log.d("Files", "Size: "+ files.length);
-        for (int i = 0; i < files.length; i++)
-        {
-            Log.d("Files", "FileName:" + files[i].getName());
-        }*/
-
-        /*String[] filenames = new String[radioList.getBurnsAllen().length];
-        int i = 0;
-        for (String filename : radioList.getBaMap().values()){
-            filenames[i] = filename;
-            Log.d(TAG, "BurnsAndAllen_Titles: " + filename);
-            i++;
-        }*/
-    }
-
     public String[] getRadioTitles(String artist)
     {
         radioList.initTitles();
@@ -188,7 +154,6 @@ public class PlayedList extends SQLiteOpenHelper {
                     Log.d(TAG, "BurnsAndAllen_Titles: " + title);
                     i++;
                 }
-                showFileNames();
                 return titles;
             }
 
@@ -348,6 +313,17 @@ public class PlayedList extends SQLiteOpenHelper {
                 }
                 return titles;
             }
+            case "Miss Brooks":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getMissBrooks().length];
+                for (String title : radioList.getMbMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
 
             default: {
                 Log.d(TAG, "Returning Null!!");
@@ -355,35 +331,6 @@ public class PlayedList extends SQLiteOpenHelper {
             }
         }
     }
-
-   /* public List<PlayData> getPlayedList(String showId)
-    {
-        List<PlayData> playedList = new ArrayList<>();
-        String [] artist = {showId};
-        String PLAYED_LIST_SELECT_QUERY = "SELECT * FROM " + PLAYED_TABLE_NAME + "WHERE SHOW_ID=?";
-
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        try {
-            Cursor cursor = db.rawQuery(PLAYED_LIST_SELECT_QUERY, artist);
-
-            if (cursor.moveToFirst()) {
-                do {
-                    PlayData playData = new PlayData();
-                    playData._id = cursor.getInt(cursor.getColumnIndex("_id"));
-                    playData.showId = cursor.getString(cursor.getColumnIndex(SHOW_ID));
-                    playData.showTitle = cursor.getString(cursor.getColumnIndex(SHOW_TITLE));
-
-                    playedList.add(playData);
-
-                } while (cursor.moveToNext());
-            }
-        } catch (Exception e) {
-            Log.d(TAG, "Error while trying to get posts from database");
-        }
-
-        return playedList;
-    }*/
 
     public void add(Integer id, String showId, String title)
     {
@@ -402,10 +349,6 @@ public class PlayedList extends SQLiteOpenHelper {
            delete(showId, title);
        }
     }
-
-    /*private PlayedList(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }*/
 
     private boolean store(Integer id, String showId, String title)
     {
