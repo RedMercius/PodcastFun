@@ -40,7 +40,7 @@
 
     <TextView
         android:id="@+id/txt"
-        android:layout_width="wrap_content"
+        android:layout_width="248dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_toEndOf="@id/downloadbtn"
@@ -49,7 +49,7 @@
 
     <TextView
         android:id="@+id/txtstatus"
-        android:layout_width="wrap_content"
+        android:layout_width="113dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/txt"
         android:layout_toEndOf="@id/downloadbtn"
@@ -58,25 +58,21 @@
 
     <ImageButton
         android:id="@+id/deletebtn"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_toEndOf="@id/txt"
-        android:layout_toRightOf="@id/txt"
+        android:layout_alignParentRight="true"
         android:contentDescription="@string/delete_button"
-        />
+        android:src="@mipmap/ic_delete" />
 
     <ImageButton
         android:id="@+id/menuButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:layout_below="@id/deletebtn"
-        android:src="@mipmap/menu5_horizontal"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="0dp"
         android:contentDescription="@string/menu_button"
-        />
+        android:src="@mipmap/menu5_horizontal" />
 </RelativeLayout>
