@@ -37,8 +37,8 @@
 
             <ImageButton
                 android:id="@+id/xm1Btn"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="125dp"
+                android:layout_height="114dp"
                 android:contentDescription="@string/XMinus1"
                 android:src="@mipmap/xminusone" />
 
@@ -53,17 +53,18 @@
         </TableRow>
 
         <TableRow
-        android:id="@+id/tableRow2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="1dip" >
-    <ImageButton
-        android:id="@+id/dxBtn"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@mipmap/dimension_x"
-        android:contentDescription="@string/DimensionX"/>
-    </TableRow>
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1dip">
+
+            <ImageButton
+                android:id="@+id/dxBtn"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:contentDescription="@string/DimensionX"
+                android:src="@mipmap/dimension_x" />
+        </TableRow>
 
     </TableLayout>
     </LinearLayout>

@@ -15,40 +15,45 @@
         tools:context=".ComedyActivity"
         tools:showIn="@layout/activity_select">
 
-        <Button
-            android:id="@+id/allShowsList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="@string/button_all_shows"
-            android:textSize="5pt" />
+    <Button
+        android:id="@+id/allShowsList"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_alignParentTop="true"
+        android:textSize="4pt"
+        android:text="@string/button_all_shows"
+        />
 
-        <Button
-            android:id="@+id/unplayedList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:layout_toEndOf="@id/allShowsList"
-            android:layout_toRightOf="@id/allShowsList"
-            android:text="@string/button_not_played"
-            android:textSize="5pt" />
+    <Button
+        android:id="@+id/unplayedList"
+        android:layout_width="63dp"
+        android:layout_height="65dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/allShowsList"
+        android:layout_toRightOf="@id/allShowsList"
+        android:textSize="4pt"
+        android:text="@string/button_not_played"
+         />
 
-        <Button
-            android:id="@+id/playedList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@id/unplayedList"
-            android:layout_toRightOf="@id/unplayedList"
-            android:textSize="5pt"
-            android:text="@string/button_played"
-             />
+    <Button
+        android:id="@+id/playedList"
+        android:layout_width="66dp"
+        android:layout_height="65dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/unplayedList"
+        android:layout_toRightOf="@id/unplayedList"
+        android:textSize="4pt"
+        android:text="@string/button_played"
+        />
 
         <ListView
             android:id="@+id/listview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/playedList" />
+            android:layout_below="@id/playedList"
+            />
 
     </RelativeLayout>

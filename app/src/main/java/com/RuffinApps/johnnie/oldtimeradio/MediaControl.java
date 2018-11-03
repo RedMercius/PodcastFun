@@ -132,7 +132,7 @@ public class MediaControl {
 
             case "Our Miss Brooks":
             {
-                url = "http://www.JohnnieRuffin.com/audio/Brooks/";
+                url = "http://www.RuffinApps.com/Audio/Brooks/";
                 break;
             }
 

@@ -516,7 +516,7 @@ public class CustomList extends ArrayAdapter<String> {
                 break;
             }
 
-            case "Miss Brooks": {
+            case "Our Miss Brooks": {
                 for (String mediaFile : rt.getMbMap().keySet()) {
                     if (rt.getMbMap().get(mediaFile).equals(mediaTitle)) {
                         MediaFile = mediaFile;
