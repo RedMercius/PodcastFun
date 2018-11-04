@@ -19,10 +19,11 @@
 
             <TextView
                 android:id="@+id/txtTitle"
-                android:textAlignment="gravity"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18pt"
+                android:textSize="14pt"
                 android:textColor="#000000"
                 />
 
@@ -31,25 +32,24 @@
             android:id="@+id/txtCurPos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_below="@id/txtTitle"
-            android:textSize="18pt"
+            android:layout_alignParentLeft="true"
+            android:textSize="12pt"
             android:textColor="#000000"
             />
 
         <SeekBar
             android:id="@+id/seekBar"
-            android:layout_width="400dp"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
             android:layout_below="@id/txtTitle"
             android:layout_toEndOf="@id/txtCurPos"
             android:layout_toRightOf="@id/txtCurPos"
-            android:layout_centerHorizontal="true"
             android:background="@color/black_overlay"
             />
 
@@ -57,13 +57,12 @@
             android:id="@+id/duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
             android:layout_below="@id/txtTitle"
             android:layout_toEndOf="@id/seekBar"
             android:layout_toRightOf="@id/seekBar"
-            android:textSize="18pt"
+            android:textSize="12pt"
             android:textColor="#000000"
             />
 
@@ -108,8 +107,7 @@
                android:layout_height="wrap_content"
                android:layout_width="wrap_content"
                android:keepScreenOn="true"
-               android:layout_marginStart="250dp"
-               android:layout_marginLeft="250dp"
+               android:layout_centerHorizontal="true"
                android:layout_below="@id/play_button"
                android:contentDescription="@string/title_activity_play"/>
 </RelativeLayout>
