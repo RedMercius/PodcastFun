@@ -17,6 +17,8 @@ package com.RuffinApps.johnnie.oldtimeradio;
 //
 ////////////////////////////////////////////////////////////////////////////
 
+import android.os.StrictMode;
+
 import java.util.HashMap;
 
 public class RadioTitle {
@@ -3660,6 +3662,12 @@ public class RadioTitle {
 
     public void initTitles()
     {
+        if (android.os.Build.VERSION.SDK_INT > 21)
+        {
+            StrictMode.ThreadPolicy policy = new
+                    StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
         for (int i = 0; i < burnsAllen.length; ++i)
         {
             baMap.put(burnsAllen[i], burnsAllenTitle[i]);

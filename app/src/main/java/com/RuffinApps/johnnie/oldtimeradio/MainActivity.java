@@ -7,10 +7,12 @@
 
 package com.RuffinApps.johnnie.oldtimeradio;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.net.Uri;
+import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -50,9 +52,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new
+                    StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         /*** Start License Checking ***/
-        /*didCheck = false;
+      /*  didCheck = false;
         mpreferences = new SecurePreferences(this, "jotr-preferences", "Loki13026044", true);
 
         String user = mpreferences.getString("LicenseCheck");
@@ -223,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
 
         mChecker.checkAccess(mLicenseCheckerCallback);
     }
-
+/*
     private class MyLicenseCheckerCallback implements LicenseCheckerCallback {
 
         @Override
@@ -280,15 +288,12 @@ public class MainActivity extends AppCompatActivity {
             licensed = true;
             checkingLicense = false;
             didCheck = false;
-
-            showDialog(0);
         }
-
-
     }
 
     protected Dialog onCreateDialog(int id) {
         // We have only one dialog.
+
         return new AlertDialog.Builder(this)
                 .setTitle("UNLICENSED APPLICATION DIALOG TITLE")
                 .setMessage("This application is not licensed, please buy it from the play store.")
@@ -321,5 +326,5 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .create();
 
-    }
+    }*/
 }

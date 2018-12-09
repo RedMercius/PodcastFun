@@ -15,6 +15,7 @@
     tools:context="com.RuffinApps.johnnie.oldtimeradio.MainActivity">
 
     <TextView
+
         android:id="@+id/txtcat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,7 +23,12 @@
         android:textColor="@color/black"
         android:textSize="14pt"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="163dp" />
+        app:layout_constraintBottom_toTopOf="@+id/comedyButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.424"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.166" />
 
     <Button
         android:id="@+id/comedyButton"
@@ -51,8 +57,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/category_thriller"
-        tools:layout_editor_absoluteX="234dp"
-        tools:layout_editor_absoluteY="211dp" />
+        app:layout_constraintBottom_toTopOf="@+id/westernButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.443"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/scifiButton"
+        app:layout_constraintVertical_bias="0.463" />
 
     <Button
         android:id="@+id/westernButton"
@@ -78,6 +88,20 @@
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

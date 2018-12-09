@@ -10,6 +10,7 @@ package com.RuffinApps.johnnie.oldtimeradio;
 import android.app.Activity;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
@@ -227,8 +228,9 @@ public class MediaControl {
     public void callMediaFromInternet(String filename) throws IOException
     {
         url = url + filename; // your URL here
-
-        mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        }
         mp.setDataSource(url);
         mp.prepareAsync(); // might take long! (for buffering, etc)
     }

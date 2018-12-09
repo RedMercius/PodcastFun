@@ -7,12 +7,18 @@
 
 package com.RuffinApps.johnnie.oldtimeradio;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,7 +57,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     private String title;
     private int mResult;
     private AudioManager am;
+    private AudioAttributes mPlaybackAttributes;
+    private AudioFocusRequest mFocusRequest;
     private PlayedList playList;
+    WifiManager.WifiLock wifiLock;
+    private Handler mmyHandler = new Handler();
 
     public enum buttonPos
     {
@@ -84,6 +94,9 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         }
 
         this.haltRun = false;
+
+        wifiLock = ((WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE))
+                .createWifiLock(WifiManager.WIFI_MODE_FULL, "mylock");
 
         am = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
 
@@ -188,9 +201,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     public void onAudioFocusChange(int focusChange) {
         switch (focusChange) {
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                Log.d(TAG, "AUDIOFOCUS_LOSS_TRANSIENT");
+            case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
+                Log.d(TAG, "AUDIOFOCUS_LOSS_TRANSIENT or AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK");
                 playButton.setImageResource(iconImage[0]);
                 mp.pause();
+                wifiLock.release();
                 // Pause
                 break;
             case AudioManager.AUDIOFOCUS_GAIN:
@@ -199,6 +214,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                     return;
                 }
+                wifiLock.acquire();
                 playButton.setImageResource(iconImage[1]);
                 mp.seekTo(mp.getCurrentPosition());
                 mp.start();
@@ -317,9 +333,28 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
         if (isItInRaw) {
             try {
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                mPlaybackAttributes = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setLegacyStreamType(AudioManager.STREAM_MUSIC)
+                        .build();
 
-                mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
-                        AudioManager.AUDIOFOCUS_GAIN);
+                    mFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                            .setAudioAttributes(mPlaybackAttributes)
+                            .setAcceptsDelayedFocusGain(true)
+                            .setWillPauseWhenDucked(true)
+                            .setOnAudioFocusChangeListener(PlayActivity.this)
+                            .build();
+
+                    mResult = am.requestAudioFocus(mFocusRequest);
+                }
+
+                if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+
+                    mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
+                            AudioManager.AUDIOFOCUS_GAIN);
+                }
                 if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                     return;
                 }
@@ -334,12 +369,36 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
                 // Request focus for music stream and pass AudioManager.OnAudioFocusChangeListener
                 // implementation reference
+                wifiLock.acquire();
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    mPlaybackAttributes = new AudioAttributes.Builder()
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .build();
 
-                mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
-                        AudioManager.AUDIOFOCUS_GAIN);
+                    mFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                            .setAudioAttributes(mPlaybackAttributes)
+                            .setAcceptsDelayedFocusGain(true)
+                            .setWillPauseWhenDucked(true)
+                            .setOnAudioFocusChangeListener(PlayActivity.this, mmyHandler)
+                            .build();
+                    mp.setAudioAttributes(mPlaybackAttributes);
+
+                    mResult = am.requestAudioFocus(mFocusRequest);
+                    Log.d(TAG, "SDK higher!!");
+                }
+
+                if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+
+                    mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
+                            AudioManager.AUDIOFOCUS_GAIN);
+                    Log.d(TAG, "SDK is lower!!");
+                }
                 if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    Log.d(TAG, "Focus not given!!");
                     return;
                 }
+                Log.d(TAG, "Focus given!!");
                 mc.callMediaFromInternet(mediaName);
 
                 titleLine.setText(title);
@@ -356,8 +415,27 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 // Request focus for music stream and pass AudioManager.OnAudioFocusChangeListener
                 // implementation reference
 
-                mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
-                        AudioManager.AUDIOFOCUS_GAIN);
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    mPlaybackAttributes = new AudioAttributes.Builder()
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .build();
+
+                    mFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                            .setAudioAttributes(mPlaybackAttributes)
+                            .setAcceptsDelayedFocusGain(true)
+                            .setWillPauseWhenDucked(true)
+                            .setOnAudioFocusChangeListener(PlayActivity.this)
+                            .build();
+
+                    mResult = am.requestAudioFocus(mFocusRequest);
+                }
+
+                if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+
+                    mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
+                            AudioManager.AUDIOFOCUS_GAIN);
+                }
                 if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                     return;
                 }
@@ -432,6 +510,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
+        mp.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);;
         mp.start();
         seekHandler.removeCallbacks(run);
 
@@ -451,6 +530,13 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     public void onCompletion(MediaPlayer mp) {
         cleanup();
     }
+
+  /*  @Override
+    public void onDestroy() {
+        super.onDestroy();
+        cleanup();
+    }*/
+
 
     // TODO: Handle hard input button presses or joystick button presses.
     @Override
