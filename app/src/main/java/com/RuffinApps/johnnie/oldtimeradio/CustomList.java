@@ -523,6 +523,30 @@ public class CustomList extends ArrayAdapter<String> {
                     }
                 }
             }
+
+            case "Father Knows Best": {
+                for (String mediaFile : rt.getFkMap().keySet()) {
+                    if (rt.getFkMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+            }
+
+            case "Lone Ranger": {
+                for (String mediaFile : rt.getLrMap().keySet()) {
+                    if (rt.getLrMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+            }
+
+            case "Pat O": {
+                for (String mediaFile : rt.getPoMap().keySet()) {
+                    if (rt.getPoMap().get(mediaFile).equals(mediaTitle)) {
+                        MediaFile = mediaFile;
+                    }
+                }
+            }
         }
 
         final String mediaFileName = MediaFile;

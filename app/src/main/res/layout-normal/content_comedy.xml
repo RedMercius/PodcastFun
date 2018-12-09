@@ -130,6 +130,16 @@
                     android:src="@mipmap/ourmissbrooks"
                     android:contentDescription="@string/OurMissBrooksImage"
                     />
+
+                <ImageButton
+                    android:id="@+id/fkBtn"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@mipmap/fatherknowsbest"
+                    android:contentDescription="@string/FatherKnowsBestImage"
+                    />
             </TableRow>
         </TableLayout>
 </LinearLayout>

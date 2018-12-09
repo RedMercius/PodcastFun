@@ -14,101 +14,112 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_comedy"
     tools:context=".ComedyActivity">
-    <ScrollView
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                     android:id="@+id/tableLayout1"
-            android:layout_gravity="center"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content" >
-            <TableRow
-                android:id="@+id/tableRow1"
+
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/tableLayout1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                >
+                android:layout_gravity="center">
 
-                <ImageButton
-                    android:id="@+id/jbBtn"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:contentDescription="@string/JackBennyImage"
-                    android:src="@mipmap/jackbenny_fixed" />
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                <ImageButton
-                    android:id="@+id/bhBtn"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:contentDescription="@string/BobHopeImage"
-                    android:src="@mipmap/bob_hope_1950_0_fixed_0" />
-            </TableRow>
+                    <ImageButton
+                        android:id="@+id/jbBtn"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:contentDescription="@string/JackBennyImage"
+                        android:src="@mipmap/jackbenny_fixed" />
 
-            <TableRow
-                android:id="@+id/tableRow2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                    <ImageButton
+                        android:id="@+id/bhBtn"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:contentDescription="@string/BobHopeImage"
+                        android:src="@mipmap/bob_hope_1950_0_fixed_0" />
+                </TableRow>
 
-                <ImageButton
-                    android:id="@+id/imageBtn1"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:contentDescription="@string/BurnsAndAllenImage"
-                    android:src="@mipmap/burnsandallen" />
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <ImageButton
-                    android:id="@+id/fbBtn"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:contentDescription="@string/FibberMcGeeImage"
-                    android:src="@mipmap/fibber_and_molly_" />
-            </TableRow>
+                    <ImageButton
+                        android:id="@+id/imageBtn1"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:contentDescription="@string/BurnsAndAllenImage"
+                        android:src="@mipmap/burnsandallen" />
 
-            <TableRow
-                android:id="@+id/tableRow3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                    <ImageButton
+                        android:id="@+id/fbBtn"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:contentDescription="@string/FibberMcGeeImage"
+                        android:src="@mipmap/fibber_and_molly_" />
+                </TableRow>
 
-                <ImageButton
-                    android:id="@+id/mlBtn"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:contentDescription="@string/MartinAndLewisImage"
-                    android:src="@mipmap/lewis_and_martin" />
+                <TableRow
+                    android:id="@+id/tableRow3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <ImageButton
-                    android:id="@+id/gilBtn"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    android:contentDescription="@string/GilderSleeveImage"
-                    android:src="@mipmap/greatgildersleeve" />
-            </TableRow>
-            <TableRow
-                android:id="@+id/tableRow4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="1dip" >
+                    <ImageButton
+                        android:id="@+id/mlBtn"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:contentDescription="@string/MartinAndLewisImage"
+                        android:src="@mipmap/lewis_and_martin" />
 
-                <ImageButton
-                    android:id="@+id/mbBtn"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:src="@mipmap/ourmissbrooks"
-                    android:contentDescription="@string/OurMissBrooksImage"
-                    />
-            </TableRow>
-        </TableLayout>
+                    <ImageButton
+                        android:id="@+id/gilBtn"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:contentDescription="@string/GilderSleeveImage"
+                        android:src="@mipmap/greatgildersleeve" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="1dip">
+
+                    <ImageButton
+                        android:id="@+id/mbBtn"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:contentDescription="@string/OurMissBrooksImage"
+                        android:src="@mipmap/ourmissbrooks" />
+
+                    <ImageButton
+                        android:id="@+id/fkBtn"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:contentDescription="@string/FatherKnowsBestImage"
+                        android:src="@mipmap/fatherknowsbest" />
+                </TableRow>
+            </TableLayout>
         </HorizontalScrollView>
     </ScrollView>
 </RelativeLayout>

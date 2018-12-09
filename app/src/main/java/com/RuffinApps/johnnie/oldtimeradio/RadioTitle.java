@@ -33,6 +33,7 @@ public class RadioTitle {
     private HashMap<String, String> jbMap = new HashMap<>();
     private HashMap<String, String> bhMap = new HashMap<>();
     private HashMap<String, String> mbMap = new HashMap<>();
+    private HashMap<String, String> fkMap = new HashMap<>();
 
     // Sci-fi maps
     private HashMap<String, String> xmMap = new HashMap<>();
@@ -47,6 +48,8 @@ public class RadioTitle {
     // Western Maps
     private HashMap<String, String> hcMap = new HashMap<>();
     private HashMap<String, String> flMap = new HashMap<>();
+    private HashMap<String, String> lrMap = new HashMap<>();
+    private HashMap<String, String> poMap = new HashMap<>();
 
     private final String[] burnsAllen = {
             "baarehusbandsnecessary.mp3",
@@ -3660,6 +3663,372 @@ public class RadioTitle {
             "Stetch Had a Problem",
     };
 
+    private final String[] FatherKnowsBest = {
+            "Fkb1948-12-20000pilotFatherKnowsBest.mp3",
+            "Fkb1950-01-12021TheElusiveCardGame.mp3",
+            "Fkb1950-05-04037AnUncontrolledDog.mp3",
+            "Fkb1950-05-11038TheGolfChallenge.mp3",
+            "Fkb1950-05-18039BettysScreenTest.mp3",
+            "Fkb1950-05-25040SuperstitiousFolk.mp3",
+            "Fkb1950-06-08041TimeForANewCar.mp3",
+            "Fkb1950-06-15042PicnicForFathersDaytrip.mp3",
+            "Fkb1950-06-22043ANewHousekeeper.mp3",
+            "Fkb1950-06-29044TheNewArrangements.mp3",
+            "Fkb1950-07-06045VacationArrives.mp3",
+            "Fkb1950-09-07046AnEfficientHouse.mp3",
+            "Fkb1950-09-14047FamilyCarStolen.mp3",
+            "Fkb1950-09-21048WhoHasTheTime.mp3",
+            "Fkb1950-09-28049TheNewGirlFriend.mp3",
+            "Fkb1950-10-05050FamilySpending.mp3",
+            "Fkb1950-10-12051TheSkunkMustGo.mp3",
+            "Fkb1950-10-26053ASpookyCemetary.mp3",
+            "Fkb1950-11-02054TooManyProblems.mp3",
+            "Fkb1950-11-09055TheBadBarbecue.mp3",
+            "Fkb1950-11-16056EnterprisingKids.mp3",
+            "Fkb1950-11-23057HappyThanksgiving.mp3",
+            "Fkb1950-12-07059AFrenchTeacher.mp3",
+            "Fkb1950-12-14060FatherBecomesIll.mp3",
+            "Fkb1950-12-21061ChristmasProgram.mp3",
+            "Fkb1950-12-28062PartyPreparations.mp3",
+            "Fkb1950s02Episodes.mp3",
+            "Fkb1951-01-04063TakingOnCityHall.mp3",
+            "Fkb1951-01-11064MissingFurniture.mp3",
+            "Fkb1951-01-18065RecreationWoes.mp3",
+            "Fkb1951-01-25066SoundMatchmaking.mp3",
+            "Fkb1951-02-01067ArizonaRanchInheritance.mp3",
+            "Fkb1951-02-08068WhatWasHisName.mp3",
+            "Fkb1951-02-15069OrchidForALady.mp3",
+            "Fkb1951-02-22070AlwaysTellTruth.mp3",
+            "Fkb1951-03-01071RehearsingAPlay.mp3",
+            "Fkb1951-03-15073TaxInterruptions.mp3",
+            "Fkb1951-03-22074HelpingOutTheBoss.mp3",
+            "Fkb1951-03-29075BothBossesVisit.mp3",
+            "Fkb1951-04-05076ItPaysToBorrow.mp3",
+            "Fkb1951-04-12077CarrotCostumeParty.mp3",
+            "Fkb1951-04-19078AnniversarySecret.mp3",
+            "Fkb1951-04-26079AuntMarthaVisits.mp3",
+            "Fkb1951-05-03080AMissingSalesman.mp3",
+            "Fkb1951-05-10081JunkAroundHouse.mp3",
+            "Fkb1951-05-17082LockedOutOfHouse.mp3",
+            "Fkb1951-05-24083AnniversaryEvent.mp3",
+            "Fkb1951-05-31084GoingToNewYork.mp3",
+            "Fkb1951-06-14085FathersDayPicnic.mp3",
+            "Fkb1951-06-21086MotherDrivesACar.mp3",
+            "Fkb1951-06-28087WeddingPreparation.mp3",
+            "Fkb1951-07-05088MeaningOfFreedom.mp3",
+            "Fkb1951-09-20089DietDiscussion.mp3",
+            "Fkb1951-11-01095TheTie.mp3",
+            "Fkb1952-04-17119NewWashingMachine.mp3",
+            "Fkb1952-05-15123SelfReliancesmoothHousehold.mp3",
+            "Fkb1952-09-11132WatchingTheDog.mp3",
+            "Fkb1952-09-18133WeekendActivity.mp3",
+            "Fkb1952-09-25134ShouldWomenWork.mp3",
+            "Fkb1952-10-09135BettyTheCrooner.mp3",
+            "Fkb1952-10-16136BudQuitsSchool.mp3",
+            "Fkb1952-10-30138CarnivalInTown.mp3",
+            "Fkb1952-11-06139SellingTheHouse.mp3",
+            "Fkb1952-11-13140TheMissingPipes.mp3",
+            "Fkb1952-11-20141ThePhantomProwler.mp3",
+            "Fkb1952-12-11144AWorriedWaitress.mp3",
+            "Fkb1952-12-18145TheKidsRevolt.mp3",
+            "Fkb1952-12-25146SharedChristmasGifts.mp3",
+            "Fkb1953-01-15149TheBoyNextDoor.mp3",
+            "Fkb1953-01-29151BudLikesGirls.mp3",
+            "Fkb1953-02-05152AuntThelmaVisits.mp3",
+            "Fkb1953-02-12153BabysitterMisery.mp3",
+            "Fkb1953-02-19154ModernizingTheHome.mp3",
+            "Fkb1953-02-26155BangedUpFender.mp3",
+            "Fkb1953-03-05156OverdueVacation.mp3",
+            "Fkb1953-03-12157ToBuildABrickWall.mp3",
+            "Fkb1953-03-19158TheMissingWeddingRing.mp3",
+            "Fkb1953-03-26159UninsuredRobin.mp3",
+            "Fkb1953-04-02160BudsPanamaCatBusinessVenture.mp3",
+            "Fkb1953-04-09161HowToFaceProblems.mp3",
+            "Fkb1953-04-16162FamilyGetaway-beaverFalls.mp3",
+            "Fkb1953-04-23163OldFatherTime.mp3",
+            "Fkb1953-04-30164SpringtimeWoes.mp3",
+            "Fkb1953-05-07165TheGoodOldDays.mp3",
+            "Fkb1953-05-14166SophisticatedBud.mp3",
+            "Fkb1953-05-21167PaperDriveManagement.mp3",
+            "Fkb1953-09-10168RememberingNames.mp3",
+            "Fkb1953-09-17169TheBigInheritance.mp3",
+            "Fkb1953-09-24170MindYourManners.mp3",
+            "Fkb1953-10-01171DateMix-upWLeonardRalphBetty.mp3",
+            "Fkb1953-10-08172ValueOfMoney.mp3",
+            "Fkb1953-10-15173LifeOfTheParty.mp3",
+            "Fkb1953-10-22174TooManyPeanuts.mp3",
+            "Fkb1953-10-29175HalloweenBlues.mp3",
+            "Fkb1953-11-12177BettysEngagement.mp3",
+            "Fkb1953-11-19178MissingUncle.mp3",
+            "Fkb1953-11-26179ThanksgivingDinner.mp3",
+            "Fkb1953-12-03180TooManyRabbits.mp3",
+            "Fkb1953-12-24183ChristmasProgram.mp3",
+            "Fkb1953-12-31184NewYearsSitter.mp3",
+            "Fkb1954-01-07185TakingPictures.mp3",
+            "Fkb1954-01-14186AnUnusualBet.mp3",
+            "Fkb1954-01-21187TheMinkCoatWoes.mp3",
+            "Fkb1954-01-28188TrashCanLids.mp3",
+            "Fkb1954-02-04189TheTelephoneMix-up.mp3",
+            "Fkb1954-02-18191BettysFreedom.mp3",
+            "Fkb1954-02-25192CheckWriting.mp3",
+            "Fkb1954-03-04193SpringCleaning.mp3",
+            "Fkb1954-03-11194FalseElopement.mp3",
+            "Fkb1954-03-18195IncomeTaxMix-up.mp3",
+            "Fkb1954-03-25196RainyDayActivity.mp3",
+    };
+
+    private final String[] FatherKnowsBestTitle= {
+            "Pilot",
+            "The Elusive Card Game",
+            "An Uncontrolled Dog",
+            "FKB 1950-05-11 #037 The Golf Challenge",
+            "FKB 1950-05-18 #038 Betty's Screen Test",
+            "FKB 1950-05-25 #039 Superstitious Folk",
+            "FKB 1950-06-08 #041 Time For A New Car",
+            "FKB 1950-06-15 #042 Picnic For Fathers Day",
+            "FKB 1950-06-22 #043 A New Housekeeper",
+            "FKB 1950-06-29 #044 New Arrangements",
+            "FKB 1950-06-29 #045 Vacation Arrives",
+            "FKB 1950-09-07 #047 An Efficient House",
+            "FKB 1950-09-14 #048 Family Car Stolen",
+            "FKB 1950-09-21 #049 Who Has The Time",
+            "FKB 1950-09-21#050 The New GirlFriend",
+            "FKB 1950-09-21 #051 Family Spending",
+            "FKB 1950-09-21 #052 The Skunk Must Go",
+            "FKB 1950-10-26 #053 A Spooky Cemetary",
+            "FKB 1950-11-02 #054 Too Many Problems",
+            "FKB 1950-11-09 #055 The Bad Barbecue",
+            "FKB 1950-11-16 #056 Enterprising Kids",
+            "FKB 1950-11-23 #057 Happy Thanksgiving",
+            "FKB 1950-12-07 #059 A French Teacher",
+            "FKB 1950-12-14 #060 Father Becomes Ill",
+            "FKB 1950-12-21 #061 Christmas Program",
+            "FKB 1950-12-28 #062 Party Preparations",
+            "FKB 1950 2 Episodes",
+            "FKB 1951-01-04 #063 Taking on City Hall",
+            "FKB 1951-01-11 #064 Missing Furniture",
+            "FKB 1951-01-18 #065 Recreation Woes",
+            "FKB 1951-01-25 #066 Sound Matchmaking",
+            "Arizona Ranch Inheritance (1951.02.01)",
+            "FKB 1951-02-08 #068 What Was His Name",
+            "FKB 1951-02-15 #069 Orchid for a Lady",
+            "FKB 1951-02-22 #070 Always Tell Truth",
+            "FKB 1951-03-01 #071 Rehearsing a Play",
+            "FKB 1951-03-15 #073 Tax Interruptions",
+            "FKB 1951-03-22 #074 Helping out the Boss",
+            "FKB 1951-03-29 #075 Both Bosses Visit",
+            "FKB 1951-04-05 #076 It Pays to Borrow",
+            "FKB 1951-04-12 #077 Carrot Costume Party",
+            "FKB 1951-04-19 #078 Anniversary Secret",
+            "FKB 1951-04-26 #079 Aunt Martha Visits",
+            "FKB 1951-05-03 #080 A Missing Salesman",
+            "FKB 1951-05-10 #081 Junk Around House",
+            "FKB 1951-05-17 #082 Locked out of House",
+            "FKB 1951-05-24 #083 Anniversary Event",
+            "FKB 1951-05-31 #084 Going to New York",
+            "FKB 1951-06-14 #085 Father's Day Picnic",
+            "FKB 1951-06-21 #086 Mother Drives a Car",
+            "FKB 1951-06-28 #087 Wedding Preparation",
+            "FKB 1951-07-05 #088 Meaning of Freedom",
+            "Discussion Of Diet, A (1951.09.20)",
+            "FKB 1951-11-01 #095 The Tie",
+            "FKB 1952-04-17 #119 New Washing Machine",
+            "Smooth Household (1952.05.15)",
+            "Watching the Dog (1952.09.11)",
+            "Weekend Activity (1952.09.18)",
+            "Should Women Work (1952.09.25)",
+            "Betty and the Crooner (1952.10.09)",
+            "Bud Quits School (1952.10.16)",
+            "Carnival in Town (1952.10.30)",
+            "FKB 1952-11-06 #139 Selling the House",
+            "FKB 1952-11-13 #140 The Missing Pipes",
+            "FKB 1952-11-20 #141 The Phantom Prowler",
+            "FKB 1952-12-11 #144 A Worried Waitress",
+            "FKB 1952-12-18 #145 The Kids Revolt",
+            "FKB 1952-12-25 #146 Shared Christmas Gifts",
+            "FKB 1953-01-15 #149 The Boy Next Door",
+            "FKB 1953-01-29 #151 Bud Dislikes Girls",
+            "FKB 1953-02-05 #152 Aunt Thelma Visits",
+            "FKB 1953-02-12 #153 Babysitter Misery",
+            "FKB 1953-02-19 #154 Modernizing the Home",
+            "FKB 1953-02-26 #155 Banged up Fender",
+            "FKB 1953-03-05 #156 Overdue Vacation",
+            "FKB 1953-03-12 #157 To Build a Brick Wall",
+            "FKB 1953-03-19 #158 The Missing Wedding Ring",
+            "FKB 1953-03-26 #159 Uninsured Robin",
+            "FKB 1953-04-02 #160 Bud's Panama Cat Business Venture",
+            "FKB 1953-04-09 #161 How to Face Problems",
+            "FKB 1953-04-16 #162 Family Getaway-Beaver Fall",
+            "Old Father Time",
+            "Springtime Woes",
+            "The Good Old Days",
+            "Sophisticated Bud",
+            "Paper Drive Management",
+            "FKB 1953-09-10 #168 Remembering Names",
+            "FKB 1953-09-17 #169 The Big Inheritance",
+            "Mind Your Manners",
+            "A Date Mix-Up with Leonard and Ralph and Betty",
+            "The Value of Money",
+            "FKB 1953-10-15 #173 Life Of The Party",
+            "Too Many Peanuts",
+            "FKB 1953-10-29 #175 Halloween Blues",
+            "FKB 1953-11-12 #177 Betty's Engagement",
+            "FKB 1953-11-19 #178 Missing Uncle",
+            "Thanksgiving Dinner",
+            "FKB 1953-12-03 #180 Too Many Rabbits",
+            "FKB 1953-12-24 #183 Christmas Program",
+            "FKB 1953-12-31 #184 New Year's Sitter",
+            "Taking Pictures",
+            "An Unusual Bet",
+            "The Mink Coat Nose",
+            "Trash Can Lids",
+            "The Telephone Mix-Up",
+            "FKB 1954-02-18 #191 Betty's Freedom",
+            "Check Writing",
+            "Spring Cleaning",
+            "FKB 1954-03-11 #194 False Elopement",
+            "Income Tax Mix-Up",
+            "Rainy Day Activity",
+    };
+
+    private final String[] LoneRanger = {
+            "The Lone Ranger (41-10-13) ep1361 - A New Mission.mp3",
+            "The Lone Ranger (41-10-15) ep1362 - Outlaws Plan an Empire.mp3",
+            "The Lone Ranger (41-10-17) ep1363 - First Encounter.mp3",
+            "The Lone Ranger (41-10-20) ep1364 - The Bridge.mp3",
+            "The Lone Ranger (41-10-22) ep1365 - United We Stand.mp3",
+            "The Lone Ranger (42-01-07) ep1398 - House of Stone.mp3",
+            "The Lone Ranger (42-01-09) ep1399 - Adventure on the Yellow Dog.mp3",
+            "The Lone Ranger (42-01-12) ep1400 - Ghost Canyon.mp3",
+            "The Lone Ranger (42-01-14) ep1401 - A Deadfall Brings Trouble.mp3",
+            "The Lone Ranger (42-01-16) ep1402 - Via Pony Express.mp3",
+            "The Lone Ranger (42-01-19) ep1403 - Old Woman's Call.mp3",
+            "The Lone Ranger (42-01-21) ep1404 - Murder Wears Skirts.mp3",
+            "The Lone Ranger (42-01-23) ep1405 - Crystal Canyon.mp3",
+            "The Lone Ranger (42-01-28) ep 1407 - Double Exposure.mp3",
+            "The Lone Ranger (42-01-30) ep1408 - School for Ranchers.mp3",
+            "The Lone Ranger (42-02-02) ep1409 - A Silver Summons.mp3",
+            "The Lone Ranger (42-02-04) ep1410 - Moffet's Move.mp3",
+            "The Lone Ranger (42-02-06) ep1411 - The Fifth Condemned Man.mp3",
+            "The Lone Ranger (42-02-09) ep1412 - Trail's End.mp3",
+            "The Lone Ranger (42-02-11) ep1413 - Silver Races Steam.mp3",
+            "The Lone Ranger (42-02-13) ep1414 - First of the Five.mp3",
+            "The Lone Ranger (42-02-16) ep1415 - The Outlaw Guard.mp3",
+    };
+
+    private final String[] LoneRangerTitle = {
+            "The Lone Ranger (41-10-13) ep1361 - A New Mission",
+            "The Lone Ranger (41-10-15) ep1362 - Outlaws Plan an Empire",
+            "The Lone Ranger (41-10-17) ep1363 - First Encounter",
+            "The Lone Ranger (41-10-20) ep1364 - The Bridge",
+            "The Lone Ranger (41-10-22) ep1365 - United We Stand",
+            "The Lone Ranger (42-01-07) ep1398 - House of Stone",
+            "The Lone Ranger (42-01-09) ep1399 - Adventure on the Yellow Dog",
+            "The Lone Ranger (42-01-12) ep1400 - Ghost Canyon",
+            "The Lone Ranger (42-01-14) ep1401 - A Deadfall Brings Trouble",
+            "The Lone Ranger (42-01-16) ep1402 - Via Pony Express",
+            "The Lone Ranger (42-01-19) ep1403 - Old Woman's Call",
+            "The Lone Ranger (42-01-21) ep1404 - Murder Wears Skirts",
+            "The Lone Ranger (42-01-23) ep1405 - Crystal Canyon",
+            "The Lone Ranger (42-01-28) ep 1407 - Double Exposure",
+            "The Lone Ranger (42-01-30) ep1408 - School for Ranchers",
+            "The Lone Ranger (42-02-02) ep1409 - A Silver Summons",
+            "The Lone Ranger (42-02-04) ep1410 - Moffet's Move",
+            "The Lone Ranger (42-02-06) ep1411 - The Fifth Condemned Man",
+            "The Lone Ranger (42-02-09) ep1412 - Trail's End",
+            "The Lone Ranger (42-02-11) ep1413 - Silver Races Steam",
+            "The Lone Ranger (42-02-13) ep1414 - First of the Five",
+            "The Lone Ranger (42-02-16) ep1415 - The Outlaw Guard",
+    };
+
+    private final String[] PatO = {
+            "Pat_ODaniel_and_His_Hillbilly_Boys_01.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_02.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_03.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_04.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_05.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_06.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_07.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_08.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_09.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_10.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_11.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_12.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_13.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_14.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_15.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_16.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_17.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_18.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_19.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_20.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_21.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_22.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_23.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_24.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_25.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_26.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_27.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_28.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_29.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_30.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_31.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_32.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_33.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_34.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_35.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_36.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_37.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_38.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_40.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_41.mp3",
+            "Pat_ODaniel_and_His_Hillbilly_Boys_42.mp3",
+    };
+
+    private final String[] PatOTitle = {
+            "1939 Radio Show 1",
+            "1939 Radio Show 2",
+            "1939 Radio Show 3",
+            "1939 Radio Show 4",
+            "1939 Radio Show 5",
+            "1939 Radio Show 6",
+            "1939 Radio Show 7",
+            "1939 Radio Show 8",
+            "1939 Radio Show 9",
+            "1939 Radio Show 10",
+            "1939 Radio Show 11",
+            "1939 Radio Show 12",
+            "1939 Radio Show 13",
+            "1939 Radio Show 14",
+            "1939 Radio Show 15",
+            "1939 Radio Show 16",
+            "1939 Radio Show17",
+            "1939 Radio Show18",
+            "1939 Radio Show19",
+            "1939 Radio Show20",
+            "1939 Radio Show21",
+            "1939 Radio Show22",
+            "1939 Radio Show23",
+            "1939 Radio Show24",
+            "1939 Radio Show 25",
+            "1939 Radio Show 26",
+            "1939 Radio Show 27",
+            "1939 Radio Show 28",
+            "1939 Radio Show 29",
+            "1939 Radio Show 30",
+            "1939 Radio Show 31",
+            "1939 Radio Show 32",
+            "1939 Radio Show 33",
+            "1939 Radio Show 34",
+            "1939 Radio Show 35",
+            "1939 Radio Show 36",
+            "1939 Radio Show 37",
+            "1939 Radio Show 38",
+            "1939 Radio Show 40",
+            "1939 Radio Show 41",
+            "1939 Radio Show 42",
+    };
+
     public void initTitles()
     {
         if (android.os.Build.VERSION.SDK_INT > 21)
@@ -3747,6 +4116,21 @@ public class RadioTitle {
         {
             mbMap.put(MissBrooks[i], MissBrooksTitle[i]);
         }
+
+        for (int i = 0; i < FatherKnowsBest.length; ++i)
+        {
+            fkMap.put(FatherKnowsBest[i], FatherKnowsBestTitle[i]);
+        }
+
+        for (int i = 0; i < LoneRanger.length; ++i)
+        {
+            lrMap.put(LoneRanger[i], LoneRangerTitle[i]);
+        }
+
+        for (int i = 0; i < PatO.length; ++i)
+        {
+            poMap.put(PatO[i], PatOTitle[i]);
+        }
     }
 
     // comedy
@@ -3757,6 +4141,7 @@ public class RadioTitle {
     public String[] getJackBenny() { return jackBenny; }
     public String[] getBobHope() { return bobHope; }
     public String[] getMissBrooks() { return MissBrooks; }
+    public String[] getfk() { return FatherKnowsBest; }
 
     public HashMap<String, String> getBaMap() {
         return baMap;
@@ -3767,6 +4152,7 @@ public class RadioTitle {
     public HashMap<String, String> getJbMap() { return jbMap;}
     public HashMap<String, String> getBhMap() { return bhMap;}
     public HashMap<String, String> getMbMap() { return mbMap; }
+    public HashMap<String, String> getFkMap() { return fkMap; }
 
     // Sci-Fi
     public String[] getXM() { return XMinus; }
@@ -3789,7 +4175,11 @@ public class RadioTitle {
     // Western
     public String[] gethc() { return hopalong; }
     public String[] getfl() { return fortLaramie; }
+    public String[] getpo() { return PatO; }
+    public String[] getlr() { return LoneRanger; }
 
     public HashMap<String, String> getHcMap() { return hcMap; }
     public HashMap<String, String> getFlMap() { return flMap; }
+    public HashMap<String, String> getPoMap() { return poMap; }
+    public HashMap<String, String> getLrMap() { return lrMap; }
 }

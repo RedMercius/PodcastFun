@@ -24,6 +24,7 @@ public class ComedyActivity extends AppCompatActivity {
     ImageButton jbBtn;
     ImageButton bhBtn;
     ImageButton mbBtn;
+    ImageButton fkBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class ComedyActivity extends AppCompatActivity {
         jbBtn =  findViewById(R.id.jbBtn);
         bhBtn = findViewById(R.id.bhBtn);
         mbBtn = findViewById(R.id.mbBtn);
+        fkBtn = findViewById(R.id.fkBtn);
 
         baBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -117,6 +119,17 @@ public class ComedyActivity extends AppCompatActivity {
 
                 final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
                 CurrentArtist.getInstance().setCurrentArtist("Our Miss Brooks");
+                startActivity(i);
+            }
+        });
+
+        fkBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Intent i = new Intent(ComedyActivity.this, SelectActivity.class);
+                CurrentArtist.getInstance().setCurrentArtist("Father Knows Best");
                 startActivity(i);
             }
         });

@@ -136,6 +136,21 @@ public class MediaControl {
                 url = "http://www.RuffinApps.com/Audio/Brooks/";
                 break;
             }
+            case "Father Knows Best":
+            {
+                url = "http://www.RuffinApps.com/Audio/FatherKnowsBest/";
+                break;
+            }
+            case "Lone Ranger":
+            {
+                url = "http://www.RuffinApps.com/Audio/LoneRanger/";
+                break;
+            }
+            case "Pat O":
+            {
+                url = "http://www.RuffinApps.com/Audio/PatO/";
+                break;
+            }
 
             default: {
                 url = null;

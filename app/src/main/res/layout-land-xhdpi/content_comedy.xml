@@ -127,6 +127,16 @@
                             android:layout_height="150dp"
                             android:contentDescription="@string/OurMissBrooksImage"
                             android:src="@mipmap/ourmissbrooks" />
+
+                        <ImageButton
+                            android:id="@+id/fkBtn"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:src="@mipmap/fatherknowsbest"
+                            android:contentDescription="@string/FatherKnowsBestImage"
+                            />
                     </TableRow>
                 </TableLayout>
             </LinearLayout>

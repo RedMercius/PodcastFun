@@ -371,6 +371,18 @@ public class SelectActivity extends AppCompatActivity {
                 return titles;
             }
 
+            case "Father Knows Best":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getfk().length];
+                for (String title : radioList.getFkMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
             default: {
                 return null;
             }

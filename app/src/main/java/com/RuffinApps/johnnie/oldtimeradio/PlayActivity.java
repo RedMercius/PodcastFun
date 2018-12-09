@@ -320,6 +320,23 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 break;
             }
 
+            case "Father Knows Best": {
+                playPic.setImageResource(R.mipmap.fatherknowsbest);
+                break;
+            }
+
+            case "Lone Ranger": {
+                // TODO: Change image for Lone Ranger
+                playPic.setImageResource(R.mipmap.fatherknowsbest);
+                break;
+            }
+
+            case "Pat O": {
+                // TODO: Change image for Lone Ranger
+                playPic.setImageResource(R.mipmap.fatherknowsbest);
+                break;
+            }
+
             default: {
                 playPic.setImageResource(R.mipmap.burnsandallen);
                 break;
