@@ -383,6 +383,30 @@ public class SelectActivity extends AppCompatActivity {
                 return titles;
             }
 
+            case "Lone Ranger":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getlr().length];
+                for (String title : radioList.getLrMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
+            case "Pat O":
+            {
+                int i = 0;
+                String[] titles = new String[radioList.getpo().length];
+                for (String title : radioList.getPoMap().values())
+                {
+                    titles[i] = title;
+                    i++;
+                }
+                return titles;
+            }
+
             default: {
                 return null;
             }

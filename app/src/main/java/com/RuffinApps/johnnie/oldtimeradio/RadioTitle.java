@@ -3892,28 +3892,28 @@ public class RadioTitle {
     };
 
     private final String[] LoneRanger = {
-            "The Lone Ranger (41-10-13) ep1361 - A New Mission.mp3",
-            "The Lone Ranger (41-10-15) ep1362 - Outlaws Plan an Empire.mp3",
-            "The Lone Ranger (41-10-17) ep1363 - First Encounter.mp3",
-            "The Lone Ranger (41-10-20) ep1364 - The Bridge.mp3",
-            "The Lone Ranger (41-10-22) ep1365 - United We Stand.mp3",
-            "The Lone Ranger (42-01-07) ep1398 - House of Stone.mp3",
-            "The Lone Ranger (42-01-09) ep1399 - Adventure on the Yellow Dog.mp3",
-            "The Lone Ranger (42-01-12) ep1400 - Ghost Canyon.mp3",
-            "The Lone Ranger (42-01-14) ep1401 - A Deadfall Brings Trouble.mp3",
-            "The Lone Ranger (42-01-16) ep1402 - Via Pony Express.mp3",
-            "The Lone Ranger (42-01-19) ep1403 - Old Woman's Call.mp3",
-            "The Lone Ranger (42-01-21) ep1404 - Murder Wears Skirts.mp3",
-            "The Lone Ranger (42-01-23) ep1405 - Crystal Canyon.mp3",
-            "The Lone Ranger (42-01-28) ep 1407 - Double Exposure.mp3",
-            "The Lone Ranger (42-01-30) ep1408 - School for Ranchers.mp3",
-            "The Lone Ranger (42-02-02) ep1409 - A Silver Summons.mp3",
-            "The Lone Ranger (42-02-04) ep1410 - Moffet's Move.mp3",
-            "The Lone Ranger (42-02-06) ep1411 - The Fifth Condemned Man.mp3",
-            "The Lone Ranger (42-02-09) ep1412 - Trail's End.mp3",
-            "The Lone Ranger (42-02-11) ep1413 - Silver Races Steam.mp3",
-            "The Lone Ranger (42-02-13) ep1414 - First of the Five.mp3",
-            "The Lone Ranger (42-02-16) ep1415 - The Outlaw Guard.mp3",
+            "A New Mission.mp3",
+            "Outlaws Plan an Empire.mp3",
+            "First Encounter.mp3",
+            "The Bridge.mp3",
+            "United We Stand.mp3",
+            "House of Stone.mp3",
+            "Adventure on the Yellow Dog.mp3",
+            "Ghost Canyon.mp3",
+            "A Deadfall Brings Trouble.mp3",
+            "Via Pony Express.mp3",
+            "Old Woman's Call.mp3",
+            "Murder Wears Skirts.mp3",
+            "Crystal Canyon.mp3",
+            "Double Exposure.mp3",
+            "School for Ranchers.mp3",
+            "A Silver Summons.mp3",
+            "MoffetsMove.mp3",
+            "The Fifth Condemned Man.mp3",
+            "Trail's End.mp3",
+            "Silver Races Steam.mp3",
+            "First of the Five.mp3",
+            "The Outlaw Guard.mp3",
     };
 
     private final String[] LoneRangerTitle = {
@@ -4110,11 +4110,6 @@ public class RadioTitle {
         for (int i = 0; i < fortLaramie.length; ++i)
         {
             flMap.put(fortLaramie[i], ftLaramieTitle[i]);
-        }
-
-        for (int i = 0; i < MissBrooks.length; ++i)
-        {
-            mbMap.put(MissBrooks[i], MissBrooksTitle[i]);
         }
 
         for (int i = 0; i < FatherKnowsBest.length; ++i)

@@ -145,6 +145,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 } else {
                     playButton.setImageResource(iconImage[buttonPos.pause.ordinal()]);
                     mp.seekTo(mp.getCurrentPosition());
+                    // mp.prepareAsync();
                     mp.start();
                 }
 
@@ -157,6 +158,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             public void onClick(View v) {
 
                 mp.seekTo((mp.getCurrentPosition() - 15000));
+                mp.prepareAsync();
                 mp.start();
             }
         });
@@ -167,6 +169,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             public void onClick(View v) {
 
                 mp.seekTo((mp.getCurrentPosition() + 15000));
+                mp.prepareAsync();
                 mp.start();
             }
         });
@@ -205,7 +208,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 Log.d(TAG, "AUDIOFOCUS_LOSS_TRANSIENT or AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK");
                 playButton.setImageResource(iconImage[0]);
                 mp.pause();
-                wifiLock.release();
+                // wifiLock.release();
                 // Pause
                 break;
             case AudioManager.AUDIOFOCUS_GAIN:
@@ -214,10 +217,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                     return;
                 }
-                wifiLock.acquire();
+                // wifiLock.acquire();
                 playButton.setImageResource(iconImage[1]);
                 mp.seekTo(mp.getCurrentPosition());
-                mp.start();
+                mp.prepareAsync();
+                // mp.start();
                 // Resume
                 break;
             case AudioManager.AUDIOFOCUS_LOSS:
@@ -326,14 +330,12 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             }
 
             case "Lone Ranger": {
-                // TODO: Change image for Lone Ranger
-                playPic.setImageResource(R.mipmap.fatherknowsbest);
+                playPic.setImageResource(R.mipmap.loneranger);
                 break;
             }
 
             case "Pat O": {
-                // TODO: Change image for Lone Ranger
-                playPic.setImageResource(R.mipmap.fatherknowsbest);
+                playPic.setImageResource(R.mipmap.pato);
                 break;
             }
 
@@ -386,7 +388,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
                 // Request focus for music stream and pass AudioManager.OnAudioFocusChangeListener
                 // implementation reference
-                wifiLock.acquire();
+                // wifiLock.acquire();
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     mPlaybackAttributes = new AudioAttributes.Builder()
                             .setUsage(AudioAttributes.USAGE_MEDIA)
@@ -527,7 +529,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        mp.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);;
+       // mp.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
         mp.start();
         seekHandler.removeCallbacks(run);
 

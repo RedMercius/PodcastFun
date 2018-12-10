@@ -19,6 +19,8 @@ public class WesternActivity extends AppCompatActivity {
 
     ImageButton hopalongBtn;
     ImageButton ftLaramieBtn;
+    ImageButton loneRangerBtn;
+    ImageButton patOBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,8 @@ public class WesternActivity extends AppCompatActivity {
 
         hopalongBtn = findViewById(R.id.hopalongBtn);
         ftLaramieBtn = findViewById(R.id.ftLaramieBtn);
+        loneRangerBtn = findViewById(R.id.lrBtn);
+        patOBtn = findViewById(R.id.poBtn);
 
         hopalongBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -52,6 +56,28 @@ public class WesternActivity extends AppCompatActivity {
 
                 final Intent i = new Intent(WesternActivity.this, SelectActivity.class);
                 CurrentArtist.getInstance().setCurrentArtist("Fort Laramie");
+                startActivity(i);
+            }
+        });
+
+        loneRangerBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Intent i = new Intent(WesternActivity.this, SelectActivity.class);
+                CurrentArtist.getInstance().setCurrentArtist("Lone Ranger");
+                startActivity(i);
+            }
+        });
+
+        patOBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                final Intent i = new Intent(WesternActivity.this, SelectActivity.class);
+                CurrentArtist.getInstance().setCurrentArtist("Pat O");
                 startActivity(i);
             }
         });

@@ -12,10 +12,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background = "@color/lightgray"
+    android:gravity="center"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_western"
-    tools:context="com.RuffinApps.johnnie.oldtimeradio.WesternActivity">
+    tools:context=".WesternActivity">
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,32 +30,61 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:showIn="@layout/activity_western"
-                tools:context="com.RuffinApps.johnnie.oldtimeradio.WesternActivity">
+                tools:context=".WesternActivity">
                 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                             android:id="@+id/tableLayout1"
-                             android:layout_width="fill_parent"
-                             android:layout_height="fill_parent" >
+                    android:id="@+id/tableLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
                     <TableRow
                         android:id="@+id/tableRow1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="5dip" >
+                        android:padding="3dip" >
 
                         <ImageButton
                             android:id="@+id/hopalongBtn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="275dp"
+                            android:layout_marginTop="40dp"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
                             android:src="@mipmap/hopalongcassidy"
                             android:contentDescription="@string/HopalongCassidy"/>
 
                         <ImageButton
                             android:id="@+id/ftLaramieBtn"
+                            android:layout_marginTop="40dp"
                             android:layout_marginStart="20dp"
                             android:layout_marginLeft="20dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="275dp"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
                             android:src="@mipmap/ftlaramie"
                             android:contentDescription="@string/FtLaramie"
+                            />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="1dip" >
+
+                        <ImageButton
+                            android:id="@+id/lrBtn"
+                            android:layout_marginTop="20dp"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:src="@mipmap/loneranger"
+                            android:contentDescription="@string/LoneRanger"
+                            />
+
+                        <ImageButton
+                            android:id="@+id/poBtn"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:src="@mipmap/pato"
+                            android:contentDescription="@string/PatO"
                             />
                     </TableRow>
                 </TableLayout>
@@ -63,4 +92,3 @@
         </HorizontalScrollView>
     </ScrollView>
 </RelativeLayout>
-
