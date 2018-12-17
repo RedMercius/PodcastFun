@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -52,12 +53,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (android.os.Build.VERSION.SDK_INT > 9)
-        {
-            StrictMode.ThreadPolicy policy = new
-                    StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
 
         /*** Start License Checking ***/
       /*  didCheck = false;
@@ -227,7 +222,9 @@ public class MainActivity extends AppCompatActivity {
 
         didCheck = false;
         checkingLicense = true;
-        setProgressBarIndeterminateVisibility(true);
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            setProgressBarIndeterminateVisibility(true);
+        }
 
         mChecker.checkAccess(mLicenseCheckerCallback);
     }

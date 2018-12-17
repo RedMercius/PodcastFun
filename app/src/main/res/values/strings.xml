@@ -24,6 +24,9 @@
     <string name="title_activity_download">Download</string>
 
     <string name="title_activity_play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
     <string name="title_category">Choose A Category</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>

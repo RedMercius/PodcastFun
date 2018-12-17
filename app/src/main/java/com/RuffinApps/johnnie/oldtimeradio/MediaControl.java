@@ -8,16 +8,26 @@
 package com.RuffinApps.johnnie.oldtimeradio;
 
 import android.app.Activity;
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
+
+import com.RuffinApps.johnnie.oldtimeradio.MediaBrowserHelper;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //
@@ -39,9 +49,11 @@ public class MediaControl {
     private MediaPlayer mp;
     public DownloadControl dc;
     private String url;
+    private PlayerAdapter mPlayback;
 
     private String martist;
     private String mfilePath;
+    private MediaBrowserHelper mMediaBrowserHelper;
 
     public MediaControl(Activity context, MediaPlayer mp) {
         this.context = context;
@@ -242,12 +254,28 @@ public class MediaControl {
 
     public void callMediaFromInternet(String filename) throws IOException
     {
+        try{
         url = url + filename; // your URL here
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mp.setDataSource(url);
+            // mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mp.prepareAsync();
         }
-        mp.setDataSource(url);
-        mp.prepareAsync(); // might take long! (for buffering, etc)
+        else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+            {
+                Log.d(TAG, "API 28 or greater calling play!");
+            }
+        else {
+
+            mp.setDataSource(url);
+            mp.prepareAsync(); // might take long! (for buffering, etc)
+        }
+           // mp.start();
+        }
+        catch(IOException e)
+        {
+            Log.d(TAG, "Exception:" + e.toString());
+        }
     }
 
     public void stopMedia() { releaseMediaPlayer(); }

@@ -19,6 +19,12 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.support.annotation.NonNull;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +36,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener,
@@ -63,6 +70,9 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     WifiManager.WifiLock wifiLock;
     private Handler mmyHandler = new Handler();
 
+    private JOTRPlaybackService jpService;
+    private MediaBrowserHelper mMediaBrowserHelper;
+
     public enum buttonPos
     {
         play,
@@ -93,6 +103,14 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             this.mp = new MediaPlayer();
         }
 
+        mMediaBrowserHelper = new MediaBrowserConnection(this);
+        mMediaBrowserHelper.registerCallback(new MediaBrowserListener());
+
+        Log.d(TAG, "MediaBrowserHelper Start!");
+        mMediaBrowserHelper.onStart();
+
+
+        //jpService.onCreate();
         this.haltRun = false;
 
         wifiLock = ((WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE))
@@ -145,7 +163,6 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 } else {
                     playButton.setImageResource(iconImage[buttonPos.pause.ordinal()]);
                     mp.seekTo(mp.getCurrentPosition());
-                    // mp.prepareAsync();
                     mp.start();
                 }
 
@@ -158,7 +175,6 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             public void onClick(View v) {
 
                 mp.seekTo((mp.getCurrentPosition() - 15000));
-                mp.prepareAsync();
                 mp.start();
             }
         });
@@ -169,7 +185,6 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             public void onClick(View v) {
 
                 mp.seekTo((mp.getCurrentPosition() + 15000));
-                mp.prepareAsync();
                 mp.start();
             }
         });
@@ -220,8 +235,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 // wifiLock.acquire();
                 playButton.setImageResource(iconImage[1]);
                 mp.seekTo(mp.getCurrentPosition());
-                mp.prepareAsync();
-                // mp.start();
+                mp.start();
                 // Resume
                 break;
             case AudioManager.AUDIOFOCUS_LOSS:
@@ -352,7 +366,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
         if (isItInRaw) {
             try {
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.P ) {
                 mPlaybackAttributes = new AudioAttributes.Builder()
                         .setUsage(AudioAttributes.USAGE_MEDIA)
                         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -374,8 +388,13 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                     mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
                             AudioManager.AUDIOFOCUS_GAIN);
                 }
+
                 if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                     return;
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                {
+                    mMediaBrowserHelper.getTransportControls().play();
                 }
                 mc.callMediaFromRaw(mediaName);
             } catch (IOException e) {
@@ -418,6 +437,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                     return;
                 }
                 Log.d(TAG, "Focus given!!");
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                {
+                    mMediaBrowserHelper.getTransportControls().play();
+                }
                 mc.callMediaFromInternet(mediaName);
 
                 titleLine.setText(title);
@@ -599,5 +623,77 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    /**
+     * Customize the connection to our {@link android.support.v4.media.MediaBrowserServiceCompat}
+     * and implement our app specific desires.
+     */
+    private class MediaBrowserConnection extends MediaBrowserHelper {
+        private MediaBrowserConnection(Context context) {
+            super(context, JOTRPlaybackService.class);
+        }
+
+        @Override
+        protected void onConnected(@NonNull MediaControllerCompat mediaController) {
+            // mSeekBarAudio.setMediaController(mediaController);
+        }
+
+        @Override
+        protected void onChildrenLoaded(@NonNull String parentId,
+                                        @NonNull List<MediaBrowserCompat.MediaItem> children) {
+            super.onChildrenLoaded(parentId, children);
+
+            final MediaControllerCompat mediaController = getMediaController();
+
+            // Queue up all media items for this simple sample.
+            for (final MediaBrowserCompat.MediaItem mediaItem : children) {
+                mediaController.addQueueItem(mediaItem.getDescription());
+            }
+
+            // Call prepare now so pressing play just works.
+            mediaController.getTransportControls().prepare();
+        }
+    }
+
+    /**
+     * Implementation of the {@link MediaControllerCompat.Callback} methods we're interested in.
+     * <p>
+     * Here would also be where one could override
+     * {@code onQueueChanged(List<MediaSessionCompat.QueueItem> queue)} to get informed when items
+     * are added or removed from the queue. We don't do this here in order to keep the UI
+     * simple.
+     */
+    private class MediaBrowserListener extends MediaControllerCompat.Callback {
+        @Override
+        public void onPlaybackStateChanged(PlaybackStateCompat playbackState) {
+           /* mIsPlaying = playbackState != null &&
+                    playbackState.getState() == PlaybackStateCompat.STATE_PLAYING;
+            mMediaControlsImage.setPressed(mIsPlaying);*/
+        }
+
+        @Override
+        public void onMetadataChanged(MediaMetadataCompat mediaMetadata) {
+            if (mediaMetadata == null) {
+                return;
+            }
+          /*  mTitleTextView.setText(
+                    mediaMetadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE));
+            mArtistTextView.setText(
+                    mediaMetadata.getString(MediaMetadataCompat.METADATA_KEY_ARTIST));
+            mAlbumArt.setImageBitmap(MusicLibrary.getAlbumBitmap(
+                    this,
+                    mediaMetadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)));*/
+        }
+
+        @Override
+        public void onSessionDestroyed() {
+            super.onSessionDestroyed();
+        }
+
+        @Override
+        public void onQueueChanged(List<MediaSessionCompat.QueueItem> queue) {
+            super.onQueueChanged(queue);
+        }
     }
 }
