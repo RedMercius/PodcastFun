@@ -26,6 +26,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.media.MediaPlayer;
@@ -632,12 +633,25 @@ public class CustomList extends ArrayAdapter<String> {
                     }
                 }
 
-                final Intent i = new Intent(context, PlayActivity.class);
-                i.putExtra("MediaTitle", mediaFileName);
-                i.putExtra("Selection", artist);
-                i.putExtra("Title", mediaTitle);
-                context.startActivity(i);
-                context.finish();
+                // TODO: check for api and start appropriate activity.
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                {
+                    Log.d(TAG, "28 API or more_Goto MediaActivity.class.");
+                    final Intent i = new Intent(context, MediaPlayerActivity.class);
+                    i.putExtra("MediaTitle", mediaFileName);
+                    i.putExtra("Selection", artist);
+                    i.putExtra("Title", mediaTitle);
+                    context.startActivity(i);
+                    context.finish();
+                }
+                else {
+                    final Intent i = new Intent(context, PlayActivity.class);
+                    i.putExtra("MediaTitle", mediaFileName);
+                    i.putExtra("Selection", artist);
+                    i.putExtra("Title", mediaTitle);
+                    context.startActivity(i);
+                    context.finish();
+                }
             }
         });
 

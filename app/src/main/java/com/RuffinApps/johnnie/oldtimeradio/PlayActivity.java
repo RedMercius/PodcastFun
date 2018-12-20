@@ -70,9 +70,6 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     WifiManager.WifiLock wifiLock;
     private Handler mmyHandler = new Handler();
 
-    private JOTRPlaybackService jpService;
-    private MediaBrowserHelper mMediaBrowserHelper;
-
     public enum buttonPos
     {
         play,
@@ -103,14 +100,6 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             this.mp = new MediaPlayer();
         }
 
-        mMediaBrowserHelper = new MediaBrowserConnection(this);
-        mMediaBrowserHelper.registerCallback(new MediaBrowserListener());
-
-        Log.d(TAG, "MediaBrowserHelper Start!");
-        mMediaBrowserHelper.onStart();
-
-
-        //jpService.onCreate();
         this.haltRun = false;
 
         wifiLock = ((WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE))
@@ -394,7 +383,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
                 {
-                    mMediaBrowserHelper.getTransportControls().play();
+                    Log.d(TAG, "28 API or more.");
                 }
                 mc.callMediaFromRaw(mediaName);
             } catch (IOException e) {
@@ -440,7 +429,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
                 {
-                    mMediaBrowserHelper.getTransportControls().play();
+                    Log.d(TAG, "28 API or more.");
                 }
                 mc.callMediaFromInternet(mediaName);
 

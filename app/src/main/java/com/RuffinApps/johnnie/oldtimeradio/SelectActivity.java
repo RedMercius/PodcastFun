@@ -188,6 +188,7 @@ public class SelectActivity extends AppCompatActivity {
 
     public String[] getRadioTitles(String artist)
     {
+        // TODO: update media library here.
         radioList.initTitles();
         switch (artist)
         {
