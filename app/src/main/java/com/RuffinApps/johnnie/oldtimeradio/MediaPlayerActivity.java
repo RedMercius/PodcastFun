@@ -47,6 +47,19 @@ public class MediaPlayerActivity extends AppCompatActivity {
 
     private String TAG = "MediaPlayerActivity: ";
 
+    MediaControllerCompat.Callback controllerCallback =
+            new MediaControllerCompat.Callback() {
+                @Override
+                public void onMetadataChanged(MediaMetadataCompat metadata) {
+                    Log.d(TAG, "OnMetadataChanged");
+                }
+
+                @Override
+                public void onPlaybackStateChanged(PlaybackStateCompat state) {
+                    Log.d(TAG, "OnPlaybackStateChanged");
+                }
+            };
+
     public enum buttonPos
     {
         play,
@@ -80,7 +93,8 @@ public class MediaPlayerActivity extends AppCompatActivity {
         // image control
         ImageControl iconControl = new ImageControl();
         iconImage = iconControl.getImageButtonList();
-        playButton.setImageResource(iconImage[PlayActivity.buttonPos.pause.ordinal()]);
+        playButton = (ImageButton) findViewById(R.id.play_button);
+        // playButton.setImageResource(R.mipmap.play50);
         jService.startForeground(id, mNotificaiton);
     }
 
@@ -102,7 +116,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
         // (see "stay in sync with the MediaSession")
         // TODO: Work on controllerCallback
         if (MediaControllerCompat.getMediaController(MediaPlayerActivity.this) != null) {
-            // MediaControllerCompat.getMediaController(MediaPlayerActivity.this).unregisterCallback(controllerCallback);
+            MediaControllerCompat.getMediaController(MediaPlayerActivity.this).unregisterCallback(controllerCallback);
         }
         mMediaBrowser.disconnect();
 
@@ -159,10 +173,10 @@ public class MediaPlayerActivity extends AppCompatActivity {
                                               int pbState = MediaControllerCompat.getMediaController(MediaPlayerActivity.this).getPlaybackState().getState();
                                               if (pbState == PlaybackStateCompat.STATE_PLAYING) {
                                                   MediaControllerCompat.getMediaController(MediaPlayerActivity.this).getTransportControls().pause();
-                                                  playButton.setImageResource(iconImage[PlayActivity.buttonPos.pause.ordinal()]);
+                                                  playButton.setImageResource(iconImage[MediaPlayerActivity.buttonPos.pause.ordinal()]);
                                               } else {
                                                   MediaControllerCompat.getMediaController(MediaPlayerActivity.this).getTransportControls().play();
-                                                  playButton.setImageResource(iconImage[PlayActivity.buttonPos.play.ordinal()]);
+                                                  playButton.setImageResource(iconImage[MediaPlayerActivity.buttonPos.play.ordinal()]);
                                               }
                                           }
                                       });
@@ -177,71 +191,6 @@ public class MediaPlayerActivity extends AppCompatActivity {
         // mediaController.registerCallback(controllerCallback);
         }
 
-    JOTRControllerCallback controllerCallback;
-
-        private class JOTRControllerCallback extends MediaControllerCompat.Callback
-        {
-                @Override
-                public void onPlay() {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        AudioManager am = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-                        // Request audio focus for playback, this registers the afChangeListener
-                        AudioAttributes attrs = new AudioAttributes.Builder()
-                                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                                .build();
-                        audioFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-                                .setOnAudioFocusChangeListener(afChangeListener)
-                                .setAudioAttributes(attrs)
-                                .build();
-                        int result = am.requestAudioFocus(audioFocusRequest);
-
-                        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                            // Start the service
-                            startService(new Intent(mContext, MediaBrowserService.class));
-                            // Set the session active  (and update metadata and state)
-                            mediaSession.setActive(true);
-                            // start the player (custom call)
-                            player.start();
-                            // Register BECOME_NOISY BroadcastReceiver
-                            registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
-                            // Put the service in the foreground, post notification
-                            jService.startForeground(id, mNotificaiton);
-                        }
-                    }
-                }
-
-                @Override
-                public void onStop() {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        AudioManager am = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-                        // Abandon audio focus
-                        am.abandonAudioFocusRequest(audioFocusRequest);
-                        unregisterReceiver(myNoisyAudioStreamReceiver);
-                        // Stop the service
-                        service.stopSelf();
-                        // Set the session inactive  (and update metadata and state)
-                        mediaSession.setActive(false);
-                        // stop the player (custom call)
-                        player.stop();
-                        // Take the service out of the foreground
-                        jService.stopForeground(false);
-                    }
-                }
-
-                @Override
-                public void onPause() {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        AudioManager am = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-                        // Update metadata and state
-                        // pause the player (custom call)
-                        player.pause();
-                        // unregister BECOME_NOISY BroadcastReceiver
-                        unregisterReceiver(myNoisyAudioStreamReceiver);
-                        // Take the service out of the foreground, retain the notification
-                        jService.stopForeground(false);
-                    }
-                }
-            }
     private class BecomingNoisyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -251,4 +200,6 @@ public class MediaPlayerActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }

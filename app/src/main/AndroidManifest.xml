@@ -75,7 +75,16 @@
             android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.RuffinApps.johnnie.oldtimeradio.SelectActivity"/>
+                android:value="com.RuffinApps.johnnie.oldtimeradio.PlayActivity"/>
+        </activity>
+        <activity
+            android:name=".MediaPlayerActivity"
+            android:label="@string/title_activity_media_player"
+            android:parentActivityName=".SelectActivity"
+            android:configChanges="orientation|screenSize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.RuffinApps.johnnie.oldtimeradio.MediaPlayerActivity"/>
         </activity>
         <activity
             android:name=".ComedyActivity"

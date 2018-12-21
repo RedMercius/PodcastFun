@@ -22,6 +22,7 @@
     <string name="download_button">Download Button</string>
     <string name="menu_button">Menu Button</string>
     <string name="title_activity_download">Download</string>
+    <string name="title_activity_media_player">Media Player</string>
 
     <string name="title_activity_play">Play</string>
     <string name="pause">Pause</string>
