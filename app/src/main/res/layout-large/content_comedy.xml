@@ -13,129 +13,174 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_comedy"
-    tools:context=".ComedyActivity">
-
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context="com.RuffinApps.johnnie.oldtimeradio.ComedyActivity">
+    <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp">
-
+        android:layout_height="wrap_content">
         <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
-            <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:context=".ComedyActivity"
-                tools:showIn="@layout/activity_comedy">
-
-                <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                tools:showIn="@layout/activity_comedy"
+                tools:context="com.RuffinApps.johnnie.oldtimeradio.ComedyActivity">
+                <TableLayout
                     android:id="@+id/tableLayout1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" >
 
                     <TableRow
                         android:id="@+id/tableRow1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="3dip">
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:padding="5dip">
 
-                        <ImageButton
+                        <Button
                             android:id="@+id/imageBtn1"
-                            android:layout_width="275dp"
-                            android:layout_height="275dp"
+                            style="@android:style/Widget.Button"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:adjustViewBounds="false"
                             android:contentDescription="@string/BurnsAndAllenImage"
-                            android:src="@mipmap/burnsandallen" />
+                            android:background="@mipmap/burnsandallen" />
 
-                        <ImageButton
+                        <Button
                             android:id="@+id/fbBtn"
-                            android:layout_width="275dp"
-                            android:layout_height="275dp"
-                            android:layout_marginStart="20dp"
+                            style="@android:style/Widget.Button"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
                             android:layout_marginLeft="20dp"
+                            android:layout_marginStart="20dp"
                             android:contentDescription="@string/FibberMcGeeImage"
-                            android:src="@mipmap/fibber_and_molly_" />
+                            android:background="@mipmap/fibber_and_molly_" />
                     </TableRow>
 
                     <TableRow
                         android:id="@+id/tableRow2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="1dip">
+                        android:padding="5dip" >
 
-                        <ImageButton
+                        <Button
                             android:id="@+id/mlBtn"
-                            android:layout_width="275dp"
-                            android:layout_height="275dp"
+                            style="@android:style/Widget.Button"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="15dp"
                             android:contentDescription="@string/MartinAndLewisImage"
-                            android:src="@mipmap/lewis_and_martin" />
+                            android:background="@mipmap/lewis_and_martin" />
 
-                        <ImageButton
+                        <Button
                             android:id="@+id/gilBtn"
-                            android:layout_width="275dp"
-                            android:layout_height="275dp"
+                            style="@android:style/Widget.Button"
+                            android:layout_marginTop="15dp"
                             android:layout_marginStart="20dp"
                             android:layout_marginLeft="20dp"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:background="@mipmap/greatgildersleeve"
                             android:contentDescription="@string/GilderSleeveImage"
-                            android:src="@mipmap/greatgildersleeve" />
+                            />
                     </TableRow>
-
                     <TableRow
                         android:id="@+id/tableRow3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="3dip">
+                        android:padding="5dip" >
 
-                        <ImageButton
+                        <Button
                             android:id="@+id/jbBtn"
-                            android:layout_width="275dp"
-                            android:layout_height="275dp"
+                            style="@android:style/Widget.Button"
+                            android:layout_marginTop="15dp"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:background="@mipmap/jackbenny_fixed"
                             android:contentDescription="@string/JackBennyImage"
-                            android:src="@mipmap/jackbenny_fixed" />
+                            />
 
-                        <ImageButton
+                        <Button
                             android:id="@+id/bhBtn"
-                            android:layout_width="275dp"
-                            android:layout_height="275dp"
+                            style="@android:style/Widget.Button"
+                            android:layout_marginTop="15dp"
                             android:layout_marginStart="20dp"
                             android:layout_marginLeft="20dp"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:background="@mipmap/bob_hope_1950_0_fixed_0"
                             android:contentDescription="@string/BobHopeImage"
-                            android:src="@mipmap/bob_hope_1950_0_fixed_0" />
+                            />
                     </TableRow>
-
                     <TableRow
                         android:id="@+id/tableRow4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="1dip">
+                        android:padding="1dip" >
 
-                        <ImageButton
+                        <Button
                             android:id="@+id/mbBtn"
+                            style="@android:style/Widget.Button"
                             android:layout_width="150dp"
                             android:layout_height="150dp"
+                            android:background="@mipmap/ourmissbrooks"
                             android:contentDescription="@string/OurMissBrooksImage"
-                            android:src="@mipmap/ourmissbrooks" />
+                            />
 
-                        <ImageButton
+                        <Button
                             android:id="@+id/fkBtn"
-                            android:layout_width="150dp"
-                            android:layout_height="150dp"
+                            style="@android:style/Widget.Button"
                             android:layout_marginStart="20dp"
                             android:layout_marginLeft="20dp"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:background="@mipmap/fatherknowsbest"
                             android:contentDescription="@string/FatherKnowsBestImage"
-                            android:src="@mipmap/fatherknowsbest" />
+                            />
+                    </TableRow>
+                    <TableRow
+                        android:id="@+id/tableRow5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="1dip" >
+
+                        <Button
+                            android:id="@+id/ohBtn"
+                            style="@android:style/Widget.Button"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:background="@mipmap/ozzieandharriet"
+                            android:contentDescription="@string/OzzieAndHarrietImage"
+                            />
+
+                        <Button
+                            android:id="@+id/orBtn"
+                            style="@android:style/Widget.Button"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:background="@mipmap/lifeofriley"
+                            android:contentDescription="@string/LifeOfRileyImage"
+                            />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="1dip" >
+                        <Button
+                            android:id="@+id/blBtn"
+                            style="@android:style/Widget.Button"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="15dp"
+                            android:contentDescription="@string/Blondie"
+                            android:background="@mipmap/blondie" />
                     </TableRow>
                 </TableLayout>
             </LinearLayout>
         </HorizontalScrollView>
     </ScrollView>
 </RelativeLayout>
-

@@ -5,165 +5,235 @@
   ~
   -->
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:background = "@color/lightgray"
-                android:gravity="center"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:showIn="@layout/activity_play"
-                tools:context="PlayActivity">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightgray"
+    tools:context="com.RuffinApps.johnnie.oldtimeradio.PlayActivity"
+    tools:showIn="@layout/activity_play">
 
-    <ScrollView
+    <ImageButton
+        android:id="@+id/play_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/play_button"
+        app:layout_constraintBottom_toTopOf="@+id/barrier8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline15"
+        app:layout_constraintVertical_bias="0.451" />
+
+    <ImageButton
+        android:id="@+id/forward_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/forward_button"
+        app:layout_constraintBottom_toTopOf="@+id/barrier8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.711"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline15"
+        app:layout_constraintVertical_bias="0.451" />
+
+    <ImageButton
+        android:id="@+id/rewind_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/rewind_button"
+        app:layout_constraintBottom_toTopOf="@+id/barrier8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.287"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline15"
+        app:layout_constraintVertical_bias="0.451" />
+
+    <ImageView
+        android:id="@+id/fullscreen_content"
+        android:layout_width="237dp"
+        android:layout_height="204dp"
+        android:layout_marginTop="58dp"
+        android:contentDescription="@string/play_image"
+        app:layout_constraintBottom_toTopOf="@+id/barrier8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/play_button" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:background="@color/black_overlay"
+        android:contentDescription="@string/seek_bar"
+        app:layout_constraintBottom_toTopOf="@+id/barrier8"
+        app:layout_constraintEnd_toEndOf="@+id/barrier7"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="@+id/guideline14"
+        app:layout_constraintTop_toTopOf="@+id/guideline15"
+        app:layout_constraintVertical_bias="0.343" />
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="343dp"
+        android:layout_height="108dp"
+        android:layout_marginBottom="46dp"
+        android:gravity="center"
+        android:textSize="12pt"
+        android:textColor="#000000"
+        android:contentDescription="@string/title_bar"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="80dp"
+        android:layout_height="15dp"
+        android:textColor="#000000"
+        android:contentDescription="@string/duration_bar"
+        app:layout_constraintBottom_toTopOf="@+id/barrier8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.860"
+        app:layout_constraintStart_toStartOf="@+id/guideline14"
+        app:layout_constraintTop_toTopOf="@+id/guideline15"
+        app:layout_constraintVertical_bias="0.34" />
+
+    <TextView
+        android:id="@+id/txtCurPos"
+        android:layout_width="55dp"
+        android:layout_height="17dp"
+        android:textColor="#000000"
+        android:contentDescription="@string/pos_bar"
+        app:layout_constraintBottom_toTopOf="@+id/barrier8"
+        app:layout_constraintEnd_toEndOf="@+id/barrier7"
+        app:layout_constraintHorizontal_bias="0.21"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline15"
+        app:layout_constraintVertical_bias="0.34" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/activity_play"
-        tools:context="com.RuffinApps.johnnie.oldtimeradiofree.PlayActivity">
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:id="@+id/tableLayout1"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_gravity="center" >
-    <TableRow
-        android:id="@+id/tableRow1"
+        app:barrierDirection="left"
+        tools:layout_editor_absoluteX="411dp" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dip" >
+        app:barrierDirection="top"
+        tools:layout_editor_absoluteY="731dp" />
 
-            <TextView
-                android:id="@+id/txtTitle"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="13dp"
-                android:layout_marginLeft="13dp"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                />
-    </TableRow>
-    <TableRow
-        android:id="@+id/tableRow2"
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
+        app:barrierDirection="left"
+        tools:layout_editor_absoluteX="411dp" />
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            >
-
-        <TextView
-            android:id="@+id/txtCurPos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:textColor="#000000"
-            />
-
-        <SeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
-            android:background="@color/black_overlay"
-            />
-
-        <TextView
-            android:id="@+id/duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
-            android:textColor="#000000"
-            />
-        </LinearLayout>
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            >
-
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:gravity="center"
-                >
-
-            <ImageButton
-                android:id="@+id/rewind_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:contentDescription="@string/rewind_button"
-                />
-
-            <ImageButton
-                android:id="@+id/play_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:layout_marginStart="55dp"
-                android:layout_marginLeft="55dp"
-                android:contentDescription="@string/play_button"
-                    />
-
-            <ImageButton
-                android:id="@+id/forward_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:layout_marginStart="65dp"
-                android:layout_marginLeft="65dp"
-                android:contentDescription="@string/forward_button"
-                />
-            </LinearLayout>
-</TableRow>
-    <TableRow
-        android:id="@+id/tableRow4"
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
+        app:barrierDirection="top"
+        tools:layout_editor_absoluteY="731dp" />
 
-    <ImageView android:id="@+id/fullscreen_content"
-               android:layout_marginTop="30dp"
-               android:keepScreenOn="true"
-               android:contentDescription="@string/title_activity_play"/>
-    </TableRow>
-    </TableLayout>
-    </LinearLayout>
-    </HorizontalScrollView>
-    </ScrollView>
-</RelativeLayout>
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left"
+        tools:layout_editor_absoluteX="411dp" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top"
+        tools:layout_editor_absoluteY="731dp" />
+
+    <androidx.constraintlayout.widget.Constraints
+        android:id="@+id/constraints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="79dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,10 @@
+package com.RuffinApps.johnnie.oldtimeradio;
 /*
  * Copyright 2015 © Johnnie Ruffin
  *
  * Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *
  */
-
-package com.RuffinApps.johnnie.oldtimeradio;
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -27,7 +26,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 import android.view.MenuItem;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
@@ -77,6 +77,9 @@ public class CustomList extends ArrayAdapter<String> {
     final String TAG = "CustomList";
     SQLiteDatabase db;
     private PlayedList playList;
+    private QueueList queueList;
+    private MenuItem queueItem;
+    private MenuItem notQueueItem;
 
     public CustomList(Activity context, String[] radioTitle, Integer[] imageButtonList) {
         super(context, R.layout.custom_list_multi, radioTitle);
@@ -86,6 +89,7 @@ public class CustomList extends ArrayAdapter<String> {
         this.artist = CurrentArtist.getInstance().getCurrentArtist();
         this.removeButtons = false;
         this.playList = new PlayedList(context);
+        this.queueList = new QueueList(context);
 
         MediaPlayer mp = new MediaPlayer();
         mRemoveList = new ArrayList<>();
@@ -112,7 +116,7 @@ public class CustomList extends ArrayAdapter<String> {
                         int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
                         if (status == DownloadManager.STATUS_SUCCESSFUL) {
                             String filePath = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
-                            filename = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length());
+                            filename = filePath.substring(filePath.lastIndexOf('/') + 1);
                             deleteFromList(filename);
                         }
                     }
@@ -126,65 +130,57 @@ public class CustomList extends ArrayAdapter<String> {
         context.registerReceiver(receiver, filter);
 
         // Creating database and table
-        db=context.openOrCreateDatabase("downloadDB", Context.MODE_PRIVATE, null);
+        db = context.openOrCreateDatabase("downloadDB", Context.MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS download(title VARCHAR, id VARCHAR);");
 
-        Cursor b=db.rawQuery("SELECT * FROM download", null);
-        if(b.getCount()==0)
-        {
+        Cursor b = db.rawQuery("SELECT * FROM download", null);
+        if (b.getCount() == 0) {
             return;
         }
 
-        while(b.moveToNext())
-        {
+        while (b.moveToNext()) {
             checkDownloadStatus(Long.parseLong(b.getString(1)), b.getString(0));
         }
 
         b.close();
     }
 
-    public void removeButtonsFromView(boolean rem)
-    {
-      removeButtons = rem;
+    public void removeButtonsFromView(boolean rem) {
+        removeButtons = rem;
     }
 
-    public void updateRadioTitle(String[] titles )
-    {
+    public void updateRadioTitle(String[] titles) {
         this.radioTitle = titles;
     }
 
-    public void deleteFromList(String filename)
-    {
+    public void deleteFromList(String filename) {
         mRemoveList.remove(filename);
-        if (!db.isOpen())
-        {
-            db=context.openOrCreateDatabase("downloadDB", Context.MODE_PRIVATE, null);
+        if (!db.isOpen()) {
+            db = context.openOrCreateDatabase("downloadDB", Context.MODE_PRIVATE, null);
         }
 
-        db.execSQL("DELETE FROM download WHERE title='"+filename+"'");
+        db.execSQL("DELETE FROM download WHERE title='" + filename + "'");
     }
 
-    public boolean isNetworkAvailable()
-    {
+    public boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(SelectActivity.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    private void checkDownloadStatus(final long id, final String title)
-    {
+    private void checkDownloadStatus(final long id, final String title) {
         DownloadManager.Query query;
         Cursor c;
         DownloadManager downloadManager;
-        downloadManager = (DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
+        downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         query = new DownloadManager.Query();
         query.setFilterById(id);
 
         c = downloadManager.query(query);
-        if(c.moveToFirst()) {
+        if (c.moveToFirst()) {
             int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
-            switch(status) {
+            switch (status) {
                 case DownloadManager.STATUS_PAUSED:
                     Log.d(TAG, "Download Paused!!");
 
@@ -256,10 +252,14 @@ public class CustomList extends ArrayAdapter<String> {
                 case DownloadManager.STATUS_FAILED:
                     int reason = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_REASON));
                     Log.d(TAG, "Download Failed!!");
-                    switch(reason)
-                    {
+                    switch (reason) {
                         case DownloadManager.ERROR_CANNOT_RESUME:
+                            if (!context.isFinishing()) {
+                                Toast.makeText(context, context.getResources().getString(R.string.download_fail),
+                                        Toast.LENGTH_SHORT).show();
+                            }
                             Log.d(TAG, "DownloadManager.ERROR_CANNOT_RESUME");
+                            Log.d(TAG, "Title: " + title);
                             break;
                         case DownloadManager.ERROR_FILE_ALREADY_EXISTS:
                             Log.d(TAG, "DownloadManager.ERROR_FILE_ALREADY_EXISTS");
@@ -275,10 +275,9 @@ public class CustomList extends ArrayAdapter<String> {
                             break;
                         case DownloadManager.ERROR_INSUFFICIENT_SPACE:
                             Log.d(TAG, "DownloadManager.ERROR_INSUFFICIENT_SPACE");
-                                    mRemoveList.remove(title);
-                            if (!db.isOpen())
-                            {
-                                db=context.openOrCreateDatabase("downloadDB", Context.MODE_PRIVATE, null);
+                            mRemoveList.remove(title);
+                            if (!db.isOpen()) {
+                                db = context.openOrCreateDatabase("downloadDB", Context.MODE_PRIVATE, null);
                             }
                             db.execSQL("DELETE FROM download WHERE id='" + id + "'");
                             mc.dc.deleteMedia(title);
@@ -293,6 +292,11 @@ public class CustomList extends ArrayAdapter<String> {
                         case DownloadManager.ERROR_UNKNOWN:
                             Log.d(TAG, "DownloadManager.ERROR_UNKNOWN");
                             break;
+
+                        default:
+                            Log.d(TAG, "Unknown download error!! Reason: " + reason);
+                            Log.d(TAG, "Title: " + title);
+                            break;
                     }
                 default:
                     context.runOnUiThread(new Runnable() {
@@ -301,9 +305,8 @@ public class CustomList extends ArrayAdapter<String> {
                         public void run() {
                             mRemoveList.remove(title);
 
-                            if (!db.isOpen())
-                            {
-                                db=context.openOrCreateDatabase("downloadDB", Context.MODE_PRIVATE, null);
+                            if (!db.isOpen()) {
+                                db = context.openOrCreateDatabase("downloadDB", Context.MODE_PRIVATE, null);
                             }
 
                             db.execSQL("DELETE FROM download WHERE id='" + id + "'");
@@ -317,21 +320,18 @@ public class CustomList extends ArrayAdapter<String> {
         c.close();
     }
 
-    class delayedCheck implements Runnable
-    {
+    class delayedCheck implements Runnable {
         @Override
-        public void run()
-        {
+        public void run() {
             try {
-                while (mRemoveList.size() >=1) {
+                while (mRemoveList.size() >= 1) {
                     Thread.sleep(1000);
                     Cursor b = db.rawQuery("SELECT * FROM download", null);
                     if (b.getCount() == 0) {
                         Log.d(TAG, "Download queue is empty. Deleting items from download list.");
 
-                        if (!db.isOpen())
-                        {
-                            db=context.openOrCreateDatabase("downloadDB", Context.MODE_PRIVATE, null);
+                        if (!db.isOpen()) {
+                            db = context.openOrCreateDatabase("downloadDB", Context.MODE_PRIVATE, null);
                         }
 
                         db.execSQL("delete from download");
@@ -353,12 +353,12 @@ public class CustomList extends ArrayAdapter<String> {
     }
 
     @Override
-    public int getCount()
-    {
+    public int getCount() {
         return radioTitle.length;
     }
 
-    @Override @NonNull
+    @Override
+    @NonNull
     public View getView(final int position, View view, @NonNull ViewGroup parent) {
 
         final ViewHolderItem viewHolder;
@@ -384,180 +384,346 @@ public class CustomList extends ArrayAdapter<String> {
 
         final String mediaTitle = this.radioTitle[position];
 
-        RadioTitle rt = new RadioTitle();
-
-        rt.initTitles();
 
         String MediaFile = null;
+        RadioTitle rt = RadioTitle.getInstance();
 
-        switch (artist) {
-            case "Burns And Allen": {
-                for (String mediaFile : rt.getBaMap().keySet()) {
-                    if (rt.getBaMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+        try {
+            switch (artist) {
+                case "Burns And Allen": {
+                    for (String mediaFile : rt.getBaMap().keySet()) {
+                        if (rt.getBaMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
 
-            case "Fibber McGee And Molly": {
-                for (String mediaFile : rt.getFbMap().keySet()) {
-                    if (rt.getFbMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "Fibber McGee And Molly": {
+                    for (String mediaFile : rt.getFbMap().keySet()) {
+                        if (rt.getFbMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
 
-            case "Martin And Lewis": {
-                for (String mediaFile : rt.getMlMap().keySet()) {
-                    if (rt.getMlMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "Martin And Lewis": {
+                    for (String mediaFile : rt.getMlMap().keySet()) {
+                        if (rt.getMlMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
 
-            case "The Great GilderSleeves": {
-                for (String mediaFile : rt.getGlMap().keySet()) {
-                    if (rt.getGlMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "The Great GilderSleeves": {
+                    for (String mediaFile : rt.getGlMap().keySet()) {
+                        if (rt.getGlMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
 
-            case "Jack Benny": {
-                for (String mediaFile : rt.getJbMap().keySet()) {
-                    if (rt.getJbMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "Jack Benny": {
+                    for (String mediaFile : rt.getJbMap().keySet()) {
+                        if (rt.getJbMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
 
-            case "Bob Hope": {
-                for (String mediaFile : rt.getBhMap().keySet()) {
-                    if (rt.getBhMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "Bob Hope": {
+                    for (String mediaFile : rt.getBhMap().keySet()) {
+                        if (rt.getBhMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
 
-            case "XMinus1": {
-                for (String mediaFile : rt.getXMMap().keySet()) {
-                    if (rt.getXMMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "XMinus1": {
+                    for (String mediaFile : rt.getXMMap().keySet()) {
+                        if (rt.getXMMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
 
-            case "Inner Sanctum": {
-                for (String mediaFile : rt.getIsMap().keySet()) {
-                    if (rt.getIsMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "Inner Sanctum": {
+                    for (String mediaFile : rt.getIsMap().keySet()) {
+                        if (rt.getIsMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
 
-            case "Dimension X": {
-                for (String mediaFile : rt.getDxMap().keySet()) {
-                    if (rt.getDxMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "Dimension X": {
+                    for (String mediaFile : rt.getDxMap().keySet()) {
+                        if (rt.getDxMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
 
-            case "Night Beat": {
-                for (String mediaFile : rt.getNbMap().keySet()) {
-                    if (rt.getNbMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "Night Beat": {
+                    for (String mediaFile : rt.getNbMap().keySet()) {
+                        if (rt.getNbMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
 
-            case "Speed": {
-                for (String mediaFile : rt.getSgMap().keySet()) {
-                    if (rt.getSgMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "Speed Gibson": {
+                    for (String mediaFile : rt.getSgMap().keySet()) {
+                        if (rt.getSgMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
 
-            case "The Whistler": {
-                for (String mediaFile : rt.getWsMap().keySet()) {
-                    if (rt.getWsMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "The Whistler": {
+                    for (String mediaFile : rt.getWsMap().keySet()) {
+                        if (rt.getWsMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
 
-            case "Hopalong Cassidy": {
-                for (String mediaFile : rt.getHcMap().keySet()) {
-                    if (rt.getHcMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "Hopalong Cassidy": {
+                    for (String mediaFile : rt.getHcMap().keySet()) {
+                        if (rt.getHcMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
 
-            case "Fort Laramie": {
-                for (String mediaFile : rt.getFlMap().keySet()) {
-                    if (rt.getFlMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "Fort Laramie": {
+                    for (String mediaFile : rt.getFlMap().keySet()) {
+                        if (rt.getFlMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-                break;
-            }
 
-            case "Our Miss Brooks": {
-                for (String mediaFile : rt.getMbMap().keySet()) {
-                    if (rt.getMbMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "Our Miss Brooks": {
+                    for (String mediaFile : rt.getMbMap().keySet()) {
+                        if (rt.getMbMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-            }
 
-            case "Father Knows Best": {
-                for (String mediaFile : rt.getFkMap().keySet()) {
-                    if (rt.getFkMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "Father Knows Best": {
+                    for (String mediaFile : rt.getFkMap().keySet()) {
+                        if (rt.getFkMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-            }
 
-            case "Lone Ranger": {
-                for (String mediaFile : rt.getLrMap().keySet()) {
-                    if (rt.getLrMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "Lone Ranger": {
+                    for (String mediaFile : rt.getLrMap().keySet()) {
+                        if (rt.getLrMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
                 }
-            }
 
-            case "Pat O": {
-                for (String mediaFile : rt.getPoMap().keySet()) {
-                    if (rt.getPoMap().get(mediaFile).equals(mediaTitle)) {
-                        MediaFile = mediaFile;
+                case "Pat O": {
+                    for (String mediaFile : rt.getPoMap().keySet()) {
+                        if (rt.getPoMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
                     }
+                    break;
+                }
+
+                case "Ozzie And Harriet": {
+                    for (String mediaFile : rt.getOhMap().keySet()) {
+                        if (rt.getOhMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+
+                case "The Life Of Riley": {
+                    for (String mediaFile : rt.getOrMap().keySet()) {
+                        if (rt.getOrMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+
+                case "Flash Gordon": {
+                    for (String mediaFile : rt.getFgMap().keySet()) {
+                        if (rt.getFgMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+
+                case "SciFi Radio": {
+                    for (String mediaFile : rt.getSrMap().keySet()) {
+                        if (rt.getSrMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+
+                case "The Green Hornet": {
+                    for (String mediaFile : rt.getGhMap().keySet()) {
+                        if (rt.getGhMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+                case "Adventures By Morse": {
+                    for (String mediaFile : rt.getAbmMap().keySet()) {
+                        if (rt.getAbmMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+                case "Adventures of Dick Cole": {
+                    for (String mediaFile : rt.getAdcMap().keySet()) {
+                        if (rt.getAdcMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+                case "Blondie": {
+                    for (String mediaFile : rt.getBlMap().keySet()) {
+                        if (rt.getBlMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+                case "Bold Venture": {
+                    for (String mediaFile : rt.getBvMap().keySet()) {
+                        if (rt.getBvMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+                case "Boston Blackie": {
+                    for (String mediaFile : rt.getBbMap().keySet()) {
+                        if (rt.getBbMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+                case "CBS Radio Mystery Theater": {
+                    for (String mediaFile : rt.getCbsMap().keySet()) {
+                        if (rt.getCbsMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+                case "Dangerous Assignment": {
+                    for (String mediaFile : rt.getDaMap().keySet()) {
+                        if (rt.getDaMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+                case "Duffys Tavern": {
+                    for (String mediaFile : rt.getDtMap().keySet()) {
+                        if (rt.getDtMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+                case "Mr And Mrs North": {
+                    for (String mediaFile : rt.getMmnMap().keySet()) {
+                        if (rt.getMmnMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+                case "Quiet Please": {
+                    for (String mediaFile : rt.getQpMap().keySet()) {
+                        if (rt.getQpMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+                case "Suspense": {
+                    for (String mediaFile : rt.getSsMap().keySet()) {
+                        if (rt.getSsMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+                case "The Lives of Harry Lime": {
+                    for (String mediaFile : rt.getHlMap().keySet()) {
+                        if (rt.getHlMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
+                }
+                case "Have Gun Will Travel": {
+                    for (String mediaFile : rt.getHgMap().keySet()) {
+                        if (rt.getHgMap().get(mediaFile).equals(mediaTitle)) {
+                            MediaFile = mediaFile;
+                        }
+                    }
+                    break;
                 }
             }
+        } catch (Exception e)
+        {
+            Log.d(TAG, "Null Exception for Title: " + mediaTitle);
+            Log.d(TAG, "Null Exception: " + e);
         }
 
         final String mediaFileName = MediaFile;
         boolean isItInRaw = false;
         boolean doesMediaExist_0 = false;
 
+        final String rawFileName = getRawFileName(MediaFile);
+
         try {
-            isItInRaw = mc.checkResourceInRaw(MediaFile);
-            doesMediaExist_0 = mc.checkForMedia(MediaFile);
+
+            if (!mediaTitle.contains("No queued shows")) {
+
+                if (!mediaTitle.contains("No played shows")) {
+                    isItInRaw = mc.checkResourceInRaw(rawFileName);
+                    doesMediaExist_0 = mc.checkForMedia(rawFileName);
+                }
+            }
         } catch (NullPointerException e) {
+            Log.d(TAG, "Null Exception for Rawfile check: " + mediaTitle);
             Log.e(TAG, "Null Exception: " + e);
 
         }
@@ -567,9 +733,9 @@ public class CustomList extends ArrayAdapter<String> {
 
         boolean ignoreThisItem = false;
 
-        if (mRemoveList != null && mediaFileName != null) {
+        if (mRemoveList != null && rawFileName != null) {
             for (int i = 0; i < mRemoveList.size(); ++i) {
-                if (mediaFileName.equals(mRemoveList.get(i))) {
+                if (rawFileName.equals(mRemoveList.get(i))) {
                     ignoreThisItem = true;
                 }
             }
@@ -609,6 +775,7 @@ public class CustomList extends ArrayAdapter<String> {
             viewHolder.deleteButton.setVisibility(View.INVISIBLE);
             viewHolder.txtStatus.setVisibility(View.VISIBLE);
             viewHolder.txtStatus.setText(context.getResources().getString(R.string.downloading));
+            Log.d(TAG, "Ignore this item!!");
         }
 
         if (removeButtons) {
@@ -627,31 +794,40 @@ public class CustomList extends ArrayAdapter<String> {
                 // if we need to stream this, check for internet connection.
                 if (!doesMediaExist) {
                     if (!isNetworkAvailable()) {
-                        Toast.makeText(context, context.getResources().getString(R.string.no_internet_stream),
-                                Toast.LENGTH_SHORT).show();
+                        if (!context.isFinishing()) {
+                            Toast.makeText(context, context.getResources().getString(R.string.no_internet_stream),
+                                    Toast.LENGTH_SHORT).show();
+                        }
                         return;
                     }
                 }
-
-                // TODO: check for api and start appropriate activity.
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                CurrentArtist.getInstance().setCurrentTitle(mediaTitle);
+                if (doesMediaExist)
                 {
-                    Log.d(TAG, "28 API or more_Goto MediaActivity.class.");
-                    final Intent i = new Intent(context, MediaPlayerActivity.class);
-                    i.putExtra("MediaTitle", mediaFileName);
-                    i.putExtra("Selection", artist);
-                    i.putExtra("Title", mediaTitle);
-                    context.startActivity(i);
-                    context.finish();
+                    CurrentArtist.getInstance().setCurrentFile(rawFileName);
                 }
                 else {
-                    final Intent i = new Intent(context, PlayActivity.class);
-                    i.putExtra("MediaTitle", mediaFileName);
-                    i.putExtra("Selection", artist);
-                    i.putExtra("Title", mediaTitle);
+                    CurrentArtist.getInstance().setCurrentFile(mediaFileName);
+                }
+                MusicLibrary.clearLibraryItems();
+                MusicLibrary.setMediaMetaData();
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Log.d(TAG, "21 API or more_Goto MediaPlayActivity.class.");
+                    final Intent i = new Intent(context, MediaPlay.class);
+                    i.putExtra("MediaTitle", CurrentArtist.getInstance().getCurrentFile());
+                    i.putExtra("Selection",  CurrentArtist.getInstance().getCurrentArtist());
+                    i.putExtra("Title", CurrentArtist.getInstance().getCurrentTitle());
                     context.startActivity(i);
                     context.finish();
-                }
+                } else {
+                    final Intent i = new Intent(context, PlayActivity.class);
+                    i.putExtra("MediaTitle", CurrentArtist.getInstance().getCurrentFile());
+                    i.putExtra("Selection", CurrentArtist.getInstance().getCurrentArtist());
+                    i.putExtra("Title", CurrentArtist.getInstance().getCurrentTitle());
+                    context.startActivity(i);
+                    context.finish();
+                 }
             }
         });
 
@@ -665,22 +841,28 @@ public class CustomList extends ArrayAdapter<String> {
 
                 // if network connection is down, inform the user that we cannot download.
                 if (!isNetworkAvailable()) {
-                    Toast.makeText(context, context.getResources().getString(R.string.no_internet_stream),
-                            Toast.LENGTH_SHORT).show();
+                    if (!context.isFinishing()) {
+                        Toast.makeText(context, context.getResources().getString(R.string.no_internet_stream),
+                                Toast.LENGTH_SHORT).show();
+                    }
                     return;
                 }
 
                 if (!isExternalStorage()) {
-                    Toast.makeText(context, context.getResources().getString(R.string.no_external_storage),
-                            Toast.LENGTH_SHORT).show();
+                    if (!context.isFinishing()) {
+                        Toast.makeText(context, context.getResources().getString(R.string.no_external_storage),
+                                Toast.LENGTH_SHORT).show();
+                    }
                     return;
                 }
 
-                mc.downloadMedia(mediaFileName);
+                mc.downloadMedia(rawFileName);
                 mdlID = mc.dc.getDlId();
-                db.execSQL("INSERT INTO download VALUES('" + mediaFileName + "', '" + mdlID + "');");
-                checkDownloadStatus(mdlID, mediaFileName);
-                Toast.makeText(context, context.getResources().getString(R.string.download_in_progress) + mediaFileName, Toast.LENGTH_SHORT).show();
+                db.execSQL("INSERT INTO download VALUES('" + rawFileName + "', '" + mdlID + "');");
+                checkDownloadStatus(mdlID, rawFileName);
+                if (!context.isFinishing()) {
+                    Toast.makeText(context, context.getResources().getString(R.string.download_in_progress) + rawFileName, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -690,14 +872,18 @@ public class CustomList extends ArrayAdapter<String> {
             public void onClick(View arg0) {
 
                 if (!isExternalStorage()) {
-                    Toast.makeText(context, context.getResources().getString(R.string.no_external_storage),
-                            Toast.LENGTH_SHORT).show();
+                    if (!context.isFinishing()) {
+                        Toast.makeText(context, context.getResources().getString(R.string.no_external_storage),
+                                Toast.LENGTH_SHORT).show();
+                    }
                     return;
                 }
 
-                mc.deleteMedia(mediaFileName);
+                mc.deleteMedia(rawFileName);
                 notifyDataSetChanged();
-                Toast.makeText(context, context.getResources().getString(R.string.deleting) + " " + mediaFileName, Toast.LENGTH_SHORT).show();
+                if (!context.isFinishing()) {
+                    Toast.makeText(context, context.getResources().getString(R.string.deleting) + " " + rawFileName, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -711,10 +897,10 @@ public class CustomList extends ArrayAdapter<String> {
                 PopupMenu popup = new PopupMenu(context, viewHolder.menuButton);
 
                 // show the menu based on the adapter state.
-                switch(AdapterState.getInstance().getCurrentState()) {
+                switch (AdapterState.getInstance().getCurrentState()) {
                     case "played":
-                    //Inflating the Popup using xml file
-                    popup.getMenuInflater().inflate(R.menu.menu_played, popup.getMenu());
+                        //Inflating the Popup using xml file
+                        popup.getMenuInflater().inflate(R.menu.menu_played, popup.getMenu());
                         break;
                     case "not_played":
                         //Inflating the Popup using xml file
@@ -722,22 +908,61 @@ public class CustomList extends ArrayAdapter<String> {
                         break;
                     case "all":
                         //Inflating the Popup using xml file
-                        popup.getMenuInflater().inflate(R.menu.menu_all, popup.getMenu());
+                    popup.getMenuInflater().inflate(R.menu.menu_queue, popup.getMenu());
+
+                        // check if in queue or not before showing the correct menu.
+                        String[] queuedList = queueList.getQueuedTitles(artist);
+                        for (int b = 0; b<queuedList.length; b++) {
+                            Log.d(TAG, "Queued Titles: " + queuedList[b]);
+                        }
+                        if (!queuedList[0].contentEquals("No queued shows.")) {
+                            for (String queueTitle : queuedList) {
+                                if (queueTitle.contentEquals(mediaTitle)) {
+                                    popup.getMenu().getItem(0).setVisible(false);
+                                }
+                                else
+                                {
+                                    popup.getMenu().getItem(1).setVisible(false);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            popup.getMenu().getItem(1).setVisible(false);
+                        }
                         break;
+                    case "queue":
+                        //Inflating the Popup using xml file
+                        popup.getMenuInflater().inflate(R.menu.menu_queue, popup.getMenu());
+                        popup.getMenu().getItem(0).setVisible(false);
+                    break;
                 }
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                        Toast.makeText(context, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
-                        if (item.getTitle().toString().contentEquals("Mark as Played"))
-                        {
-                            playList.add(0, artist, viewHolder.txtTitle.getText().toString() );
+                        if (!context.isFinishing()) {
+                            Toast.makeText(context, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                        }
+                        if (item.getTitle().toString().contentEquals("Mark as Played")) {
+                            playList.add(0, artist, viewHolder.txtTitle.getText().toString());
                             Log.d(TAG, "Adding Title: " + viewHolder.txtTitle.getText().toString() + " For Show: " + artist);
                         }
 
-                        if (item.getTitle().toString().contentEquals("Mark as Not Played"))
-                        {
+                        if (item.getTitle().toString().contentEquals("Mark as Not Played")) {
                             playList.remove(artist, viewHolder.txtTitle.getText().toString());
+                            Log.d(TAG, "Deleting Title: " + viewHolder.txtTitle.getText().toString() + " For Show: " + artist);
+                        }
+
+                        if (!context.isFinishing()) {
+                            Toast.makeText(context, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                        }
+                        if (item.getTitle().toString().contentEquals("Add To Queue")) {
+                            queueList.add(0, artist, viewHolder.txtTitle.getText().toString());
+                            Log.d(TAG, "Adding Title: " + viewHolder.txtTitle.getText().toString() + " For Show: " + artist);
+                        }
+
+                        if (item.getTitle().toString().contentEquals("Remove From Queue")) {
+                            queueList.remove(artist, viewHolder.txtTitle.getText().toString());
                             Log.d(TAG, "Deleting Title: " + viewHolder.txtTitle.getText().toString() + " For Show: " + artist);
                         }
 
@@ -745,8 +970,8 @@ public class CustomList extends ArrayAdapter<String> {
 
                         final SelectActivity selectActivity = (SelectActivity) context;
 
-                        Runnable run = new Runnable(){
-                            public void run(){
+                        Runnable run = new Runnable() {
+                            public void run() {
                                 selectActivity.updateAdapters();
                                 notifyDataSetInvalidated();
                             }
@@ -764,6 +989,19 @@ public class CustomList extends ArrayAdapter<String> {
         return view;
     }
 
+    private String getRawFileName(String mediaFile)
+    {
+        if (mediaFile == null)
+        {
+            return null;
+        }
+        String webAddress = CurrentArtist.getInstance().getArtistUrl();
+        // Log.d(TAG, "mediaFile: " + mediaFile);
+        String modifiedName = mediaFile.replace(webAddress,"");
+       //  Log.d(TAG, "Raw File Name: " + modifiedName);
+        return modifiedName;
+    }
+
     private boolean isExternalStorage() {
         boolean mExternalStorageAvailable;
         boolean mExternalStorageWriteable;
@@ -777,22 +1015,19 @@ public class CustomList extends ArrayAdapter<String> {
             // We can read and write the media
             mExternalStorageAvailable = true;
             mExternalStorageWriteable = true;
-        }
-        else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+        } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
             // We can only read the media
             // mExternalStorageAvailable = true;
             mExternalStorageAvailable = true;
             mExternalStorageWriteable = false;
-        }
-        else {
+        } else {
             // Something else is wrong. It may be one of many other states, but all we need
             //  to know is we can neither read nor write
             mExternalStorageAvailable = false;
             mExternalStorageWriteable = false;
         }
 
-        if (res != PackageManager.PERMISSION_GRANTED)
-        {
+        if (res != PackageManager.PERMISSION_GRANTED) {
             mExternalStorageAvailable = false;
             mExternalStorageWriteable = false;
         }
@@ -804,8 +1039,7 @@ public class CustomList extends ArrayAdapter<String> {
         return mExternalStorageAvailable;
     }
 
-    public void cleanUp(Activity context)
-    {
+    public void cleanUp(Activity context) {
         context.unregisterReceiver(receiver);
         db.close();
     }

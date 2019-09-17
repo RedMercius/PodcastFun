@@ -6,82 +6,140 @@
   ~
   -->
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerInParent="true"
+    android:clickable="false"
     tools:context="com.RuffinApps.johnnie.oldtimeradio.MainActivity">
+
+    <Button
+        android:id="@+id/comedyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/category_comedy"
+        android:textSize="10pt"
+        android:contentDescription="@string/category_comedy"
+        app:layout_constraintBottom_toTopOf="@+id/barrier2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.432"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toTopOf="@+id/guideline5"
+        app:layout_constraintVertical_bias="0.273" />
+
+    <Button
+        android:id="@+id/scifiButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/category_scifi"
+        android:textSize="10pt"
+        android:contentDescription="@string/category_scifi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.451"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.472" />
+
+    <Button
+        android:id="@+id/thrillerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/category_thriller"
+        android:textSize="10pt"
+        android:contentDescription="@string/category_thriller"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/barrier"
+        app:layout_constraintHorizontal_bias="0.408"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toTopOf="@+id/guideline5"
+        app:layout_constraintVertical_bias="0.64" />
+
+    <Button
+        android:id="@+id/westernButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/category_western"
+        android:textSize="10pt"
+        android:contentDescription="@string/category_western"
+        app:layout_constraintBottom_toTopOf="@+id/barrier2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.405"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toTopOf="@+id/guideline5"
+        app:layout_constraintVertical_bias="0.821" />
 
     <TextView
         android:id="@+id/txtcat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="@string/title_category"
         android:textColor="@color/black"
-        android:textSize="8pt"
+        android:textSize="15pt"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="24dp" />
+        app:layout_constraintVertical_bias="0.119" />
 
-    <Button
-        android:id="@+id/comedyButton"
-        android:layout_width="110dp"
-        android:layout_height="32dp"
-        android:text="@string/category_comedy"
-        android:textSize="4pt"
-        tools:layout_editor_absoluteX="45dp"
-        tools:layout_editor_absoluteY="41dp" />
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left" />
 
-    <Button
-        android:id="@+id/scifiButton"
-        android:layout_width="110dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/category_scifi"
-        android:textSize="4pt"
-        app:layout_constraintBottom_toTopOf="@+id/thrillerButton"
-        tools:layout_editor_absoluteX="45dp" />
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top" />
 
-    <Button
-        android:id="@+id/thrillerButton"
-        android:layout_width="112dp"
-        android:layout_height="36dp"
-        android:text="@string/category_thriller"
-        android:textSize="4pt"
-        tools:layout_editor_absoluteX="45dp"
-        tools:layout_editor_absoluteY="115dp" />
+    <androidx.constraintlayout.widget.Constraints
+        android:id="@+id/constraints2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/westernButton"
-        android:layout_width="107dp"
-        android:layout_height="32dp"
-        android:text="@string/category_western"
-        android:textSize="4pt"
-        tools:layout_editor_absoluteX="47dp"
-        tools:layout_editor_absoluteY="151dp" />
+    <androidx.constraintlayout.widget.Constraints
+        android:id="@+id/constraints3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="20dp" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
+        app:layout_constraintGuide_begin="20dp" />
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="20dp" />
 
-</android.support.constraint.ConstraintLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,30 +6,40 @@
   -->
 
 <resources>
-    <string name="app_name">Johnnie\'s Old Time Radio</string>
-
+    <string name="app_name">Johnnie\'s Old time Radio</string>
     <string name="hello_world">Hello world! Johnnie Loves you!</string>
+    <string name="play_image">Play Image</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_select">Burns&amp;Allen</string>
     <string name="action_search">Search</string>
     <string name="action_compose">Compose</string>
-    <string name="play_button">Play Button</string>
-    <string name="rewind_button">Rewind Button</string>
-    <string name="forward_button">Forward Button</string>
-    <string name="stop_button">Stop Button</string>
-    <string name="close_button">Close Button</string>
-    <string name="delete_button">Delete Button</string>
-    <string name="download_button">Download Button</string>
-    <string name="menu_button">Menu Button</string>
+    <string name="play_button">Play</string>
+    <string name="rewind_button">Rewind</string>
+    <string name="forward_button">Forward</string>
+    <string name="stop_button">Stop</string>
+    <string name="close_button">Close</string>
+    <string name="delete_button">Delete</string>
+    <string name="download_button">Download</string>
+    <string name="queue_button">Queue</string>
+    <string name="menu_button">Menu</string>
     <string name="title_activity_download">Download</string>
-    <string name="title_activity_media_player">Media Player</string>
+    <string name="title_activity_media_player">Johnnie\'s Old Time Radio Player</string>
+    <string name="download_fail">Failed to download file. Please try again.</string>
+    <string name="play_menu">Play Menu</string>
+    <string name="add_to_queue">Add To Queue</string>
+    <string name="remove_from_queue">Remove From Queue</string>
+    <string name="seek_bar">Seek Bar</string>
+    <string name="title_bar">Show Title</string>
+    <string name="duration_bar">Show Duration</string>
+    <string name="pos_bar">Current Position</string>
+
 
     <string name="title_activity_play">Play</string>
     <string name="pause">Pause</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="title_category">Choose A Category</string>
-    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_button">Dummy</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="downloading">Downloading....</string>
     <string name="no_internet_stream">No Internet Connection Detected. Cannot Stream Media.</string>
@@ -49,6 +59,7 @@
     <string name="category_thriller">Thriller</string>
     <string name="category_horror">Horror</string>
     <string name="category_western">Western</string>
+    <string name="New_Addition">  NEW!!</string>
     <string name="title_activity_comedy">Comedy</string>
     <string name="title_activity_sci_fi">SciFi</string>
     <string name="title_activity_thriller">Thriller</string>
@@ -56,8 +67,8 @@
     <string name="title_activity_western">Western</string>
 
     // Menus
-    <string name="mark_as_played">Mark As Played</string>
-    <string name="mark_as_unplayed">Mark As Not Played</string>
+    <string name="mark_as_played">Mark as Played</string>
+    <string name="mark_as_unplayed">Mark as Not Played</string>
 
     // Comedy
     <string name="BurnsAndAllenImage">Burns And Allen</string>
@@ -68,11 +79,16 @@
     <string name="BobHopeImage">Bob Hope</string>
     <string name="OurMissBrooksImage">Our Miss Brooks</string>
     <string name="FatherKnowsBestImage">Father Knows Best</string>
+    <string name="OzzieAndHarrietImage">Ozzie And Harriet</string>
+    <string name="LifeOfRileyImage">The Life Of Riley</string>
 
     // Science Fiction
 
     <string name="XMinus1">XMinus1</string>
     <string name="InnerSactum">The Inner Sanctum</string>
+    <string name="FlashGordon">Flash Gordon</string>
+    <string name="SciFiRadio">SciFi Radio</string>
+    <string name="TheGreenHornet">The Green Hornet</string>
 
     // Thriller
 
@@ -81,6 +97,18 @@
     <string name="NightBeat">Night Beat</string>
     <string name="Speed">Speed Gibson Of The International Secret Police</string>
     <string name="TheWhistler">The Whistler</string>
+    <string name="AdventuresByMorse">Adventures By Morse</string>
+    <string name="AdventuresofDickCole">Adventures of Dick Cole</string>
+    <string name="Blondie">Blondie</string>
+    <string name="BoldVenture">Bold Venture</string>
+    <string name="BostonBlackie">Boston Blackie</string>
+    <string name="CBSRadio">CBS Radio Mystery Theater</string>
+    <string name="DangerousAssignment">Dangerous Assignment</string>
+    <string name="DuffysTavern">Duffys Tavern</string>
+    <string name="MrAndMrsNorth">Mr And Mrs North</string>
+    <string name="QuietPlease">Quiet Please</string>
+    <string name="Suspense">Suspense</string>
+    <string name="HarryLime">The Lives of Harry Lime</string>
 
     // Western
 
@@ -88,5 +116,5 @@
     <string name="FtLaramie">Fort Laramie</string>
     <string name="LoneRanger">The Long Ranger</string>
     <string name="PatO">Pat O\'Daniel and His Hillbillies</string>
-
+    <string name="HaveGunWillTravel">Have Gun Will Travel</string>
 </resources>

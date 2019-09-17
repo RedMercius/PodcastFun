@@ -1,3 +1,4 @@
+package com.RuffinApps.johnnie.oldtimeradio;
 /*
  * Copyright 2015 © Johnnie Ruffin
  *
@@ -5,27 +6,16 @@
  *
  */
 
-package com.RuffinApps.johnnie.oldtimeradio;
-
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Handler;
-import android.os.PowerManager;
-import android.support.annotation.NonNull;
-import android.support.v4.media.MediaBrowserCompat;
-import android.support.v4.media.MediaMetadataCompat;
-import android.support.v4.media.session.MediaControllerCompat;
-import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -35,8 +25,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
 import java.io.IOException;
-import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener,
@@ -88,7 +79,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         mute,
         menu,
         play2
-    };
+    }
 
     Handler seekHandler = new Handler();
 
@@ -98,6 +89,10 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
         if (this.mp == null) {
             this.mp = new MediaPlayer();
+        }
+        // finish playing if play is already in progress for the next song to start.
+        if (mp.isPlaying()) {
+            cleanup();
         }
 
         this.haltRun = false;
@@ -116,6 +111,8 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
         Bundle extra = getIntent().getExtras();
         mediaName = extra.getString("MediaTitle");
+        mediaName = getRawFileName(mediaName);
+        Log.d(TAG, "Media Title: " + mediaName);
         artist = CurrentArtist.getInstance().getCurrentArtist();
         title = extra.getString("Title");
 
@@ -126,20 +123,20 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         iconControl = new ImageControl();
         iconImage = iconControl.getImageButtonList();
 
-        playPic = (ImageView) findViewById(R.id.fullscreen_content);
-        playButton = (ImageButton) findViewById(R.id.play_button);
+        playPic = findViewById(R.id.fullscreen_content);
+        playButton = findViewById(R.id.play_button);
         playButton.setImageResource(iconImage[buttonPos.pause.ordinal()]);
 
-        rewindButton = (ImageButton) findViewById(R.id.rewind_button);
+        rewindButton = findViewById(R.id.rewind_button);
         rewindButton.setImageResource(iconImage[buttonPos.start.ordinal()]);
 
-        forwardButton = (ImageButton) findViewById(R.id.forward_button);
+        forwardButton = findViewById(R.id.forward_button);
         forwardButton.setImageResource(iconImage[buttonPos.end.ordinal()]);
 
-        sb = (SeekBar) findViewById(R.id.seekBar);
-        titleLine = (TextView) findViewById(R.id.txtTitle);
-        curPos = (TextView) findViewById(R.id.txtCurPos);
-        duration = (TextView) findViewById(R.id.duration);
+        sb = findViewById(R.id.seekBar);
+        titleLine = findViewById(R.id.txtTitle);
+        curPos = findViewById(R.id.txtCurPos);
+        duration = findViewById(R.id.duration);
 
         playButton.setOnClickListener(new View.OnClickListener() {
 
@@ -150,11 +147,14 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                     playButton.setImageResource(iconImage[buttonPos.play.ordinal()]);
                     mp.pause();
                 } else {
+                    if(!requestAudioFocus())
+                    {
+                        return;
+                    }
                     playButton.setImageResource(iconImage[buttonPos.pause.ordinal()]);
                     mp.seekTo(mp.getCurrentPosition());
                     mp.start();
                 }
-
             }
         });
 
@@ -162,7 +162,10 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
             @Override
             public void onClick(View v) {
-
+                if(!requestAudioFocus())
+                {
+                    return;
+                }
                 mp.seekTo((mp.getCurrentPosition() - 15000));
                 mp.start();
             }
@@ -172,7 +175,10 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
             @Override
             public void onClick(View v) {
-
+                if(!requestAudioFocus())
+                {
+                    return;
+                }
                 mp.seekTo((mp.getCurrentPosition() + 15000));
                 mp.start();
             }
@@ -230,12 +236,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             case AudioManager.AUDIOFOCUS_LOSS:
                 Log.d(TAG, "AUDIOFOCUS_LOSS");
                 try {
-                    cleanup();
+                    playButton.setImageResource(iconImage[0]);
+                    mp.pause();
                 } catch (IllegalStateException e) {
                     Log.e(TAG, "Illegal State Exception: " + e);
                 }
-                //cleanup();
-                // Stop or pause depending on your need
                 break;
         }
     }
@@ -245,7 +250,6 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         Intent i = new Intent(this, SelectActivity.class);
         i.putExtra("Selection", artist);
         this.startActivity(i);
-        cleanup();
         return true;
     }
 
@@ -253,100 +257,298 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
         switch (artist) {
             case "Burns And Allen": {
                 playPic.setImageResource(R.mipmap.burnsandallen);
+                setImageId("burnsandallen");
                 break;
             }
 
             case "Fibber McGee And Molly": {
                 playPic.setImageResource(R.mipmap.fibber_and_molly_);
+                setImageId("fibber_and_molly_");
                 break;
             }
 
             case "Martin And Lewis": {
                 playPic.setImageResource(R.mipmap.lewis_and_martin);
+                setImageId("lewis_and_martin");
                 break;
             }
 
             case "The Great GilderSleeves": {
                 playPic.setImageResource(R.mipmap.greatgildersleeve);
+                setImageId("greatgildersleeve");
                 break;
             }
 
             case "XMinus1": {
-
                 playPic.setImageResource(R.mipmap.xminusone);
+                setImageId("xminusone");
                 break;
             }
 
             case "Inner Sanctum": {
                 playPic.setImageResource(R.mipmap.innersanctum0);
+                setImageId("innersanctum0");
                 break;
             }
 
             case "Dimension X": {
                 playPic.setImageResource(R.mipmap.dimension_x);
+                setImageId("dimension_x");
                 break;
             }
 
             case "Night Beat": {
                 playPic.setImageResource(R.mipmap.nightbeat);
+                setImageId("nightbeat");
                 break;
             }
 
-            case "Speed": {
+            case "Speed Gibson": {
                 playPic.setImageResource(R.mipmap.sgimage);
+                setImageId("sgimage");
                 break;
             }
 
             case "The Whistler": {
                 playPic.setImageResource(R.mipmap.thewhistler);
+                setImageId("thewhistler");
                 break;
             }
 
             case "Jack Benny": {
                 playPic.setImageResource(R.mipmap.jackbenny_fixed);
+                setImageId("jackbenny_fixed");
                 break;
             }
 
             case "Bob Hope": {
                 playPic.setImageResource(R.mipmap.bob_hope_1950_0_fixed_0);
+                setImageId("bob_hope_1950_0_fixed_0");
                 break;
             }
 
             case "Hopalong Cassidy": {
                 playPic.setImageResource(R.mipmap.hopalongcassidy);
+                setImageId("hopalongcassidy");
                 break;
             }
 
             case "Fort Laramie": {
                 playPic.setImageResource(R.mipmap.ftlaramie);
+                setImageId("ftlaramie");
                 break;
             }
 
             case "Our Miss Brooks": {
                 playPic.setImageResource(R.mipmap.ourmissbrooks);
+                setImageId("ourmissbrooks");
                 break;
             }
 
             case "Father Knows Best": {
                 playPic.setImageResource(R.mipmap.fatherknowsbest);
+                setImageId("fatherknowsbest");
                 break;
             }
 
             case "Lone Ranger": {
                 playPic.setImageResource(R.mipmap.loneranger);
+                setImageId("loneranger");
                 break;
             }
 
             case "Pat O": {
                 playPic.setImageResource(R.mipmap.pato);
+                setImageId("pato");
+                break;
+            }
+
+            case "Ozzie And Harriet": {
+                playPic.setImageResource(R.mipmap.ozzieandharriet);
+                setImageId("ozzieandharriet");
+                break;
+            }
+
+            case "The Life Of Riley": {
+                playPic.setImageResource(R.mipmap.lifeofriley);
+                setImageId("lifeofriley");
+                break;
+            }
+
+            case "Flash Gordon": {
+                playPic.setImageResource(R.mipmap.flashgordon);
+                setImageId("flashgordon");
+                break;
+            }
+
+            case "SciFi Radio": {
+                playPic.setImageResource(R.mipmap.scifiradio);
+                setImageId("scifiradio");
+                break;
+            }
+
+            case "The Green Hornet": {
+                playPic.setImageResource(R.mipmap.greenhornet);
+                setImageId("greenhornet");
+                break;
+            }
+
+            case "Adventures By Morse": {
+                playPic.setImageResource(R.mipmap.adbm);
+                setImageId("adbm");
+                break;
+            }
+
+            case "Adventures of Dick Cole": {
+                playPic.setImageResource(R.mipmap.adc);
+                setImageId("adc");
+                break;
+            }
+
+            case "Blondie": {
+                playPic.setImageResource(R.mipmap.blondie);
+                setImageId("blondie");
+                break;
+            }
+
+            case "Bold Venture": {
+                playPic.setImageResource(R.mipmap.boldventure);
+                setImageId("boldventure");
+                break;
+            }
+
+            case "Boston Blackie": {
+                playPic.setImageResource(R.mipmap.bostonblackie);
+                setImageId("bostonblackie");
+                break;
+            }
+
+            case "CBS Radio Mystery Theater": {
+                playPic.setImageResource(R.mipmap.cbsradio);
+                setImageId("cbsradio");
+                break;
+            }
+
+            case "Dangerous Assignment": {
+                playPic.setImageResource(R.mipmap.dangerousassignment);
+                setImageId("dangerousassignment");
+                break;
+            }
+
+            case "Duffys Tavern": {
+                playPic.setImageResource(R.mipmap.duffystavern);
+                setImageId("duffystavern");
+                break;
+            }
+
+            case "Mr And Mrs North": {
+                playPic.setImageResource(R.mipmap.mrmrsnorth);
+                setImageId("mrmrsnorth");
+                break;
+            }
+
+            case "Quiet Please": {
+                playPic.setImageResource(R.mipmap.quietplease);
+                setImageId("quietplease");
+                break;
+            }
+
+            case "Suspense": {
+                playPic.setImageResource(R.mipmap.suspense);
+                setImageId("suspense");
+                break;
+            }
+
+            case "The Lives of Harry Lime": {
+                playPic.setImageResource(R.mipmap.harrylime);
+                setImageId("harrylime");
+                break;
+            }
+
+            case "Have Gun Will Travel": {
+                playPic.setImageResource(R.mipmap.havegun);
+                setImageId("havegun");
                 break;
             }
 
             default: {
                 playPic.setImageResource(R.mipmap.burnsandallen);
+                setImageId("burnsandallen");
                 break;
             }
         }
+    }
+
+    private int setImageId(String imageName)
+    {
+        //to retrieve image in res/drawable and set image in ImageView
+        int resID = getResources().getIdentifier(imageName, "mipmap", "com.RuffinApps.johnnie.oldtimeradio");
+        CurrentArtist.getInstance().setCurrentImage(resID);
+        return resID;
+    }
+
+    private boolean requestAudioFocus()
+    {
+        boolean granted = true;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.P ) {
+            mPlaybackAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setLegacyStreamType(AudioManager.STREAM_MUSIC)
+                    .build();
+
+            mFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                    .setAudioAttributes(mPlaybackAttributes)
+                    .setAcceptsDelayedFocusGain(true)
+                    .setWillPauseWhenDucked(true)
+                    .setOnAudioFocusChangeListener(PlayActivity.this)
+                    .build();
+
+            mResult = am.requestAudioFocus(mFocusRequest);
+        }
+
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+
+            mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
+                    AudioManager.AUDIOFOCUS_GAIN);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+        {
+            Log.d(TAG, "28 API or more.");
+            mPlaybackAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setLegacyStreamType(AudioManager.STREAM_MUSIC)
+                    .build();
+
+            mFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                    .setAudioAttributes(mPlaybackAttributes)
+                    .setAcceptsDelayedFocusGain(true)
+                    .setWillPauseWhenDucked(true)
+                    .setOnAudioFocusChangeListener(PlayActivity.this)
+                    .build();
+
+            mResult = am.requestAudioFocus(mFocusRequest);
+        }
+
+        if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            granted = false;
+        }
+
+        return granted;
+    }
+
+    private String getRawFileName(String mediaFile)
+    {
+        if (mediaFile == null)
+        {
+            return null;
+        }
+        String webAddress = CurrentArtist.getInstance().getArtistUrl();
+        String modifiedName = mediaFile.replace(webAddress,"");
+        Log.d(TAG, "Raw File Name: " + modifiedName);
+        return modifiedName;
     }
 
     private void checkForMedia() {
@@ -355,37 +557,13 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
         if (isItInRaw) {
             try {
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.P ) {
-                mPlaybackAttributes = new AudioAttributes.Builder()
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                        .setLegacyStreamType(AudioManager.STREAM_MUSIC)
-                        .build();
-
-                    mFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-                            .setAudioAttributes(mPlaybackAttributes)
-                            .setAcceptsDelayedFocusGain(true)
-                            .setWillPauseWhenDucked(true)
-                            .setOnAudioFocusChangeListener(PlayActivity.this)
-                            .build();
-
-                    mResult = am.requestAudioFocus(mFocusRequest);
-                }
-
-                if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-
-                    mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
-                            AudioManager.AUDIOFOCUS_GAIN);
-                }
-
-                if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                if(!requestAudioFocus())
+                {
                     return;
                 }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-                {
-                    Log.d(TAG, "28 API or more.");
-                }
                 mc.callMediaFromRaw(mediaName);
+                CurrentArtist.getInstance().setCurrentFile(mediaName);
+                CurrentArtist.getInstance().setCurrentTitle(title);
             } catch (IOException e) {
                 Log.e(TAG, "checkForMedia_IOException:  " + e);
             }
@@ -397,42 +575,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 // Request focus for music stream and pass AudioManager.OnAudioFocusChangeListener
                 // implementation reference
                 // wifiLock.acquire();
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    mPlaybackAttributes = new AudioAttributes.Builder()
-                            .setUsage(AudioAttributes.USAGE_MEDIA)
-                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                            .build();
-
-                    mFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-                            .setAudioAttributes(mPlaybackAttributes)
-                            .setAcceptsDelayedFocusGain(true)
-                            .setWillPauseWhenDucked(true)
-                            .setOnAudioFocusChangeListener(PlayActivity.this, mmyHandler)
-                            .build();
-                    mp.setAudioAttributes(mPlaybackAttributes);
-
-                    mResult = am.requestAudioFocus(mFocusRequest);
-                    Log.d(TAG, "SDK higher!!");
-                }
-
-                if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-
-                    mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
-                            AudioManager.AUDIOFOCUS_GAIN);
-                    Log.d(TAG, "SDK is lower!!");
-                }
-                if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                    Log.d(TAG, "Focus not given!!");
+                if(!requestAudioFocus())
+                {
                     return;
                 }
-                Log.d(TAG, "Focus given!!");
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-                {
-                    Log.d(TAG, "28 API or more.");
-                }
                 mc.callMediaFromInternet(mediaName);
-
                 titleLine.setText(title);
                 titleLine.setVisibility(View.VISIBLE);
             } catch (IOException e) {
@@ -446,29 +593,8 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
             try {
                 // Request focus for music stream and pass AudioManager.OnAudioFocusChangeListener
                 // implementation reference
-
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    mPlaybackAttributes = new AudioAttributes.Builder()
-                            .setUsage(AudioAttributes.USAGE_MEDIA)
-                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                            .build();
-
-                    mFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-                            .setAudioAttributes(mPlaybackAttributes)
-                            .setAcceptsDelayedFocusGain(true)
-                            .setWillPauseWhenDucked(true)
-                            .setOnAudioFocusChangeListener(PlayActivity.this)
-                            .build();
-
-                    mResult = am.requestAudioFocus(mFocusRequest);
-                }
-
-                if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-
-                    mResult = am.requestAudioFocus(PlayActivity.this, AudioManager.STREAM_MUSIC,
-                            AudioManager.AUDIOFOCUS_GAIN);
-                }
-                if (mResult != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                if(!requestAudioFocus())
+                {
                     return;
                 }
                 mc.callMediaFromExternalDir(mediaName);
@@ -484,6 +610,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
     public void enableProgress() {
         sb.setMax(mp.getDuration());
         int durationInMil = (mp.getDuration());
+        CurrentArtist.getInstance().setCurrentDuration(durationInMil);
         String myDuration = "00:00:00";
 
         try {
@@ -530,7 +657,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
     public String getDurationInFormat(int duration) {
         String durationInFormat;
-        durationInFormat = String.format("%02d:%02d:%02d",
+        durationInFormat = String.format(Locale.ENGLISH, "%02d:%02d:%02d",
                 TimeUnit.MILLISECONDS.toHours(duration),
                 TimeUnit.MILLISECONDS.toMinutes(duration) -
                         TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(duration)),
@@ -542,7 +669,7 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-       // mp.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+        // mp.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
         mp.start();
         seekHandler.removeCallbacks(run);
 
@@ -591,98 +718,5 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnPre
                 break;
         }
         return handled || super.onKeyDown(keyCode, event);
-    }
-
-    /*@Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Log.e(TAG, "KeyCode_Back!");
-            cleanup();
-            return true;
-        }
-
-        return super.onKeyDown(keyCode, event);
-    }*/
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    /**
-     * Customize the connection to our {@link android.support.v4.media.MediaBrowserServiceCompat}
-     * and implement our app specific desires.
-     */
-    private class MediaBrowserConnection extends MediaBrowserHelper {
-        private MediaBrowserConnection(Context context) {
-            super(context, JOTRPlaybackService.class);
-        }
-
-        @Override
-        protected void onConnected(@NonNull MediaControllerCompat mediaController) {
-            // mSeekBarAudio.setMediaController(mediaController);
-        }
-
-        @Override
-        protected void onChildrenLoaded(@NonNull String parentId,
-                                        @NonNull List<MediaBrowserCompat.MediaItem> children) {
-            super.onChildrenLoaded(parentId, children);
-
-            final MediaControllerCompat mediaController = getMediaController();
-
-            // Queue up all media items for this simple sample.
-            for (final MediaBrowserCompat.MediaItem mediaItem : children) {
-                mediaController.addQueueItem(mediaItem.getDescription());
-            }
-
-            // Call prepare now so pressing play just works.
-            mediaController.getTransportControls().prepare();
-        }
-    }
-
-    /**
-     * Implementation of the {@link MediaControllerCompat.Callback} methods we're interested in.
-     * <p>
-     * Here would also be where one could override
-     * {@code onQueueChanged(List<MediaSessionCompat.QueueItem> queue)} to get informed when items
-     * are added or removed from the queue. We don't do this here in order to keep the UI
-     * simple.
-     */
-    private class MediaBrowserListener extends MediaControllerCompat.Callback {
-        @Override
-        public void onPlaybackStateChanged(PlaybackStateCompat playbackState) {
-           /* mIsPlaying = playbackState != null &&
-                    playbackState.getState() == PlaybackStateCompat.STATE_PLAYING;
-            mMediaControlsImage.setPressed(mIsPlaying);*/
-        }
-
-        @Override
-        public void onMetadataChanged(MediaMetadataCompat mediaMetadata) {
-            if (mediaMetadata == null) {
-                return;
-            }
-          /*  mTitleTextView.setText(
-                    mediaMetadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE));
-            mArtistTextView.setText(
-                    mediaMetadata.getString(MediaMetadataCompat.METADATA_KEY_ARTIST));
-            mAlbumArt.setImageBitmap(MusicLibrary.getAlbumBitmap(
-                    this,
-                    mediaMetadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)));*/
-        }
-
-        @Override
-        public void onSessionDestroyed() {
-            super.onSessionDestroyed();
-        }
-
-        @Override
-        public void onQueueChanged(List<MediaSessionCompat.QueueItem> queue) {
-            super.onQueueChanged(queue);
-        }
     }
 }

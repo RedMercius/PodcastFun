@@ -1,11 +1,10 @@
+package com.RuffinApps.johnnie.oldtimeradio;
 /*
  * Copyright 2015 © Johnnie Ruffin
  *
  * Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *
  */
-
-package com.RuffinApps.johnnie.oldtimeradio;
 
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -41,9 +40,9 @@ public class DownloadControl {
         webPath = "http://www.JohnnieRuffin.com/audio/";
     }
 
-    public void setWebPath(String url)
+    public void setWebPath()
     {
-        webPath = url;
+        webPath = CurrentArtist.getInstance().getArtistUrl();
     }
 
     public boolean deleteMedia(String filename)
@@ -60,11 +59,12 @@ public class DownloadControl {
 
     public long getDlId()
     {
-    return enqueue;
+        return enqueue;
     }
 
     public void downloadFile(String filename) {
 
+        setWebPath();
         String customfilePath =(webPath + filename);
         dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         Request request = new Request(

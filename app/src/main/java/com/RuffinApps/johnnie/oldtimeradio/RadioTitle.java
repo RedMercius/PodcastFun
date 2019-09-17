@@ -1,11 +1,10 @@
+package com.RuffinApps.johnnie.oldtimeradio;
 /*
  * Copyright 2015 © Johnnie Ruffin
  *
  * Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *
  */
-
-package com.RuffinApps.johnnie.oldtimeradio;
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -17,8 +16,9 @@ package com.RuffinApps.johnnie.oldtimeradio;
 //
 ////////////////////////////////////////////////////////////////////////////
 
+import android.content.Context;
 import android.os.StrictMode;
-
+import android.util.Log;
 import java.util.HashMap;
 
 public class RadioTitle {
@@ -26,4155 +26,998 @@ public class RadioTitle {
     // private String TAG = "RadioTitle: ";
 
     // comedy maps
-    private HashMap<String, String> baMap = new HashMap<>();
-    private HashMap<String, String> fbMap = new HashMap<>();
-    private HashMap<String, String> mlMap = new HashMap<>();
-    private HashMap<String, String> glMap = new HashMap<>();
-    private HashMap<String, String> jbMap = new HashMap<>();
-    private HashMap<String, String> bhMap = new HashMap<>();
-    private HashMap<String, String> mbMap = new HashMap<>();
-    private HashMap<String, String> fkMap = new HashMap<>();
+    private HashMap<String, String> baMap = null;
+    private HashMap<String, String> fbMap = null;
+    private HashMap<String, String> mlMap = null;
+    private HashMap<String, String> glMap = null;
+    private HashMap<String, String> jbMap = null;
+    private HashMap<String, String> bhMap = null;
+    private HashMap<String, String> mbMap = null;
+    private HashMap<String, String> fkMap = null;
+    private HashMap<String, String> ohMap = null;
+    private HashMap<String, String> orMap = null;
 
     // Sci-fi maps
-    private HashMap<String, String> xmMap = new HashMap<>();
-    private HashMap<String, String> isMap = new HashMap<>();
-    private HashMap<String, String> dxMap = new HashMap<>();
+    private HashMap<String, String> xmMap = null;
+    private HashMap<String, String> isMap = null;
+    private HashMap<String, String> dxMap = null;
+    private HashMap<String, String> fgMap = null;
+    private HashMap<String, String> srMap = null;
+    private HashMap<String, String> ghMap = null;
 
     // Thriller Maps
-    private HashMap<String, String> nbMap = new HashMap<>();
-    private HashMap<String, String> sgMap = new HashMap<>();
-    private HashMap<String, String> wsMap = new HashMap<>();
+    private HashMap<String, String> nbMap = null;
+    private HashMap<String, String> sgMap = null;
+    private HashMap<String, String> wsMap = null;
+    private HashMap<String, String> abmMap = null;
+    private HashMap<String, String> adcMap = null;
+    private HashMap<String, String> blMap = null;
+    private HashMap<String, String> bvMap = null;
+    private HashMap<String, String> bbMap = null;
+    private HashMap<String, String> cbsMap = null;
+    private HashMap<String, String> daMap = null;
+    private HashMap<String, String> dtMap = null;
+    private HashMap<String, String> mmnMap = null;
+    private HashMap<String, String> qpMap = null;
+    private HashMap<String, String> ssMap = null;
+    private HashMap<String, String> hlMap = null;
 
     // Western Maps
-    private HashMap<String, String> hcMap = new HashMap<>();
-    private HashMap<String, String> flMap = new HashMap<>();
-    private HashMap<String, String> lrMap = new HashMap<>();
-    private HashMap<String, String> poMap = new HashMap<>();
+    private HashMap<String, String> hcMap = null;
+    private HashMap<String, String> flMap = null;
+    private HashMap<String, String> lrMap = null;
+    private HashMap<String, String> poMap = null;
+    private HashMap<String, String> hgMap = null;
+    
+    private String TAG = "RadioTitle";
+    
+    private JSONNav jnav = null;
 
-    private final String[] burnsAllen = {
-            "baarehusbandsnecessary.mp3",
-            "baauntclarakangaroo.mp3",
-            "babeatingthe1c2.mp3",
-            "babeautyshop.mp3",
-            "bablackmailingjackbenny.mp3",
-            "bablockhead.mp3",
-            "baelsietrellafaslssuinggeorge.mp3",
-            "baemilyvanderlipsboy.mp3",
-            "baeveningwithgeorgeburns.mp3",
-            "bageorgeattractscatsincpoorsound.mp3",
-            "bageorgegoestocollegegstbenny.mp3",
-            "bageorgehasacold.mp3",
-            "bageorgelandsmovierole.mp3",
-            "bageorgethebutler.mp3",
-            "bagettingfranksinatratoleavetown.mp3",
-            "bagovernmentjobs.mp3",
-            "bagraceiemurdermystery.mp3",
-            "bagracewinswisconsin.mp3",
-            "bagracieconsgeorge.mp3",
-            "bagracieislatefortheshow.mp3",
-            "bagraciejoinsthegirlscouts.mp3",
-            "bagracieplayssadiethompson.mp3",
-            "bagracietalkswmisspringlepatobrien.mp3",
-            "bagraciewantsgeorgetobecomeadoctor.mp3",
-            "bagraciewantsgeorgetogoonjacksshow.mp3",
-            "bagrandpasbirthday.mp3",
-            "baharpomarxreporter.mp3",
-            "bahowjackbennybecamecheap.mp3",
-            "bamarriagemanual.mp3",
-            "barahrahinomaha.mp3",
-            "basantasworkshop.mp3",
-            "basocietywantsnewhats.mp3",
-            "basurprisepartyplatform.mp3",
-            "basweepingintooffice.mp3",
-            "batakinginaveteran.mp3",
-            "bavanderlipsonholiday.mp3",
-            "bawithsamspadedetective.mp3"
-    };
+    public String[] burnsAllenTitle = null;
+    public String[] burnsAllen = null;
+    public String[] fibberTitle = null;
+    public String[] fibber = null;
+    public String[] jackBennyTitle = null;
+    public String[] jackBenny = null;
+    public String[] gilderSleevesTitle = null;
+    public String[] gilderSleeves = null;
+    public String[] martinAndLewisTitle = null;
+    public String[] martinAndLewis = null;
+    public String[] bobHopeTitle = null;
+    public String[] bobHope = null;
+    public String[] missBrooksTitle = null;
+    public String[] missBrooks = null;
+    public String[] fatherKnowsBestTitle = null;
+    public String[] fatherKnowsBest = null;
+    public String[] ozzieAndHarrietTitle = null;
+    public String[] ozzieAndHarriet = null;
+    public String[] lifeOfRiley = null;
+    public String[] lifeOfRileyTitle = null;
+    public String[] PatO = null;
+    public String[] PatOTitle = null;
+    public String[] flashGordon = null;
+    public String[] flashGordonTitle = null;
+    public String[] xminusTitle = null;
+    public String[] xminus = null;
+    public String[] innerSanctumTitle = null;
+    public String[] innerSanctum = null;
+    public String[] dimensionXTitle = null;
+    public String[] dimensionX = null;
+    public String[] sciFiRadio = null;
+    public String[] sciFiRadioTitle = null;
+    public String[] greenHornet = null;
+    public String[] greenHornetTitle = null;
+    public String[] nightBeat = null;
+    public String[] nightBeatTitle = null;
+    public String[] speed = null;
+    public String[] speedTitle = null;
+    public String[] whistler = null;
+    public String[] whistlerTitle = null;
+    public String[] adventureByMorse = null;
+    public String[] adventureByMorseTitle = null;
+    public String[] adventureofDickCole = null;
+    public String[] adventureofDickColeTitle = null;
+    public String[] blondie = null;
+    public String[] blondieTitle = null;
+    public String[] boldVenture = null;
+    public String[] boldVentureTitle = null;
+    public String[] bostonBlackie = null;
+    public String[] bostonBlackieTitle = null;
+    public String[] cbsRadio = null;
+    public String[] cbsRadioTitle = null;
+    public String[] dangerousAssignment = null;
+    public String[] dangerousAssignmentTitle = null;
+    public String[] duffysTavern = null;
+    public String[] duffysTavernTitle = null;
+    public String[] mrAndMrsNorth = null;
+    public String[] mrAndMrsNorthTitle = null;
+    public String[] quietPlease = null;
+    public String[] quietPleaseTitle = null;
+    public String[] suspense = null;
+    public String[] suspenseTitle = null;
+    public String[] harryLime = null;
+    public String[] harryLimeTitle = null;
+    public String[] hopalong = null;
+    public String[] hopalongTitle = null;
+    public String[] fortLaramie = null;
+    public String[] ftLaramieTitle = null;
+    public String[] loneRanger = null;
+    public String[] loneRangerTitle = null;
+    public String[] HaveGun = null;
+    public String[] HaveGunTitle = null;
 
-    private final String[] burnsAllenTitle = {
-            "Are Husbands Necessary",
-            "Aunt Clara Kangaroo",
-            "Beating The 1c2",
-            "Beauty Shop",
-            "Blackmailing Jack Benny",
-            "Blockhead",
-            "Elsie Trellafasls Suing George",
-            "Emily Vanderlips Boy",
-            "Evening With George Burns",
-            "George Attracts Cats, inc",
-            "George Goes To College",
-            "George has a cold",
-            "George lands movie role",
-            "George the butler",
-            "Getting Frank Sinatra to leave town",
-            "Government jobs",
-            "Graceie Murder Mystery",
-            "Grace wins wisconsin",
-            "Gracie cons George",
-            "Gracie is late for the show",
-            "Gracie joins the girl scouts",
-            "Gracie Plays Sadie Thompson",
-            "Gracie talks w Miss Pringle Pat Obrien",
-            "Gracie wants George to become a doctor",
-            "Gracie wants George to goon Jacks show",
-            "Grandpas Birthday",
-            "Harpo Marx reporter",
-            "How Jack Benny Became Cheap",
-            "Marriage Manual",
-            "Rahrah in Omaha",
-            "Santas Workshop",
-            "Society wants new hats",
-            "Surprise Party Platform",
-            "Sweeping into office",
-            "Taking in a veteran",
-            "Vanderlipson Holiday",
-            "With Sam Spade Detective"
-    };
+    private boolean comedyLoaded = false;
+    private boolean thrillerLoaded = false;
+    private boolean scifiLoaded = false;
+    private boolean westernLoaded = false;
 
-    private final String[] fibber = {
-            "400102_Fibber_Builds_A_Doghouse.mp3",
-            "400109_Gildersleeves_Suit.mp3",
-            "400116_Fibbers_Car_Is_Stolen.mp3",
-            "400123_Radio_Quiz_Show.mp3",
-            "400130_Fibbers_Old_Suit.mp3",
-            "400206_Everyone_Is_Nice_To_Fibber.mp3",
-            "400213_Good_Luck_Egyptian_Ring.mp3",
-            "400220_To_Tell_The_Truth.mp3",
-            "400227_Fibber_Catches_A_Cold.mp3",
-            "400305_Cleaning_The_Hall_Closet.mp3",
-            "400312_Fibber_Takes_Molly_Out_To_Lunch.mp3",
-            "400319_Dog_License_Problem.mp3",
-            "400326_Fibber_Hires_A_Surveyor.mp3",
-            "400409_Returning_From_Hollywood.mp3",
-            "400416_Big_Ink_Stain_On_Carpet.mp3",
-            "400423_Proper_Picture_Hanging_Techniques.mp3",
-            "400430_Fibber_The_Director.mp3",
-            "400430_McGee_The_Stage_Director.mp3",
-            "400507_Caught_In_A_Suit_Of_Armor.mp3",
-            "400514_McGee_Sprays_Gildy_With_Garden_Hose.mp3",
-            "400521_McGeeGets_A_Job_In_A_Hardware_Store.mp3",
-            "400528_Circus_Comes_To_Town.mp3",
-            "400604_Spaghetti_Dinner.mp3",
-            "400611_Trying_To_Hang_Wallpaper.mp3",
-            "400618_Fibber_Models_A_Dress_For_Molly.mp3",
-            "400625_Fibber_Writes_Music_For_Meredith_Wilson.mp3",
-            "401001_Back_From_Vacation.mp3",
-            "401008_Fibber_Gives_Up_Cigars.mp3",
-            "401015_Missing_Screwdriver.mp3",
-            "401022_Gildersleeves_Diary.mp3",
-            "401029_Driving_To_The_Big_Football_Game.mp3",
-            "401105_Election_Day.mp3",
-            "401112_Fibbers_Black_Eye.mp3",
-            "401119_Visiting_Uncle_Dennis.mp3",
-            "401126_Uncle_Dennis_Visits.mp3",
-            "401203_Shoveling_Coal_From_Gildersleeves_Lawn.mp3",
-            "401210_Mailing_Christmas_Packages.mp3",
-            "401224_Gildys_Radio_Phonograph.mp3",
-            "401231_Fibber_Finds_A_Gold_Watch.mp3"
-        };
+    private RadioTitle() {}
 
-    private final String[] fibberTitle = {
-            "Fibber Builds A Doghouse",
-            "Gildersleeves Suit",
-            "Fibbers Car Is Stolen",
-            "Radio Quiz Show",
-            "Fibbers Old Suit",
-            "Everyone Is Nice To Fibber",
-            "Good Luck Egyptian Ring",
-            "To Tell The Truth",
-            "Fibber Catches A Cold",
-            "Cleaning The Hall Closet",
-            "Fibber Takes Molly Out To Lunch",
-            "Dog License Problem",
-            "Fibber Hires A Surveyor",
-            "Returning From Hollywood",
-            "Big Ink Stain On Carpet",
-            "Proper Picture Hanging Techniques",
-            "Fibber The Director",
-            "McGee The Stage Director",
-            "Caught In A Suit Of Armor",
-            "McGee Sprays Gildy With Garden Hose",
-            "McGee Gets A Job In A Hardware Store",
-            "Circus Comes To Town",
-            "Spaghetti Dinner",
-            "Trying To Hang Wallpaper",
-            "Fibber Models A Dress For Molly",
-            "Fibber Writes Music For Meredith Wilson",
-            "Back From Vacation",
-            "Fibber Gives Up Cigars",
-            "Missing Screwdriver",
-            "Gildersleeves Diary",
-            "Driving To The Big Football Game",
-            "Election Day",
-            "Fibbers Black Eye",
-            "Visiting Uncle Dennis",
-            "Uncle Dennis Visits",
-            "Shoveling Coal From Gildersleeves Lawn",
-            "Mailing Christmas Packages",
-            "Gildys Radio Phonograph",
-            "Fibber Finds A Gold Watch"
-    };
+    private static RadioTitle instance = null;
 
-    private final String[] gilderSleevesTitle = {
-                "Birdie Heiress",
-                "Gildy Invents a Water Filter",
-                "Audition Show",
-                "Gildy Arrives at Summerfield",
-                "The Cake",
-                "Leroys Paper Route",
-                "Marjories Girl Friend Visits",
-                "Hiccups",
-                "Investigate the City Jail",
-                "Pranks at School",
-                "A Visit from Oliver",
-                "Babysitting",
-                "Birdie Quits",
-                "Servicemen for Thanksgiving",
-                "Leroy Smokes a Cigar",
-                "The Canary Wont Sing",
-                "Cousin Octavia Visits",
-                "Selling the Iron Deer",
-                "Christmas Gift for Fibber McGee",
-                "Leroys New Dog",
-                "Gildy Goes on a Diet",
-                "Gildy Arrested as Car Thief",
-                "A New Bed for Marjorie",
-                "Matchmaker",
-                "Leroy Runs Away",
-                "Auto Mechanics",
-                "Selling the Drugstore",
-                "Fortune Teller",
-                "Ten Best Dressed",
-                "Gildys New Neighbors",
-                "Gildy Writes to Servicemen for Marjorie",
-                "Leroy Sells Flower Seeds",
-                "Gildys Goat Horace",
-                "Ship Christening",
-                "Mystery Voice",
-                "College Chum Visits",
-                "Dinner for Judge Hooker",
-                "The Sneezes",
-                "Gildy Produces a Play",
-                "Fathers Day Chair",
-                "Gildy is in Love with Amelia Hooker",
-                "Fishing Trip to Lake Hackmatack",
-                "Golf Tournament",
-                "Planting a Tree",
-                "First Cold Snap",
-                "Appointed Water Commissioner",
-                "Gildys First Day on the Job",
-                "A Pal to Leroy",
-                "Quiet Evening at Home",
-                "College Chums Son Visits",
-                "Thanksgiving Dinner",
-                "Attend the Theatre - Date with a Star",
-                "Attend the Theatre  better sound - no commls",
-                "Toothache",
-                "Christmas Program",
-                "Leroys Chemistry Set",
-                "Wanting to Marry Leila",
-                "Fibber McGee and Molly Visit",
-                "Womens Club Speaker",
-                "Sabotage",
-                "Fire Engine Committee",
-                "Leilas Sister",
-                "Income Tax Time",
-                "Springtime in Summerfield",
-                "Gildy Repairs His Car",
-                "Auto Accident with Judge Hooker",
-                "Spring Hike",
-                "Rabbits",
-                "Wedding List",
-                "Haunted House",
-                "Leroy Gets a Job",
-                "Memorial Day Parade",
-                "Wedding Shower for Leila",
-                "Gildy Plans Honeymoon",
-                "Wedding Day",
-                "End of Vacation at Grass Lake",
-                "War Bond Drive",
-                "Leila Returning",
-                "Leila Arrives Home",
-                "Old School Pal To Visit aka Royal Visit",
-                "Low Water Pressure",
-                "Halloween Party",
-                "The Pot Roast",
-                "Gildy Rejected by Eve Goodwin",
-                "Gildy in Hospital",
-                "Income Tax Returns",
-                "Eve and Gildy Get Together",
-                "Marjorie the Actress",
-                "Sleigh Ride",
-                "Gildy Wants to Run for Mayor",
-                "Campaign Photo",
-                "Campaign Officially Starts - Easter Show",
-                "Engaged",
-                "Campaign Gets Hot",
-                "Gildy Engaged to Eve but Kisses Leila",
-                "City Employees Picnic",
-                "Campaign Headquarters",
-                "Eves Mother Visits",
-                "Dinner for Eves Mother",
-                "Eves Mother Stays On",
-                "Election Day - Gildy Loses",
-                "Lonely Gildy",
-                "Water Commissioner Is Fired - Rain Maker",
-                "McGees Invention",
-                "Plastic Mouse Trap - Bankers Son",
-                "Gildy Sells His House",
-                "Boys Club",
-                "Gildy Looks for a Job",
-                "Important Phone Call",
-                "Gildy Back as Water Commissioner",
-                "Election Day - Bet",
-                "Spanish Dancing Teacher Miss Del Rey",
-                "Reception for Miss Del Rey",
-                "Reception for Miss Del Rey AFRS 65",
-                "Reception Aftermath",
-                "A Date With Miss Del Rey",
-                "Breach of Promise",
-                "Dodging a Process Server",
-                "Twas the Night Before Christmas",
-                "Big New Years Eve Party",
-                "Whos Dating Who",
-                "Engagement for the Defense",
-                "The Hockey Player",
-                "Visit by Aunt Hattie",
-                "Aunt Hattie Stays On",
-                "Hattie and Judge Hooker pre-show",
-                "Hattie and Judge Hooker",
-                "Chairman of Womens Committee",
-                "Leila Hears A Burglar AFRS",
-                "Old Flame Named Violet",
-                "Raising a Pig",
-                "Leroys Pet Pig Tiger",
-                "Leilas Party",
-                "New Neighbor - Bullard",
-                "Gildy Picks a Husband for Marjorie",
-                "Meet Craig Bullard",
-                "Unclaimed Savings Account - Buy Stock",
-                "Bessie Quits",
-                "New Secretary - Leila",
-                "An Evening with a Good Book",
-                "Bullards Have a Party",
-                "Going to Grass Lake",
-                "Leroys New Teacher",
-                "Leroy Suspended from School",
-                "Leila Returns Home",
-                "Marjorie the Ballerina",
-                "Raking Leaves - Craigs Party",
-                "Leroy Works off a Broken Vase",
-                "Lightfoot Visits Leila",
-                "Peaveys Wife Is Ill - Rumor",
-                "Helping Leroy with His Studies",
-                "Teaching Marjorie Domestic Arts",
-                "Falling out of the Jolly Boys",
-                "Big Football Game",
-                "Gildy Stuck with Opera Tickets",
-                "Gildy Head of Opera Committee",
-                "A Night at the Opera",
-                "Christmas Eve at Home",
-                "New Years Eve at Home",
-                "Ben Returns from the Navy",
-                "Ben Sells Life Insurance",
-                "Exposing a Phony Swami",
-                "Gildy and Leila Feel Their Age",
-                "Feud with the Bullards - Diplomat Gildy",
-                "Need a New Car",
-                "Leroy Has the Flu",
-                "Gildys New Hobby - Boat in a Bottle",
-                "State Water Inspector",
-                "Marjories Dance Date with Uncle Mort",
-                "Leroy and Craig Arrested",
-                "Gildy Traces Genealogy",
-                "Picnic Before Doomsday",
-                "Annual Dinner with Judge Hooker",
-                "Bank Robber Loose",
-                "Petition Against Trolley Car House",
-                "Leroy Wants a Pony",
-                "Gildy in a Rut - New Image",
-                "Leilas New Boy Friend",
-                "Leroy Learns to Dance - Party for Ethel",
-                "Flashback - Meets Leila Ransome",
-                "Flashback - Plays Cyrano Meet Eve",
-                "Flashback - Jolly Boys 4th of July Picnic",
-                "The Commissioner Turns off the Water",
-                "Commissioner Turns off the Water AFRS 063",
-                "Gildys New Spruce Scent - Leila Engaged",
-                "Leilas Wedding Invitations",
-                "Leila Leaves Town",
-                "Gildy Contemplates Early Retirement",
-                "Gildy Asks for a Raise",
-                "Real Estate Agent - Hooker as a Boarder",
-                "Pajama Party - Marjorie Gets Engaged",
-                "Smitten by an Unknown Beautiful Lady",
-                "Gildy Takes up The Great Books",
-                "Birdy Takes a Vacation",
-                "Jolly Boys Sponsor an Orphan",
-                "Leroy Afraid of a Bully",
-                "Leroy Wants a Motor Scooter",
-                "Christmas Caroling at Gildersleeves",
-                "Big New Years Costume Ball",
-                "Leila Back for a Visit - Gildy in Love",
-                "Jolly Boys Sleigh Ride - Judge Hooker",
-                "Dancing School",
-                "Marjories Hotrod Boyfriend",
-                "Magazine Salesman",
-                "Old School Friend Visits Gildy",
-                "Bessies Cousin Substitutes for Her",
-                "Getting Rid of Bessie",
-                "Marjorie Flipped over Crooner Larry Lake",
-                "Leroy and Craig Picked up Taking Lumber",
-                "Stuck with Water Dept Money over Night",
-                "First Day of Spring - New Piano Teacher",
-                "Evening with Miss Piper",
-                "Bird Watchers",
-                "The Whole World Is Watching",
-                "Leilas Party for Joanne",
-                "The Great Tchaikovsky Love Story",
-                "Leroy Excluded from Craigs Party",
-                "Leroy Excluded from Craigs Party AFRS",
-                "Peavey Disappears",
-                "Teachers Problems",
-                "Gildy Tries to Give up Smoking",
-                "Called in by the IRS",
-                "Gildy Tries to Renew Romance with Eve",
-                "Getting Everything Snug for Winter",
-                "In Trouble with Bessies Boy Friend",
-                "Teaching Leroy Borrowing and Finance",
-                "Beautiful Visitor at the Bullards",
-                "Marjories Baby Tending Assignment",
-                "Congressman Gildersleeve",
-                "Halloween Party",
-                "Hayride",
-                "Gildy Swindled on a Fur Coat",
-                "Leroy in School Play",
-                "Thanksgiving - Tom Sawyer Raft",
-                "Fiscal Report Due",
-                "Christmas Shopping",
-                "Water Commissioner Accused of Loafing",
-                "Leroys Christmas Dog",
-                "New Years Eve Parties",
-                "Anne Tuttle Is Back in Town",
-                "Gildy Encourages Marjories New Romance",
-                "School Board Election Gildy vs Hooker",
-                "License Plate Time - Barber Shop Trip",
-                "Acting Mayor",
-                "Getting Glasses",
-                "Leilas Cousin Adeline Fairchild Arrives",
-                "Gildy Thinks Adelines Stealing Birdie",
-                "Gildy Helps Girl-Shy Leroy",
-                "Gildy Considers Marriage",
-                "Adelines Beau Cecil - Duel",
-                "Adeline Wants to Visit the Jolly Boys",
-                "Marjorie in Love with Her French Teacher",
-                "Gildy Raising Money for Baseball Field",
-                "The Water Commissioners Radio Speech",
-                "Gildys New Secretary",
-                "Dinner Courtesy of Hercules Kitchenware",
-                "Fish Fry",
-                "Gildy Stays Home Sick",
-                "Green Thumb Womens Club",
-                "Gildy Drives a Mercedes",
-                "Gildersleeve Fired as Water Commissioner",
-                "Baby Girl Left in Gildys Car",
-                "Taking Care of Baby",
-                "Taking Pictures of Baby Upsets Leroy",
-                "Name the Baby Contest",
-                "Gildy Tries to Reform for Welfare Invest",
-                "Visit by Aunt Hattie",
-                "Marjorie Ready to Marry to Keep Baby",
-                "Gildy Proposes to Adeline",
-                "Engagement",
-                "Leila Ransome Back in Town",
-                "Engaged to Leila and Adeline",
-                "Water Commissioners Helicopter Flight",
-                "Leroys Holiday Job",
-                "Disappearing Christmas Presents",
-                "Christmas Shopping",
-                "Christmas Eve at Gildersleeves",
-                "A Wedding Is Imminent",
-                "Gildy Takes up Writing",
-                "Love Thy Neighbor",
-                "Trip to the Dentist",
-                "Eager Young Man at the Water Department",
-                "Adelines Hat Shop",
-                "Hat Shop Grand Opening",
-                "Leila Arrives to Close the Hat Shop",
-                "Singing Lessons",
-                "Leroys Girl-Friend and Her Mother",
-                "Gildys Dream - Summerfield 1903",
-                "Leroy Faces Competition",
-                "Gildys New Secretary",
-                "Acting Police Commissioner",
-                "The Babys Birthday Party Conflicts",
-                "The Circus Comes to Summerfield",
-                "Haunted House",
-                "Detective Gildersleeve After Burglar",
-                "Mysterious Girl on the Bus",
-                "Gildys Millionaire Friend Visits",
-                "Marjorie and Rodney the Poet",
-                "Gildy Sues Bullard",
-                "Folk Dancing Class",
-                "Songwriter",
-                "Gildys New Heartthrob - Nurse Milford",
-                "Double Date with Marjorie and Bronco",
-                "Gildy at Hospital with Expectant Father",
-                "Tom Cat Troubles",
-                "Gildys Rival Dr Olson",
-                "Rivalry Continues at the Carnival",
-                "Birthday Tea Party for Marjorie",
-                "A Job for Bronco",
-                "The Jolly Boys Band",
-                "New Neighbor - Two Pants Pearson",
-                "Bronco Bows out for Marshall Bullard",
-                "The Christmas Spirit",
-                "Marjorie and Bronco Are Engaged",
-                "Hayride",
-                "Engagement Announcement - Broncos Family",
-                "Young French Diplomat  Comes to Summerfield",
-                "Dinner with Kathryn",
-                "Dinner for Broncos Folks",
-                "Gildy Tries to Learn the Samba",
-                "Should Marjorie Work After Marriage",
-                "Wedding Day Set for Marjorie and Bronco",
-                "Jolly Boy Election",
-                "Marjories Shower",
-                "Gildys Blade",
-                "Gildy Considers Marriage",
-                "Picnic with the Thompsons",
-                "House Guest - Judge Hooker",
-                "Apartment for Bronco and Marjorie",
-                "Leroys Billy Goat",
-                "Marjories Wedding Gown",
-                "Jolly Boys Gift - A Rental Trailer",
-                "Bronco Disappears",
-                "Wedding Day",
-                "Fishing Trip to Grass Lake",
-                "Bronco the Real Estate Salesman",
-                "Sadie Hawkins Day Dance",
-                "House Boat",
-                "Vacation Plans on the House Boat",
-                "Marjorie Is Pregnant",
-                "Visiting In-Laws - Mrs Thompsons Sister",
-                "Gildy Looking for New Secretary",
-                "Gildy Shares Leroys Piano Lessons",
-                "Community Chest Football Game - Leroy",
-                "Bullard Runs for Mayor",
-                "Weight Problems",
-                "Election Day",
-                "A Better Man Than Bullard",
-                "Summerfield Centennial Pageant",
-                "Water Department Calendar",
-                "Leroys First Date",
-                "Leroys Laundry Business",
-                "Chief Gates on the Spot",
-                "Christmas Show - A Present for Kathryn",
-                "Gildy-Bullard Double Date New Years Eve",
-                "Marjorie Craves Sauerkraut",
-                "Gildy Is Worn out from Late Dating",
-                "A Nervous Expectant Father",
-                "A Shower for Marjorie",
-                "Day off for Peavey - 30th Anniversary",
-                "Throwing Snowballs",
-                "Marjories Babies Arrive",
-                "Trying to Name the Twins",
-                "Marjorie and the Twins Coming Home - Grandpa Isnt Needed",
-                "Gildy Pushes Attendance at the Jolly Boys Club",
-                "Bronco Tries to Run the House",
-                "Gildy and Leroy Baby Sit the Twins",
-                "Bullard Needs Boat Access",
-                "Gildy Worried That Kids Want to Leave",
-                "Leroy in Love with Marcelle",
-                "Leroys Pony",
-                "Spring Cleaning the Judges House",
-                "Marjorie and Broncos First Anniversary",
-                "Boating Date with Katharine",
-                "Broncos Father Arrives - Twins Are Named",
-                "Leaving on Vacation to Half Moon Lake - Gildys Schedule",
-                "Leroy Buys a Car",
-                "County Fair Comes to Summerfield",
-                "Getting Ready for School - Women Trouble",
-                "Marjorie Gets a Job",
-                "Gildy Wants to Be Re-Elected President of the Jolly Boys Cl",
-                "Leroy Visits the Judge",
-                "Bronco Almost Forgets About His First Date with Marjorie",
-                "Gildy Takes Mrs Winthrop and Babs on a Picnic",
-                "Halloween and Gildy Finds a Lost Boy",
-                "Marjorie and Bronco Want to Build a House",
-                "Problems Removing an Oak Tree",
-                "Inviting Thanksgiving Guests",
-                "Getting Leroy to Study and Grow Up",
-                "Leroy Selling Christmas Trees",
-                "Christmas Show",
-                "Opening Last Christmas Presents",
-                "Gildy Wants New Job to Keep up with Bronco",
-                "Gildy Has Disappeared - In Hospital",
-                "Gildy Talks to Everyone About Operation",
-                "Trying to Be Alone with Paula",
-                "Gildy Protects Hooker from Mona",
-                "Gildy Hires Mrs Munson and Gets Floyd Too",
-                "Engagement Ring Mixup",
-                "Civic Coordinator",
-                "Leroys Week of Freedom",
-                "Bullard Is House Guest - Need Two Thousand Dollar Loan",
-                "Train Trip to Omaha",
-                "Gildys Garden",
-                "Television Comes to Summerfield",
-                "Colorful Past",
-                "Easter Sunrise Service",
-                "Leroy the Bee Keeper",
-                "Diving for Publicity",
-                "Bad Report Card - No Camp",
-                "Leroy the Singing Cowboy",
-                "Bronco Coming Home - Gildy and Leroy Fishing",
-                "Happy Moving Day",
-                "Leroys Bike Motor",
-                "Katie Lee Visits Summerfield",
-                "Katie Lee Visits Summerfield AFRTS",
-                "Bronco Wants a Wall Between Yards",
-                "Guess the Number of Beans Contest",
-                "Miss McKinley of the Complaint Dept",
-                "Fourth of July Speech",
-                "Fishing with Miss McKinley",
-                "Back Yard Camping",
-                "Bronco Sells Gildys House",
-                "Leroy Behaving Too Well",
-                "Gildy Goes on a Diet",
-                "Leroys Million Dollar Laundry",
-                "Cousin Emily Comes for a Visit",
-                "Winning Leroy Back from Emily",
-                "Cleaning Bullards House",
-                "Drivers License Test",
-                "Hooker and Peavey Are Feuding",
-                "Economize",
-                "Ladies Man",
-                "Watch Trouble",
-                "Gildy the Athlete",
-                "The Suggestion Box",
-                "Gildersleeve vs Golf",
-                "Problems with Leroys Teacher",
-                "Leroys Gift",
-                "Miss Grace Tuttle and Bird Watching",
-                "The Birthday Duck Dinner",
-                "Leroys Part Time Employment",
-                "Grace Tuttles Brother Sydney",
-                "Gildy and Leroy Alone for Christmas",
-                "New Years Eve with Peavey",
-                "Leila Back in Town - Sydney Tuttle",
-                "Gildy and Sidney Help Leila",
-                "Cousin Bert Sends Leroy a Great Dane",
-                "Gildy and Grace Tuttle",
-                "Rivals Leila and Grace Meet",
-                "Two Dates for Mayors Valentine Party",
-                "Gildy in Trouble with Leila and Grace",
-                "Gildys Great Dane Causes Peavey Trouble",
-                "Extra Help at the Water Department",
-                "Leroy Moves out to Marjories",
-                "The Jam Session",
-                "Cleaning House - Rummage Sale",
-                "Easter Sunrise Service",
-                "Leroy Has Trouble with the Mayors Son",
-                "Boys Club Takes over Jolly Boy Clubroom",
-                "Marjorie and Bronco Are Fighting",
-                "Bottled Water Company Stock",
-                "Anniversary Present",
-                "Gildy Going to Europe",
-                "Leroys Theme",
-                "Witness at the Wedding",
-                "Birdie May Move to Marjories House",
-                "Leroy Has the Mumps - Train Stop",
-                "Gift for Miss Tuttle",
-                "Swimming Trip to Grass Lake",
-                "Togetherness",
-                "Buying a Spray Gun",
-                "Mae Home from Vacation - Engaged",
-                "Leroy Going to Visit Aunt Hattie",
-                "The Water Commissioner Is Fired",
-                "Deciding on a Lake Cabin",
-                "A Fish Story",
-                "Sufficient Unto Ones Self",
-                "Leroys Girl - Jo Mac",
-                "Gildy Helps Raise Ronnie",
-                "Birdies Mystery Cake Recipe",
-                "Baby Sitter Gildy",
-                "Flattery",
-                "Home Haircut",
-                "Gildy Involved with Teacher and Principal",
-                "Fire Bells Are Ringing",
-                "Unwilling Witness",
-                "Impulsive Gildy Almost Gets Married",
-                "The Authority Figure",
-                "Gildy the Athlete vs Doc Olsen",
-                "Dinner Mixup with Peavey and Girls",
-                "Gildy Earns Christmas Money Selling Insurance",
-                "Taking Bessie to the Dance",
-                "Gildy and Hooker Feud at Christmas",
-                "Selling Trees for Needy Childrens Party",
-                "New Years Eve at Home with Leroy",
-                "Irenes Father Pushes for a Wedding",
-                "Gildy in the Doghouse with Irene",
-                "Leroy Going Steady",
-                "Bronco Mad at Gildy for Interfering",
-                "Evening Conference with Leroys Teacher",
-                "Judge Hookers Annual Dinner",
-                "Gildy the Budding Politician",
-                "Jolly Boys Election",
-                "Paula Winthrop Back in Town",
-                "Gildy Is Old Fashioned and Square",
-                "New Girl in Town - Marie Olsen",
-                "Hobby Show",
-                "Gildy Involved with Two Girls Again",
-                "Marie Teaches Bronco French",
-                "Dinner Party for Broncos Boss",
-                "Marie Olsen Charms Everyone",
-                "Gildy Swears off Girls but Meets Thelma",
-                "Dinner for Dr Olsen Whos Leaving Town",
-                "Gildy Runs for Sheriff",
-                "Visit by Aunt Hattie",
-                "Trying to End Aunt Hatties Stay",
-                "A Pal To Leroy",
-                "Floyds Inheritance",
-                "Vacation Time",
-                "Doye ODells Dude Ranch AFRTS 498",
-                "Judge Returns From Europe AFRTS 544",
-                "Peavey and Mayor Expect Election Support 2nd half AFRTS 490",
-                "Gildy Causes Water Outage",
-                "Family Prepares For Easter",
-                "Bessies Vacation",
-                "Leilas Antique Vase"
-        };
+    //Everytime you need an instance, call this
+    //synchronized to make the call thread-safe
+    public static synchronized RadioTitle getInstance() {
 
-    private final String[] gilderSleeves = {
-            "The_Great_Gildersleeve_5x-xx-xx_xxx_Birdie_Heiress.mp3",
-            "The_Great_Gildersleeve_5x-xx-xx_xxx_Gildy_Invents_a_Water_Filter.mp3",
-            "The_Great_Gildersleeve_41-05-16_xxx_Audition_Show.mp3",
-            "The_Great_Gildersleeve_41-08-31_001_Gildy_Arrives_at_Summerfield.mp3",
-            "The_Great_Gildersleeve_41-09-07_002_The_Cake.mp3",
-            "The_Great_Gildersleeve_41-09-14_003_Leroys_Paper_Route.mp3",
-            "The_Great_Gildersleeve_41-09-21_004_Marjories_Girl_Friend_Visits.mp3",
-            "The_Great_Gildersleeve_41-09-28_005_Hiccups.mp3",
-            "The_Great_Gildersleeve_41-10-05_006_Investigate_the_City_Jail.mp3",
-            "The_Great_Gildersleeve_41-10-19_008_Pranks_at_School.mp3",
-            "The_Great_Gildersleeve_41-10-26_009_A_Visit_from_Oliver.mp3",
-            "The_Great_Gildersleeve_41-11-02_010_Babysitting.mp3",
-            "The_Great_Gildersleeve_41-11-09_011_Birdie_Quits.mp3",
-            "The_Great_Gildersleeve_41-11-16_012_Servicemen_for_Thanksgiving.mp3",
-            "The_Great_Gildersleeve_41-11-23_013_Leroy_Smokes_a_Cigar.mp3",
-            "The_Great_Gildersleeve_41-11-30_014_The_Canary_Wont_Sing.mp3",
-            "The_Great_Gildersleeve_41-12-07_015_Cousin_Octavia_Visits.mp3",
-            "The_Great_Gildersleeve_41-12-14_016_Selling_the_Iron_Deer.mp3",
-            "The_Great_Gildersleeve_41-12-21_017_Christmas_Gift_for_Fibber_McGee.mp3",
-            "The_Great_Gildersleeve_41-12-28_018_Leroys_New_Dog.mp3",
-            "The_Great_Gildersleeve_42-01-04_019_Gildy_Goes_on_a_Diet.mp3",
-            "The_Great_Gildersleeve_42-01-11_020_Gildy_Arrested_as_Car_Thief.mp3",
-            "The_Great_Gildersleeve_42-01-18_021_A_New_Bed_for_Marjorie.mp3",
-            "The_Great_Gildersleeve_42-01-25_022_Matchmaker.mp3",
-            "The_Great_Gildersleeve_42-02-01_023_Leroy_Runs_Away.mp3",
-            "The_Great_Gildersleeve_42-02-08_024_Auto_Mechanics.mp3",
-            "The_Great_Gildersleeve_42-02-22_026_Selling_the_Drugstore.mp3",
-            "The_Great_Gildersleeve_42-03-01_027_Fortune_Teller.mp3",
-            "The_Great_Gildersleeve_42-03-15_029_Ten_Best_Dressed.mp3",
-            "The_Great_Gildersleeve_42-03-22_030_Gildys_New_Neighbors.mp3",
-            "The_Great_Gildersleeve_42-03-29_031_Gildy_Writes_to_Servicemen_for_Marjorie.mp3",
-            "The_Great_Gildersleeve_42-04-20_034_Leroy_Sells_Flower_Seeds.mp3",
-            "The_Great_Gildersleeve_42-04-26_035_Gildys_Goat_Horace.mp3",
-            "The_Great_Gildersleeve_42-05-03_036_Ship_Christening.mp3",
-            "The_Great_Gildersleeve_42-05-10_037_Mystery_Voice.mp3",
-            "The_Great_Gildersleeve_42-05-17_038_College_Chum_Visits.mp3",
-            "The_Great_Gildersleeve_42-05-31_040_Dinner_for_Judge_Hooker.mp3",
-            "The_Great_Gildersleeve_42-06-07_041_The_Sneezes.mp3",
-            "The_Great_Gildersleeve_42-06-14_042_Gildy_Produces_a_Play.mp3",
-            "The_Great_Gildersleeve_42-06-21_043_Fathers_Day_Chair.mp3",
-            "The_Great_Gildersleeve_42-06-28_044_Gildy_is_in_Love_with_Amelia_Hooker.mp3",
-            "The_Great_Gildersleeve_42-08-30_045_Fishing_Trip_to_Lake_Hackmatack.mp3",
-            "The_Great_Gildersleeve_42-09-06_046_Golf_Tournament.mp3",
-            "The_Great_Gildersleeve_42-10-04_050_Planting_a_Tree.mp3",
-            "The_Great_Gildersleeve_42-10-11_051_First_Cold_Snap.mp3",
-            "The_Great_Gildersleeve_42-10-18_052_Appointed_Water_Commissioner.mp3",
-            "The_Great_Gildersleeve_42-10-25_053_Gildys_First_Day_on_the_Job.mp3",
-            "The_Great_Gildersleeve_42-11-01_054_A_Pal_to_Leroy.mp3",
-            "The_Great_Gildersleeve_42-11-08_055_Quiet_Evening_at_Home.mp3",
-            "The_Great_Gildersleeve_42-11-15_056_College_Chums_Son_Visits.mp3",
-            "The_Great_Gildersleeve_42-11-22_057_Thanksgiving_Dinner.mp3",
-            "The_Great_Gildersleeve_42-11-29_058_Attend_the_Theatre_-_Date_with_a_Star.mp3",
-            "The_Great_Gildersleeve_42-11-29_058_Attend_the_Theatre__better_sound_-_no_commls.mp3",
-            "The_Great_Gildersleeve_42-12-06_059_Toothache.mp3",
-            "The_Great_Gildersleeve_42-12-20_061_Christmas_Program.mp3",
-            "The_Great_Gildersleeve_42-12-27_062_Leroys_Chemistry_Set.mp3",
-            "The_Great_Gildersleeve_43-01-03_063_Wanting_to_Marry_Leila.mp3",
-            "The_Great_Gildersleeve_43-01-10_064_Fibber_McGee_and_Molly_Visit.mp3",
-            "The_Great_Gildersleeve_43-01-17_065_Womens_Club_Speaker.mp3",
-            "The_Great_Gildersleeve_43-01-24_066_Sabotage.mp3",
-            "The_Great_Gildersleeve_43-01-31_067_Fire_Engine_Committee.mp3",
-            "The_Great_Gildersleeve_43-02-07_068_Leilas_Sister.mp3",
-            "The_Great_Gildersleeve_43-03-14_073_Income_Tax_Time.mp3",
-            "The_Great_Gildersleeve_43-03-28_075_Springtime_in_Summerfield.mp3",
-            "The_Great_Gildersleeve_43-04-04_076_Gildy_Repairs_His_Car.mp3",
-            "The_Great_Gildersleeve_43-04-11_077_Auto_Accident_with_Judge_Hooker.mp3",
-            "The_Great_Gildersleeve_43-04-18_078_Spring_Hike.mp3",
-            "The_Great_Gildersleeve_43-04-25_079_Rabbits.mp3",
-            "The_Great_Gildersleeve_43-05-09_081_Wedding_List.mp3",
-            "The_Great_Gildersleeve_43-05-16_082_Haunted_House.mp3",
-            "The_Great_Gildersleeve_43-05-23_083_Leroy_Gets_a_Job.mp3",
-            "The_Great_Gildersleeve_43-05-30_084_Memorial_Day_Parade.mp3",
-            "The_Great_Gildersleeve_43-06-06_085_Wedding_Shower_for_Leila.mp3",
-            "The_Great_Gildersleeve_43-06-13_086_Gildy_Plans_Honeymoon.mp3",
-            "The_Great_Gildersleeve_43-06-27_088_Wedding_Day.mp3",
-            "The_Great_Gildersleeve_43-08-29_089_End_of_Vacation_at_Grass_Lake.mp3",
-            "The_Great_Gildersleeve_43-09-12_091_War_Bond_Drive.mp3",
-            "The_Great_Gildersleeve_43-09-19_092_Leila_Returning.mp3",
-            "The_Great_Gildersleeve_43-09-26_093_Leila_Arrives_Home.mp3",
-            "The_Great_Gildersleeve_43-10-10_095_Old_School_Pal_To_Visit_aka_Royal_Visit.mp3",
-            "The_Great_Gildersleeve_43-10-24_097_Low_Water_Pressure.mp3",
-            "The_Great_Gildersleeve_43-10-31_098_Halloween_Party.mp3",
-            "The_Great_Gildersleeve_43-11-07_099_The_Pot_Roast.mp3",
-            "The_Great_Gildersleeve_43-11-14_100_Gildy_Rejected_by_Eve_Goodwin.mp3",
-            "The_Great_Gildersleeve_44-01-09_108_Gildy_in_Hospital.mp3",
-            "The_Great_Gildersleeve_44-01-16_109_Income_Tax_Returns.mp3",
-            "The_Great_Gildersleeve_44-01-23_110_Eve_and_Gildy_Get_Together.mp3",
-            "The_Great_Gildersleeve_44-01-30_111_Marjorie_the_Actress.mp3",
-            "The_Great_Gildersleeve_44-02-06_112_Sleigh_Ride.mp3",
-            "The_Great_Gildersleeve_44-03-19_118_Gildy_Wants_to_Run_for_Mayor.mp3",
-            "The_Great_Gildersleeve_44-03-26_119_Campaign_Photo.mp3",
-            "The_Great_Gildersleeve_44-04-09_121_Campaign_Officially_Starts_-_Easter_Show.mp3",
-            "The_Great_Gildersleeve_44-04-30_124_Engaged.mp3",
-            "The_Great_Gildersleeve_44-05-07_125_Campaign_Gets_Hot.mp3",
-            "The_Great_Gildersleeve_44-05-14_126_Gildy_Engaged_to_Eve_but_Kisses_Leila.mp3",
-            "The_Great_Gildersleeve_44-05-21_127_City_Employees_Picnic.mp3",
-            "The_Great_Gildersleeve_44-05-28_128_Campaign_Headquarters.mp3",
-            "The_Great_Gildersleeve_44-06-04_129_Eves_Mother_Visits.mp3",
-            "The_Great_Gildersleeve_44-06-11_130_Dinner_for_Eves_Mother.mp3",
-            "The_Great_Gildersleeve_44-06-18_131_Eves_Mother_Stays_On.mp3",
-            "The_Great_Gildersleeve_44-06-25_132_Election_Day_-_Gildy_Loses.mp3",
-            "The_Great_Gildersleeve_44-09-03_133_Lonely_Gildy.mp3",
-            "The_Great_Gildersleeve_44-09-10_134_Water_Commissioner_Is_Fired_-_Rain_Maker.mp3",
-            "The_Great_Gildersleeve_44-09-17_135_McGees_Invention.mp3",
-            "The_Great_Gildersleeve_44-09-24_136_Plastic_Mouse_Trap_-_Bankers_Son.mp3",
-            "The_Great_Gildersleeve_44-10-01_137_Gildy_Sells_His_House.mp3",
-            "The_Great_Gildersleeve_44-10-08_138_Boys_Club.mp3",
-            "The_Great_Gildersleeve_44-10-15_139_Gildy_Looks_for_a_Job.mp3",
-            "The_Great_Gildersleeve_44-10-22_140_Important_Phone_Call.mp3",
-            "The_Great_Gildersleeve_44-10-29_141_Gildy_Back_as_Water_Commissioner.mp3",
-            "The_Great_Gildersleeve_44-11-05_142_Election_Day_-_Bet.mp3",
-            "The_Great_Gildersleeve_44-11-12_143_Spanish_Dancing_Teacher_Miss_Del_Rey.mp3",
-            "The_Great_Gildersleeve_44-11-19_144_Reception_for_Miss_Del_Rey.mp3",
-            "The_Great_Gildersleeve_44-11-19_144_Reception_for_Miss_Del_Rey_AFRS_65.mp3",
-            "The_Great_Gildersleeve_44-11-26_145_Reception_Aftermath.mp3",
-            "The_Great_Gildersleeve_44-12-03_146_A_Date_With_Miss_Del_Rey.mp3",
-            "The_Great_Gildersleeve_44-12-10_147_Breach_of_Promise.mp3",
-            "The_Great_Gildersleeve_44-12-17_148_Dodging_a_Process_Server.mp3",
-            "The_Great_Gildersleeve_44-12-24_149_Twas_the_Night_Before_Christmas.mp3",
-            "The_Great_Gildersleeve_44-12-31_150_Big_New_Years_Eve_Party.mp3",
-            "The_Great_Gildersleeve_45-01-07_151_Whos_Dating_Who.mp3",
-            "The_Great_Gildersleeve_45-01-14_152_Engagement_for_the_Defense.mp3",
-            "The_Great_Gildersleeve_45-01-21_153_The_Hockey_Player.mp3",
-            "The_Great_Gildersleeve_45-02-04_155_Visit_by_Aunt_Hattie.mp3",
-            "The_Great_Gildersleeve_45-02-18_157_Aunt_Hattie_Stays_On.mp3",
-            "The_Great_Gildersleeve_45-02-25_158a_Hattie_and_Judge_Hooker_pre-show.mp3",
-            "The_Great_Gildersleeve_45-02-25_158b_Hattie_and_Judge_Hooker.mp3",
-            "The_Great_Gildersleeve_45-03-11_160_Chairman_of_Womens_Committee.mp3",
-            "The_Great_Gildersleeve_45-03-18_161_Leila_Hears_A_Burglar_AFRS.mp3",
-            "The_Great_Gildersleeve_45-03-25_162_Old_Flame_Named_Violet.mp3",
-            "The_Great_Gildersleeve_45-04-01_163_Raising_a_Pig.mp3",
-            "The_Great_Gildersleeve_45-04-08_164_Leroys_Pet_Pig_Tiger.mp3",
-            "The_Great_Gildersleeve_45-04-22_165_Leilas_Party.mp3",
-            "The_Great_Gildersleeve_45-04-29_166_New_Neighbor_-_Bullard.mp3",
-            "The_Great_Gildersleeve_45-05-06_167_Gildy_Picks_a_Husband_for_Marjorie.mp3",
-            "The_Great_Gildersleeve_45-05-13_168_Meet_Craig_Bullard.mp3",
-            "The_Great_Gildersleeve_45-05-20_169_Unclaimed_Savings_Account_-_Buy_Stock.mp3",
-            "The_Great_Gildersleeve_45-05-27_170_Bessie_Quits.mp3",
-            "The_Great_Gildersleeve_45-06-03_171_New_Secretary_-_Leila.mp3",
-            "The_Great_Gildersleeve_45-06-10_172_An_Evening_with_a_Good_Book.mp3",
-            "The_Great_Gildersleeve_45-06-17_173_Bullards_Have_a_Party.mp3",
-            "The_Great_Gildersleeve_45-09-02_174_Going_to_Grass_Lake.mp3",
-            "The_Great_Gildersleeve_45-09-09_175_Leroys_New_Teacher.mp3",
-            "The_Great_Gildersleeve_45-09-16_176_Leroy_Suspended_from_School.mp3",
-            "The_Great_Gildersleeve_45-09-23_177_Leila_Returns_Home.mp3",
-            "The_Great_Gildersleeve_45-09-30_178_Marjorie_the_Ballerina.mp3",
-            "The_Great_Gildersleeve_45-10-07_179_Raking_Leaves_-_Craigs_Party.mp3",
-            "The_Great_Gildersleeve_45-10-14_180_Leroy_Works_off_a_Broken_Vase.mp3",
-            "The_Great_Gildersleeve_45-10-21_181_Lightfoot_Visits_Leila.mp3",
-            "The_Great_Gildersleeve_45-10-28_182_Peaveys_Wife_Is_Ill_-_Rumor.mp3",
-            "The_Great_Gildersleeve_45-11-04_183_Helping_Leroy_with_His_Studies.mp3",
-            "The_Great_Gildersleeve_45-11-11_184_Teaching_Marjorie_Domestic_Arts.mp3",
-            "The_Great_Gildersleeve_45-11-18_185_Falling_out_of_the_Jolly_Boys.mp3",
-            "The_Great_Gildersleeve_45-11-25_186_Big_Football_Game.mp3",
-            "The_Great_Gildersleeve_45-12-02_187_Gildy_Stuck_with_Opera_Tickets.mp3",
-            "The_Great_Gildersleeve_45-12-09_188_Gildy_Head_of_Opera_Committee.mp3",
-            "The_Great_Gildersleeve_45-12-16_189_A_Night_at_the_Opera.mp3",
-            "The_Great_Gildersleeve_45-12-23_190_Christmas_Eve_at_Home.mp3",
-            "The_Great_Gildersleeve_45-12-30_191_New_Years_Eve_at_Home.mp3",
-            "The_Great_Gildersleeve_46-01-06_192_Ben_Returns_from_the_Navy.mp3",
-            "The_Great_Gildersleeve_46-01-13_193_Ben_Sells_Life_Insurance.mp3",
-            "The_Great_Gildersleeve_46-01-20_194_Exposing_a_Phony_Swami.mp3",
-            "The_Great_Gildersleeve_46-01-27_195_Gildy_and_Leila_Feel_Their_Age.mp3",
-            "The_Great_Gildersleeve_46-02-03_196_Feud_with_the_Bullards_-_Diplomat_Gildy.mp3",
-            "The_Great_Gildersleeve_46-02-10_197_Need_a_New_Car.mp3",
-            "The_Great_Gildersleeve_46-02-17_198_Leroy_Has_the_Flu.mp3",
-            "The_Great_Gildersleeve_46-02-24_199_Gildys_New_Hobby_-_Boat_in_a_Bottle.mp3",
-            "The_Great_Gildersleeve_46-03-03_200_State_Water_Inspector.mp3",
-            "The_Great_Gildersleeve_46-03-10_201_Marjories_Dance_Date_with_Uncle_Mort.mp3",
-            "The_Great_Gildersleeve_46-03-17_202_Leroy_and_Craig_Arrested.mp3",
-            "The_Great_Gildersleeve_46-03-24_203_Gildy_Traces_Genealogy.mp3",
-            "The_Great_Gildersleeve_46-03-31_204_Picnic_Before_Doomsday.mp3",
-            "The_Great_Gildersleeve_46-04-07_205_Annual_Dinner_with_Judge_Hooker.mp3",
-            "The_Great_Gildersleeve_46-04-14_206_Bank_Robber_Loose.mp3",
-            "The_Great_Gildersleeve_46-04-21_207_Petition_Against_Trolley_Car_House.mp3",
-            "The_Great_Gildersleeve_46-04-28_208_Leroy_Wants_a_Pony.mp3",
-            "The_Great_Gildersleeve_46-05-05_209_Gildy_in_a_Rut_-_New_Image.mp3",
-            "The_Great_Gildersleeve_46-05-12_210_Leilas_New_Boy_Friend.mp3",
-            "The_Great_Gildersleeve_46-05-19_211_Leroy_Learns_to_Dance_-_Party_for_Ethel.mp3",
-            "The_Great_Gildersleeve_46-05-26_212_Flashback_-_Meets_Leila_Ransome.mp3",
-            "The_Great_Gildersleeve_46-06-02_213_Flashback_-_Plays_Cyrano_Meet_Eve.mp3",
-            "The_Great_Gildersleeve_46-06-09_214_Flashback_-_Jolly_Boys_4th_of_July_Picnic.mp3",
-            "The_Great_Gildersleeve_46-09-18_215_The_Commissioner_Turns_off_the_Water.mp3",
-            "The_Great_Gildersleeve_46-09-18_215_The_Commissioner_Turns_off_the_Water_AFRS_063.mp3",
-            "The_Great_Gildersleeve_46-09-25_216_Gildys_New_Spruce_Scent_-_Leila_Engaged.mp3",
-            "The_Great_Gildersleeve_46-10-02_217_Leilas_Wedding_Invitations.mp3",
-            "The_Great_Gildersleeve_46-10-09_218_Leila_Leaves_Town.mp3",
-            "The_Great_Gildersleeve_46-10-16_219_Gildy_Contemplates_Early_Retirement.mp3",
-            "The_Great_Gildersleeve_46-10-23_220_Gildy_Asks_for_a_Raise.mp3",
-            "The_Great_Gildersleeve_46-10-30_221_Real_Estate_Agent_-_Hooker_as_a_Boarder.mp3",
-            "The_Great_Gildersleeve_46-11-06_222_Pajama_Party_-_Marjorie_Gets_Engaged.mp3",
-            "The_Great_Gildersleeve_46-11-13_223_Smitten_by_an_Unknown_Beautiful_Lady.mp3",
-            "The_Great_Gildersleeve_46-11-20_224_Gildy_Takes_up_The_Great_Books.mp3",
-            "The_Great_Gildersleeve_46-11-27_225_Birdy_Takes_a_Vacation.mp3",
-            "The_Great_Gildersleeve_46-12-04_226_Jolly_Boys_Sponsor_an_Orphan.mp3",
-            "The_Great_Gildersleeve_46-12-11_227_Leroy_Afraid_of_a_Bully.mp3",
-            "The_Great_Gildersleeve_46-12-18_228_Leroy_Wants_a_Motor_Scooter.mp3",
-            "The_Great_Gildersleeve_46-12-25_229_Christmas_Caroling_at_Gildersleeves.mp3",
-            "The_Great_Gildersleeve_47-01-01_230_Big_New_Years_Costume_Ball.mp3",
-            "The_Great_Gildersleeve_47-01-08_231_Leila_Back_for_a_Visit_-_Gildy_in_Love.mp3",
-            "The_Great_Gildersleeve_47-01-15_232_Jolly_Boys_Sleigh_Ride_-_Judge_Hooker.mp3",
-            "The_Great_Gildersleeve_47-01-22_233_Dancing_School.mp3",
-            "The_Great_Gildersleeve_47-01-29_234_Marjories_Hotrod_Boyfriend.mp3",
-            "The_Great_Gildersleeve_47-02-05_235_Magazine_Salesman.mp3",
-            "The_Great_Gildersleeve_47-02-12_236_Old_School_Friend_Visits_Gildy.mp3",
-            "The_Great_Gildersleeve_47-02-19_237_Bessies_Cousin_Substitutes_for_Her.mp3",
-            "The_Great_Gildersleeve_47-02-26_238_Getting_Rid_of_Bessie.mp3",
-            "The_Great_Gildersleeve_47-03-05_239_Marjorie_Flipped_over_Crooner_Larry_Lake.mp3",
-            "The_Great_Gildersleeve_47-03-12_240_Leroy_and_Craig_Picked_up_Taking_Lumber.mp3",
-            "The_Great_Gildersleeve_47-03-19_241_Stuck_with_Water_Dept_Money_over_Night.mp3",
-            "The_Great_Gildersleeve_47-03-26_242_First_Day_of_Spring_-_New_Piano_Teacher.mp3",
-            "The_Great_Gildersleeve_47-04-02_243_Evening_with_Miss_Piper.mp3",
-            "The_Great_Gildersleeve_47-04-09_244_Bird_Watchers.mp3",
-            "The_Great_Gildersleeve_47-04-16_245_The_Whole_World_Is_Watching.mp3",
-            "The_Great_Gildersleeve_47-04-23_246_Leilas_Party_for_Joanne.mp3",
-            "The_Great_Gildersleeve_47-04-30_247_The_Great_Tchaikovsky_Love_Story.mp3",
-            "The_Great_Gildersleeve_47-05-07_248_Leroy_Excluded_from_Craigs_Party.mp3",
-            "The_Great_Gildersleeve_47-05-07_248_Leroy_Excluded_from_Craigs_Party_AFRS.mp3",
-            "The_Great_Gildersleeve_47-05-14_249_Peavey_Disappears.mp3",
-            "The_Great_Gildersleeve_47-05-21_250_Teachers_Problems.mp3",
-            "The_Great_Gildersleeve_47-05-28_251_Gildy_Tries_to_Give_up_Smoking.mp3",
-            "The_Great_Gildersleeve_47-06-04_252_Called_in_by_the_IRS.mp3",
-            "The_Great_Gildersleeve_47-09-10_253_Gildy_Tries_to_Renew_Romance_with_Eve.mp3",
-            "The_Great_Gildersleeve_47-09-17_254_Getting_Everything_Snug_for_Winter.mp3",
-            "The_Great_Gildersleeve_47-09-24_255_In_Trouble_with_Bessies_Boy_Friend.mp3",
-            "The_Great_Gildersleeve_47-10-01_256_Teaching_Leroy_Borrowing_and_Finance.mp3",
-            "The_Great_Gildersleeve_47-10-08_257_Beautiful_Visitor_at_the_Bullards.mp3",
-            "The_Great_Gildersleeve_47-10-15_258_Marjories_Baby_Tending_Assignment.mp3",
-            "The_Great_Gildersleeve_47-10-22_259_Congressman_Gildersleeve.mp3",
-            "The_Great_Gildersleeve_47-10-29_260_Halloween_Party.mp3",
-            "The_Great_Gildersleeve_47-11-05_261_Hayride.mp3",
-            "The_Great_Gildersleeve_47-11-12_262_Gildy_Swindled_on_a_Fur_Coat.mp3",
-            "The_Great_Gildersleeve_47-11-19_263_Leroy_in_School_Play.mp3",
-            "The_Great_Gildersleeve_47-11-26_264_Thanksgiving_-_Tom_Sawyer_Raft.mp3",
-            "The_Great_Gildersleeve_47-12-03_265_Fiscal_Report_Due.mp3",
-            "The_Great_Gildersleeve_47-12-10_266_Christmas_Shopping.mp3",
-            "The_Great_Gildersleeve_47-12-17_267_Water_Commissioner_Accused_of_Loafing.mp3",
-            "The_Great_Gildersleeve_47-12-24_268_Leroys_Christmas_Dog.mp3",
-            "The_Great_Gildersleeve_47-12-31_269_New_Years_Eve_Parties.mp3",
-            "The_Great_Gildersleeve_48-01-07_270_Anne_Tuttle_Is_Back_in_Town.mp3",
-            "The_Great_Gildersleeve_48-01-14_271_Gildy_Encourages_Marjories_New_Romance.mp3",
-            "The_Great_Gildersleeve_48-01-21_272_School_Board_Election_Gildy_vs_Hooker.mp3",
-            "The_Great_Gildersleeve_48-01-28_273_License_Plate_Time_-_Barber_Shop_Trip.mp3",
-            "The_Great_Gildersleeve_48-02-04_274_Acting_Mayor.mp3",
-            "The_Great_Gildersleeve_48-02-11_275_Getting_Glasses.mp3",
-            "The_Great_Gildersleeve_48-02-18_276_Leilas_Cousin_Adeline_Fairchild_Arrives.mp3",
-            "The_Great_Gildersleeve_48-02-25_277_Gildy_Thinks_Adelines_Stealing_Birdie.mp3",
-            "The_Great_Gildersleeve_48-03-03_278_Gildy_Helps_Girl-Shy_Leroy.mp3",
-            "The_Great_Gildersleeve_48-03-10_279_Gildy_Considers_Marriage.mp3",
-            "The_Great_Gildersleeve_48-03-17_280_Adelines_Beau_Cecil_-_Duel.mp3",
-            "The_Great_Gildersleeve_48-03-24_281_Adeline_Wants_to_Visit_the_Jolly_Boys.mp3",
-            "The_Great_Gildersleeve_48-03-31_282_Marjorie_in_Love_with_Her_French_Teacher.mp3",
-            "The_Great_Gildersleeve_48-04-07_283_Gildy_Raising_Money_for_Baseball_Field.mp3",
-            "The_Great_Gildersleeve_48-04-14_284_The_Water_Commissioners_Radio_Speech.mp3",
-            "The_Great_Gildersleeve_48-04-21_285_Gildys_New_Secretary.mp3",
-            "The_Great_Gildersleeve_48-04-28_286_Dinner_Courtesy_of_Hercules_Kitchenware.mp3",
-            "The_Great_Gildersleeve_48-05-05_287_Fish_Fry.mp3",
-            "The_Great_Gildersleeve_48-05-12_288_Gildy_Stays_Home_Sick.mp3",
-            "The_Great_Gildersleeve_48-05-19_289_Green_Thumb_Womens_Club.mp3",
-            "The_Great_Gildersleeve_48-05-26_290_Gildy_Drives_a_Mercedes.mp3",
-            "The_Great_Gildersleeve_48-06-02_291_Gildersleeve_Fired_as_Water_Commissioner.mp3",
-            "The_Great_Gildersleeve_48-09-08_292_Baby_Girl_Left_in_Gildys_Car.mp3",
-            "The_Great_Gildersleeve_48-09-15_293_Taking_Care_of_Baby.mp3",
-            "The_Great_Gildersleeve_48-09-22_294_Taking_Pictures_of_Baby_Upsets_Leroy.mp3",
-            "The_Great_Gildersleeve_48-09-29_295_Name_the_Baby_Contest.mp3",
-            "The_Great_Gildersleeve_48-10-06_296_Gildy_Tries_to_Reform_for_Welfare_Invest.mp3",
-            "The_Great_Gildersleeve_48-10-13_297_Visit_by_Aunt_Hattie.mp3",
-            "The_Great_Gildersleeve_48-10-20_298_Marjorie_Ready_to_Marry_to_Keep_Baby.mp3",
-            "The_Great_Gildersleeve_48-10-27_299_Gildy_Proposes_to_Adeline.mp3",
-            "The_Great_Gildersleeve_48-11-03_300_Engagement.mp3",
-            "The_Great_Gildersleeve_48-11-10_301_Leila_Ransome_Back_in_Town.mp3",
-            "The_Great_Gildersleeve_48-11-17_302_Engaged_to_Leila_and_Adeline.mp3",
-            "The_Great_Gildersleeve_48-11-24_303_Water_Commissioners_Helicopter_Flight.mp3",
-            "The_Great_Gildersleeve_48-12-01_304_Leroys_Holiday_Job.mp3",
-            "The_Great_Gildersleeve_48-12-08_305_Disappearing_Christmas_Presents.mp3",
-            "The_Great_Gildersleeve_48-12-15_306_Christmas_Shopping.mp3",
-            "The_Great_Gildersleeve_48-12-22_307_Christmas_Eve_at_Gildersleeves.mp3",
-            "The_Great_Gildersleeve_48-12-29_308_A_Wedding_Is_Imminent.mp3",
-            "The_Great_Gildersleeve_49-01-05_309_Gildy_Takes_up_Writing.mp3",
-            "The_Great_Gildersleeve_49-01-12_310_Love_Thy_Neighbor.mp3",
-            "The_Great_Gildersleeve_49-01-19_311_Trip_to_the_Dentist.mp3",
-            "The_Great_Gildersleeve_49-01-26_312_Eager_Young_Man_at_the_Water_Department.mp3",
-            "The_Great_Gildersleeve_49-02-02_313_Adelines_Hat_Shop.mp3",
-            "The_Great_Gildersleeve_49-02-09_314_Hat_Shop_Grand_Opening.mp3",
-            "The_Great_Gildersleeve_49-02-16_315_Leila_Arrives_to_Close_the_Hat_Shop.mp3",
-            "The_Great_Gildersleeve_49-02-23_316_Singing_Lessons.mp3",
-            "The_Great_Gildersleeve_49-03-02_317_Leroys_Girl-Friend_and_Her_Mother.mp3",
-            "The_Great_Gildersleeve_49-03-09_318_Gildys_Dream_-_Summerfield_1903.mp3",
-            "The_Great_Gildersleeve_49-03-16_319_Leroy_Faces_Competition.mp3",
-            "The_Great_Gildersleeve_49-03-23_320_Gildys_New_Secretary.mp3",
-            "The_Great_Gildersleeve_49-03-30_321_Acting_Police_Commissioner.mp3",
-            "The_Great_Gildersleeve_49-04-06_322_The_Babys_Birthday_Party_Conflicts.mp3",
-            "The_Great_Gildersleeve_49-04-13_323_The_Circus_Comes_to_Summerfield.mp3",
-            "The_Great_Gildersleeve_49-04-20_324_Haunted_House.mp3",
-            "The_Great_Gildersleeve_49-04-27_325_Detective_Gildersleeve_After_Burglar.mp3",
-            "The_Great_Gildersleeve_49-05-04_326_Mysterious_Girl_on_the_Bus.mp3",
-            "The_Great_Gildersleeve_49-05-11_327_Gildys_Millionaire_Friend_Visits.mp3",
-            "The_Great_Gildersleeve_49-05-18_328_Marjorie_and_Rodney_the_Poet.mp3",
-            "The_Great_Gildersleeve_49-05-25_329_Gildy_Sues_Bullard.mp3",
-            "The_Great_Gildersleeve_49-06-01_330_Folk_Dancing_Class.mp3",
-            "The_Great_Gildersleeve_49-09-21_331_Songwriter.mp3",
-            "The_Great_Gildersleeve_49-09-28_332_Gildys_New_Heartthrob_-_Nurse_Milford.mp3",
-            "The_Great_Gildersleeve_49-10-05_333_Double_Date_with_Marjorie_and_Bronco.mp3",
-            "The_Great_Gildersleeve_49-10-12_334_Gildy_at_Hospital_with_Expectant_Father.mp3",
-            "The_Great_Gildersleeve_49-10-19_335_Tom_Cat_Troubles.mp3",
-            "The_Great_Gildersleeve_49-10-26_336_Gildys_Rival_Dr_Olson.mp3",
-            "The_Great_Gildersleeve_49-11-02_337_Rivalry_Continues_at_the_Carnival.mp3",
-            "The_Great_Gildersleeve_49-11-09_338_Birthday_Tea_Party_for_Marjorie.mp3",
-            "The_Great_Gildersleeve_49-11-16_339_A_Job_for_Bronco.mp3",
-            "The_Great_Gildersleeve_49-11-23_340_The_Jolly_Boys_Band.mp3",
-            "The_Great_Gildersleeve_49-11-30_341_New_Neighbor_-_Two_Pants_Pearson.mp3",
-            "The_Great_Gildersleeve_49-12-07_342_Bronco_Bows_out_for_Marshall_Bullard.mp3",
-            "The_Great_Gildersleeve_49-12-14_343_The_Christmas_Spirit.mp3",
-            "The_Great_Gildersleeve_49-12-21_344_Marjorie_and_Bronco_Are_Engaged.mp3",
-            "The_Great_Gildersleeve_49-12-28_345_Hayride.mp3",
-            "The_Great_Gildersleeve_50-01-04_346_Engagement_Announcement_-_Broncos_Family.mp3",
-            "The_Great_Gildersleeve_50-01-11_347_Young_French_Diplomat__Comes_to_Summerfield.mp3",
-            "The_Great_Gildersleeve_50-01-18_348_Dinner_with_Kathryn.mp3",
-            "The_Great_Gildersleeve_50-01-25_349_Dinner_for_Broncos_Folks.mp3",
-            "The_Great_Gildersleeve_50-02-01_350_Gildy_Tries_to_Learn_the_Samba.mp3",
-            "The_Great_Gildersleeve_50-02-08_351_Should_Marjorie_Work_After_Marriage.mp3",
-            "The_Great_Gildersleeve_50-02-15_352_Wedding_Day_Set_for_Marjorie_and_Bronco.mp3",
-            "The_Great_Gildersleeve_50-02-22_353_Jolly_Boy_Election.mp3",
-            "The_Great_Gildersleeve_50-03-01_354_Marjories_Shower.mp3",
-            "The_Great_Gildersleeve_50-03-08_355_Gildys_Blade.mp3",
-            "The_Great_Gildersleeve_50-03-15_356_Gildy_Considers_Marriage.mp3",
-            "The_Great_Gildersleeve_50-03-22_357_Picnic_with_the_Thompsons.mp3",
-            "The_Great_Gildersleeve_50-03-29_358_House_Guest_-_Judge_Hooker.mp3",
-            "The_Great_Gildersleeve_50-04-05_359_Apartment_for_Bronco_and_Marjorie.mp3",
-            "The_Great_Gildersleeve_50-04-12_360_Leroys_Billy_Goat.mp3",
-            "The_Great_Gildersleeve_50-04-19_361_Marjories_Wedding_Gown.mp3",
-            "The_Great_Gildersleeve_50-04-26_362_Jolly_Boys_Gift_-_A_Rental_Trailer.mp3",
-            "The_Great_Gildersleeve_50-05-03_363_Bronco_Disappears.mp3",
-            "The_Great_Gildersleeve_50-05-10_364_Wedding_Day.mp3",
-            "The_Great_Gildersleeve_50-05-17_365_Fishing_Trip_to_Grass_Lake.mp3",
-            "The_Great_Gildersleeve_50-05-24_366_Bronco_the_Real_Estate_Salesman.mp3",
-            "The_Great_Gildersleeve_50-05-31_367_Sadie_Hawkins_Day_Dance.mp3",
-            "The_Great_Gildersleeve_50-06-07_368_House_Boat.mp3",
-            "The_Great_Gildersleeve_50-06-14_369_Vacation_Plans_on_the_House_Boat.mp3",
-            "The_Great_Gildersleeve_50-09-06_370_Marjorie_Is_Pregnant.mp3",
-            "The_Great_Gildersleeve_50-09-13_371_Visiting_In-Laws_-_Mrs_Thompsons_Sister.mp3",
-            "The_Great_Gildersleeve_50-09-20_372_Gildy_Looking_for_New_Secretary.mp3",
-            "The_Great_Gildersleeve_50-09-27_373_Gildy_Shares_Leroys_Piano_Lessons.mp3",
-            "The_Great_Gildersleeve_50-10-04_374_Community_Chest_Football_Game_-_Leroy.mp3",
-            "The_Great_Gildersleeve_50-10-11_375_Bullard_Runs_for_Mayor.mp3",
-            "The_Great_Gildersleeve_50-10-18_376_Weight_Problems.mp3",
-            "The_Great_Gildersleeve_50-11-01_378_Election_Day.mp3",
-            "The_Great_Gildersleeve_50-11-08_379_A_Better_Man_Than_Bullard.mp3",
-            "The_Great_Gildersleeve_50-11-15_380_Summerfield_Centennial_Pageant.mp3",
-            "The_Great_Gildersleeve_50-11-22_381_Water_Department_Calendar.mp3",
-            "The_Great_Gildersleeve_50-11-29_382_Leroys_First_Date.mp3",
-            "The_Great_Gildersleeve_50-12-06_383_Leroys_Laundry_Business.mp3",
-            "The_Great_Gildersleeve_50-12-13_384_Chief_Gates_on_the_Spot.mp3",
-            "The_Great_Gildersleeve_50-12-20_385_Christmas_Show_-_A_Present_for_Kathryn.mp3",
-            "The_Great_Gildersleeve_50-12-27_386_Gildy-Bullard_Double_Date_New_Years_Eve.mp3",
-            "The_Great_Gildersleeve_51-01-03_387_Marjorie_Craves_Sauerkraut.mp3",
-            "The_Great_Gildersleeve_51-01-10_388_Gildy_Is_Worn_out_from_Late_Dating.mp3",
-            "The_Great_Gildersleeve_51-01-17_389_A_Nervous_Expectant_Father.mp3",
-            "The_Great_Gildersleeve_51-01-31_391_A_Shower_for_Marjorie.mp3",
-            "The_Great_Gildersleeve_51-02-07_392_Day_off_for_Peavey_-_30th_Anniversary.mp3",
-            "The_Great_Gildersleeve_51-02-14_393_Throwing_Snowballs.mp3",
-            "The_Great_Gildersleeve_51-02-21_394_Marjories_Babies_Arrive.mp3",
-            "The_Great_Gildersleeve_51-02-28_395_Trying_to_Name_the_Twins.mp3",
-            "The_Great_Gildersleeve_51-03-07_396_Marjorie_and_the_Twins_Coming_Home_-_Grandpa_Isnt_Needed.mp3",
-            "The_Great_Gildersleeve_51-03-14_397_Gildy_Pushes_Attendance_at_the_Jolly_Boys_Club.mp3",
-            "The_Great_Gildersleeve_51-03-21_398_Bronco_Tries_to_Run_the_House.mp3",
-            "The_Great_Gildersleeve_51-03-28_399_Gildy_and_Leroy_Baby_Sit_the_Twins.mp3",
-            "The_Great_Gildersleeve_51-04-04_400_Bullard_Needs_Boat_Access.mp3",
-            "The_Great_Gildersleeve_51-04-11_401_Gildy_Worried_That_Kids_Want_to_Leave.mp3",
-            "The_Great_Gildersleeve_51-04-18_402_Leroy_in_Love_with_Marcelle.mp3",
-            "The_Great_Gildersleeve_51-04-25_403_Leroys_Pony.mp3",
-            "The_Great_Gildersleeve_51-05-02_404_Spring_Cleaning_the_Judges_House.mp3",
-            "The_Great_Gildersleeve_51-05-09_405_Marjorie_and_Broncos_First_Anniversary.mp3",
-            "The_Great_Gildersleeve_51-05-16_406_Boating_Date_with_Katharine.mp3",
-            "The_Great_Gildersleeve_51-05-23_407_Broncos_Father_Arrives_-_Twins_Are_Named.mp3",
-            "The_Great_Gildersleeve_51-05-30_408_Leaving_on_Vacation_to_Half_Moon_Lake_-_Gildys_Schedule.mp3",
-            "The_Great_Gildersleeve_51-09-05_409_Leroy_Buys_a_Car.mp3",
-            "The_Great_Gildersleeve_51-09-12_410_County_Fair_Comes_to_Summerfield.mp3",
-            "The_Great_Gildersleeve_51-09-19_411_Getting_Ready_for_School_-_Women_Trouble.mp3",
-            "The_Great_Gildersleeve_51-09-26_412_Marjorie_Gets_a_Job.mp3",
-            "The_Great_Gildersleeve_51-10-03_413_Gildy_Wants_to_Be_Re-Elected_President_of_the_Jolly_Boys_Cl.mp3",
-            "The_Great_Gildersleeve_51-10-10_414_Leroy_Visits_the_Judge.mp3",
-            "The_Great_Gildersleeve_51-10-17_415_Bronco_Almost_Forgets_About_His_First_Date_with_Marjorie.mp3",
-            "The_Great_Gildersleeve_51-10-24_416_Gildy_Takes_Mrs_Winthrop_and_Babs_on_a_Picnic.mp3",
-            "The_Great_Gildersleeve_51-10-31_417_Halloween_and_Gildy_Finds_a_Lost_Boy.mp3",
-            "The_Great_Gildersleeve_51-11-07_418_Marjorie_and_Bronco_Want_to_Build_a_House.mp3",
-            "The_Great_Gildersleeve_51-11-14_419_Problems_Removing_an_Oak_Tree.mp3",
-            "The_Great_Gildersleeve_51-11-21_420_Inviting_Thanksgiving_Guests.mp3",
-            "The_Great_Gildersleeve_51-11-28_421_Getting_Leroy_to_Study_and_Grow_Up.mp3",
-            "The_Great_Gildersleeve_51-12-12_423_Leroy_Selling_Christmas_Trees.mp3",
-            "The_Great_Gildersleeve_51-12-19_424_Christmas_Show.mp3",
-            "The_Great_Gildersleeve_51-12-26_425_Opening_Last_Christmas_Presents.mp3",
-            "The_Great_Gildersleeve_52-01-02_426_Gildy_Wants_New_Job_to_Keep_up_with_Bronco.mp3",
-            "The_Great_Gildersleeve_52-01-09_427_Gildy_Has_Disappeared_-_In_Hospital.mp3",
-            "The_Great_Gildersleeve_52-01-16_428_Gildy_Talks_to_Everyone_About_Operation.mp3",
-            "The_Great_Gildersleeve_52-01-23_429_Trying_to_Be_Alone_with_Paula.mp3",
-            "The_Great_Gildersleeve_52-01-30_430_Gildy_Protects_Hooker_from_Mona.mp3",
-            "The_Great_Gildersleeve_52-02-06_431_Gildy_Hires_Mrs_Munson_and_Gets_Floyd_Too.mp3",
-            "The_Great_Gildersleeve_52-02-13_432_Engagement_Ring_Mixup.mp3",
-            "The_Great_Gildersleeve_52-02-20_433_Civic_Coordinator.mp3",
-            "The_Great_Gildersleeve_52-02-27_434_Leroys_Week_of_Freedom.mp3",
-            "The_Great_Gildersleeve_52-03-05_435_Bullard_Is_House_Guest_-_Need_Two_Thousand_Dollar_Loan.mp3",
-            "The_Great_Gildersleeve_52-03-12_436_Train_Trip_to_Omaha.mp3",
-            "The_Great_Gildersleeve_52-03-19_437_Gildys_Garden.mp3",
-            "The_Great_Gildersleeve_52-03-26_438_Television_Comes_to_Summerfield.mp3",
-            "The_Great_Gildersleeve_52-04-02_439_Colorful_Past.mp3",
-            "The_Great_Gildersleeve_52-04-09_440_Easter_Sunrise_Service.mp3",
-            "The_Great_Gildersleeve_52-04-16_441_Leroy_the_Bee_Keeper.mp3",
-            "The_Great_Gildersleeve_52-04-23_442_Diving_for_Publicity.mp3",
-            "The_Great_Gildersleeve_52-04-30_443_Bad_Report_Card_-_No_Camp.mp3",
-            "The_Great_Gildersleeve_52-05-07_444_Leroy_the_Singing_Cowboy.mp3",
-            "The_Great_Gildersleeve_52-05-14_445_Bronco_Coming_Home_-_Gildy_and_Leroy_Fishing.mp3",
-            "The_Great_Gildersleeve_52-05-21_446_Happy_Moving_Day.mp3",
-            "The_Great_Gildersleeve_52-05-28_447_Leroys_Bike_Motor.mp3",
-            "The_Great_Gildersleeve_52-06-04_448_Katie_Lee_Visits_Summerfield.mp3",
-            "The_Great_Gildersleeve_52-06-04_448_Katie_Lee_Visits_Summerfield_AFRTS.mp3",
-            "The_Great_Gildersleeve_52-06-11_449_Bronco_Wants_a_Wall_Between_Yards.mp3",
-            "The_Great_Gildersleeve_52-06-18_450_Guess_the_Number_of_Beans_Contest.mp3",
-            "The_Great_Gildersleeve_52-06-25_451_Miss_McKinley_of_the_Complaint_Dept.mp3",
-            "The_Great_Gildersleeve_52-07-02_452_Fourth_of_July_Speech.mp3",
-            "The_Great_Gildersleeve_52-07-09_453_Fishing_with_Miss_McKinley.mp3",
-            "The_Great_Gildersleeve_52-07-16_454_Back_Yard_Camping.mp3",
-            "The_Great_Gildersleeve_52-07-30_456_Bronco_Sells_Gildys_House.mp3",
-            "The_Great_Gildersleeve_52-08-06_457_Leroy_Behaving_Too_Well.mp3",
-            "The_Great_Gildersleeve_52-08-13_458_Gildy_Goes_on_a_Diet.mp3",
-            "The_Great_Gildersleeve_52-08-20_459_Leroys_Million_Dollar_Laundry.mp3",
-            "The_Great_Gildersleeve_52-08-27_460_Cousin_Emily_Comes_for_a_Visit.mp3",
-            "The_Great_Gildersleeve_52-09-03_461_Winning_Leroy_Back_from_Emily.mp3",
-            "The_Great_Gildersleeve_52-09-10_462_Cleaning_Bullards_House.mp3",
-            "The_Great_Gildersleeve_52-09-17_463_Drivers_License_Test.mp3",
-            "The_Great_Gildersleeve_52-09-24_464_Hooker_and_Peavey_Are_Feuding.mp3",
-            "The_Great_Gildersleeve_52-10-01_465_Economize.mp3",
-            "The_Great_Gildersleeve_52-10-08_466_Ladies_Man.mp3",
-            "The_Great_Gildersleeve_52-10-15_467_Watch_Trouble.mp3",
-            "The_Great_Gildersleeve_52-10-22_468_Gildy_the_Athlete.mp3",
-            "The_Great_Gildersleeve_52-10-29_469_The_Suggestion_Box.mp3",
-            "The_Great_Gildersleeve_52-11-05_470_Gildersleeve_vs_Golf.mp3",
-            "The_Great_Gildersleeve_52-11-12_471_Problems_with_Leroys_Teacher.mp3",
-            "The_Great_Gildersleeve_52-11-19_472_Leroys_Gift.mp3",
-            "The_Great_Gildersleeve_52-11-26_473_Miss_Grace_Tuttle_and_Bird_Watching.mp3",
-            "The_Great_Gildersleeve_52-12-03_474_The_Birthday_Duck_Dinner.mp3",
-            "The_Great_Gildersleeve_52-12-10_475_Leroys_Part_Time_Employment.mp3",
-            "The_Great_Gildersleeve_52-12-17_476_Grace_Tuttles_Brother_Sydney.mp3",
-            "The_Great_Gildersleeve_52-12-24_477_Gildy_and_Leroy_Alone_for_Christmas.mp3",
-            "The_Great_Gildersleeve_52-12-31_478_New_Years_Eve_with_Peavey.mp3",
-            "The_Great_Gildersleeve_53-01-07_479_Leila_Back_in_Town_-_Sydney_Tuttle.mp3",
-            "The_Great_Gildersleeve_53-01-14_480_Gildy_and_Sidney_Help_Leila.mp3",
-            "The_Great_Gildersleeve_53-01-21_481_Cousin_Bert_Sends_Leroy_a_Great_Dane.mp3",
-            "The_Great_Gildersleeve_53-01-28_482_Gildy_and_Grace_Tuttle.mp3",
-            "The_Great_Gildersleeve_53-02-04_483_Rivals_Leila_and_Grace_Meet.mp3",
-            "The_Great_Gildersleeve_53-02-11_484_Two_Dates_for_Mayors_Valentine_Party.mp3",
-            "The_Great_Gildersleeve_53-02-18_485_Gildy_in_Trouble_with_Leila_and_Grace.mp3",
-            "The_Great_Gildersleeve_53-02-25_486_Gildys_Great_Dane_Causes_Peavey_Trouble.mp3",
-            "The_Great_Gildersleeve_53-03-04_487_Extra_Help_at_the_Water_Department.mp3",
-            "The_Great_Gildersleeve_53-03-11_488_Leroy_Moves_out_to_Marjories.mp3",
-            "The_Great_Gildersleeve_53-03-18_489_The_Jam_Session.mp3",
-            "The_Great_Gildersleeve_53-03-25_490_Cleaning_House_-_Rummage_Sale.mp3",
-            "The_Great_Gildersleeve_53-04-01_491_Easter_Sunrise_Service.mp3",
-            "The_Great_Gildersleeve_53-04-08_492_Leroy_Has_Trouble_with_the_Mayors_Son.mp3",
-            "The_Great_Gildersleeve_53-04-15_493_Boys_Club_Takes_over_Jolly_Boy_Clubroom.mp3",
-            "The_Great_Gildersleeve_53-04-22_494_Marjorie_and_Bronco_Are_Fighting.mp3",
-            "The_Great_Gildersleeve_53-04-29_495_Bottled_Water_Company_Stock.mp3",
-            "The_Great_Gildersleeve_53-05-06_496_Anniversary_Present.mp3",
-            "The_Great_Gildersleeve_53-05-13_497_Gildy_Going_to_Europe.mp3",
-            "The_Great_Gildersleeve_53-05-20_498_Leroys_Theme.mp3",
-            "The_Great_Gildersleeve_53-05-27_499_Witness_at_the_Wedding.mp3",
-            "The_Great_Gildersleeve_53-06-03_500_Birdie_May_Move_to_Marjories_House.mp3",
-            "The_Great_Gildersleeve_53-06-10_501_Leroy_Has_the_Mumps_-_Train_Stop.mp3",
-            "The_Great_Gildersleeve_53-06-17_502_Gift_for_Miss_Tuttle.mp3",
-            "The_Great_Gildersleeve_53-06-24_503_Swimming_Trip_to_Grass_Lake.mp3",
-            "The_Great_Gildersleeve_53-07-01_504_Togetherness.mp3",
-            "The_Great_Gildersleeve_53-07-15_506_Buying_a_Spray_Gun.mp3",
-            "The_Great_Gildersleeve_53-07-22_507_Mae_Home_from_Vacation_-_Engaged.mp3",
-            "The_Great_Gildersleeve_53-07-29_508_Leroy_Going_to_Visit_Aunt_Hattie.mp3",
-            "The_Great_Gildersleeve_53-08-05_509_The_Water_Commissioner_Is_Fired.mp3",
-            "The_Great_Gildersleeve_53-08-12_510_Deciding_on_a_Lake_Cabin.mp3",
-            "The_Great_Gildersleeve_53-08-19_511_A_Fish_Story.mp3",
-            "The_Great_Gildersleeve_53-08-26_512_Sufficient_Unto_Ones_Self.mp3",
-            "The_Great_Gildersleeve_53-09-02_513_Leroys_Girl_-_Jo_Mac.mp3",
-            "The_Great_Gildersleeve_53-09-09_514_Gildy_Helps_Raise_Ronnie.mp3",
-            "The_Great_Gildersleeve_53-09-16_515_Birdies_Mystery_Cake_Recipe.mp3",
-            "The_Great_Gildersleeve_53-09-23_516_Baby_Sitter_Gildy.mp3",
-            "The_Great_Gildersleeve_53-09-30_517_Flattery.mp3",
-            "The_Great_Gildersleeve_53-10-07_518_Home_Haircut.mp3",
-            "The_Great_Gildersleeve_53-10-14_519_Gildy_Involved_with_Teacher_and_Principal.mp3",
-            "The_Great_Gildersleeve_53-10-21_520_Fire_Bells_Are_Ringing.mp3",
-            "The_Great_Gildersleeve_53-10-28_521_Unwilling_Witness.mp3",
-            "The_Great_Gildersleeve_53-11-04_522_Impulsive_Gildy_Almost_Gets_Married.mp3",
-            "The_Great_Gildersleeve_53-11-11_523_The_Authority_Figure.mp3",
-            "The_Great_Gildersleeve_53-11-18_524_Gildy_the_Athlete_vs_Doc_Olsen.mp3",
-            "The_Great_Gildersleeve_53-11-25_525_Dinner_Mixup_with_Peavey_and_Girls.mp3",
-            "The_Great_Gildersleeve_53-12-02_526_Gildy_Earns_Christmas_Money_Selling_Insurance.mp3",
-            "The_Great_Gildersleeve_53-12-09_527_Taking_Bessie_to_the_Dance.mp3",
-            "The_Great_Gildersleeve_53-12-16_528_Gildy_and_Hooker_Feud_at_Christmas.mp3",
-            "The_Great_Gildersleeve_53-12-23_529_Selling_Trees_for_Needy_Childrens_Party.mp3",
-            "The_Great_Gildersleeve_53-12-30_530_New_Years_Eve_at_Home_with_Leroy.mp3",
-            "The_Great_Gildersleeve_54-01-06_531_Irenes_Father_Pushes_for_a_Wedding.mp3",
-            "The_Great_Gildersleeve_54-01-13_532_Gildy_in_the_Doghouse_with_Irene.mp3",
-            "The_Great_Gildersleeve_54-01-20_533_Leroy_Going_Steady.mp3",
-            "The_Great_Gildersleeve_54-01-27_534_Bronco_Mad_at_Gildy_for_Interfering.mp3",
-            "The_Great_Gildersleeve_54-02-03_535_Evening_Conference_with_Leroys_Teacher.mp3",
-            "The_Great_Gildersleeve_54-02-10_536_Judge_Hookers_Annual_Dinner.mp3",
-            "The_Great_Gildersleeve_54-02-17_537_Gildy_the_Budding_Politician.mp3",
-            "The_Great_Gildersleeve_54-02-24_538_Jolly_Boys_Election.mp3",
-            "The_Great_Gildersleeve_54-03-03_539_Paula_Winthrop_Back_in_Town.mp3",
-            "The_Great_Gildersleeve_54-03-10_540_Gildy_Is_Old_Fashioned_and_Square.mp3",
-            "The_Great_Gildersleeve_54-03-17_541_New_Girl_in_Town_-_Marie_Olsen.mp3",
-            "The_Great_Gildersleeve_54-03-24_542_Hobby_Show.mp3",
-            "The_Great_Gildersleeve_54-03-31_543_Gildy_Involved_with_Two_Girls_Again.mp3",
-            "The_Great_Gildersleeve_54-04-07_544_Marie_Teaches_Bronco_French.mp3",
-            "The_Great_Gildersleeve_54-04-14_545_Dinner_Party_for_Broncos_Boss.mp3",
-            "The_Great_Gildersleeve_54-04-21_546_Marie_Olsen_Charms_Everyone.mp3",
-            "The_Great_Gildersleeve_54-04-28_547_Gildy_Swears_off_Girls_but_Meets_Thelma.mp3",
-            "The_Great_Gildersleeve_54-05-12_549_Dinner_for_Dr_Olsen_Whos_Leaving_Town.mp3",
-            "The_Great_Gildersleeve_54-05-19_550_Gildy_Runs_for_Sheriff.mp3",
-            "The_Great_Gildersleeve_54-05-26_551_Visit_by_Aunt_Hattie.mp3",
-            "The_Great_Gildersleeve_54-06-02_552_Trying_to_End_Aunt_Hatties_Stay.mp3",
-            "The_Great_Gildersleeve_54-10-26_xxx_A_Pal_To_Leroy.mp3",
-            "The_Great_Gildersleeve_55-10-20_xxx_Floyds_Inheritance.mp3",
-            "The_Great_Gildersleeve_55-xx-xx_xxx_Vacation_Time.mp3",
-            "The_Great_Gildersleeve_56-xx-xx_Doye_ODells_Dude_Ranch_AFRTS_498.mp3",
-            "The_Great_Gildersleeve_56-xx-xx_Judge_Returns_From_Europe_AFRTS_544.mp3",
-            "The_Great_Gildersleeve_56-xx-xx_Peavey_and_Mayor_Expect_Election_Support_2nd_half_AFRTS_490.mp3",
-            "The_Great_Gildersleeve_57-03-07_xxx_Gildy_Causes_Water_Outage.mp3",
-            "The_Great_Gildersleeve_57-04-16_xxx_Family_Prepares_For_Easter.mp3",
-            "The_Great_Gildersleeve_57-xx-xx_xxx_Bessies_Vacation.mp3",
-            "The_Great_Gildersleeve_57-xx-xx_xxx_Leilas_Antique_Vase.mp3"
-    };
+        if(instance == null)
+            instance = new RadioTitle();
 
-    private final String[] MartinAndLewis = {
-            "MartinLewisShow481221_000_BobHope_Audition.mp3",
-            "MartinLewisShow490403_001_LucilleBall.mp3",
-            "MartinLewisShow490410_002_WilliamBendix.mp3",
-            "MartinLewisShow490501_005_MadeleineCarroll.mp3",
-            "MartinLewisShow490508_006_PeterLorrie.mp3",
-            "MartinLewisShow490515_007_ArthurTreacher.mp3",
-            "MartinLewisShow490522_008_JohnGarfield.mp3",
-            "MartinLewisShow490529_009_HenryFonda.mp3",
-            "MartinLewisShow490605_010_MarilynMaxwell.mp3",
-            "MartinLewisShow490612_011_BurlIves.mp3",
-            "MartinLewisShow490621_012_TonyMartin.mp3",
-            "MartinLewisShow490628_013_JohnCarradine.mp3",
-            "MartinLewisShow490705_014_RalphBellamy.mp3",
-            "MartinLewisShow490726_015_FrancesLangford.mp3",
-            "MartinLewisShow490802_016_WilliamBoyd_HopalongCassidy.mp3",
-            "MartinLewisShow490809_017_BurtLancaster.mp3",
-            "MartinLewisShow490816_018_VictorMoore.mp3",
-            "MartinLewisShow490823_019_BillieBurke.mp3",
-            "MartinLewisShow490830_020_JaneRussell.mp3",
-            "MartinLewisShow491007_021_NewNightclub.mp3",
-            "MartinLewisShow491014_022_DorothyKirsten.mp3",
-            "MartinLewisShow491021_023_GeorgeJessell.mp3",
-            "MartinLewisShow491028_024_TicketstoSouthPacific.mp3",
-            "MartinLewisShow491107_025_WitnessToAMurder.mp3",
-            "MartinLewisShow491114_026_MoneyProblems.mp3",
-            "MartinLewisShow491128_028_ViolatingChildLaborLaws.mp3",
-            "MartinLewisShow491212_030_ChristMasShow.mp3",
-            "MartinLewisShow491219_031_SheldonLeonard.mp3",
-            "MartinLewisShow511005_038_DinahShore.mp3",
-            "MartinLewisShow511012_039_GeorgeRaft.mp3",
-            "MartinLewisShow511019_040_BingCrosby.mp3",
-            "MartinLewisShow511026_041_ArleneDahl.mp3",
-            "MartinLewisShow511102_042_DeniseDarcel.mp3",
-            "MartinLewisShow511109_043_DannyThoMas.mp3",
-            "MartinLewisShow511116_044_ShelleyWinters.mp3",
-            "MartinLewisShow511123_045_DennisMorgan.mp3",
-            "MartinLewisShow511130_046_JaneWyMan.mp3",
-            "MartinLewisShow511207_047_JoanDavis.mp3",
-            "MartinLewisShow511214_048_JaneRussell.mp3",
-            "MartinLewisShow511221_049_HelenOConnell.mp3",
-            "MartinLewisShow511228_050_DaleEvans.mp3",
-            "MartinLewisShow520104_051_MonaFreeMan.mp3",
-            "MartinLewisShow520111_052_HansConried.mp3",
-            "MartinLewisShow520118_053_FrankSinatra.mp3",
-            "MartinLewisShow520125_054_AlexisSmith.mp3",
-            "MartinLewisShow520201_055_GordonMacrae.mp3",
-            "MartinLewisShow520208_056_RhondaFleming.mp3",
-            "MartinLewisShow520215_057_WilliamHolden.mp3",
-            "MartinLewisShow520222_058_LindaDarnell.mp3",
-            "MartinLewisShow520229_059_TonyCurtis.mp3",
-            "MartinLewisShow520307_060_CorinneCalvet.mp3",
-            "MartinLewisShow520314_061_LizabethScott.mp3",
-            "MartinLewisShow520321_062_MarleneDietrich.mp3",
-            "MartinLewisShow520328_063_AnnSothern.mp3",
-            "MartinLewisShow520404_064_ClaireTrevor.mp3",
-            "MartinLewisShow520411_065_VirginiaMayo.mp3",
-            "MartinLewisShow520418_066_BorisKarloff.mp3",
-            "MartinLewisShow520425_067_AnnSheridan.mp3",
-            "MartinLewisShow520916_068_RoseMaryClooney.mp3",
-            "MartinLewisShow520923_069_JeffChandler.mp3",
-            "MartinLewisShow521007_070_JaneWyMan.mp3",
-            "MartinLewisShow521014_071_HoagyCarmichael.mp3",
-            "MartinLewisShow530113_084_JackWebb.mp3",
-            "MartinLewisShow530407_096_MitziGaynor.mp3",
-            "MartinLewisShow530414_097_LindaDarnell.mp3",
-            "MartinLewisShow530421_098_VicDamone.mp3",
-            "MartinLewisShow530428_099_LaraineDay.mp3",
-            "MartinLewisShow530505_100_AnneBaxter.mp3",
-            "MartinLewisShow530512_101_JoanneDru.mp3",
-            "MartinLewisShow530519_102_FredMacmurray.mp3",
-            "MartinLewisShow530526_103_DebbieReynolds.mp3",
-            "MartinLewisShow530602_104_JeffChandler.mp3",
-            "MartinLewisShow530609_105_PhyllisThaxter.mp3",
-            "MartinLewisShow530616_106_JosephCotten.mp3",
-            "MartinLewisShow530623_107_VeraEllen.mp3",
-            "MartinLewisShow530707_108_MarleneDietrich.mp3",
-            "MartinLewisShow530714_109_GloriaGrahame.mp3"
-    };
+        return instance;
+    }
 
-    private final String[] MartinAndLewisTitle = {
-            "Bob Hope_Audition",
-            "Lucille Ball",
-            "William Bendix",
-            "Madeleine Carroll",
-            "Peter Lorrie",
-            "Arthur Treacher",
-            "John Garfield",
-            "Henry Fonda",
-            "Marilyn Maxwell",
-            "Burl Ives",
-            "Tony Martin",
-            "John Carradine",
-            "Ralph Bellamy",
-            "Frances Langford",
-            "William Boyd_Hopalong Cassidy",
-            "Burt Lancaster",
-            "Victor Moore",
-            "Billie Burke",
-            "Jane Russell",
-            "New Nightclub",
-            "Dorothy Kirsten",
-            "George Jessell",
-            "Tickets to South Pacific",
-            "Witness To A Murder",
-            "Money Problems",
-            "Violating Child Labor Laws",
-            "ChristMas Show",
-            "Sheldon Leonard",
-            "Dinah Shore",
-            "George Raft",
-            "Bing Crosby",
-            "Arlene Dahl",
-            "Denise Darcel",
-            "Danny ThoMas",
-            "Shelley Winters",
-            "Dennis Morgan",
-            "Jane WyMan",
-            "Joan Davis",
-            "Jane Russell",
-            "Helen OConnell",
-            "Dale Evans",
-            "Mona FreeMan",
-            "Hans Conried",
-            "Frank Sinatra",
-            "Alexis Smith",
-            "Gordon Macrae",
-            "Rhonda Fleming",
-            "William Holden",
-            "Linda Darnell",
-            "Tony Curtis",
-            "Corinne Calvet",
-            "Lizabeth Scott",
-            "Marlene Dietrich",
-            "Ann Sothern",
-            "Claire Trevor",
-            "Virginia Mayo",
-            "Boris Karloff",
-            "Ann Sheridan",
-            "Rose Mary Clooney",
-            "Jeff Chandler",
-            "Jane WyMan",
-            "Hoagy Carmichael",
-            "Jack Webb",
-            "Mitzi Gaynor",
-            "Linda Darnell",
-            "Vic Damone",
-            "Laraine Day",
-            "Anne Baxter",
-            "Joanne Dru",
-            "Fred Macmurray",
-            "Debbie Reynolds",
-            "Jeff Chandler",
-            "Phyllis Thaxter",
-            "Joseph Cotten",
-            "Vera Ellen",
-            "Marlene Dietrich",
-            "Gloria Grahame"
-    };
+    //Initialize this or any other variables in probably the Application class
+    public void init(Context context) {
 
-    private final String[] XMinus = {
-            "xminusone_560612_IfYouWasAMoklin.mp3",
-            "xminusone_560619_ProjectTrojan.mp3",
-            "xminusone_560626_WhereverYouMayBe.mp3",
-            "xminusone_560703_MrCostelloHero.mp3",
-            "xminusone_560710_BadMedicine.mp3",
-            "xminusone_560717_TheOldDieRich.mp3",
-            "xminusone_560724_TheStarsAreTheStyx.mp3",
-            "xminusone_560731_StudentBody.mp3",
-            "xminusone_560807_TheLastMartian.mp3",
-            "xminusone_560814_TheSnowballEffect.mp3",
-            "xminusone_560828_SurfaceTension.mp3",
-            "xminusone_560904_TunnelUnderTheWorld.mp3",
-            "xminusone_560911_TheLifeboatMutiny.mp3",
-            "xminusone_560926_TheMapMakers.mp3",
-            "xminusone_561003_ProtectiveMimicry.mp3",
-            "xminusone_561010_Colony.mp3",
-            "xminusone_561017_SoldierBoy.mp3",
-            "xminusone_561024_PicturesDontLie.mp3",
-            "xminusone_561031_SamThisIsYou.mp3",
-            "xminusone_561107_AppointmentInTomorrow.mp3",
-            "xminusone_561114_TheMartianDeathMarch.mp3",
-            "xminusone_561121_ChainOfCommand.mp3",
-            "xminusone_561128_TheCastaways.mp3",
-            "xminusone_561205_ThereWillComeSoftRainsZHour.mp3",
-            "xminusone_561212_Hostess.mp3",
-            "xminusone_561219_TheReluctantHeroes.mp3",
-            "xminusone_561226_HoneymoonInHell.mp3",
-            "xminusone_570102_TheMoonIsGreen.mp3",
-            "xminusone_570109_SaucerOfLonliness.mp3",
-            "xminusone_570116_TheGirlsFromEarth.mp3",
-            "xminusone_570123_OpenWarfare.mp3",
-            "xminusone_570130_Caretaker.mp3",
-            "xminusone_570206_VenusIsAMansWorld.mp3",
-            "xminusone_570213_TheTrap.mp3",
-            "xminusone_570220_FieldStudy.mp3",
-            "xminusone_570227_RealGone.mp3",
-            "xminusone_570306_TheSeventhVictim.mp3",
-            "xminusone_570313_TheLightsOnPrecipicePeak.mp3",
-            "xminusone_570320_Protection.mp3",
-            "xminusone_570327_AtThePost.mp3",
-            "xminusone_570403_MartianSam.mp3",
-            "xminusone_570410_SomethingForNothing.mp3",
-            "xminusone_570417_TheDiscoveryOfMornealMatheway.mp3",
-            "xminusone_570424_MansBestFriend.mp3",
-            "xminusone_570620_InsideStory.mp3",
-            "xminusone_570627_TheCategoryInventor.mp3",
-            "xminusone_570704_SkulkingPermit.mp3",
-            "xminusone_570711_EarlyModel.mp3",
-            "xminusone_570718_TheMerchantsOfVenus.mp3",
-            "xminusone_570725_TheHauntedCorpse.mp3",
-            "xminusone_570801_EndAsAWorld.mp3",
-            "xminusone_570808_TheScapegoat.mp3",
-            "xminusone_570815_AtThePost.mp3",
-            "xminusone_570822_DropDead.mp3",
-            "xminusone_570829_Volpla.mp3",
-            "xminusone_570905_SaucerOfLoneliness_remake.mp3",
-            "xminusone_570912_TheOldDieRich.mp3"
-    };
+        this.jnav = JSONNav.getInstance();
+    }
 
-    private final String[] XMinusTitle = {
-            "If You Was A Moklin",
-            "Project Trojan",
-            "Wherever You May Be",
-            "Mr Costello Hero",
-            "Bad Medicine",
-            "The Old Die Rich",
-            "The Stars Are The Styx",
-            "Student Body",
-            "The Last Martian",
-            "The Snowball Effect",
-            "Surface Tension",
-            "Tunnel Under The World",
-            "The Lifeboat Mutiny",
-            "The Map Makers",
-            "Protective Mimicry",
-            "Colony",
-            "Soldier Boy",
-            "Pictures Dont Lie",
-            "Sam This Is You",
-            "Appointment In Tomorrow",
-            "The Martian Death March",
-            "Chain Of Command",
-            "The Castaways",
-            "There Will Come Soft Rains ZHour",
-            "Hostess",
-            "The Reluctant Heroes",
-            "Honeymoon In Hell",
-            "The Moon Is Green",
-            "Saucer Of Lonliness",
-            "The Girls From Earth",
-            "Open Warfare",
-            "Caretaker",
-            "Venus Is A Mans World",
-            "The Trap",
-            "Field Study",
-            "Real Gone",
-            "The Seventh Victim",
-            "The Lights On Precipice Peak",
-            "Protection",
-            "At The Post",
-            "Martian Sam",
-            "Something For Nothing",
-            "The Discovery Of Morneal Matheway",
-            "Mans Best Friend",
-            "Inside Story",
-            "The Category Inventor",
-            "Skulking Permit",
-            "Early Model",
-            "The Merchants Of Venus",
-            "The Haunted Corpse",
-            "End As A World",
-            "The Scapegoat",
-            "At The Post",
-            "Drop Dead",
-            "Volpla",
-            "Saucer Of Loneliness_remake",
-            "The Old Die Rich"
-    };
-
-    private final String[] InnerSanctum = {
-            "Inner_Sanctum_450109_Desert_Death.mp3",
-            "Inner_Sanctum_450123_Death_Is_an_Artist.mp3",
-            "Inner_Sanctum_450206_Death_in_the_Depths.mp3",
-            "Inner_Sanctum_450220_No_Coffin_for_the_Dead.mp3",
-            "Inner_Sanctum_450306_The_Lost_Refrain.mp3",
-            "Inner_Sanctum_450313_Island_of_the_Dead.mp3",
-            "Inner_Sanctum_450403_The_Meek_Die_Slowly.mp3",
-            "Inner_Sanctum_450410_The_BogOak_Necklace.mp3",
-            "Inner_Sanctum_450417_The_Judas_Clock.mp3",
-            "Inner_Sanctum_450424_Song_of_the_Slasher.mp3",
-            "Inner_Sanctum_450501_The_Girl_and_the_Gallows.mp3",
-            "Inner_Sanctum_450515_The_Black_Art.mp3",
-            "Inner_Sanctum_450522_Dead_to_Rights.mp3",
-            "Inner_Sanctum_450529_Musical_Score.mp3",
-            "Inner_Sanctum_450605_Death_Across_the_Board.mp3",
-            "Inner_Sanctum_450612_Portrait_of_Death.mp3",
-            "Inner_Sanctum_450619_Dead_Mans_Holiday.mp3",
-            "Inner_Sanctum_450626_Dead_Mans_Debt.mp3",
-            "Inner_Sanctum_450828_Dead_Mans_Deal.mp3",
-            "Inner_Sanctum_450904_The_Murder_Prophet.mp3",
-            "Inner_Sanctum_450911_The_Last_Story.mp3",
-            "Inner_Sanctum_450918_Terror_by_Night.mp3",
-            "Inner_Sanctum_450925_The_Lonely_Sleep.mp3",
-            "Inner_Sanctum_451002_The_Shadow_of_Death.mp3",
-            "Inner_Sanctum_451009_Death_by_Scripture.mp3",
-            "Inner_Sanctum_451016_Till_Death_Do_Us_Part.mp3",
-            "Inner_Sanctum_451023_The_Corridor_of_Doom.mp3",
-            "Inner_Sanctum_451030_The_Man_Who_Couldnt_Die.mp3",
-            "Inner_Sanctum_451106_The_Wailing_Wall_Boris_Karloff.mp3",
-            "Inner_Sanctum_451211_The_Dark_Chamber.mp3",
-            "Inner_Sanctum_451218_The_Undead.mp3"
-    };
-
-    private final String[] InnerSanctumTitle = {
-            "Desert Death",
-            "Death Is an Artist",
-            "Death in the Depths",
-            "No Coffin for the Dead",
-            "The Lost Refrain",
-            "Island of the Dead",
-            "The Meek Die Slowly",
-            "The BogOak Necklace",
-            "The Judas Clock",
-            "Song of the Slasher",
-            "The Girl and the Gallows",
-            "The Black Art",
-            "Dead to Rights",
-            "Musical Score",
-            "Death Across the Board",
-            "Portrait of Death",
-            "Dead Mans Holiday",
-            "Dead Mans Debt",
-            "Dead Mans Deal",
-            "The Murder Prophet",
-            "The Last Story",
-            "Terror by Night",
-            "The Lonely Sleep",
-            "The Shadow of Death",
-            "Death by Scripture",
-            "Till Death Do Us Part",
-            "The Corridor of Doom",
-            "The Man Who Couldnt Die",
-            "The Wailing Wall Boris Karloff",
-            "The Dark Chamber",
-            "The Undead"
-    };
-
-    private final String[] dimensionX = {
-                "Dimx_e001_TheOuterLimit.mp3",
-                "Dimx_e002_WithFoldedHands.mp3",
-                "Dimx_e003_ReportOnTheBarnhouseEffect.mp3",
-                "Dimx_e004_NoContact.mp3",
-                "Dimx_e005_Knock.mp3",
-                "Dimx_e006_AlmostHuman.mp3",
-                "Dimx_e007_TheLostRace.mp3",
-                "Dimx_e008_ToTheFuture.mp3",
-                "Dimx_e009_TheEmbassy.mp3",
-                "Dimx_e011_ThereWillComeSoftRains_ZeroHour.mp3",
-                "Dimx_e012_DestinationMoon.mp3",
-                "Dimx_e013_ALogicNamedJoe.mp3",
-                "Dimx_e014_MarsIsHeaven.mp3",
-                "Dimx_e015_TheManInTheMoon.mp3",
-                "Dimx_e016_BeyondInfinity.mp3",
-                "Dimx_e017_ThePottersOfFirsk.mp3",
-                "Dimx_e018_PerigisWonderfulDolls.mp3",
-                "Dimx_e019_TheCastaways.mp3",
-                "Dimx_e020_TheMartianChronicles.mp3",
-                "Dimx_e021_TheParade.mp3",
-                "Dimx_e023_FirstContact.mp3",
-                "Dimx_e024_HelloTomorrow.mp3",
-                "Dimx_e025_Dr.GrimshawsSanitorium.mp3",
-                "Dimx_e026_AndTheMoonBeStillAsBright.mp3",
-                "Dimx_e028_TheProfwasAThief.mp3",
-                "Dimx_e029_Shanghied.mp3",
-                "Dimx_e030_Competition.mp3",
-                "Dimx_e034_TheMartianDeathMarch.mp3",
-                "Dimx_e035_TheLastObjective.mp3",
-                "Dimx_e036_Nightmare.mp3",
-                "Dimx_e037_APebbleInTheSky.mp3",
-                "Dimx_e038_ChildsPlay.mp3",
-                "Dimx_e039_TimeAndTimeAgain.mp3",
-                "Dimx_e040_DwellersInSilence.mp3",
-                "Dimx_e041_Courtesy.mp3",
-                "Dimx_e043_TheVeldt.mp3",
-                "Dimx_e044_TheVitalFactor.mp3",
-                "Dimx_e045_UntitledStory.mp3",
-                "Dimx_e046_MarionettesInc.mp3",
-                "Dimx_e048_Kaleidoscope.mp3",
-                "Dimx_e049_Requiem.mp3",
-                "Dimx_e050_Nightfall.mp3"
-        };
-
-        private final String[] dimensionXTitle = {
-                "The Outer Limit",
-                "With Folded Hands",
-                "ReportOnTheBarnhouseEffect",
-                "No Contact",
-                "Knock",
-                "Almost Human",
-                "The Lost Race",
-                "To The Future",
-                "The Embassy",
-                "There Will Come Soft Rains_ZeroHour",
-                "Destination Moon",
-                "A Logic Named Joe",
-                "Mars Is Heaven",
-                "The Man In The Moon",
-                "Beyond Infinity",
-                "The Potters Of Firsk",
-                "Perigis Wonderful Dolls",
-                "The Castaways",
-                "The Martian Chronicles",
-                "The Parade",
-                "First Contact",
-                "Hello Tomorrow",
-                "Dr. Grimshaws Sanitorium",
-                "And The Moon Be Still As Bright",
-                "The Prof was A Thief",
-                "Shanghied",
-                "Competition",
-                "The Martian Death March",
-                "The Last Objective",
-                "Nightmare",
-                "A Pebble In The Sky",
-                "Childs Play",
-                "Time And Time Again",
-                "Dwellers In Silence",
-                "Courtesy",
-                "The Veldt",
-                "The Vital Factor",
-                "Untitled Story",
-                "Marionettes Inc",
-                "Kaleidoscope",
-                "Requiem",
-                "Nightfall"
-        };
-
-    private final String[] nightBeat = {
-            "Night_Beat_49_05_19_xxxx_The_Ted_Carter_Murder_Case_Audition.mp3",
-            "Night_Beat_50_01_13_xxxx_The_Elevator_Caper_Audition.mp3",
-            "Night_Beat_50_02_06_0001_Zero.mp3",
-            "Night_Beat_50_02_13_0002_The_Night_Is_A_Weapon.mp3",
-            "Night_Beat_50_02_20_0003_A_World_All_Of_His_Own.mp3",
-            "Night_Beat_50_02_27_0004_The_Girl_In_The_Park.mp3",
-            "Night_Beat_50_03_06_0005_Number_13.mp3",
-            "Night_Beat_50_03_13_0006_Am_I_My_Brothers_Keeper.mp3",
-            "Night_Beat_50_03_20_0007_The_Man_Who_Claimed_To_Be_Dead.mp3",
-            "Night_Beat_50_03_27_0008_Flowers_On_The_Water.mp3",
-            "Night_Beat_50_04_09_xxxx_The_Night_Is_A_Weapon_Special_Rebroadcast.mp3",
-            "Night_Beat_50_04_10_0010_I_Know_Your_Secret.mp3",
-            "Night_Beat_50_04_16_xxxx_World_Of_His_Own_Special_Rebroadcast_Certified_but_is_it.mp3",
-            "Night_Beat_50_04_17_0011_Tong_War.mp3",
-            "Night_Beat_50_04_23_xxxx_Girl_In_The_Park_Special_ReBroadcast.mp3",
-            "Night_Beat_50_04_30_xxxx_Am_I_My_Brothers_Keeper_Special_Rebroadcast.mp3",
-            "Night_Beat_50_05_01_0013_Mentallo_The_Mental_Marvel.mp3",
-            "Night_Beat_50_05_08_0014_Elevator_Caper.mp3",
-            "Night_Beat_50_05_15_0015_The_Night_Watchman_.mp3",
-            "Night_Beat_50_05_22_0016_I_Wish_You_Were_Dead.mp3",
-            "Night_Beat_50_05_29_0017_Harlan_Matthews_Stamp_Dealer.mp3",
-            "Night_Beat_50_06_05_0018_The_Girl_From_Kansas.mp3",
-            "Night_Beat_50_06_12_0019_Football_Player_And_The_Syndicate.mp3",
-            "Night_Beat_50_06_19_0020_Vincent_And_The_Painter.mp3",
-            "Night_Beat_50_06_26_0021_The_Juvenile_Gangster_.mp3",
-            "Night_Beat_50_07_03_0022_Marty_.mp3",
-            "Night_Beat_50_07_10_0023_Twill_Be_The_Death_Of_Me.mp3",
-            "Night_Beat_50_07_17_0024_Molly_Keller.mp3",
-            "Night_Beat_50_07_24_0025_The_Devils_Bible.mp3",
-            "Night_Beat_50_07_31_0026_City_At_Your_Fingertips.mp3",
-            "Night_Beat_50_08_07_0027_Old_Blind_Pop_.mp3",
-            "Night_Beat_50_08_14_0028_Gunners_Last_Fight.mp3",
-            "Night_Beat_50_08_21_0029_Doctors_Secret.mp3",
-            "Night_Beat_50_09_04_0031_Old_Home_Week.mp3",
-            "Night_Beat_50_09_11_0032_The_Hunter_Becomes_The_Hunted.mp3",
-            "Night_Beat_50_09_18_0033_Wanna_Buy_A_Story.mp3",
-            "Night_Beat_50_09_25_0034_A_Case_Of_Butter.mp3",
-            "Night_Beat_50_10_06_0035_The_Kenny_Day_Amnesia_Case.mp3",
-            "Night_Beat_50_10_13_0036_Elinar_Pierce_And_Family.mp3",
-            "Night_Beat_50_10_20_0037_Judge_Arnolds_Daughter.mp3",
-            "Night_Beat_50_10_27_0038_The_Doctors_Daughter.mp3",
-            "Night_Beat_50_11_03_0039_The_Black_Cat.mp3",
-            "Night_Beat_50_11_10_0040_The_Slasher.mp3",
-            "Night_Beat_51_03_04_0041_Big_John_McMasters.mp3",
-            "Night_Beat_51_05_18_0042_Juke_Box_Romance.mp3",
-            "Night_Beat_51_05_25_0043_Fear.mp3",
-            "Night_Beat_51_06_01_0044_Will_Of_Mrs_Orloff.mp3",
-            "Night_Beat_51_06_08_0045_The_Search_For_Fred.mp3",
-            "Night_Beat_51_06_15_0046_Otto_The_Music_Man.mp3",
-            "Night_Beat_51_06_22_0047_Sanctuary.mp3",
-            "Night_Beat_51_06_29_0048_Byline_For_Frank.mp3",
-            "Night_Beat_51_07_06_0049_Bill_Perrin_Amnesia_Case.mp3",
-            "Night_Beat_51_07_13_0050_Antonios_Return.mp3",
-            "Night_Beat_51_07_20_0051_The_City_At_Your_Fingertips.mp3",
-            "Night_Beat_51_08_17_0055_They.mp3",
-            "Night_Beat_51_10_26_0065_Mr_And_Mrs_Carothers.mp3",
-            "Night_Beat_51_11_16_0068_Lost_Souls.mp3",
-            "Night_Beat_51_12_21_0073_Five_Days_Off_For_Christmas.mp3",
-            "Night_Beat_51_12_28_0074_Expectant_Father.mp3",
-            "Night_Beat_52_05_01_0092_Pay_Up_Or_Die.mp3",
-            "Night_Beat_52_05_08_0093_Long_Live_The_Clown.mp3",
-            "Night_Beat_52_05_15_0094_Death_Of_Riley.mp3",
-            "Night_Beat_52_05_22_0095_Target_For_A_Week.mp3",
-            "Night_Beat_52_05_29_0096_The_Jockey_Brothers.mp3",
-            "Night_Beat_52_06_05_0097_Marvelous_Machine.mp3",
-            "Night_Beat_52_06_19_0098_Railroaded.mp3",
-            "Night_Beat_52_06_26_0099_Reformer.mp3",
-            "Night_Beat_52_07_03_0100_The_Old_Itch.mp3",
-            "Night_Beat_52_07_17_0102_Taste_Of_Peaches.mp3",
-            "Night_Beat_52_07_31_0104_Flight_From_Fear.mp3",
-            "Night_Beat_52_08_07_0105_Sombody_Stop_Ann.mp3",
-            "Night_Beat_52_08_14_0106_His_Name_Was_Luke.mp3",
-            "Night_Beat_52_08_21_0107_The_Man_With_The_Red_Hair.mp3",
-            "Night_Beat_52_09_04_0109_Ellen.mp3",
-            "Night_Beat_52_09_11_0110_Larry_The_Understudy.mp3",
-            "Night_Beat_52_09_18_0111_Policy_Wheel_Racket.mp3",
-            "Night_Beat_52_09_25_0112_The_Bug_Killings.mp3"
-    };
-
-    private final String[] nightBeatTitle = {
-            "The Ted Carter Murder Case Audition",
-            "The Elevator Caper Audition",
-            "Zero",
-            "The Night Is A Weapon",
-            "A World All Of His Own",
-            "The Girl In The Park",
-            "Number 13",
-            "Am I My Brothers Keeper",
-            "The Man Who Claimed To Be Dead",
-            "Flowers On The Water",
-            "The Night Is A Weapon Special Rebroadcast",
-            "I Know Your Secret",
-            "World Of His Own Special Rebroadcast Certified but is it",
-            "Tong War",
-            "Girl In The Park Special ReBroadcast",
-            "Am I My Brothers Keeper Special Rebroadcast",
-            "Mentallo The Mental Marvel",
-            "Elevator Caper",
-            "The Night Watchman ",
-            "I Wish You Were Dead",
-            "Harlan Matthews Stamp Dealer",
-            "The Girl From Kansas",
-            "Football Player And The Syndicate",
-            "Vincent And The Painter",
-            "The Juvenile Gangster ",
-            "Marty ",
-            "Twill Be The Death Of Me",
-            "Molly Keller",
-            "The Devils Bible",
-            "City At Your Fingertips",
-            "Old Blind Pop ",
-            "Gunners Last Fight",
-            "Doctors Secret",
-            "Old Home Week",
-            "The Hunter Becomes The Hunted",
-            "Wanna Buy A Story",
-            "A Case Of Butter",
-            "The Kenny Day Amnesia Case",
-            "Elinar Pierce And Family",
-            "Judge Arnolds Daughter",
-            "The Doctors Daughter",
-            "The Black Cat",
-            "The Slasher",
-            "Big John McMasters",
-            "Juke Box Romance",
-            "Fear",
-            "Will Of Mrs Orloff",
-            "The Search For Fred",
-            "Otto The Music Man",
-            "Sanctuary",
-            "Byline For Frank",
-            "Bill Perrin Amnesia Case",
-            "Antonios Return",
-            "The City At Your Fingertips",
-            "They",
-            "Mr And Mrs Carothers",
-            "Lost Souls",
-            "Five Days Off For Christmas",
-            "Expectant Father",
-            "Pay Up Or Die",
-            "Long Live The Clown",
-            "Death Of Riley",
-            "Target For A Week",
-            "The Jockey Brothers",
-            "Marvelous Machine",
-            "Railroaded",
-            "Reformer",
-            "The Old Itch",
-            "Taste Of Peaches",
-            "Flight From Fear",
-            "Sombody Stop Ann",
-            "His Name Was Luke",
-            "The Man With The Red Hair",
-            "Ellen",
-            "Larry The Understudy",
-            "Policy Wheel Racket",
-            "The Bug Killings"
-    };
-
-    public final String[] speed = {
-            "SGISP_1937-01-02.mp3",
-            "SGISP_1937-01-09.mp3",
-            "SGISP_1937-01-16.mp3",
-            "SGISP_1937-01-23.mp3",
-            "SGISP_1937-01-30.mp3",
-            "SGISP_1937-02-06.mp3",
-            "SGISP_1937-02-13.mp3",
-            "SGISP_1937-02-20.mp3",
-            "SGISP_1937-02-27.mp3",
-            "SGISP_1937-03-06.mp3",
-            "SGISP_1937-03-13.mp3",
-            "SGISP_1937-03-20.mp3",
-            "SGISP_1937-03-27.mp3",
-            "SGISP_1937-04-03.mp3",
-            "SGISP_1937-04-10.mp3",
-            "SGISP_1937-04-17.mp3",
-            "SGISP_1937-04-24.mp3",
-            "SGISP_1937-05-01.mp3",
-            "SGISP_1937-05-08.mp3",
-            "SGISP_1937-05-15.mp3",
-            "SGISP_1937-05-22.mp3",
-            "SGISP_1937-05-29.mp3",
-            "SGISP_1937-06-05.mp3",
-            "SGISP_1937-06-12.mp3",
-            "SGISP_1937-06-19.mp3",
-            "SGISP_1937-06-26.mp3",
-            "SGISP_1937-07-03.mp3",
-            "SGISP_1937-07-10.mp3",
-            "SGISP_1937-07-17.mp3",
-            "SGISP_1937-07-24.mp3",
-            "SGISP_1937-07-31.mp3",
-            "SGISP_1937-08-07.mp3",
-            "SGISP_1937-08-14.mp3",
-            "SGISP_1937-08-21.mp3",
-            "SGISP_1937-08-28.mp3",
-            "SGISP_1937-09-04.mp3",
-            "SGISP_1937-09-11.mp3",
-            "SGISP_1937-09-18.mp3",
-            "SGISP_1937-09-25.mp3",
-            "SGISP_1937-10-02.mp3",
-            "SGISP_1937-10-09.mp3",
-            "SGISP_1937-10-16.mp3",
-            "SGISP_1937-10-23.mp3",
-            "SGISP_1937-10-30.mp3",
-            "SGISP_1937-11-06.mp3",
-            "SGISP_1937-11-13.mp3",
-            "SGISP_1937-11-20.mp3",
-            "SGISP_1937-11-27.mp3",
-            "SGISP_1937-12-04.mp3",
-            "SGISP_1937-12-11.mp3",
-            "SGISP_1937-12-18.mp3",
-            "SGISP_1937-12-25.mp3",
-            "SGISP_1938-01-01.mp3",
-            "SGISP_1938-01-08.mp3",
-            "SGISP_1938-01-15.mp3",
-            "SGISP_1938-01-22.mp3",
-            "SGISP_1938-01-29.mp3",
-            "SGISP_1938-02-05.mp3",
-            "SGISP_1938-02-12.mp3",
-            "SGISP_1938-02-19.mp3",
-            "SGISP_1938-02-26.mp3",
-            "SGISP_1938-03-05.mp3",
-            "SGISP_1938-03-12.mp3",
-            "SGISP_1938-03-19.mp3",
-            "SGISP_1938-03-26.mp3",
-            "SGISP_1938-04-02.mp3",
-            "SGISP_1938-04-09.mp3",
-            "SGISP_1938-04-16.mp3",
-            "SGISP_1938-04-23.mp3",
-            "SGISP_1938-04-30.mp3",
-            "SGISP_1938-05-07.mp3",
-            "SGISP_1938-05-14.mp3",
-            "SGISP_1938-05-21.mp3",
-            "SGISP_1938-05-28.mp3",
-            "SGISP_1938-06-04.mp3",
-            "SGISP_1938-06-11.mp3",
-            "SGISP_1938-06-18.mp3",
-            "SGISP_1938-06-25.mp3",
-            "SGISP_1938-07-02.mp3",
-            "SGISP_1938-07-09.mp3",
-            "SGISP_1938-07-16.mp3",
-            "SGISP_1938-07-23.mp3",
-            "SGISP_1938-07-30.mp3",
-            "SGISP_1938-08-06.mp3",
-            "SGISP_1938-08-13.mp3",
-            "SGISP_1938-08-20.mp3",
-            "SGISP_1938-08-27.mp3",
-            "SGISP_1938-09-03.mp3",
-            "SGISP_1938-09-10.mp3",
-            "SGISP_1938-09-17.mp3",
-            "SGISP_1938-09-24.mp3",
-            "SGISP_1938-10-01.mp3",
-            "SGISP_1938-10-08.mp3",
-            "SGISP_1938-10-15.mp3",
-            "SGISP_1938-10-22.mp3",
-            "SGISP_1938-10-29.mp3",
-            "SGISP_1938-11-05.mp3",
-            "SGISP_1938-11-12.mp3",
-            "SGISP_1938-11-19.mp3",
-            "SGISP_1938-11-26.mp3",
-            "SGISP_1938-12-03.mp3",
-            "SGISP_1938-12-10.mp3",
-            "SGISP_1938-12-17.mp3",
-            "SGISP_1938-12-24.mp3",
-            "SGISP_1938-12-31.mp3",
-            "SGISP_1939-01-07.mp3",
-            "SGISP_1939-01-14.mp3",
-            "SGISP_1939-01-21.mp3",
-            "SGISP_1939-01-28.mp3",
-            "SGISP_1939-02-04.mp3",
-            "SGISP_1939-02-11.mp3",
-            "SGISP_1939-02-18.mp3",
-            "SGISP_1939-02-25.mp3",
-            "SGISP_1939-03-04.mp3",
-            "SGISP_1939-03-11.mp3",
-            "SGISP_1939-03-18.mp3",
-            "SGISP_1939-03-25.mp3",
-            "SGISP_1939-04-01.mp3",
-            "SGISP_1939-04-08.mp3",
-            "SGISP_1939-04-15.mp3",
-            "SGISP_1939-04-22.mp3",
-            "SGISP_1939-04-29.mp3",
-            "SGISP_1939-05-06.mp3",
-            "SGISP_1939-05-13.mp3",
-            "SGISP_1939-05-20.mp3",
-            "SGISP_1939-05-27.mp3",
-            "SGISP_1939-06-03.mp3",
-            "SGISP_1939-06-10.mp3",
-            "SGISP_1939-06-17.mp3",
-            "SGISP_1939-06-24.mp3",
-            "SGISP_1939-07-01.mp3",
-            "SGISP_1939-07-08.mp3",
-            "SGISP_1939-07-15.mp3",
-            "SGISP_1939-07-22.mp3",
-            "SGISP_1939-07-29.mp3",
-            "SGISP_1939-08-05.mp3",
-            "SGISP_1939-08-12.mp3",
-            "SGISP_1939-08-19.mp3",
-            "SGISP_1939-08-26.mp3",
-            "SGISP_1939-09-02.mp3",
-            "SGISP_1939-09-09.mp3",
-            "SGISP_1939-09-16.mp3",
-            "SGISP_1939-09-23.mp3",
-            "SGISP_1939-09-30.mp3",
-            "SGISP_1939-10-07.mp3",
-            "SGISP_1939-10-14.mp3",
-            "SGISP_1939-10-21.mp3",
-            "SGISP_1939-10-28.mp3",
-            "SGISP_1939-11-04.mp3",
-            "SGISP_1939-11-11.mp3",
-            "SGISP_1939-11-18.mp3",
-            "SGISP_1939-11-25.mp3",
-            "SGISP_1939-12-02.mp3",
-            "SGISP_1939-12-09.mp3",
-            "SGISP_1939-12-16.mp3",
-            "SGISP_1939-12-23.mp3",
-            "SGISP_1939-12-30.mp3",
-            "SGISP_1940-01-06.mp3",
-            "SGISP_1940-01-13.mp3",
-            "SGISP_1940-01-20.mp3",
-            "SGISP_1940-01-27.mp3",
-            "SGISP_1940-02-03.mp3",
-            "SGISP_1940-02-10.mp3",
-            "SGISP_1940-02-17.mp3",
-            "SGISP_1940-02-24.mp3",
-            "SGISP_1940-03-02.mp3",
-            "SGISP_1940-03-09.mp3",
-            "SGISP_1940-03-16.mp3",
-            "SGISP_1940-03-23.mp3",
-            "SGISP_1940-03-30.mp3",
-            "SGISP_1940-04-06.mp3",
-            "SGISP_1940-04-13.mp3",
-            "SGISP_1940-04-20.mp3",
-            "SGISP_1940-04-27.mp3",
-            "SGISP_1940-05-04.mp3",
-            "SGISP_1940-05-11.mp3",
-            "SGISP_1940-05-18.mp3",
-            "SGISP_1940-05-25.mp3"
-    };
-
-    public final String[] speedTitle = {
-            "The Octopus Gang Active",
-            "Speed Is Inducted Into Service",
-            "Heading for Hong Kong",
-            "A Shooting Attempt",
-            "The Octopus Orders a Kidnapping",
-            "Remaining at Wake Island",
-            "Speed Is Missing",
-            "Splinters Into Custody",
-            "Splinters Gets Away",
-            "Barney Flies The Mystery Plane",
-            "The Trio Is Ambushed on Guam",
-            "The Octopus Plans a Surprise",
-            "The Arrival In Hong Kong",
-            "Clint Suspicious of Mr Wu",
-            "Clint To Stay with Dr. Kingsley",
-            "Hotel Rooms Are Ransacked",
-            "Marsha Is Kidnapped",
-            "The Octopus Reveals Plans",
-            "Disguised As Coolies",
-            "Speed Is Knocked Out",
-            "Leave On Bullet Plane",
-            "Speed Tries To Warn Clint",
-            "Shot At and Forced Down",
-            "Flower Boat Is Sighted",
-            "Prisoners On The Flower Boat",
-            "Clint And Barney Are Captured",
-            "Speed Arrives and Helps Clint and Barney",
-            "Bob Gilmore Sworn Into Secret Police",
-            "Speed and Bob Fly to Help Dr. Kingsley",
-            "The Octopus' Secret Headquarters",
-            "Speed Discovers the Secret Entrance",
-            "A Trap Has Been Set",
-            "Tunnel Fills With Water",
-            "Water Continues to Rise",
-            "Dynamite Must Be Used",
-            "Speed Is Lost In The Tunnel",
-            "Speed Is Found",
-            "Barney Heads For the Hut",
-            "A Teahouse Fire",
-            "New Instructions From The Octopus",
-            "The Octopus Continues Plans",
-            "The Octopus Puts Plans Into Effect",
-            "Speed Thinks Quan Wu is a Gang Member",
-            "Set up In A Trap",
-            "The Octopus Traps Speed and Jean",
-            "Al Taken Prisoner",
-            "The Octopus Escapes",
-            "Hiding In a Secret Room",
-            "Poison Gas Bomb Thrown",
-            "How To Catch The Octopus",
-            "Everyone Ready For The Trip",
-            "Fighting Breaks Out",
-            "Heading Into Tibet",
-            "The Octopus Will Go to Black Pass",
-            "Following the Octopus to Tibet",
-            "Monoplane Is Airborne",
-            "Speed Talks with the Octopus Via Radio",
-            "Follow The Dragon",
-            "A Tibetan Avalanche",
-            "All Narrowly Escape",
-            "The Octopus Plane Spotted",
-            "The Secret Police Are Jailed",
-            "The Octopus Reaches Secret House",
-            "Pass of the Iron Dagger",
-            "Surrounding the Octopus' Secret Home",
-            "Secret Police Capture The Octopus",
-            "Kidnapping Plans",
-            "Barney Kidnapped",
-            "Thought Recording Machine",
-            "A False Floor",
-            "A Secret Torture Chamber",
-            "Thought Helmet Taken",
-            "Blank Thought Waves",
-            "Barney Found Wandering",
-            "Arrow Almost Hits Speed",
-            "A Tibetan Feast",
-            "The Octopus Visits Zee Ring's Home",
-            "Picnic Planning",
-            "Speed In Disguise",
-            "Speed Caught by the Octopus",
-            "Clint Saves Speed From Storm",
-            "The Octopus Pictures to the States",
-            "Marsha Winfield Held Prisoner",
-            "Slave Raids Begin",
-            "Clint and Speed Begin an Air Flight",
-            "Marcia and Her Brother Found",
-            "Splinter and Wu Are Captured",
-            "Splinter Is Shot",
-            "Splinter Is Cared For",
-            "Splinter Is Hiding",
-            "Marcia Recovers from Vapers of Sleep",
-            "Shooting Breaks Out",
-            "Chief Tepo Catches Pilots at Black Pass",
-            "Open Radio Accident",
-            "An Aerial Dog Fight",
-            "Octopus Plane Crashes",
-            "Ready For Attack On The Octopus",
-            "Time For A Showdown",
-            "The Octopus And Men Captured",
-            "The Octopus Jumps From Plane In Flight",
-            "Atlantian Syndicate Investigation In Africa",
-            "An Airborne Fire",
-            "Safe Landing Is Made",
-            "Falling Into A Trap",
-            "No Water Aboard the Plane",
-            "The Time Bomb",
-            "Leeds Kills Himself",
-            "Davis Shot By Octopus Gang",
-            "Davis Killed",
-            "The Octopus Is Still Alive",
-            "An Octopus Gunboard Outside",
-            "Trapped In Cave With No Water",
-            "Everyone Rescued",
-            "Marie Is Stowaway",
-            "Smiley Is Missed",
-            "Is Smiley Dead",
-            "Messenger Arrives",
-            "Angry Crowd At Casablanca",
-            "Airport Disguise",
-            "Octopus Gang Moves In",
-            "Power Magazine Plan",
-            "Stop Plans For Explosion",
-            "Speed, Clint and Carlos in a Bad Storm",
-            "Dropping A Signal",
-            "A Poison Dart",
-            "The Octopus' Old Headquarters",
-            "Plan Flight to the Sahara Desert",
-            "Fly to Legionnaire Outpost",
-            "Attack Repelled",
-            "Bad Sand Storm",
-            "Clint Lands in the Desert",
-            "Discovered in the Desert",
-            "Octopus Learns Their Location",
-            "Tricks By The Octopus",
-            "A Ring Gets Them Out Of Jail",
-            "The Octopus Visits Are Explained",
-            "Enemy Plane Crashes",
-            "Boating Down the Congo",
-            "Speed Is Confronted By a Leopard",
-            "Leaving Camp",
-            "Clint Rescues Mrs Buchanan",
-            "Search For John Buchanan",
-            "Barney Hypnotized by Wings of Giant Moth",
-            "Troubles with a Boa Constrictor",
-            "Fumes Overcome Everyone",
-            "In the Path of Cannibal Ants",
-            "The Octopus Suspects Trap",
-            "Warriors Help in Searching For Hq",
-            "Native Attack Near Octopus Headquarters",
-            "Attack Stopped with the Elephant Stampede",
-            "Search of Headquarters Started",
-            "Saved From Suffocating",
-            "Leaving For Gorilla Country",
-            "The Octopus Prepares Death Ray",
-            "The Octopus Overheard On The Radio",
-            "Elephant Grass Fire",
-            "A Jungle Crash Landing",
-            "Surprise Meeting With Natives",
-            "Barney Confronted by Talking Gorilla",
-            "Talking Gorilla Starts Attack",
-            "Entire Camp Captured",
-            "Octopus Packs Up Death Ray Machine",
-            "Everyone Escapes Gorilla Attack",
-            "All Are Caught In Jungle Storm",
-            "John Buchanan Found In Hut",
-            "Surrounded by Pygmy Headhunters",
-            "Safe Take-Off",
-            "Speed Missing Again",
-            "The Octopus Waits",
-            "Car Crash",
-            "Octopus Gang Member Is Questioned",
-            "Clint Worries About Landing",
-            "Clint's Plane Catches On Fire",
-            "An Octopus Agent Confesses to Fire",
-            "Desert Raiders Attack",
-            "Octopus Camp Is Reached",
-            "Death Ray Blown Up",
-            "The Octopus Finally Captured"
-    };
-
-    public final String[] jackBenny = {
-            "Jb010AConversationWHarpoBingCrosbyGaryCooper.mp3",
-            "Jb1932-05-12Jacks1stPayingMcJob.mp3",
-            "Jb1933-01-01OutstandingAchievementsOf1932Review.mp3",
-            "Jb1933-01-22BerthaTheSewingMachineGirlprSnd.mp3",
-            "Jb1933-03-31MaeWestSkit-SheDoneHimRight.mp3",
-            "Jb1933-04-21EdwardGRobinson.mp3",
-            "Jb1933-06-02WhoKilledMr.XPt2SherlockHolmes.mp3",
-            "Jb1933-06-09WhoKilledMr.XPt3SherlockHolmes.mp3",
-            "Jb1933-12-10UncleTomsCabinprSndImproves.mp3",
-            "Jb1934-02-11MiniatureWomen.mp3",
-            "Jb1934-02-18DontLiveRight.mp3",
-            "Jb1934-02-25MyLifeAsAFloorwalk.mp3",
-            "Jb1934-03-04DuelInTheGraveyard.mp3",
-            "Jb1934-03-11HauntedHouse.mp3",
-            "Jb1934-03-18AnArizonaWestern.mp3",
-            "Jb1934-04-01TheEternalTriangle.mp3",
-            "Jb1934-04-06FrankParkersMusicStoreprSndImproves.mp3",
-            "Jb1934-04-13BridgeGameprSnd.mp3",
-            "Jb1934-04-27NewHampshireThroughAKeyhole.mp3",
-            "Jb1934-05-04TheHillsOfKentucky.mp3",
-            "Jb1934-05-11incHomeCookingAtDons.mp3",
-            "Jb1934-05-18AVisitToTheParkers.mp3",
-            "Jb1934-07-20WhoKilledMrStooge5.mp3",
-            "Jb1934-08-03TheStoogeMurderCase1.mp3",
-            "Jb1934-08-24TheHouseOfRothchild.mp3",
-            "Jb1934-08-31HouseOfBenny.mp3",
-            "Jb1934-09-14SchoolDaysmuchSkipping.mp3",
-            "Jb1934-09-21SchoolDays.mp3",
-            "Jb1936-11-15BuckBenny.mp3",
-            "Jb1936-11-22BuckBenny.mp3",
-            "Jb1936-11-29BuckBenny.mp3",
-            "Jb1936-12-06MoneyAintEverything.mp3",
-            "Jb1936-12-13BuckBenny.mp3",
-            "Jb1936-12-27BuckBenny.mp3",
-            "Jb1936-12-20237Old-fashionedXmasParty.mp3",
-            "Jb1937-01-03BuckBenny.mp3",
-            "Jb1937-01-10BuckinghamBennycomplete.mp3",
-            "Jb1937-01-17BuckBennysMexicanAdventure.mp3",
-            "Jb1937-01-24JackPracticesTheBee.mp3",
-            "Jb1937-01-31NightmaresOfFredAllen.mp3",
-            "Jb1937-02-07JacksViolinIsStolen.mp3",
-            "Jb1937-02-14JacksBirthday.mp3",
-            "Jb1937-02-21BuckBenny.mp3",
-            "Jb1937-02-28TheBeeIsFinallyPlayed.mp3",
-            "Jb1937-03-07StuartCanin.mp3",
-            "Jb1937-03-14EndOfFuedWithFredAllen.mp3",
-            "Jb1937-03-21ADayInOurLives.mp3",
-            "Jb1937-04-11GuestsAreGeorgeBurnsGracieAllen.mp3",
-            "Jb1937-12-19LittleRedRidingHood.mp3",
-            "Jb1938-01-30TheHurricane.mp3",
-            "Jb1938-03-20TakingTheShowToNewYork.mp3",
-            "Jb1938-03-27Guests-FredAllenKateSmith.mp3",
-            "Jb1938-04-10AYankAtOxford.mp3",
-            "Jb1938-04-17AtTheCircuseasterShow.mp3",
-            "Jb1938-04-24SnowWhiteThe7Gangsters.mp3",
-            "Jb1938-06-19BackHomeInIndiana.mp3",
-            "Jb1938-10-24JackBuysHisMaxwellhisCar.mp3",
-            "Jb1938-10-30JackGivesAHalloweenParty.mp3",
-            "Jb1938-11-13incJackStealsAGirlFromPhilHarris.mp3",
-            "Jb1938-12-25JacksChristmasOpenHouse.mp3",
-            "Jb1939-01-01Goodbye1938.mp3",
-            "Jb1939-04-02AprilFoolsDay.mp3",
-            "Jb1939-05-21incMoreGungaDin.mp3",
-            "Jb1939-05-28AlexanderGrahamBell.mp3",
-            "Jb1939-06-11HoundOfTheBaskervilles.mp3",
-            "Jb1939-11-19OstrichForThanksgivingDinner.mp3",
-            "Jb1939-12-17EastCoastChristmasShopping.mp3",
-            "Jb1940-02-18SkiingAtYosemite.mp3",
-            "Jb1940-02-25JacksBirthdayPartyafterSkiAccident.mp3",
-            "Jb1940-05-05AtTheRitzTheater-ClownHallTonight.mp3",
-            "Jb1940-05-12ReturningFromNewYorkByAir.mp3",
-            "Jb1940-06-02CodeOfTheHills.mp3",
-            "Jb1940-06-09VacationPlans.mp3",
-            "Jb1940-10-27holdThatLine.mp3",
-            "Jb1940-11-10DogCatcherOfBeverlyHills.mp3",
-            "Jb1940-11-17JackTheHeadOfParamount.mp3",
-            "Jb1940-11-24JackVisitsDonsNewWife.mp3",
-            "Jb1941-01-05ChristmasGiftExchangeat1m11s.mp3",
-            "Jb1941-10-19TrainToL.a..mp3",
-            "Jb1941-10-26DiveBomber.mp3",
-            "Jb1941-11-02JacksHalloweenStory.mp3",
-            "Jb1941-12-28JackTalksAboutHisChristmasParty.mp3",
-            "Jb1942-01-11BroadcastFromMarchAirField.mp3",
-            "Jb1942-03-01JackMadAboutAcademyAwards.mp3",
-            "Jb1942-03-15TalksAboutLending10.00ToFredAllen.mp3",
-            "Jb1942-05-03CastVisitsJackAtWarnerBrothers.mp3",
-            "Jb1942-05-17JackImitatesFredAllenHouse.mp3",
-            "Jb1942GuestsAreLumAbner.mp3",
-            "Jb1943-01-17InformationPlease.mp3",
-            "Jb1943-01-03463BearHuntingfromMaine.mp3",
-            "Jb1943-03-14OrsonWellsHostsphilHarrisReturns.mp3",
-            "Jb1943-04-18JackOpensPool.mp3",
-            "Jb1943-04-25030RochestersHorseIsInTheKentuckyDerbylowVolume.mp3",
-            "Jb1943-05-02RentalOfEddieCantorsHouse.mp3",
-            "Jb1943-05-09JackJamsWithLouisArmstrong.mp3",
-            "Jb1943-05-30035GuestIsDeannaDurbin.mp3",
-            "Jb1944-04-23DennisLeavesForTheNavy.mp3",
-            "Jb1944-05-14InfantryafrsRe-broadcast.mp3",
-            "Jb1944-05-21JacksSplitPersonality.mp3",
-            "Jb1944-10-26ClarkGablewingedVictoryEdition.mp3",
-            "Jb1944-11-19FromCoronaNavalHospital.mp3",
-            "Jb1944-12-17DrugstoreWFrankSinatraFrankMorgan.mp3",
-            "Jb1944-12-17DrugstoreWFrankSinatraFrankMorganalternate-Comm.Perf..mp3",
-            "Jb1944-12-24TrimmingTheChristmasTree.mp3",
-            "Jb1945-01-04HowJackMetPhilHarris.mp3",
-            "Jb1945-01-21IceSkatingInCentralPark.mp3",
-            "Jb1945-03-11HowJackFoundRochesterwAmosAndy.mp3",
-            "Jb1946-04-07AcmePlazaguestVanJohnson.mp3",
-            "Jb1946-10-06ListeningToTheWorldSeries.mp3",
-            "Jb1946-10-20TheWhistlerParody.mp3",
-            "Jb1946-11-10238Comm.PerfbobHopeSupermanBelaLugosi.mp3",
-            "Jb1947-01-04GuestsAreBogartBacall.mp3",
-            "Jb1947-01-11IStandCondemnedborisKarloff.mp3",
-            "Jb1947-03-16AndyRussellDickHaymesBingCrosbyNewQuartet.mp3",
-            "Jb1947-05-06GuestIsHoagyCarmichael.mp3",
-            "Jb1947-05-18GuestIsAlJolson.mp3",
-            "Jb1947-10-19GolfMatchAtHillcrestCountryClub.mp3",
-            "Jb1947-11-30TurkeyTrialDream.mp3",
-            "Jb1947-12-07incViolinLessonwMelBlanc.mp3",
-            "Jb1947-12-21LastMinuteXmasShopping.mp3",
-            "Jb1948-03-07JackIsTheWalkingMan.mp3",
-            "Jb1948-04-04BorrowsBingCrosbysOscar.mp3",
-            "Jb1948-05-30IWasFramed.mp3",
-            "Jb1948-12-19ChristmasWalletforDonWilson.mp3",
-            "Jb1949-01-021stCbsShowamosAndy.mp3",
-            "Jb1949-02-06DonWilsonsContract.mp3",
-            "Jb1949-04-17EasterParade.mp3",
-            "Jb1950-01-152EpsHowJackFredAllenMet.mp3",
-            "Jb1950-11-26JackTriesToBuyUsc-UclaFootballGameTickets3.mp3",
-            "Jb1951-12-09MelBlancAsIndian-SiRoutine.mp3",
-            "Jb1952-03-02PalmsSpringsShow.mp3",
-            "Jb1953-09-13BackFromVacationInHawaii.mp3",
-            "Jb1953-12-23incCommPerfHostJackBenny.mp3",
-            "Jb1954-03-21JackListensToMeanOldManOnRadio.mp3",
-            "Jb1955-05-15AFriendAtUnionStation.mp3",
-            "Jb1974-10-23JbMelBOnJohnnyCarsonNbcTvShow.mp3",
-            "JbBackFromFarEastUsoTourprSnd.mp3",
-            "JbCaptainHoratioHornblowerprSnd.mp3",
-            "JbMailCall-JackBennyChicoMarx.mp3",
-            "JbRudyValleeHostsNbcs10thAnniversaryTributeToJack.mp3",
-            "JbThe20thAnniversaryBanquet.mp3",
-            "JbWhoIsTheBestComedian-BennyOrAllen.mp3",
-            "Lux1938-09-26SevenKeysToBaldplatebennyLivingstone.mp3"
-
-    };
-
-    public final String[] jbTitle = {
-            "Conversation W/ Harpo Bing Crosby Gary Cooper",
-            "Jacks 1st Paying McJob",
-            "Outstanding Achievements Of 1932 Review",
-            "Bertha The Sewing Machine Girl",
-            "Mae West Skit-She Done Him Right",
-            "Edward G Robinson",
-            "Who Killed Mr.X Pt2 Sherlock Holmes",
-            "Who Killed Mr.X Pt3 Sherlock Holmes",
-            "Uncle Toms Cabinpr Snd Improves",
-            "Miniature Women",
-            "Dont Live Right",
-            "My Life As A Floorwalk",
-            "Duel In The Graveyard",
-            "Haunted House",
-            "An Arizona Western",
-            "The Eternal Triangle",
-            "Frank Parkers Music Storepr Snd Improves",
-            "Bridge Gamepr Snd",
-            "New Hampshire Through A Keyhole",
-            "The Hills Of Kentucky",
-            "One inc Home Cooking At Dons",
-            "A Visit To The Parkers",
-            "Who Killed Mr Stooge5",
-            "The Stooge Murder Case1",
-            "The House Of Rothchild",
-            "House Of Benny",
-            "School Days much Skipping",
-            "School Days",
-            "Buck Benny1",
-            "Buck Benny2",
-            "Buck Benny3",
-            "Money Aint Everything",
-            "Buck Benny4",
-            "Buck Benny5",
-            "Old-fashioned Xmas Party",
-            "Buck Benny6",
-            "Buckingham Benny complete",
-            "Buck Bennys Mexican Adventure",
-            "Jack Practices The Bee",
-            "Nightmares Of Fred Allen",
-            "Jacks Violin Is Stolen",
-            "Jacks Birthday",
-            "Buck Benny7",
-            "The Bee Is Finally Played",
-            "Stuart Canin",
-            "End Of Fued With Fred Allen",
-            "A Day In Our Lives",
-            "Guests Are George Burns Gracie Allen",
-            "Little Red RidingHood",
-            "The Hurricane",
-            "Taking The Show To New York",
-            "Guests-Fred Allen Kate Smith",
-            "A Yank At Oxford",
-            "At The Circus easter Show",
-            "Snow White The 7 Gangsters",
-            "Back Home In Indiana",
-            "Jack Buys Maxwell his Car",
-            "Jack Gives A Halloween Party",
-            "Jack Steals A Girl From Phil Harris",
-            "Jacks Christmas Open House",
-            "Goodbye 1938",
-            "April Fools Day",
-            "More Gunga Din",
-            "Alexander Graham Bell",
-            "Hound Of The Baskervilles",
-            "Ostrich For Thanksgiving Dinner",
-            "East Coast Christmas Shopping",
-            "Skiing At Yosemite",
-            "Jacks Birthday Party after Ski Accident",
-            "At The Ritz Theater-Clown Hall Tonight",
-            "Returning From New York By Air",
-            "Code Of The Hills",
-            "Vacation Plans",
-            "Hold That Line",
-            "Dog Catcher Of Beverly Hills",
-            "Jack The Head Of Paramount",
-            "Jack Visits Dons New Wife",
-            "Christmas Gift Exchange at the mills",
-            "Train To L.a.",
-            "Dive Bomber",
-            "Jacks Halloween Story",
-            "Jack Talks About His Christmas Party",
-            "Broadcast From March Air Field",
-            "Jack Mad About Academy Awards",
-            "Talks About Lending Ten Dollars To Fred Allen",
-            "Cast Visits Jack At Warner Brothers",
-            "Jack Imitates Fred Allen House",
-            "Guests Are Lum Abner",
-            "Information Please",
-            "Bear Hunting from Maine",
-            "Orson Wells Hosts phil Harris Returns",
-            "Jack Opens Pool",
-            "Rochesters Horse Is In The Kentucky Derby--lowVolume",
-            "Rental Of Eddie Cantors House",
-            "Jack Jams With Louis Armstrong",
-            "Guest Is Deanna Durbin",
-            "Dennis Leaves For The Navy",
-            "Infantry afrs Re-broadcast",
-            "Jacks Split Personality",
-            "Clark Gable winged Victory Edition",
-            "From Corona Naval Hospital",
-            "Drugstore W/ Frank Sinatra Frank Morgan",
-            "Drugstore W/ Frank Sinatra Frank Morgan alternate-Comm.Perf.",
-            "Trimming The Christmas Tree",
-            "How Jack Met Phil Harris",
-            "Ice Skating In Central Park",
-            "How Jack Found Rochester w/ Amos Andy",
-            "Acme Plaza guest Van Johnson",
-            "Listening To The World Series",
-            "The Whistler Parody",
-            "Comm.Perf Bob Hope Superman Bela Lugosi",
-            "Guests Are Bogart Bacall",
-            "I Stand Condemned boris Karloff",
-            "Andy Russell Dick Haymes Bing Crosby New Quartet",
-            "Guest Is Hoagy Carmichael",
-            "Guest Is Al Jolson",
-            "Golf Match At Hillcrest Country Club",
-            "Turkey Trial Dream",
-            "Violin Lesson w/ Mel Blanc",
-            "Last Minute Xmas Shopping",
-            "Jack Is The Walking Man",
-            "Borrows Bing Crosbys Oscar",
-            "I Was Framed",
-            "Christmas Wallet for Don Wilson",
-            "First Cbs Show amos Andy",
-            "Don Wilsons Contract",
-            "Easter Parade",
-            "How Jack Met Fred Allen",
-            "Jack Tries To Buy Usc-Ucla Football Game Tickets3",
-            "Mel Blanc As Indian-Si Routine",
-            "Palms Springs Show",
-            "Back From Vacation In Hawaii",
-            "Comm Perf Host Jack Benny",
-            "Jack Listens To Me an Old Man On Radio",
-            "A Friend At Union Station",
-            "Mel B On Johnny Carson Nbc Tv Show",
-            "Back From Far East Uso Tourpr Snd",
-            "Captain Horatio Horn blowerpr Snd",
-            "Mail Call-Jack Benny Chico Marx",
-            "Rudy Vallee Hosts Nbcs 10th Anniversary Tribute To Jack",
-            "The 20th Anniversary Banquet",
-            "Who Is The Best Comedian-Benny Or Allen",
-            "Seven Keys To Bald plate benny Livingstone"
-    };
-
-    public final String[] bobHope = {
-            "380927_-_001_-_Constance_Bennett_1st_Pepsodent_Show.mp3",
-            "381004_-_002_-_Olivia_DeHavilland.mp3",
-            "381101_-_006_-_1st_.mp3",
-            "381108_-_007_-_Chico_Marx.mp3",
-            "381220_-_013_-_Dagwood__Blondie.mp3",
-            "381227_-_014_-_1st_Crazy_Rhythm_-_Guests_Lum__Abner_v.mp3",
-            "390307_-_024_-_Judy_Garland.mp3",
-            "390411_-_029_-_Betty_Grable.mp3",
-            "391212_-_051_-_Taking_Peter_to_Toyland.mp3",
-            "410128_-_097_-_Basil_Rathbone.mp3",
-            "410207_-_098_-_Beethoven_with_Bing_Crosby_Doris_Day.mp3",
-            "410311_-_103_-_Dizzy_Dean.mp3",
-            "410401_-_106_-_Kate_Smith.mp3",
-            "410415_-_108_-_Hedda_Hopper.mp3",
-            "410603_-_115_-_Huphrey_Bogart.mp3",
-            "410610_-_116_-_From_Bobs_Hometown_-_Cleveland_Ohio.mp3",
-            "420120_-_134_-_Edward_Everett_Horton.mp3",
-            "420317_-_142_-_Jerry_Colonna.mp3",
-            "420505_-_148_-_Great_Lakes_Naval_Training_Station_-_Claudette_Colbert.mp3",
-            "421013_-_158_-_Betty_Davis.mp3",
-            "421229_-_169_-_Long_Beach_Ferry_Command.mp3",
-            "430105_-_170_-_Rita_Hayworth.mp3",
-            "430209_-_175_-_Dorothy_Lamour_Paulette_Goddard.mp3",
-            "430331_-_nnn_-_Mayor_Of_The_Town.mp3",
-            "430525_-_nnn_-_From_Stockton_Air_Field.mp3",
-            "430928_-_195_-_Orson_Welles.mp3",
-            "431109_-_201_-_Jane_Wyman.mp3",
-            "431228_-_208_-_Cary_Grant.mp3",
-            "440104_-_209_-_Gary_Cooper.mp3",
-            "440208_-_214_-_Ginger_Rogers.mp3",
-            "440215_-_215_-_From_Santa_Ana_Separation_Center_w_Bing_Crosby.mp3",
-            "440222_-_216_-_Carole_Landis.mp3",
-            "440229_-_217_-_Lum__Abner.mp3",
-            "440307_-_218_-_Long_Beach_Coast_Guard.mp3",
-            "440509_-_227_-_Jacksonville_Training_Camp.mp3",
-            "440525_-_nnn_-_At_Stockton_Air_Field.mp3",
-            "440606_-_nnn_-_INVASION_DAY_from_the_Van_Nuys_Airdrome_v_6_Mins.mp3",
-            "440812_-_nnn_-_Broadcast_from_South_Pacific.mp3",
-            "440919_-_232_-_Camp_Bordon_Canada.mp3",
-            "440926_-_233_-_Santa_Ana_Seperation_Center.mp3",
-            "441017_-_236_-_Wheeler_Infantry_Base.mp3",
-            "450102_-_246_-_Andrew_Sisters.mp3",
-            "450109_-_247_-_Pat_OBrien.mp3",
-            "450130_-_250_-_Edward_G_Robinson.mp3",
-            "450206_-_251_-_Naval_Air_Technical_Center_Memphis_TN.mp3",
-            "450213_-_252_-_From_Mudock_California_Tony_Romano_45-02-13.mp3",
-            "450227_-_254_-_Frank_Sinatra.mp3",
-            "450313_-_256_-_Victory_Tour_Illinois.mp3",
-            "450320_-_257_-_Shirley_Temple_Tony_Romano.mp3",
-            "450410_-_260_-_Walter_Pidgeon.mp3",
-            "450515_-_265_-_Birmingham_Hospital_San_Fernando.mp3",
-            "450522_-_266_-_Sampson_Naval_Training_Center.mp3",
-            "450529_-_267_-_Herbert_Marshall_Bing_Crosby.mp3",
-            "450605_-_268_-_Sedalia_Army_Airfield_-_1st_Got_Date_with_an_Angel_AFRS_v.mp3",
-            "450625_-_271_-_Bob_Dreams_Hes_Been_Court-Martialled.mp3",
-            "450911_-_nnn_-_Robert_Montgomery.mp3",
-            "451016_-_From_Battleship_South_Dakota.mp3",
-            "451023_-_From_Santa_Ana.mp3",
-            "451120_-_Guest-Joe_E_Brown.mp3",
-            "451127_-_From_USC_Red_Skelton_Peggy_Ryan.mp3",
-            "451204_-_From_Phoenix_Jimmy_Durante.mp3",
-            "451211_-_Herbert_Marshall.mp3",
-            "451218_-_ChristmasShowfromSanFrancisco.mp3",
-            "460129_-_Frank_Sinatra.mp3",
-            "460219_-_Tyrone_Power.mp3",
-            "460305_-_David_Niven.mp3",
-            "460312_-_Sonny_Tufts.mp3",
-            "460319_-_Broadcast_from_Cleveland_short.mp3",
-            "460402_-_Sidney_Greenstreet.mp3",
-            "460409_-_Brenda_and_Cobina.mp3",
-            "460608__Special_Interview_from_Seattle.mp3",
-            "460924_-_Carol_Richards.mp3",
-            "461001_-_Bob_Crosby_Carol_Richards.mp3",
-            "461029_-_Fred_Allen_Minerva_Pious.mp3",
-            "461112_-_Lucille_Ball_Miss_Lou_Ann.mp3",
-            "461224_-_Bing_Crosby_Doris_Day_General_Omar_Bradley.mp3",
-            "470211_-_Robert_Montgomery.mp3",
-            "470401_-_Guest_Eddie_Canter.mp3",
-            "470408_-_Al_Jolson.mp3",
-            "470415_-_Van_Johnson.mp3",
-            "470513_-_Peter_Lorre.mp3",
-            "471118_-_Fibber_and_Molly_Amos_and_Andy.mp3",
-            "480217_-_Fred_Astair.mp3",
-            "480406_-_nnn_-_Guest_Dinah_Shore.mp3",
-            "480413_-_nnn_-_Lana_Turner.mp3",
-            "480712_-_Beethoven_w_Bing_Crosby_Doris_Day.mp3",
-            "480914_-_Guests_Jack_Benny_Doris_Day.mp3",
-            "481012_-_Jack_Kirkwood.mp3",
-            "481019_-_Doris_Day.mp3",
-            "481026_-_Martin_and_Lewis.mp3",
-            "481109_-_Jack_Benny.mp3",
-            "481130_-_at_USC_with_Doris_Day.mp3",
-            "481207_-_12_-_1st_My_Darling_Guest_Bingle_von_Crosbine_v.mp3",
-            "481221_-_Guest_Gregory_Peck.mp3",
-            "481228_-_Christmas_Day_Show_Berlin_Air_lift.mp3",
-            "490128_-_March_of_Dimes_Special_Philadephia.mp3",
-            "490208_-_Stalin_Visits_America.mp3",
-            "490329_-_Dean_Martin_Jerry_Lewis.mp3",
-            "490405_-_Jack_Kirkwood_Tom_Sawyer_Sketch.mp3",
-            "490412__414__Guests_Dean_Martin_and_Jerry_Lewis.mp3",
-            "490419_-_Jimmy_Durante.mp3",
-            "490426_-_Richmond_Virgina.mp3",
-            "490503_-_Lucille_Ball.mp3",
-            "490612_-_Jack_Benny_Doris_Day.mp3",
-            "491006_-_04_-_Rehearsal_for_491011_v_-_ADD.mp3",
-            "491007_-_04_-_Rehearsal_for_491011_v_-_ADD.mp3",
-            "491010_-_04_-_Rehearsal_for_491011_v_-_ADD.mp3",
-            "491011_-_04_-_1st_Take_Me_Out_to_the_Ball_Game_Jackie_Robinson_Joe_Page_v.mp3",
-            "491025_-_From_Fort_Ord_California_with_Bing_Crosby_Jimmy_Demaret.mp3",
-            "491115_-_09_-_1st_Because_You_Loved_Me_Crosby_Beethoven_Sketch_AFRS_v.mp3",
-            "491206__-_12_-_Guest_-_Jack_Benny.mp3",
-            "491220_-_Bing_Crosby_Rhonda_Fleming.mp3",
-            "500207_-_From_The_Vine_Street_Playhouse_With_Fred_Allen.mp3",
-            "500314_-_The_Arthur_Hopfrey_Show_With_Fred_Allen.mp3",
-            "500321_-_Bing_Crosby_Cleveland_Indians_.mp3",
-            "500328_-_451_-_Guest_-_Bing_Crosby__Doris_Day.mp3",
-            "500404_-_29_-_1st_Bewitched__Bewildered_TV_Show_to_Air_500409_v.mp3",
-            "500606_-_38_-_1st_Home_Cookin_Guest_Arthur_Godfrey_v.mp3",
-            "500613_-_Doris_Day_End_Lever_Brothers.mp3",
-            "501024_-_Marilyn_Maxwell.mp3",
-            "501212_-_Claudette_Colbert_Margaret_Whiting.mp3",
-            "501225_-_From_Veterans_Hospital__Longbeach_-_Story_of_Bingsy_and_Bobsy.mp3",
-            "510109_-_From_Carswell_AFB.mp3",
-            "510123_-_Fort_Ord_51-01-23.mp3",
-            "510130_-_18_-_March_Field_CA_-_1st_Im_in_Love_Judy_Garland_Doris_Singleton_v.mp3",
-            "510205_-_19_-_1st_Be_Anything_by_Peggy_Lee_Guest_Dorothy_Lamour_AFRTS_v.mp3",
-            "510306_-_Edwards_Air_Force_Base.mp3",
-            "510322_-_95__Bloopers__SDPL_The_Great_Lover.mp3",
-            "510410_-_Coronado_Naval_Air_Station.mp3",
-            "510605_-_Jerry_Desmond.mp3",
-            "511002_-_Long_Beach_Air_Naval_Station.mp3",
-            "511016_-_Ava_Gardner.mp3",
-            "511113_-_Bob_Builds_A_House_AFRS.mp3",
-            "511113_-_Jack_Kirkwood_Corinne_Calvet.mp3",
-            "511120_-_Bob_Is_Remodeling_His_House.mp3",
-            "511127_-_Jerry_Colonna_Virginia_Mayo.mp3",
-            "511225_-_Christmas_Show_From_Long_Beach.mp3",
-            "520115_-_Bing_Crosby_Jimmy_Demaret.mp3",
-            "520212_-_020_-_Las_Vegas_Story_-_From_George_AF_Base_-_Victorville_CA_-_Las_Vegas_Story.mp3",
-            "520219_-_The_New_1952_Cars_With_Tyrone_Power.mp3",
-            "520311_-_Palm_Springs_With_Bing_Crosby_Charles_Farrell.mp3",
-            "520325_-_San_Diego_Air_Naval_Station_With_Gracie_Allen.mp3",
-            "520401_-_Marine_Corps_Supply_Depot_With_Claudette_Colbert.mp3",
-            "520429_-_William_Holden_52-04-29.mp3",
-            "520429_-_William_Holden_Jack_Kirkwood.mp3",
-            "520513_-_Three_Make_a_Road_Picture.mp3",
-            "520520_-_Marilyn_Maxwell.mp3",
-            "520610_-_San_Diego_NAS_-_Guests_Dale_Evans__Roy_Rogers_v.mp3",
-            "520617_-_Jane_Russell.mp3",
-            "521224_-_Frank_Sinatra_-_Christmas_Presents.mp3",
-            "530107_-_Road_To_Bali_With_Jack_Benny_AFRS_Jello.mp3",
-            "530114_-_Fort_Ord_Terry_Moore__Bing_Crosby.mp3",
-            "530121_-_Eisenhowers_Inaguration_With_Zsa_Zsa_Gabor.mp3",
-            "530128_-_The_Road_To_Cactus_Gulch_With_Jimmy_Stewart.mp3",
-            "530204_-_The_Flu_Epidemic_Jack_Webb.mp3",
-            "530211_-_Hope_and_Jane_Wyman_do_a_Nightclub_Act.mp3",
-            "530304_-_Income_Tax_Forms_Jane_Russell.mp3",
-            "530318_-_William_Bendix.mp3",
-            "530325_-_The_Atom_Bomb_Test_Mickey_Rooney.mp3",
-            "530401_-_Going_to_Europe_to_Make_a_Movie_-_Anne_Baxter_Dorothy_Lamour.mp3",
-            "530415_-_Bakersfield_with_Ida_Lupino.mp3",
-            "530429_-_Los_Alamedos_Air_Station_With_Rosemary_Clooney.mp3",
-            "530513_-_559_-_Walter_Reed_Army_Hospital_With_Martha_Roundtree.mp3",
-            "530520_-_Bob_Goes_To_Richard_Widmarks_House_AFRS.mp3",
-            "530527_-_Fort_Belvoir_with_Marilyn_Maxwell.mp3",
-            "530603_-_Henry_Fonda.mp3",
-            "530617_-_Arlene_Dahl.mp3",
-            "530624_-_Kentucky_Derby_-_1st_Walking_Behind_You_Vic_Mature_AFRTS_v.mp3",
-            "530701_-_Jane_Wyman_-_Last_Show_For_Jello_AFRTS.mp3",
-            "530823_-_David_Niven.mp3",
-            "530925_-_1st_Whatever_Lola_Wants_-_Phil_Harris_v.mp3",
-            "531002__-_England_With_Marilyn_Maxwell_Jerry_Desmond.mp3",
-            "531009_-_England_Jack_Buchanen_Douglas_Fairbanks_Jr.mp3",
-            "531016_-_Coming_Home_From_England_-_Anne_Baxter_at_Sea_AFRTS_v.mp3",
-            "531106_-_573_-_Bobs_Back_From_Hawaii_With_William_HoldenAFRS.mp3",
-            "531113_-_Burt_Lancaster_Gives_Bob_A_Job_At_The_Circus.mp3",
-            "531127_-_Zsa_Zsa_Gabor.mp3",
-            "531204_-_11_-_Naval_Testing_Station_-_1st_History_of_the_Movies_Glenn_Ford_AFRTS_v_POOR.mp3",
-            "531211_-_Frank_Sinatra.mp3",
-            "531225_-_Long_Beach_Veterans_Hospial_With_Esther_Williams.mp3",
-            "540108_-_Gambling_In_Las_Vegas_With_Jane_Wyman.mp3",
-            "540122_-_Frank_Sinatra.mp3",
-            "540219_-_Richard_Widmark.mp3",
-            "540305_-_The_History_Of_Radio_With_David_Niven.mp3",
-            "540312_-_Jane_Russell.mp3",
-            "540402_-_Bob_Starts_His_Own_Record_Company_With_Rosemary_Clooney.mp3",
-            "540423_-_Paramount_Studio_with_Donna_Reed.mp3",
-            "540430_-_Robert_Ryan.mp3",
-            "540514_-_The_Kentucky_Derby_With_Grace_Kelly.mp3",
-            "540521_-_Merle_Oberon.mp3",
-            "540528_-_Jack_Kirkwood.mp3",
-            "541104_-_David_Niven.mp3",
-            "541118_-_Jack_Kirkwood.mp3",
-            "541209_-_Jane_Wyman.mp3",
-            "541223_-_Christmas_Show_from_Long_Beach_Veterans_Hospital.mp3",
-            "550113_-_William_Holden.mp3",
-            "550203_-_622_-_Hollywood_w_Zsa_Zsa_Gabor__date_.mp3",
-            "550217_-_624_-_20000_Leagues_Under_the_Sea_AFRS.mp3",
-            "550303_-_626_-_Guest_David_Niven.mp3",
-            "550331_-_Clair_Trevor.mp3",
-            "550407_-_Maureen_OHara.mp3",
-            "550421_-_Bob_Tries_To_Get_Hired_For_Next_Year_with_Jim_Backus.mp3",
-            "550913_-_Clair_Trevor_AFRS.mp3"
-    };
-
-    public final String[] bhTitle = {
-            "Constance Bennett 1st Pepsodent Show",
-            "Olivia DeHavilland",
-            "1st",
-            "Chico Marx",
-            "Dagwood  Blondie",
-            "1st Crazy Rhythm - Guests Lum  Abner v",
-            "Judy Garland",
-            "Betty Grable",
-            "Taking Peter to Toyland",
-            "Basil Rathbone",
-            "Beethoven with Bing Crosby Doris Day",
-            "Dizzy Dean",
-            "Kate Smith",
-            "Hedda Hopper",
-            "Huphrey Bogart",
-            "From Bobs Hometown - Cleveland Ohio",
-            "Edward Everett Horton",
-            "Jerry Colonna",
-            "Great Lakes Naval Training Station - Claudette Colbert",
-            "Betty Davis",
-            "Long Beach Ferry Command",
-            "Rita Hayworth",
-            "Dorothy Lamour Paulette Goddard",
-            "Mayor Of The Town",
-            "From Stockton Air Field",
-            "Orson Welles",
-            "Jane Wyman",
-            "Cary Grant",
-            "Gary Cooper",
-            "Ginger Rogers",
-            "From Santa Ana Separation Center w Bing Crosby",
-            "Carole Landis",
-            "Lum  Abner",
-            "Long Beach Coast Guard",
-            "Jacksonville Training Camp",
-            "At Stockton Air Field",
-            "INVASION DAY from the Van Nuys Airdrome v 6 Mins",
-            "Broadcast from South Pacific",
-            "Camp Bordon Canada",
-            "Santa Ana Seperation Center",
-            "Wheeler Infantry Base",
-            "Andrew Sisters",
-            "Pat OBrien",
-            "Edward G Robinson",
-            "Naval Air Technical Center Memphis TN",
-            "From Mudock California Tony Romano",
-            "Frank Sinatra",
-            "Victory Tour Illinois",
-            "Shirley Temple Tony Romano",
-            "Walter Pidgeon",
-            "Birmingham Hospital San Fernando",
-            "Sampson Naval Training Center",
-            "Herbert Marshall Bing Crosby",
-            "Sedalia Army Airfield - 1st Got Date with an Angel AFRS",
-            "Bob Dreams Hes Been Court-Martialled",
-            "Robert Montgomery",
-            "From Battleship South Dakota",
-            "From Santa Ana",
-            "Guest-Joe E Brown",
-            "From USC Red Skelton Peggy Ryan",
-            "From Phoenix Jimmy Durante",
-            "Herbert Marshall",
-            "ChristmasShowfromSanFrancisco",
-            "Frank Sinatra",
-            "Tyrone Power",
-            "David Niven",
-            "Sonny Tufts",
-            "Broadcast from Cleveland short",
-            "Sidney Greenstreet",
-            "Brenda and Cobina",
-            "Special Interview from Seattle",
-            "Carol Richards",
-            "Bob Crosby Carol Richards",
-            "Fred Allen Minerva Pious",
-            "Lucille Ball Miss Lou Ann",
-            "Bing Crosby Doris Day General Omar Bradley",
-            "Robert Montgomery",
-            "Guest Eddie Canter",
-            "Al Jolson",
-            "Van Johnson",
-            "Peter Lorre",
-            "Fibber and Molly Amos and Andy",
-            "Fred Astair",
-            "Guest Dinah Shore",
-            "Lana Turner",
-            "Beethoven w Bing Crosby Doris Day",
-            "Guests Jack Benny Doris Day",
-            "Jack Kirkwood",
-            "Doris Day",
-            "Martin and Lewis",
-            "Jack Benny",
-            "At USC with Doris Day",
-            "1st My Darling Guest Bingle von Crosbine",
-            "Guest Gregory Peck",
-            "Christmas Day Show Berlin Air lift",
-            "March of Dimes Special Philadephia",
-            "Stalin Visits America",
-            "Dean Martin Jerry Lewis",
-            "Jack Kirkwood Tom Sawyer Sketch",
-            "Guests Dean Martin and Jerry Lewis",
-            "Jimmy Durante",
-            "Richmond Virgina",
-            "Lucille Ball",
-            "Jack Benny Doris Day",
-            "Rehearsal for 491011 v",
-            "Rehearsal for 491011 v",
-            "Rehearsal for 491011 v",
-            "1st Take Me Out to the Ball Game Jackie Robinson Joe Page v",
-            "From Fort Ord California with Bing Crosby Jimmy Demaret",
-            "1st Because You Loved Me Crosby Beethoven Sketch AFRS v",
-            "Guest Jack Benny",
-            "Bing Crosby Rhonda Fleming",
-            "From The Vine Street Playhouse With Fred Allen",
-            "The Arthur Hopfrey Show With Fred Allen",
-            "Bing Crosby Cleveland Indians",
-            "Guest - Bing Crosby Doris Day",
-            "1st Bewitched  Bewildered TV Show to Air",
-            "1st Home Cookin Guest Arthur Godfrey v",
-            "Doris Day End Lever Brothers",
-            "Marilyn Maxwell",
-            "Claudette Colbert Margaret Whiting",
-            "From Veterans Hospital  Longbeach - Story of Bingsy and Bobsy",
-            "From Carswell AFB",
-            "Fort Ord 51-01-23",
-            "March Field CA - 1st Im in Love Judy Garland Doris Singleton v",
-            "1st Be Anything by Peggy Lee Guest Dorothy Lamour AFRTS v",
-            "Edwards Air Force Base",
-            "Bloopers SDPL The Great Lover",
-            "Coronado Naval Air Station",
-            "510605 - Jerry Desmond",
-            "Long Beach Air Naval Station",
-            "Ava Gardner",
-            "Bob Builds A House AFRS",
-            "Jack Kirkwood Corinne Calvet",
-            "Bob Is Remodeling His House",
-            "Jerry Colonna Virginia Mayo",
-            "Christmas Show From Long Beach",
-            "Bing Crosby Jimmy Demaret",
-            "Las Vegas Story - From George AF Base - Victorville CA - Las Vegas Story",
-            "The New 1952 Cars With Tyrone Power",
-            "Palm Springs With Bing Crosby Charles Farrell",
-            "San Diego Air Naval Station With Gracie Allen",
-            "Marine Corps Supply Depot With Claudette Colbert",
-            "William Holden 52-04-29",
-            "William Holden Jack Kirkwood",
-            "Three Make a Road Picture",
-            "Marilyn Maxwell",
-            "San Diego NAS - Guests Dale Evans  Roy Rogers v",
-            "Jane Russell",
-            "Frank Sinatra - Christmas Presents",
-            "Road To Bali With Jack Benny AFRS Jello",
-            "Fort Ord Terry Moore  Bing Crosby",
-            "Eisenhowers Inaguration With Zsa Zsa Gabor",
-            "The Road To Cactus Gulch With Jimmy Stewart",
-            "The Flu Epidemic Jack Webb",
-            "Hope and Jane Wyman do a Nightclub Act",
-            "Income Tax Forms Jane Russell",
-            "William Bendix",
-            "The Atom Bomb Test Mickey Rooney",
-            "Going to Europe to Make a Movie - Anne Baxter Dorothy Lamour",
-            "Bakersfield with Ida Lupino",
-            "Los Alamedos Air Station With Rosemary Clooney",
-            "Walter Reed Army Hospital With Martha Roundtree",
-            "Bob Goes To Richard Widmarks House AFRS",
-            "Fort Belvoir with Marilyn Maxwell",
-            "Henry Fonda",
-            "Arlene Dahl",
-            "Kentucky Derby - 1st Walking Behind You Vic Mature AFRTS v",
-            "Jane Wyman - Last Show For Jello AFRTS",
-            "David Niven",
-            "1st Whatever Lola Wants - Phil Harris v",
-            "England With Marilyn Maxwell Jerry Desmond",
-            "England Jack Buchanen Douglas Fairbanks Jr",
-            "Coming Home From England - Anne Baxter at Sea AFRTS v",
-            "Bobs Back From Hawaii With William HoldenAFRS",
-            "Burt Lancaster Gives Bob A Job At The Circus",
-            "Zsa Zsa Gabor",
-            "Naval Testing Station - 1st History of the Movies Glenn Ford AFRTS v POOR",
-            "Frank Sinatra",
-            "Long Beach Veterans Hospial With Esther Williams",
-            "Gambling In Las Vegas With Jane Wyman",
-            "Frank Sinatra",
-            "Richard Widmark",
-            "The History Of Radio With David Niven",
-            "Jane Russell",
-            "Bob Starts His Own Record Company With Rosemary Clooney",
-            "Paramount Studio with Donna Reed",
-            "Robert Ryan",
-            "The Kentucky Derby With Grace Kelly",
-            "Merle Oberon",
-            "Jack Kirkwood",
-            "David Niven",
-            "Jack Kirkwood",
-            "Jane Wyman",
-            "Christmas Show from Long Beach Veterans Hospital",
-            "William Holden",
-            "Hollywood w Zsa Zsa Gabor  date",
-            "20000 Leagues Under the Sea AFRS",
-            "Guest David Niven",
-            "Clair Trevor",
-            "Maureen OHara",
-            "Bob Tries To Get Hired For Next Year with Jim Backus",
-            "Clair Trevor AFRS"
-    };
-
-    public final String[] hopalong = {
-            "Hopalong_Cassidy_500101_0001_The_Dead_Mans_Hand.mp3",
-            "Hopalong_Cassidy_500108_0002_The_Rainmaker_of_Eagle_Mountain.mp3",
-            "Hopalong_Cassidy_500115_0003_Coltsville_Territory.mp3",
-            "Hopalong_Cassidy_500122_0004_The_Mystery_of_Skull_Valley.mp3",
-            "Hopalong_Cassidy_500129_0005_Renegades_of_the_San_Rafael.mp3",
-            "Hopalong_Cassidy_500205_0006_The_Phantom_Bandito.mp3",
-            "Hopalong_Cassidy_500212_0007_Murder_on_the_Trail.mp3",
-            "Hopalong_Cassidy_500219_0008_Hoppy_Takes_a_Chance.mp3",
-            "Hopalong_Cassidy_500226_0009_The_Voice_of_the_Dead.mp3",
-            "Hopalong_Cassidy_500305_0010_Ten_Strike_Gold.mp3",
-            "Hopalong_Cassidy_500312_0011_The_Red_Rock_Mesa.mp3",
-            "Hopalong_Cassidy_500319_0012_The_Empty_Saddle.mp3",
-            "Hopalong_Cassidy_500326_0013_The_Failure.mp3",
-            "Hopalong_Cassidy_500402_0014_The_Bandits_of_Ridge_Creek.mp3",
-            "Hopalong_Cassidy_500409_0015_The_Killers_of_Sandy_Gulch.mp3",
-            "Hopalong_Cassidy_500416_0016_The_Red_Death.mp3",
-            "Hopalong_Cassidy_500423_0017_The_Coyotes_Creed.mp3",
-            "Hopalong_Cassidy_500430_0018_Bullots_for_Ballots.mp3",
-            "Hopalong_Cassidy_500507_0019_The_Green_River_Payoff.mp3",
-            "Hopalong_Cassidy_500514_0020_The_Man_Who_Made_Willy_Whirl.mp3",
-            "Hopalong_Cassidy_500521_0021_Range_War.mp3",
-            "Hopalong_Cassidy_500528_0022_The_Letter_from_the_Grave.mp3",
-            "Hopalong_Cassidy_500604_0023_Death_Paints_a_Picture.mp3",
-            "Hopalong_Cassidy_500611_0024_The_Border_of_Nowhere.mp3",
-            "Hopalong_Cassidy_500618_0025_The_Medicine_Man.mp3",
-            "Hopalong_Cassidy_500625_0026_The_Flying_Outlaw.mp3",
-            "Hopalong_Cassidy_500702_0027_The_Sundown_Kid.mp3",
-            "Hopalong_Cassidy_500709_0028_Hoppy_Sees_Red.mp3",
-            "Hopalong_Cassidy_500716_0029_Hoppy_and_the_School_Marm.mp3",
-            "Hopalong_Cassidy_500723_0030_The_King_of_Cinnabar.mp3",
-            "Hopalong_Cassidy_500730_0031_The_Shell_Game.mp3",
-            "Hopalong_Cassidy_500806_0032_Blood_Money.mp3",
-            "Hopalong_Cassidy_500813_0033_The_Disappearing_Deputy.mp3",
-            "Hopalong_Cassidy_500820_0034_The_Whistling_Ghosts.mp3",
-            "Hopalong_Cassidy_500827_0035_An_Old_Spanish_Custom.mp3",
-            "Hopalong_Cassidy_500903_0036_The_Secret_of_Martin_Doon.mp3",
-            "Hopalong_Cassidy_500910_0037_Four_to_Go.mp3",
-            "Hopalong_Cassidy_500917_0038_The_Red_Terror.mp3",
-            "Hopalong_Cassidy_500924_0039_Hoppy_and_the_Iron_Horse.mp3",
-            "Hopalong_Cassidy_500930_0040_Gunsmoke_Rides_the_Stagecoach_Trail.mp3",
-            "Hopalong_Cassidy_501007_0041_Tinkers_Dam.mp3",
-            "Hopalong_Cassidy_501014_0042_Hoppy_Pays_a_Debt.mp3",
-            "Hopalong_Cassidy_501021_0043_Hoppy_Turns_on_the_Heat.mp3",
-            "Hopalong_Cassidy_501028_0044_Death_Runs_Dry.mp3",
-            "Hopalong_Cassidy_501104_0045_Melody_of_Murder.mp3",
-            "Hopalong_Cassidy_501111_0046_The_King_of_Spades.mp3",
-            "Hopalong_Cassidy_501118_0047_Hoppy_Takes_the_Bull_by_the_Horns.mp3",
-            "Hopalong_Cassidy_501125_0048_Dead_or_Alive.mp3",
-            "Hopalong_Cassidy_501202_0049_The_Mystery_at_Three_Oaks.mp3",
-            "Hopalong_Cassidy_501209_0050_The_Plague_of_Parsons_Folly.mp3",
-            "Hopalong_Cassidy_501216_0051_The_Mystery_of_the_Diamond_Z.mp3",
-            "Hopalong_Cassidy_501230_0052_The_Golden_Lure.mp3",
-            "Hopalong_Cassidy_510106_0053_The_Case_of_the_Last_Word.mp3",
-            "Hopalong_Cassidy_510113_0054_Bad_Medicine_at_Rimrock.mp3",
-            "Hopalong_Cassidy_510120_0055_The_Frightened_Town.mp3",
-            "Hopalong_Cassidy_510127_0056_The_Killer_in_Black.mp3",
-            "Hopalong_Cassidy_510203_0057_Coming_Attraction_Murder.mp3",
-            "Hopalong_Cassidy_510210_0058_Wet_Beef_and_Dry_Bones.mp3",
-            "Hopalong_Cassidy_510217_0059_The_Black_Grass_Fever.mp3",
-            "Hopalong_Cassidy_510224_0060_The_Cold_Country.mp3",
-            "Hopalong_Cassidy_510303_0061_The_Buckshot_Badman.mp3",
-            "Hopalong_Cassidy_510310_0062_The_Boss_of_Vinegar_Bend.mp3",
-            "Hopalong_Cassidy_510317_0063_The_Land_of_the_Gunhawks.mp3",
-            "Hopalong_Cassidy_510324_0064_The_Devils_Drum.mp3",
-            "Hopalong_Cassidy_510331_0065_Hoppy_Elects_a_Sheriff.mp3",
-            "Hopalong_Cassidy_510407_0066_Peril_at_Pier_Nineteen.mp3",
-            "Hopalong_Cassidy_510414_0067_Death_Crosses_the_River.mp3",
-            "Hopalong_Cassidy_510421_0068_Stagecoach_West.mp3",
-            "Hopalong_Cassidy_510428_0069_The_Unwilling_Outlaw.mp3",
-            "Hopalong_Cassidy_510505_0070_The_Kidnappers_Trail.mp3",
-            "Hopalong_Cassidy_510512_0071_The_Bandit_of_Blackton_Bend.mp3",
-            "Hopalong_Cassidy_510519_0072_Hook_Line_and_Murder.mp3",
-            "Hopalong_Cassidy_510526_0073_The_Phantom_Panther.mp3",
-            "Hopalong_Cassidy_510602_0074_Hoppy_Plays_a_Hunch.mp3",
-            "Hopalong_Cassidy_510609_0075_A_Jailer_Named_Satan.mp3",
-            "Hopalong_Cassidy_510616_0076_The_Man_in_the_Yellow_Mask.mp3",
-            "Hopalong_Cassidy_510623_0077_Run_Sheep_Run.mp3",
-            "Hopalong_Cassidy_510630_0078_Hoppy_Meets_His_Match.mp3",
-            "Hopalong_Cassidy_510922_0079_Apaches_Dont_Need_Guns.mp3",
-            "Hopalong_Cassidy_510929_0080_A_Shot_in_the_Dark.mp3",
-            "Hopalong_Cassidy_511006_0081_The_Gunhawk_Convention.mp3",
-            "Hopalong_Cassidy_511013_0082_The_Gunfighter_in_Short_Pants.mp3",
-            "Hopalong_Cassidy_511020_0083_The_Songbird_of_Santa_Fe.mp3",
-            "Hopalong_Cassidy_511027_0084_Bayou_Drums_Mean_Death.mp3",
-            "Hopalong_Cassidy_511103_0085_Clean_Up_of_Caribou_Mesa.mp3",
-            "Hopalong_Cassidy_511110_0086_Six_Little_Men_Who_Wore_Green.mp3",
-            "Hopalong_Cassidy_511117_0087_Junior_Badman.mp3",
-            "Hopalong_Cassidy_511124_0088_The_Devil_and_El_Diablo.mp3",
-            "Hopalong_Cassidy_511201_0089_The_Lawyer_of_Laredo.mp3",
-            "Hopalong_Cassidy_511208_0090_The_Secret_in_the_Hill.mp3",
-            "Hopalong_Cassidy_511215_0091_The_Memory_of_Mace_Melot.mp3",
-            "Hopalong_Cassidy_511222_0092_The_Spider_Woman.mp3",
-            "Hopalong_Cassidy_511229_0093_The_Killers_of_Lion_Canyon.mp3",
-            "Hopalong_Cassidy_520105_0094_The_Westrels_of_Juarez.mp3",
-            "Hopalong_Cassidy_520112_0095_Gamblers_Luck.mp3",
-            "Hopalong_Cassidy_520119_0096_Danger_Wears_Two_Faces.mp3",
-            "Hopalong_Cassidy_520127_0097_California_or_Bust.mp3",
-            "Hopalong_Cassidy_520202_0098_Death_Comes_Invited.mp3",
-            "Hopalong_Cassidy_520209_0099_The_Bull_Fight.mp3",
-            "Hopalong_Cassidy_520216_0100_The_Women_of_Windy_Ridge.mp3",
-            "Hopalong_Cassidy_520223_0101_Right_Rope_Wrong_Neck.mp3",
-            "Hopalong_Cassidy_520301_0102_Stampede_at_Semoles_Crossing.mp3",
-            "Hopalong_Cassidy_520308_0103_Cowtown_Trouble_Shooters.mp3",
-            "Hopalong_Cassidy_520315_0104_The_Santa_Claus_Rustlers.mp3",
-    };
-
-    public final String[] hopalongTitle = {
-            "The Dead Mans Hand",
-            "The Rainmaker of Eagle Mountain",
-            "Coltsville Territory",
-            "The Mystery of Skull Valley",
-            "Renegades of the San Rafael",
-            "The Phantom Bandito",
-            "Murder on the Trail",
-            "Hoppy Takes a Chance",
-            "The Voice of the Dead",
-            "Ten Strike Gold",
-            "The Red Rock Mesa",
-            "The Empty Saddle",
-            "The Failure",
-            "The Bandits of Ridge Creek",
-            "The Killers of Sandy Gulch",
-            "The Red Death",
-            "The Coyotes Creed",
-            "Bullots for Ballots",
-            "The Green River Payoff",
-            "The Man Who Made Willy Whirl",
-            "Range War",
-            "The Letter from the Grave",
-            "Death Paints a Picture",
-            "The Border of Nowhere",
-            "The Medicine Man",
-            "The Flying Outlaw",
-            "The Sundown Kid",
-            "Hoppy Sees Red",
-            "Hoppy and the School Marm",
-            "The King of Cinnabar",
-            "The Shell Game",
-            "Blood Money",
-            "The Disappearing Deputy",
-            "The Whistling Ghosts",
-            "An Old Spanish Custom",
-            "The Secret of Martin Doon",
-            "Four to Go",
-            "The Red Terror",
-            "Hoppy and the Iron Horse",
-            "Gunsmoke Rides the Stagecoach Trail",
-            "Tinkers Dam",
-            "Hoppy Pays a Debt",
-            "Hoppy Turns on the Heat",
-            "Death Runs Dry",
-            "Melody of Murder",
-            "The King of Spades",
-            "Hoppy Takes the Bull by the Horns",
-            "Dead or Alive",
-            "The Mystery at Three Oaks",
-            "The Plague of Parsons Folly",
-            "The Mystery of the Diamond Z",
-            "The Golden Lure",
-            "The Case of the Last Word",
-            "Bad Medicine at Rimrock",
-            "The Frightened Town",
-            "The Killer in Black",
-            "Coming Attraction Murder",
-            "Wet Beef and Dry Bones",
-            "The Black Grass Fever",
-            "The Cold Country",
-            "The Buckshot Badman",
-            "The Boss of Vinegar Bend",
-            "The Land of the Gunhawks",
-            "The Devils Drum",
-            "Hoppy Elects a Sheriff",
-            "Peril at Pier Nineteen",
-            "Death Crosses the River",
-            "Stagecoach West",
-            "The Unwilling Outlaw",
-            "The Kidnappers Trail",
-            "The Bandit of Blackton Bend",
-            "Hook Line and Murder",
-            "The Phantom Panther",
-            "Hoppy Plays a Hunch",
-            "A Jailer Named Satan",
-            "The Man in the Yellow Mask",
-            "Run Sheep Run",
-            "Hoppy Meets His Match",
-            "Apaches Dont Need Guns",
-            "A Shot in the Dark",
-            "The Gunhawk Convention",
-            "The Gunfighter in Short Pants",
-            "The Songbird of Santa Fe",
-            "Bayou Drums Mean Death",
-            "Clean Up of Caribou Mesa",
-            "Six Little Men Who Wore Green",
-            "Junior Badman",
-            "The Devil and El Diablo",
-            "The Lawyer of Laredo",
-            "The Secret in the Hill",
-            "The Memory of Mace Melot",
-            "The Spider Woman",
-            "The Killers of Lion Canyon",
-            "The Westrels of Juarez",
-            "Gamblers Luck",
-            "Danger Wears Two Faces",
-            "California or Bust",
-            "Death Comes Invited",
-            "The Bull Fight",
-            "The Women of Windy Ridge",
-            "Right Rope Wrong Neck",
-            "Stampede at Semoles Crossing",
-            "Cowtown Trouble Shooters",
-            "The Santa Claus Rustlers"
-    };
-
-    public final String[] fortLaramie = {
-            "FrtL1955-07-25AuditionShowtheBeginning.mp3",
-            "FrtL1956-01-22001PlayingIndian.mp3",
-            "FrtL1956-01-29002BoatwrightsStory.mp3",
-            "FrtL1956-02-05003SquawMan.mp3",
-            "FrtL1956-02-12004rs035WomanAtHorseCreek.mp3",
-            "FrtL1956-02-19005Boredom.mp3",
-            "FrtL1956-02-26006CaptainsWidow.mp3",
-            "FrtL1956-03-04007TheShavetail.mp3",
-            "FrtL1956-03-11008HattiePelfrey.mp3",
-            "FrtL1956-03-18009BeasleyGirls.mp3",
-            "FrtL1956-03-25010TheCoward.mp3",
-            "FrtL1956-04-01011LostChild.mp3",
-            "FrtL1956-04-15012StageCoachStop.mp3",
-            "FrtL1956-04-22013NewRecruit.mp3",
-            "FrtL1956-04-29014Capture.mp3",
-            "FrtL1956-05-06015NeverTheTwain.mp3",
-            "FrtL1956-05-13016WarCorrespondent.mp3",
-            "FrtL1956-05-20017BlackHillGold.mp3",
-            "FrtL1956-05-27018SergeantGorcesBaby1.mp3",
-            "FrtL1956-06-03019DontKickMyHorse1.mp3",
-            "FrtL1956-06-10020YoungTrooper.mp3",
-            "FrtL1956-06-17021WinterSoldier.mp3",
-            "FrtL1956-06-24022LovingCup.mp3",
-            "FrtL1956-07-01023TroopersWidow.mp3",
-            "FrtL1956-07-08024TalentedRecruits.mp3",
-            "FrtL1956-07-15025OldEnemy.mp3",
-            "FrtL1956-07-22026SpottedTailsReturn.mp3",
-            "FrtL1956-07-29027NatureBoy.mp3",
-            "FrtL1956-08-05028TheMassacre.mp3",
-            "FrtL1956-08-12029AssemblyLine.mp3",
-            "FrtL1956-08-19030GoodbyeWilla.mp3",
-            "FrtL1956-08-26031TheChaplain.mp3",
-            "FrtL1956-09-02032ReturnOfHattiePalphrey1.mp3",
-            "FrtL1956-09-09033BuffaloHunters.mp3",
-            "FrtL1956-09-16034ThePayroll.mp3",
-            "FrtL1956-09-23035rs004WomanAtHorseCreek.mp3",
-            "FrtL1956-09-30036ASmallBeginning.mp3",
-            "FrtL1956-10-07037GalvanizedYankee.mp3",
-            "FrtL1956-10-14038StillWaters1.mp3",
-            "FrtL1956-10-21039IndianScout1.mp3",
-            "FrtL1956-10-28040ArmyWifefinale.mp3"
-    };
-
-    public final String[] ftLaramieTitle = {
-            "Audition Show the Beginning",
-            "Playing Indian",
-            "Boatwrights Story",
-            "Squaw Man",
-            "Woman At Horse Creek",
-            "Boredom",
-            "Captains Widow",
-            "The Shavetail",
-            "Hattie Pelfrey",
-            "Beasley Girls",
-            "The Coward",
-            "Lost Child",
-            "Stage Coach Stop",
-            "New Recruit",
-            "Capture",
-            "Never The Twain",
-            "War Correspondent",
-            "Black Hill Gold",
-            "Sergeant Gorces Baby",
-            "Don’t Kick My Horse",
-            "Young Trooper",
-            "Winter Soldier",
-            "Loving Cup",
-            "Troopers Widow",
-            "Talented Recruits",
-            "Old Enemy",
-            "Spotted Tails Return",
-            "Nature Boy",
-            "The Massacre",
-            "Assembly Line",
-            "Goodbye Willa",
-            "The Chaplain",
-            "Return Of Hattie Palphrey1",
-            "Buffalo Hunters",
-            "The Payroll",
-            "Woman At Horse Creek",
-            "A Small Beginning",
-            "Galvanized Yankee",
-            "Still Waters",
-            "Indian Scout",
-            "Army Wife finale"
-    };
-
-    private final String[] theWhistler = {
-            "Whistler_420516_Retribution.mp3",
-            "Whistler_420613_Shrunken_Head.mp3",
-            "Whistler_420627_Notes_in_the_Night.mp3",
-            "Whistler_420822_Death_has_a_Thirst.mp3",
-            "Whistler_420829_The_Letter.mp3",
-            "Whistler_420905_House_of_Greed.mp3",
-            "Whistler_420913_Mirage.mp3",
-            "Whistler_420920_Fog.mp3",
-            "Whistler_420927_Jealousy.mp3",
-            "Whistler_421004_Urge_to_Kill.mp3",
-            "Whistler_421011_Malice.mp3",
-            "Whistler_421018_Death_Comes_at_Midnight.mp3",
-            "Whistler_421025_The_Alibi.mp3",
-            "Whistler_421115_Appariation.mp3",
-            "Whistler_421122_The_Other_Woman.mp3",
-            "Whistler_421129_Avarice.mp3",
-            "Whistler_421213_The_Accounting.mp3",
-            "Whistler_421227_Double_Cross.mp3"
-    };
-
-    private final String[] theWhistlerTitle = {
-            "Retribution",
-            "Shrunken Head",
-            "Notes in the Night",
-            "Death has a Thirst",
-            "The Letter",
-            "House of Greed",
-            "Mirage",
-            "Fog",
-            "Jealousy",
-            "Urge to Kill",
-            "Malice",
-            "Death Comes at Midnight",
-            "The Alibi",
-            "Appariation",
-            "The Other Woman",
-            "Avarice",
-            "The Accounting",
-            "Double Cross"
-    };
-
-    private final String[] MissBrooks = {
-            "49-01-09_Our_Miss_Brooks_Lack_of_Coal_at_Madison_High.mp3",
-            "Our_Miss_Brooks_460702_An_American_Tragedy.mp3",
-            "Our_Miss_Brooks_480409_000_Audition_Shirley_Booth.mp3",
-            "Our_Miss_Brooks_480508_Mothers_Day.mp3",
-            "Our_Miss_Brooks_480623_000_Audition_Eve_Arden.mp3",
-            "Our_Miss_Brooks_480719_001_First_Day.mp3",
-            "Our_Miss_Brooks_480919_007_Weekend_At_Crystal_Lake.mp3",
-            "Our_Miss_Brooks_481024_012_Surprise_Party.mp3",
-            "Our_Miss_Brooks_481031_013_Clay_City_Football_Game.mp3",
-            "Our_Miss_Brooks_481107_014_Connie_The_Work_Horse.mp3",
-            "Our_Miss_Brooks_481114_015_Babysitting_for_Three.mp3",
-            "Our_Miss_Brooks_481121_016_Model_School_Teacher.mp3",
-            "Our_Miss_Brooks_481128_017_Sunnydale_Finishing_School.mp3",
-            "Our_Miss_Brooks_481205_018_Weighing_Machine.mp3",
-            "Our_Miss_Brooks_481219_020_Magic_Christmas_Tree.mp3",
-            "Our_Miss_Brooks_490102_022_Old_Clothes_For_Party.mp3",
-            "Our_Miss_Brooks_490109_023_Boken_Furnace.mp3",
-            "Our_Miss_Brooks_490116_024_Student_Government_Day.mp3",
-            "Our_Miss_Brooks_490123_025_Head_Of_English_Department.mp3",
-            "Our_Miss_Brooks_490130_026_Custodian_Of_Student_Funds.mp3",
-            "Our_Miss_Brooks_490206_027_Missing_Electric_Heater.mp3",
-            "Our_Miss_Brooks_490213_028_Stretch_The_Basketball_Star.mp3",
-            "Our_Miss_Brooks_490220_029_The_Frog.mp3",
-            "Our_Miss_Brooks_490227_030_Stretch_Has_A_Problem.mp3",
-            "Our_Miss_Brooks_490306_031_The_Hair_Do.mp3",
-            "Our_Miss_Brooks_490313_032_Cafeteria_Boycott.mp3",
-            "Our_Miss_Brooks_490320_033_Poetry_Mix-Up.mp3",
-            "Our_Miss_Brooks_490327_034_Clay_City_English_Teacher.mp3",
-            "Our_Miss_Brooks_490403_035_April_Fool_s_Day.mp3",
-            "Our_Miss_Brooks_490417_037_Easter_Outfit.mp3",
-            "Our_Miss_Brooks_490424_038_Dress_Code.mp3",
-            "Our_Miss_Brooks_490501_039_Walter_Vs_Stretch_Grudge_Match.mp3",
-            "Our_Miss_Brooks_490508_040_Mister_Boynton_s_Parents.mp3",
-            "Our_Miss_Brooks_490515_041_Friday_the_13th.mp3",
-            "Our_Miss_Brooks_490522_042_Peanuts_The_Great_Dane.mp3",
-            "Our_Miss_Brooks_490529_043_Arguements._Arguements.mp3",
-            "Our_Miss_Brooks_490605_044_Keys_To_The_School.mp3",
-            "Our_Miss_Brooks_490612_045_Wishing_Well_Dance.mp3",
-            "Our_Miss_Brooks_490619_046_Taxidermist.mp3",
-            "Our_Miss_Brooks_490703_048_July_4th_Trip_to_Eagle_Springs.mp3",
-            "Our_Miss_Brooks_490710_049_Telegram_For_Mrs_Davis.mp3",
-            "Our_Miss_Brooks_490717_050_Carelessness_Code.mp3",
-            "Our_Miss_Brooks_490724_051_Mrs_Davis_Cookies.mp3",
-            "Our_Miss_Brooks_490731_052_Connie_s_New_Job_Offer.mp3",
-            "Our_Miss_Brooks_490807_053_Heat_Wave.mp3",
-            "Our_Miss_Brooks_490814_054_The_English_Test.mp3",
-            "Our_Miss_Brooks_490821_055_Weekend_At_Crystal_Lake.mp3",
-            "Our_Miss_Brooks_490911_057_Head_Of_The_Board.mp3",
-            "Our_Miss_Brooks_490918_058_Faculty_Cheer_Leader.mp3",
-            "Our_Miss_Brooks_490925_059_Taking_The_Rap_For_Mr_Boynton.mp3",
-            "Our_Miss_Brooks_491002_060_Rival_Football.mp3",
-            "Our_Miss_Brooks_491009_061_Mr_Leblanche_needs_50_Dollars.mp3",
-            "Our_Miss_Brooks_491016_062_School_Safety_Advisor.mp3",
-            "Our_Miss_Brooks_491023_063_Exchanging_Gifts.mp3",
-            "Our_Miss_Brooks_491030_064_Halloween_Party.mp3",
-            "Our_Miss_Brooks_491113_066_Elephant_Mascot.mp3",
-            "Our_Miss_Brooks_491120_067_The_Party_Line.mp3",
-            "Our_Miss_Brooks_491127_068_Thanksgiving_Weekend.mp3",
-            "Our_Miss_Brooks_491204_069_Weighing_Machine.mp3",
-            "Our_Miss_Brooks_491211_070_Game_At_Clay_City.mp3",
-            "Our_Miss_Brooks_491218_071_Department_Store_Contest.mp3",
-            "Our_Miss_Brooks_491225_072_Magic_Christmas_Tree.mp3",
-            "Our_Miss_Brooks_500101_073_Babysitting_on_New_Year_s_Eve.mp3",
-            "Our_Miss_Brooks_500108_074_Board_Of_Education_Day.mp3",
-            "Our_Miss_Brooks_500115_075_Cure_That_Habit.mp3",
-            "Our_Miss_Brooks_500122_076_Professorship_at_State_U.mp3",
-            "Our_Miss_Brooks_500129_077_School_On_Saturday.mp3",
-            "Our_Miss_Brooks_500205_078_Miss_Enright_s_Dinner.mp3",
-            "Our_Miss_Brooks_500219_080_Valentine_s_Day_Date.mp3",
-            "Our_Miss_Brooks_500226_081_Stretch_Is_In_Love.mp3",
-            "Our_Miss_Brooks_500305_082_Letter_From_The_Education_Board.mp3",
-            "Our_Miss_Brooks_500312_083_The_Burglar.mp3",
-            "Our_Miss_Brooks_500319_084_The_Auction.mp3",
-            "Our_Miss_Brooks_500326_085_Baseball_Uniforms.mp3",
-            "Our_Miss_Brooks_500402_086_Free_TV_from_Sherry_s.mp3",
-            "Our_Miss_Brooks_500409_087_Easter_Egg_Dye.mp3",
-            "Our_Miss_Brooks_500423_089_Tape_Recorder.mp3",
-            "Our_Miss_Brooks_500430_090_School_Band.mp3",
-            "Our_Miss_Brooks_500507_091_Boynton_s_Barbecue.mp3",
-            "Our_Miss_Brooks_500514_092_Boynton_s_Parents.mp3",
-            "Our_Miss_Brooks_500521_093_Rare_Black_Orchid.mp3",
-            "Our_Miss_Brooks_500528_094_Reckless_Driving.mp3",
-            "Our_Miss_Brooks_500910_096_Rumors.mp3",
-            "Our_Miss_Brooks_500917_097_Elopement_With_Walter.mp3",
-            "Our_Miss_Brooks_500924_098_Bronco_Dismissed.mp3",
-            "Our_Miss_Brooks_501001_099_Measles.mp3",
-            "Our_Miss_Brooks_501008_100_Radio_Bombay.mp3",
-            "Our_Miss_Brooks_501015_101_The_Bookie.mp3",
-            "Our_Miss_Brooks_501022_102_Stretch_Is_in_Love_Again.mp3",
-            "Our_Miss_Brooks_501029_103_The_Dancer.mp3",
-            "Our_Miss_Brooks_501105_104_Indian_Burial_Ground.mp3",
-            "Our_Miss_Brooks_501112_105_Teachers_Convention.mp3",
-            "Our_Miss_Brooks_501119_106_Thanksgiving_Turkey.mp3",
-            "Our_Miss_Brooks_501126_107_Woman_Driver.mp3",
-            "Our_Miss_Brooks_501203_108_Music_Festival.mp3",
-            "Our_Miss_Brooks_501217_110_A_Suit_For_Charity.mp3",
-            "Our_Miss_Brooks_501224_111_Magic_Christmas_Tree.mp3",
-            "Our_Miss_Brooks_501231_112_Christmas_Gift_Returns.mp3",
-            "Our_Miss_Brooks_510204_117_Puppy_Love_and_Mr_Barlow.mp3",
-            "Our_Miss_Brooks_510211_118_Business_Course.mp3",
-            "Our_Miss_Brooks_510225_120_Going_Skiing.mp3",
-            "Our_Miss_Brooks_510304_121_Overseas_Job.mp3",
-            "Our_Miss_Brooks_510311_122_Tex_Barton_Basketball_Star.mp3",
-            "Our_Miss_Brooks_510318_123_Miss_Enright_s_Birthday_Party.mp3",
-            "Our_Miss_Brooks_510325_124_Boynton_s_Land_Deal.mp3",
-            "Our_Miss_Brooks_510401_125_Another_Day_Another_Dress.mp3",
-            "Our_Miss_Brooks_510415_127_Mr_Conklin_s_Induction_Notice_incomplete.mp3",
-            "Our_Miss_Brooks_510422_128_New_School_TV_Set.mp3",
-            "Our_Miss_Brooks_510513_131_Bargain_Hats_for_Mother_s_Day.mp3",
-            "Our_Miss_Brooks_510527_133_The_English_Test.mp3",
-            "Our_Miss_Brooks_510603_134_The_First_Aid_Course_JC.mp3",
-            "Our_Miss_Brooks_511104_143_Connie_Tries_To_Forget_Mr_Boynton.mp3",
-            "Our_Miss_Brooks_511125_146_Connie_Wins_a_Man_s_Suit_JC.mp3",
-            "Our_Miss_Brooks_520127_155_New_School_Bus_JC.mp3",
-            "Our_Miss_Brooks_520309_161_Minerva_s_Kittens_JC.mp3",
-            "Our_Miss_Brooks_530531_212_Cosmopolitan_Magazine.mp3",
-            "Our_Miss_Brooks_531004_217_Poison_Ivy.mp3",
-            "Our_Miss_Brooks_531011_218_Plaque_for_Mr_Conklin.mp3",
-            "Our_Miss_Brooks_531018_219_Mr_Boynton_s_Barbecue.mp3",
-            "Our_Miss_Brooks_531025_220_Boynton_the_Gigolo.mp3",
-            "Our_Miss_Brooks_531101_221_Mr_Conklin_s_Car_Pool.mp3",
-            "Our_Miss_Brooks_531108_222_Convict.mp3",
-            "Our_Miss_Brooks_531115_223_The_Moving_Van.mp3",
-            "Our_Miss_Brooks_531122_224_The_Butcher.mp3",
-            "Our_Miss_Brooks_531129_225_Former_Student_Visits.mp3",
-            "Our_Miss_Brooks_531213_227_Conklin_the_Bachelor.mp3",
-            "Our_Miss_Brooks_531220_228_Christmas_Gift_Mix-up.mp3",
-            "Our_Miss_Brooks_531227_229_Miss_Brooks_Writes_about_a_Hobo.mp3",
-            "Our_Miss_Brooks_540110_231_Hobbies.mp3",
-            "Our_Miss_Brooks_540117_232_Selling_the_House_Next_Door.mp3",
-            "Our_Miss_Brooks_540124_233_Foreign_Teachers.mp3",
-            "Our_Miss_Brooks_540131_234_Four_Fiances.mp3",
-            "Our_Miss_Brooks_540207_235_Foreign_Teachers.mp3",
-            "Our_Miss_Brooks_540424_Cow_in_the_Closet_-_AFRS.mp3",
-            "Our_Miss_Brooks_540926_256_Mr_Lathrop_Returns_to_School.mp3",
-            "Our_Miss_Brooks_541003_257_Conklin_Threatens_to_Abolish_Football.mp3",
-            "Our_Miss_Brooks_541010_258_Bartering_with_Chief_Thundercloud.mp3",
-            "Our_Miss_Brooks_541017_259_Photo_Feud.mp3",
-            "Our_Miss_Brooks_541024_260_Stretch_is_in_Love_Again.mp3",
-            "Our_Miss_Brooks_541107_262_The_Switchboard_Operator.mp3",
-            "Our_Miss_Brooks_541114_263_Movies_at_School.mp3",
-            "Our_Miss_Brooks_55-04-24_286_Take_Him_or_Leave_Him.mp3",
-            "Our_Miss_Brooks_55-08-07_Cat_Burglars.mp3",
-            "Our_Miss_Brooks_550116_272_Male_Superiority.mp3",
-            "Our_Miss_Brooks_550123_273_Pen_Pal_Project.mp3",
-            "Our_Miss_Brooks_550130_274_Mr_Travis_3_Acre_Lot.mp3",
-            "Our_Miss_Brooks_550306_279_Project_X.mp3",
-            "Our_Miss_Brooks_550313_280_The_School_Board_s_Psycholoogist.mp3",
-            "Our_Miss_Brooks_550327_282_Mr_Boynton_s_Moustache.mp3",
-            "Our_Miss_Brooks_550403_283_An_American_Tragedy.mp3",
-            "Our_Miss_Brooks_550410_284_Tears_For_Mister_Boynton.mp3",
-            "Our_Miss_Brooks_550417_285_Magazine_Articles.mp3",
-            "Our_Miss_Brooks_550424_286_Cow_in_the_Closet.mp3",
-            "Our_Miss_Brooks_550501_287_Miss_Brooks_Takes_Over_Spring_Garden.mp3",
-            "Our_Miss_Brooks_550508_288_Orphan_Twins.mp3",
-            "Our_Miss_Brooks_550522_290_Stretch_is_Accused_of_Professionalism.mp3",
-            "Our_Miss_Brooks_550529_291_Spring_Garden.mp3",
-            "Our_Miss_Brooks_550619_294_Taxi_Fare.mp3",
-            "Our_Miss_Brooks_550626_295_Marriage_By_Proxy.mp3",
-            "Our_Miss_Brooks_550703_296_Deacon_Jones.mp3",
-            "Our_Miss_Brooks_550710_297_Bye_Bye_Boynton.mp3",
-            "Our_Miss_Brooks_550717_298_Planning_a_Trip_to_Europe.mp3",
-            "Our_Miss_Brooks_550724_299_Non_Fraternization_Policy.mp3",
-            "Our_Miss_Brooks_550731_300_Marriage_Madness.mp3",
-            "Our_Miss_Brooks_550807_301_Cat_Burglars.mp3",
-            "Our_Miss_Brooks_550814_302_Sneaky_Peekers.mp3",
-            "Our_Miss_Brooks_550821_303_Teacher_s_Convention.mp3",
-            "Our_Miss_Brooks_550828_304_Couch_Potato.mp3",
-            "Our_Miss_Brooks_550904_305_Summer_Vacation.mp3",
-            "Our_Miss_Brooks_550911_306_Helping_Hands.mp3",
-            "Our_Miss_Brooks_550918_307_House_Trailer.mp3",
-            "Our_Miss_Brooks_551009_310_Friendship.mp3",
-            "Our_Miss_Brooks_551030_313_French_Sadie_Hawkins_Day.mp3",
-            "Our_Miss_Brooks_551113_315_Outpost_Road_incomplete.mp3",
-            "Our_Miss_Brooks_551204_318_Saving_the_School_Newspaper.mp3",
-            "Our_Miss_Brooks_551218_320_Christmas_Clothing_Drive.mp3",
-            "Our_Miss_Brooks_551225_321_The_Magic_Christmas_Tree.mp3",
-            "Our_Miss_Brooks_560101_322_Mr_Conklin_Loses_His_Hearing.mp3",
-            "Our_Miss_Brooks_560108_323_School_on_Saturday.mp3",
-            "Our_Miss_Brooks_560205_327_The_Auction.mp3",
-            "Our_Miss_Brooks_560212_328_Mr_Conklin_s_Statue.mp3",
-            "Our_Miss_Brooks_560318_333_Mash_Notes_to_Harriet.mp3",
-            "Our_Miss_Brooks_560506_340_New_Girl_in_Town.mp3",
-            "Our_Miss_Brooks_560603_344_The_Dinner_Party.mp3",
-            "Our_Miss_Brooks_570113_351_repeat_of_25_Head_of_the_English_Dept.mp3",
-            "Our_Miss_Brooks_570224_357_repeat_of_30_Stretch_Has_a_Problem.mp3",
-    };
-
-
-    private final String[] MissBrooksTitle= {
-            "Lack of Coal at Madison",
-            "460702 An American Tragedy",
-            "Audition Shirley Booth",
-            "480508 Mothers Day",
-            "Audition Eve Arden",
-            "First Day",
-            "Weekend At Crystal Lake",
-            "Surprise Party",
-            "Clay City Football Game",
-            "Connie the Workhorse",
-            "Babysitting For Three",
-            "Model School Teacher",
-            "Sunnydale Finishing School",
-            "Weighing Machine",
-            "Magic Christmas Tree",
-            "Old Clothes for Party",
-            "Lack of Coal at Madison",
-            "Student Goverment Day",
-            "Head of English Department",
-            "Student Banking",
-            "Missing Electric Heater (no sponsor)",
-            "Stretch the Basketball Star",
-            "The Frog",
-            "Stretch Has A Problem",
-            "The Hair Do",
-            "Cafeteria Boycott",
-            "Poetry Mix-Up",
-            "Clay City English Teacher",
-            "April Fool's Day",
-            "Easter Outfit (disk damage)",
-            "Dress Code",
-            "Walter vs Stretch Grudge Match",
-            "Mister Boynton's Parents",
-            "Friday The 13th",
-            "Peanuts, the Great Dane",
-            "Why Is Everybody Arguing ?",
-            "Missing Keys",
-            "Wishing Well Dance",
-            "Taxidermist",
-            "July 4th Trip to Eagle Springs",
-            "Telegram For Mrs. Davis",
-            "Carelessness Code",
-            "Pensacola Popovers",
-            "Connie's New Job Offer",
-            "Heat Wave",
-            "The English Test",
-            "Weekend at Crystal Lake",
-            "Head of the Board",
-            "Faculty Cheer Leader",
-            "Taking the Rap for Mr. Boynton",
-            "Rival Football",
-            "Mr. Lablanche Needs 50 Dollars",
-            "School Safety Advisor",
-            "Exchanging Gifts",
-            "Halloween Party",
-            "School Mascot",
-            "The Party Line",
-            "Thanksgiving Weekend",
-            "Weighing Machine",
-            "Game at Clay City",
-            "Department Store Contest",
-            "Magic Christmas Tree",
-            "Babysitting on New Year's Eve",
-            "Board Of Education Day",
-            "Cure That Habit",
-            "Professorship at State",
-            "School On Saturday",
-            "Miss Enright's Dinner",
-            "Valentine's Day Date",
-            "Stretch is in Love",
-            "Board of Education Letter",
-            "The Burglar",
-            "The Auction",
-            "Baseball Uniforms",
-            "Free TV from Sherry's",
-            "Easter Egg Dye",
-            "Tape Recorder",
-            "School Band",
-            "Boynton's Barbecue",
-            "Boynton's Parents",
-            "Rare Black Orchid",
-            "Reckless Driving",
-            "Rumors",
-            "Elopement With Walter",
-            "Bronco Dismissed",
-            "Measles",
-            "Walter's Wonderful Radio",
-            "The Bookie",
-            "Stretch Is In Love Again",
-            "The Dancer",
-            "Indian Burial Ground",
-            "Teacher's Convention",
-            "Thanksgiving Turkey",
-            "Woman Driver",
-            "Music Festival",
-            "A Suit For Charity",
-            "Magic Christmas Tree",
-            "Christmas Gift Returns",
-            "Puppy Love and Mr. Barlow",
-            "Business Course",
-            "Skis in the Classroom",
-            "Overseas Job",
-            "Tex Barton, Basketball Star",
-            "Miss Enright's Birthday",
-            "1951-03-25 Boynton's Land Deal",
-            "Another Day Another Dress",
-            "Mr. Conklin's Induction Notice (incomplete)",
-            "New School TV Set",
-            "Bargain Hats For Mother's Day",
-            "The English Test",
-            "The First Aid Course JC",
-            "Connie Tries To Forget Boynton",
-            "Connie Wins a Man's Suit JC",
-            "New School Bus JC",
-            "Minerva's Kittens JC",
-            "Cosmopolitan Magazine",
-            "Poison Ivy",
-            "Plaque for Mr. Conklin",
-            "Mr. Boynton's Barbecue",
-            "Boynton the Gigolo",
-            "Mr. Conklin's Car Pool",
-            "Convict",
-            "The Moving Van",
-            "The Butcher",
-            "Former Student Visits",
-            "Conklin the Bachelor",
-            "Christmas Gift Mix-up",
-            "Miss Brooks Writes about a Hobo",
-            "Hobbies",
-            "Selling the House Next Door",
-            "Foreign Teachers",
-            "Four Fiances",
-            "Foreign Teachers",
-            "540424 Cow In The Closet",
-            "Mr. Lathrop Returns To School",
-            "Conklin Threatens to Abolish Football",
-            "Bartering with Chief Thundercloud",
-            "Photo Feud",
-            "Stretch is in Love Again",
-            "The Switchboard Operator",
-            "Movies At School",
-            "Take Him Or Leave Him",
-            "Cat Burglars - 55-08-07",
-            "Male Superiority",
-            "Pen Pal Project",
-            "Mr. Travis 3 Acre Lot",
-            "Project X",
-            "The School Board's Psychologist",
-            "Mr. Boynton's Moustache",
-            "An American Tragedy",
-            "Tears For Mister Boynton",
-            "Magazine Articles",
-            "Cow In the Closet",
-            "Miss Brooks Takes Over Spring Garden",
-            "Orphan Twins",
-            "Stretch Is Accused of Professionalism",
-            "Spring Garden",
-            "Taxi Fare",
-            "Marriage By Proxy",
-            "Deacon Jones",
-            "Bye Bye Boynton",
-            "Planning A Trip to Europe",
-            "Non Fraternization Policy",
-            "Marriage Madness",
-            "Cat Burglars - 55-08-07",
-            "Sneaky Peekers",
-            "Teacher's Convention",
-            "The Audio Visual Experiment",
-            "Summer Vacation",
-            "Rumors",
-            "OMB 550918 House Trailer/NoAds",
-            "Friendship",
-            "French Sadie Hawkins Day",
-            "Outpost Road Incomplete",
-            "Saving the School Newspaper",
-            "Christmas Clothing Drive",
-            "Magic Christmas Tree",
-            "Mr. Conklin Loses His Hearing",
-            "School on Saturday",
-            "The Auction",
-            "Mr. Conklin's Statue",
-            "Mash Notes to Harriet",
-            "New Girl In town",
-            "The Dinner Party",
-            "Head of the English Dept",
-            "Stetch Had a Problem",
-    };
-
-    private final String[] FatherKnowsBest = {
-            "Fkb1948-12-20000pilotFatherKnowsBest.mp3",
-            "Fkb1950-01-12021TheElusiveCardGame.mp3",
-            "Fkb1950-05-04037AnUncontrolledDog.mp3",
-            "Fkb1950-05-11038TheGolfChallenge.mp3",
-            "Fkb1950-05-18039BettysScreenTest.mp3",
-            "Fkb1950-05-25040SuperstitiousFolk.mp3",
-            "Fkb1950-06-08041TimeForANewCar.mp3",
-            "Fkb1950-06-15042PicnicForFathersDaytrip.mp3",
-            "Fkb1950-06-22043ANewHousekeeper.mp3",
-            "Fkb1950-06-29044TheNewArrangements.mp3",
-            "Fkb1950-07-06045VacationArrives.mp3",
-            "Fkb1950-09-07046AnEfficientHouse.mp3",
-            "Fkb1950-09-14047FamilyCarStolen.mp3",
-            "Fkb1950-09-21048WhoHasTheTime.mp3",
-            "Fkb1950-09-28049TheNewGirlFriend.mp3",
-            "Fkb1950-10-05050FamilySpending.mp3",
-            "Fkb1950-10-12051TheSkunkMustGo.mp3",
-            "Fkb1950-10-26053ASpookyCemetary.mp3",
-            "Fkb1950-11-02054TooManyProblems.mp3",
-            "Fkb1950-11-09055TheBadBarbecue.mp3",
-            "Fkb1950-11-16056EnterprisingKids.mp3",
-            "Fkb1950-11-23057HappyThanksgiving.mp3",
-            "Fkb1950-12-07059AFrenchTeacher.mp3",
-            "Fkb1950-12-14060FatherBecomesIll.mp3",
-            "Fkb1950-12-21061ChristmasProgram.mp3",
-            "Fkb1950-12-28062PartyPreparations.mp3",
-            "Fkb1950s02Episodes.mp3",
-            "Fkb1951-01-04063TakingOnCityHall.mp3",
-            "Fkb1951-01-11064MissingFurniture.mp3",
-            "Fkb1951-01-18065RecreationWoes.mp3",
-            "Fkb1951-01-25066SoundMatchmaking.mp3",
-            "Fkb1951-02-01067ArizonaRanchInheritance.mp3",
-            "Fkb1951-02-08068WhatWasHisName.mp3",
-            "Fkb1951-02-15069OrchidForALady.mp3",
-            "Fkb1951-02-22070AlwaysTellTruth.mp3",
-            "Fkb1951-03-01071RehearsingAPlay.mp3",
-            "Fkb1951-03-15073TaxInterruptions.mp3",
-            "Fkb1951-03-22074HelpingOutTheBoss.mp3",
-            "Fkb1951-03-29075BothBossesVisit.mp3",
-            "Fkb1951-04-05076ItPaysToBorrow.mp3",
-            "Fkb1951-04-12077CarrotCostumeParty.mp3",
-            "Fkb1951-04-19078AnniversarySecret.mp3",
-            "Fkb1951-04-26079AuntMarthaVisits.mp3",
-            "Fkb1951-05-03080AMissingSalesman.mp3",
-            "Fkb1951-05-10081JunkAroundHouse.mp3",
-            "Fkb1951-05-17082LockedOutOfHouse.mp3",
-            "Fkb1951-05-24083AnniversaryEvent.mp3",
-            "Fkb1951-05-31084GoingToNewYork.mp3",
-            "Fkb1951-06-14085FathersDayPicnic.mp3",
-            "Fkb1951-06-21086MotherDrivesACar.mp3",
-            "Fkb1951-06-28087WeddingPreparation.mp3",
-            "Fkb1951-07-05088MeaningOfFreedom.mp3",
-            "Fkb1951-09-20089DietDiscussion.mp3",
-            "Fkb1951-11-01095TheTie.mp3",
-            "Fkb1952-04-17119NewWashingMachine.mp3",
-            "Fkb1952-05-15123SelfReliancesmoothHousehold.mp3",
-            "Fkb1952-09-11132WatchingTheDog.mp3",
-            "Fkb1952-09-18133WeekendActivity.mp3",
-            "Fkb1952-09-25134ShouldWomenWork.mp3",
-            "Fkb1952-10-09135BettyTheCrooner.mp3",
-            "Fkb1952-10-16136BudQuitsSchool.mp3",
-            "Fkb1952-10-30138CarnivalInTown.mp3",
-            "Fkb1952-11-06139SellingTheHouse.mp3",
-            "Fkb1952-11-13140TheMissingPipes.mp3",
-            "Fkb1952-11-20141ThePhantomProwler.mp3",
-            "Fkb1952-12-11144AWorriedWaitress.mp3",
-            "Fkb1952-12-18145TheKidsRevolt.mp3",
-            "Fkb1952-12-25146SharedChristmasGifts.mp3",
-            "Fkb1953-01-15149TheBoyNextDoor.mp3",
-            "Fkb1953-01-29151BudLikesGirls.mp3",
-            "Fkb1953-02-05152AuntThelmaVisits.mp3",
-            "Fkb1953-02-12153BabysitterMisery.mp3",
-            "Fkb1953-02-19154ModernizingTheHome.mp3",
-            "Fkb1953-02-26155BangedUpFender.mp3",
-            "Fkb1953-03-05156OverdueVacation.mp3",
-            "Fkb1953-03-12157ToBuildABrickWall.mp3",
-            "Fkb1953-03-19158TheMissingWeddingRing.mp3",
-            "Fkb1953-03-26159UninsuredRobin.mp3",
-            "Fkb1953-04-02160BudsPanamaCatBusinessVenture.mp3",
-            "Fkb1953-04-09161HowToFaceProblems.mp3",
-            "Fkb1953-04-16162FamilyGetaway-beaverFalls.mp3",
-            "Fkb1953-04-23163OldFatherTime.mp3",
-            "Fkb1953-04-30164SpringtimeWoes.mp3",
-            "Fkb1953-05-07165TheGoodOldDays.mp3",
-            "Fkb1953-05-14166SophisticatedBud.mp3",
-            "Fkb1953-05-21167PaperDriveManagement.mp3",
-            "Fkb1953-09-10168RememberingNames.mp3",
-            "Fkb1953-09-17169TheBigInheritance.mp3",
-            "Fkb1953-09-24170MindYourManners.mp3",
-            "Fkb1953-10-01171DateMix-upWLeonardRalphBetty.mp3",
-            "Fkb1953-10-08172ValueOfMoney.mp3",
-            "Fkb1953-10-15173LifeOfTheParty.mp3",
-            "Fkb1953-10-22174TooManyPeanuts.mp3",
-            "Fkb1953-10-29175HalloweenBlues.mp3",
-            "Fkb1953-11-12177BettysEngagement.mp3",
-            "Fkb1953-11-19178MissingUncle.mp3",
-            "Fkb1953-11-26179ThanksgivingDinner.mp3",
-            "Fkb1953-12-03180TooManyRabbits.mp3",
-            "Fkb1953-12-24183ChristmasProgram.mp3",
-            "Fkb1953-12-31184NewYearsSitter.mp3",
-            "Fkb1954-01-07185TakingPictures.mp3",
-            "Fkb1954-01-14186AnUnusualBet.mp3",
-            "Fkb1954-01-21187TheMinkCoatWoes.mp3",
-            "Fkb1954-01-28188TrashCanLids.mp3",
-            "Fkb1954-02-04189TheTelephoneMix-up.mp3",
-            "Fkb1954-02-18191BettysFreedom.mp3",
-            "Fkb1954-02-25192CheckWriting.mp3",
-            "Fkb1954-03-04193SpringCleaning.mp3",
-            "Fkb1954-03-11194FalseElopement.mp3",
-            "Fkb1954-03-18195IncomeTaxMix-up.mp3",
-            "Fkb1954-03-25196RainyDayActivity.mp3",
-    };
-
-    private final String[] FatherKnowsBestTitle= {
-            "Pilot",
-            "The Elusive Card Game",
-            "An Uncontrolled Dog",
-            "FKB 1950-05-11 #037 The Golf Challenge",
-            "FKB 1950-05-18 #038 Betty's Screen Test",
-            "FKB 1950-05-25 #039 Superstitious Folk",
-            "FKB 1950-06-08 #041 Time For A New Car",
-            "FKB 1950-06-15 #042 Picnic For Fathers Day",
-            "FKB 1950-06-22 #043 A New Housekeeper",
-            "FKB 1950-06-29 #044 New Arrangements",
-            "FKB 1950-06-29 #045 Vacation Arrives",
-            "FKB 1950-09-07 #047 An Efficient House",
-            "FKB 1950-09-14 #048 Family Car Stolen",
-            "FKB 1950-09-21 #049 Who Has The Time",
-            "FKB 1950-09-21#050 The New GirlFriend",
-            "FKB 1950-09-21 #051 Family Spending",
-            "FKB 1950-09-21 #052 The Skunk Must Go",
-            "FKB 1950-10-26 #053 A Spooky Cemetary",
-            "FKB 1950-11-02 #054 Too Many Problems",
-            "FKB 1950-11-09 #055 The Bad Barbecue",
-            "FKB 1950-11-16 #056 Enterprising Kids",
-            "FKB 1950-11-23 #057 Happy Thanksgiving",
-            "FKB 1950-12-07 #059 A French Teacher",
-            "FKB 1950-12-14 #060 Father Becomes Ill",
-            "FKB 1950-12-21 #061 Christmas Program",
-            "FKB 1950-12-28 #062 Party Preparations",
-            "FKB 1950 2 Episodes",
-            "FKB 1951-01-04 #063 Taking on City Hall",
-            "FKB 1951-01-11 #064 Missing Furniture",
-            "FKB 1951-01-18 #065 Recreation Woes",
-            "FKB 1951-01-25 #066 Sound Matchmaking",
-            "Arizona Ranch Inheritance (1951.02.01)",
-            "FKB 1951-02-08 #068 What Was His Name",
-            "FKB 1951-02-15 #069 Orchid for a Lady",
-            "FKB 1951-02-22 #070 Always Tell Truth",
-            "FKB 1951-03-01 #071 Rehearsing a Play",
-            "FKB 1951-03-15 #073 Tax Interruptions",
-            "FKB 1951-03-22 #074 Helping out the Boss",
-            "FKB 1951-03-29 #075 Both Bosses Visit",
-            "FKB 1951-04-05 #076 It Pays to Borrow",
-            "FKB 1951-04-12 #077 Carrot Costume Party",
-            "FKB 1951-04-19 #078 Anniversary Secret",
-            "FKB 1951-04-26 #079 Aunt Martha Visits",
-            "FKB 1951-05-03 #080 A Missing Salesman",
-            "FKB 1951-05-10 #081 Junk Around House",
-            "FKB 1951-05-17 #082 Locked out of House",
-            "FKB 1951-05-24 #083 Anniversary Event",
-            "FKB 1951-05-31 #084 Going to New York",
-            "FKB 1951-06-14 #085 Father's Day Picnic",
-            "FKB 1951-06-21 #086 Mother Drives a Car",
-            "FKB 1951-06-28 #087 Wedding Preparation",
-            "FKB 1951-07-05 #088 Meaning of Freedom",
-            "Discussion Of Diet, A (1951.09.20)",
-            "FKB 1951-11-01 #095 The Tie",
-            "FKB 1952-04-17 #119 New Washing Machine",
-            "Smooth Household (1952.05.15)",
-            "Watching the Dog (1952.09.11)",
-            "Weekend Activity (1952.09.18)",
-            "Should Women Work (1952.09.25)",
-            "Betty and the Crooner (1952.10.09)",
-            "Bud Quits School (1952.10.16)",
-            "Carnival in Town (1952.10.30)",
-            "FKB 1952-11-06 #139 Selling the House",
-            "FKB 1952-11-13 #140 The Missing Pipes",
-            "FKB 1952-11-20 #141 The Phantom Prowler",
-            "FKB 1952-12-11 #144 A Worried Waitress",
-            "FKB 1952-12-18 #145 The Kids Revolt",
-            "FKB 1952-12-25 #146 Shared Christmas Gifts",
-            "FKB 1953-01-15 #149 The Boy Next Door",
-            "FKB 1953-01-29 #151 Bud Dislikes Girls",
-            "FKB 1953-02-05 #152 Aunt Thelma Visits",
-            "FKB 1953-02-12 #153 Babysitter Misery",
-            "FKB 1953-02-19 #154 Modernizing the Home",
-            "FKB 1953-02-26 #155 Banged up Fender",
-            "FKB 1953-03-05 #156 Overdue Vacation",
-            "FKB 1953-03-12 #157 To Build a Brick Wall",
-            "FKB 1953-03-19 #158 The Missing Wedding Ring",
-            "FKB 1953-03-26 #159 Uninsured Robin",
-            "FKB 1953-04-02 #160 Bud's Panama Cat Business Venture",
-            "FKB 1953-04-09 #161 How to Face Problems",
-            "FKB 1953-04-16 #162 Family Getaway-Beaver Fall",
-            "Old Father Time",
-            "Springtime Woes",
-            "The Good Old Days",
-            "Sophisticated Bud",
-            "Paper Drive Management",
-            "FKB 1953-09-10 #168 Remembering Names",
-            "FKB 1953-09-17 #169 The Big Inheritance",
-            "Mind Your Manners",
-            "A Date Mix-Up with Leonard and Ralph and Betty",
-            "The Value of Money",
-            "FKB 1953-10-15 #173 Life Of The Party",
-            "Too Many Peanuts",
-            "FKB 1953-10-29 #175 Halloween Blues",
-            "FKB 1953-11-12 #177 Betty's Engagement",
-            "FKB 1953-11-19 #178 Missing Uncle",
-            "Thanksgiving Dinner",
-            "FKB 1953-12-03 #180 Too Many Rabbits",
-            "FKB 1953-12-24 #183 Christmas Program",
-            "FKB 1953-12-31 #184 New Year's Sitter",
-            "Taking Pictures",
-            "An Unusual Bet",
-            "The Mink Coat Nose",
-            "Trash Can Lids",
-            "The Telephone Mix-Up",
-            "FKB 1954-02-18 #191 Betty's Freedom",
-            "Check Writing",
-            "Spring Cleaning",
-            "FKB 1954-03-11 #194 False Elopement",
-            "Income Tax Mix-Up",
-            "Rainy Day Activity",
-    };
-
-    private final String[] LoneRanger = {
-            "A New Mission.mp3",
-            "Outlaws Plan an Empire.mp3",
-            "First Encounter.mp3",
-            "The Bridge.mp3",
-            "United We Stand.mp3",
-            "House of Stone.mp3",
-            "Adventure on the Yellow Dog.mp3",
-            "Ghost Canyon.mp3",
-            "A Deadfall Brings Trouble.mp3",
-            "Via Pony Express.mp3",
-            "Old Woman's Call.mp3",
-            "Murder Wears Skirts.mp3",
-            "Crystal Canyon.mp3",
-            "Double Exposure.mp3",
-            "School for Ranchers.mp3",
-            "A Silver Summons.mp3",
-            "MoffetsMove.mp3",
-            "The Fifth Condemned Man.mp3",
-            "Trail's End.mp3",
-            "Silver Races Steam.mp3",
-            "First of the Five.mp3",
-            "The Outlaw Guard.mp3",
-    };
-
-    private final String[] LoneRangerTitle = {
-            "The Lone Ranger (41-10-13) ep1361 - A New Mission",
-            "The Lone Ranger (41-10-15) ep1362 - Outlaws Plan an Empire",
-            "The Lone Ranger (41-10-17) ep1363 - First Encounter",
-            "The Lone Ranger (41-10-20) ep1364 - The Bridge",
-            "The Lone Ranger (41-10-22) ep1365 - United We Stand",
-            "The Lone Ranger (42-01-07) ep1398 - House of Stone",
-            "The Lone Ranger (42-01-09) ep1399 - Adventure on the Yellow Dog",
-            "The Lone Ranger (42-01-12) ep1400 - Ghost Canyon",
-            "The Lone Ranger (42-01-14) ep1401 - A Deadfall Brings Trouble",
-            "The Lone Ranger (42-01-16) ep1402 - Via Pony Express",
-            "The Lone Ranger (42-01-19) ep1403 - Old Woman's Call",
-            "The Lone Ranger (42-01-21) ep1404 - Murder Wears Skirts",
-            "The Lone Ranger (42-01-23) ep1405 - Crystal Canyon",
-            "The Lone Ranger (42-01-28) ep 1407 - Double Exposure",
-            "The Lone Ranger (42-01-30) ep1408 - School for Ranchers",
-            "The Lone Ranger (42-02-02) ep1409 - A Silver Summons",
-            "The Lone Ranger (42-02-04) ep1410 - Moffet's Move",
-            "The Lone Ranger (42-02-06) ep1411 - The Fifth Condemned Man",
-            "The Lone Ranger (42-02-09) ep1412 - Trail's End",
-            "The Lone Ranger (42-02-11) ep1413 - Silver Races Steam",
-            "The Lone Ranger (42-02-13) ep1414 - First of the Five",
-            "The Lone Ranger (42-02-16) ep1415 - The Outlaw Guard",
-    };
-
-    private final String[] PatO = {
-            "Pat_ODaniel_and_His_Hillbilly_Boys_01.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_02.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_03.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_04.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_05.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_06.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_07.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_08.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_09.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_10.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_11.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_12.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_13.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_14.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_15.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_16.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_17.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_18.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_19.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_20.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_21.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_22.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_23.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_24.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_25.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_26.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_27.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_28.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_29.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_30.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_31.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_32.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_33.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_34.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_35.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_36.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_37.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_38.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_40.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_41.mp3",
-            "Pat_ODaniel_and_His_Hillbilly_Boys_42.mp3",
-    };
-
-    private final String[] PatOTitle = {
-            "1939 Radio Show 1",
-            "1939 Radio Show 2",
-            "1939 Radio Show 3",
-            "1939 Radio Show 4",
-            "1939 Radio Show 5",
-            "1939 Radio Show 6",
-            "1939 Radio Show 7",
-            "1939 Radio Show 8",
-            "1939 Radio Show 9",
-            "1939 Radio Show 10",
-            "1939 Radio Show 11",
-            "1939 Radio Show 12",
-            "1939 Radio Show 13",
-            "1939 Radio Show 14",
-            "1939 Radio Show 15",
-            "1939 Radio Show 16",
-            "1939 Radio Show17",
-            "1939 Radio Show18",
-            "1939 Radio Show19",
-            "1939 Radio Show20",
-            "1939 Radio Show21",
-            "1939 Radio Show22",
-            "1939 Radio Show23",
-            "1939 Radio Show24",
-            "1939 Radio Show 25",
-            "1939 Radio Show 26",
-            "1939 Radio Show 27",
-            "1939 Radio Show 28",
-            "1939 Radio Show 29",
-            "1939 Radio Show 30",
-            "1939 Radio Show 31",
-            "1939 Radio Show 32",
-            "1939 Radio Show 33",
-            "1939 Radio Show 34",
-            "1939 Radio Show 35",
-            "1939 Radio Show 36",
-            "1939 Radio Show 37",
-            "1939 Radio Show 38",
-            "1939 Radio Show 40",
-            "1939 Radio Show 41",
-            "1939 Radio Show 42",
-    };
-
-    public void initTitles()
+    public void loadJSONComedy(Context ct)
     {
-        if (android.os.Build.VERSION.SDK_INT > 21)
-        {
-            StrictMode.ThreadPolicy policy = new
-                    StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
+        if(!comedyLoaded) {
+            // load JSON file from assets
+            jnav.loadJSONComedy(ct);
         }
-        for (int i = 0; i < burnsAllen.length; ++i)
+    }
+
+    public void loadJSONThriller(Context ct)
+    {
+        if(!thrillerLoaded) {
+            // load JSON file from assets
+            jnav.loadJSONThriller(ct);
+        }
+    }
+
+    public void loadJSONSciFi(Context ct)
+    {
+        if (!scifiLoaded) {
+            // load JSON file from assets
+            jnav.loadJSONSciFi(ct);
+        }
+    }
+
+    public void loadJSONWestern(Context ct)
+    {
+        if (!westernLoaded) {
+            // load JSON file from assets
+            jnav.loadJSONWestern(ct);
+        }
+    }
+
+    public void updateComedyTitles()
+    {
+        if (comedyLoaded)
         {
+            Log.d(TAG, "Comedy Already Loaded");
+            return;
+        }
+
+        // comedy maps
+        this.baMap = new HashMap<>();
+        this.blMap = new HashMap<>();
+        this.fbMap = new HashMap<>();
+        this.mlMap = new HashMap<>();
+        this.glMap = new HashMap<>();
+        this.jbMap = new HashMap<>();
+        this.bhMap = new HashMap<>();
+        this.mbMap = new HashMap<>();
+        this.fkMap = new HashMap<>();
+        this.ohMap = new HashMap<>();
+        this.orMap = new HashMap<>();
+
+        Log.d(TAG, "Entering updateTitles");
+
+        //  comedy
+        burnsAllenTitle = jnav.getListOfEps(comedyCat[0],"Comedy");
+        burnsAllen = new String[burnsAllenTitle.length];
+
+        fibberTitle = jnav.getListOfEps(comedyCat[1], "Comedy");
+        fibber = new String[fibberTitle.length];
+
+        gilderSleevesTitle = jnav.getListOfEps(comedyCat[2], "Comedy");
+        gilderSleeves = new String[gilderSleevesTitle.length];
+
+        martinAndLewisTitle = jnav.getListOfEps(comedyCat[3], "Comedy");
+        martinAndLewis = new String[martinAndLewisTitle.length];
+
+        jackBennyTitle = jnav.getListOfEps(comedyCat[4], "Comedy");
+        jackBenny = new String[jackBennyTitle.length];
+
+        bobHopeTitle = jnav.getListOfEps(comedyCat[5], "Comedy");
+        bobHope = new String[bobHopeTitle.length];
+
+        missBrooksTitle = jnav.getListOfEps(comedyCat[6], "Comedy");
+        missBrooks = new String[missBrooksTitle.length];
+
+        fatherKnowsBestTitle = jnav.getListOfEps(comedyCat[7], "Comedy");
+        fatherKnowsBest = new String[fatherKnowsBestTitle.length];
+
+        ozzieAndHarrietTitle = jnav.getListOfEps(comedyCat[8], "Comedy");
+        ozzieAndHarriet = new String[ozzieAndHarrietTitle.length];
+
+        lifeOfRileyTitle = jnav.getListOfEps(comedyCat[9], "Comedy");
+        lifeOfRiley = new String[lifeOfRileyTitle.length];
+
+        blondieTitle = jnav.getListOfEps(comedyCat[10], "Comedy");
+        blondie = new String[blondieTitle.length];
+
+        for (int i = 0; i<burnsAllenTitle.length; i++)
+        {
+            burnsAllen[i] = jnav.getFilename(burnsAllenTitle[i], comedyCat[0], "Comedy");
             baMap.put(burnsAllen[i], burnsAllenTitle[i]);
         }
 
-        for (int i = 0; i < fibber.length; ++i)
+        for (int i = 0; i<fibberTitle.length; i++)
         {
+            fibber[i] = jnav.getFilename(fibberTitle[i], comedyCat[1], "Comedy");
             fbMap.put(fibber[i], fibberTitle[i]);
         }
 
-        for (int i = 0; i < MartinAndLewis.length; ++i)
+        for (int i = 0; i<gilderSleevesTitle.length; i++)
         {
-            mlMap.put(MartinAndLewis[i], MartinAndLewisTitle[i]);
-        }
-
-        for (int i = 0; i < gilderSleeves.length; ++i)
-        {
+            gilderSleeves[i] = jnav.getFilename(gilderSleevesTitle[i], comedyCat[2], "Comedy");
             glMap.put(gilderSleeves[i], gilderSleevesTitle[i]);
         }
 
-        for (int i = 0; i < jackBenny.length; ++i)
+        for (int i = 0; i<martinAndLewisTitle.length; i++)
         {
-            jbMap.put(jackBenny[i], jbTitle[i]);
+            martinAndLewis[i] = jnav.getFilename(martinAndLewisTitle[i], comedyCat[3], "Comedy");
+            mlMap.put(martinAndLewis[i], martinAndLewisTitle[i]);
         }
 
-        for (int i = 0; i < bobHope.length; ++i)
+        for (int i = 0; i<jackBennyTitle.length; i++)
         {
-            bhMap.put(bobHope[i], bhTitle[i]);
+            jackBenny[i] = jnav.getFilename(jackBennyTitle[i], comedyCat[4], "Comedy");
+            jbMap.put(jackBenny[i], jackBennyTitle[i]);
         }
 
-        for (int i = 0; i < MissBrooks.length; ++i)
+        for (int i = 0; i<bobHopeTitle.length; i++)
         {
-            mbMap.put(MissBrooks[i], MissBrooksTitle[i]);
+            bobHope[i] = jnav.getFilename(bobHopeTitle[i], comedyCat[5], "Comedy");
+            bhMap.put(bobHope[i], bobHopeTitle[i]);
         }
 
-        for (int i = 0; i < XMinus.length; ++i)
+        for (int i = 0; i<missBrooksTitle.length; i++)
         {
-            xmMap.put(XMinus[i], XMinusTitle[i]);
+            missBrooks[i] = jnav.getFilename(missBrooksTitle[i], comedyCat[6], "Comedy");
+            mbMap.put(missBrooks[i], missBrooksTitle[i]);
         }
 
-        for (int i = 0; i < InnerSanctum.length; ++i)
+        for (int i = 0; i<fatherKnowsBestTitle.length; i++)
         {
-            isMap.put(InnerSanctum[i], InnerSanctumTitle[i]);
+            fatherKnowsBest[i] = jnav.getFilename(fatherKnowsBestTitle[i], comedyCat[7], "Comedy");
+            fkMap.put(fatherKnowsBest[i], fatherKnowsBestTitle[i]);
         }
 
-        for (int i = 0; i < dimensionX.length; ++i)
+        for (int i = 0; i<ozzieAndHarrietTitle.length; i++)
         {
-            dxMap.put(dimensionX[i], dimensionXTitle[i]);
+            ozzieAndHarriet[i] = jnav.getFilename(ozzieAndHarrietTitle[i], comedyCat[8], "Comedy");
+            ohMap.put(ozzieAndHarriet[i], ozzieAndHarrietTitle[i]);
         }
 
-        for (int i = 0; i < nightBeat.length; ++i)
+        for (int i = 0; i<lifeOfRileyTitle.length; i++)
         {
+            lifeOfRiley[i] = jnav.getFilename(lifeOfRileyTitle[i], comedyCat[9], "Comedy");
+            orMap.put(lifeOfRiley[i], lifeOfRileyTitle[i]);
+        }
+
+        for (int i = 0; i<blondieTitle.length; i++)
+        {
+            blondie[i] = jnav.getFilename(blondieTitle[i], comedyCat[10], "Comedy");
+            blMap.put(blondie[i], blondieTitle[i]);
+        }
+
+        comedyLoaded = true;
+    }
+
+    public void updateThrillerTitles()
+    {
+        if (thrillerLoaded)
+        {
+            Log.d(TAG, "Thriller Already Loaded");
+            return;
+        }
+
+        // Thriller Maps
+        this.nbMap = new HashMap<>();
+        this.sgMap = new HashMap<>();
+        this.wsMap = new HashMap<>();
+        this.abmMap = new HashMap<>();
+        this.adcMap = new HashMap<>();
+        this.bvMap = new HashMap<>();
+        this.bbMap = new HashMap<>();
+        this.cbsMap = new HashMap<>();
+        this.daMap = new HashMap<>();
+        this.dtMap = new HashMap<>();
+        this.mmnMap = new HashMap<>();
+        this.qpMap = new HashMap<>();
+        this.ssMap = new HashMap<>();
+        this.hlMap = new HashMap<>();
+
+        // thriller
+        nightBeatTitle = jnav.getListOfEps(thrillerCat[0], "Thriller");
+        nightBeat = new String[nightBeatTitle.length];
+
+        speedTitle = jnav.getListOfEps(thrillerCat[1], "Thriller");
+        speed = new String[speedTitle.length];
+
+        whistlerTitle = jnav.getListOfEps(thrillerCat[2], "Thriller");
+        whistler = new String[whistlerTitle.length];
+
+        adventureByMorseTitle = jnav.getListOfEps(thrillerCat[3], "Thriller");
+        adventureByMorse = new String[adventureByMorseTitle.length];
+
+        adventureofDickColeTitle = jnav.getListOfEps(thrillerCat[4], "Thriller");
+        adventureofDickCole = new String[adventureofDickColeTitle.length];
+
+        boldVentureTitle = jnav.getListOfEps(thrillerCat[5], "Thriller");
+        boldVenture = new String[boldVentureTitle.length];
+
+        bostonBlackieTitle = jnav.getListOfEps(thrillerCat[6], "Thriller");
+        bostonBlackie = new String[bostonBlackieTitle.length];
+
+        cbsRadioTitle = jnav.getListOfEps(thrillerCat[7], "Thriller");
+        cbsRadio = new String[cbsRadioTitle.length];
+
+        dangerousAssignmentTitle = jnav.getListOfEps(thrillerCat[8], "Thriller");
+        dangerousAssignment = new String[dangerousAssignmentTitle.length];
+
+        duffysTavernTitle = jnav.getListOfEps(thrillerCat[9], "Thriller");
+        duffysTavern = new String[duffysTavernTitle.length];
+
+        mrAndMrsNorthTitle = jnav.getListOfEps(thrillerCat[10], "Thriller");
+        mrAndMrsNorth = new String[mrAndMrsNorthTitle.length];
+
+        quietPleaseTitle = jnav.getListOfEps(thrillerCat[11], "Thriller");
+        quietPlease = new String[quietPleaseTitle.length];
+
+        suspenseTitle = jnav.getListOfEps(thrillerCat[12], "Thriller");
+        suspense = new String[suspenseTitle.length];
+
+        harryLimeTitle = jnav.getListOfEps(thrillerCat[13], "Thriller");
+        harryLime = new String[harryLimeTitle.length];
+
+        for (int i = 0; i<nightBeatTitle.length; i++)
+        {
+            nightBeat[i] = jnav.getFilename(nightBeatTitle[i], thrillerCat[0], "Thriller");
             nbMap.put(nightBeat[i], nightBeatTitle[i]);
         }
 
-        for (int i = 0; i < speed.length; ++i)
+        for (int i = 0; i<speedTitle.length; i++)
         {
+            speed[i] = jnav.getFilename(speedTitle[i], thrillerCat[1], "Thriller");
             sgMap.put(speed[i], speedTitle[i]);
         }
 
-        for (int i = 0; i < theWhistler.length; ++i)
+        for (int i = 0; i<whistlerTitle.length; i++)
         {
-            wsMap.put(theWhistler[i], theWhistlerTitle[i]);
+            whistler[i] = jnav.getFilename(whistlerTitle[i], thrillerCat[2], "Thriller");
+            wsMap.put(whistler[i], whistlerTitle[i]);
         }
 
-        for (int i = 0; i < hopalong.length; ++i)
+        for (int i = 0; i<adventureByMorseTitle.length; i++)
         {
+            adventureByMorse[i] = jnav.getFilename(adventureByMorseTitle[i], thrillerCat[3], "Thriller");
+            abmMap.put(adventureByMorse[i], adventureByMorseTitle[i]);
+        }
+
+        for (int i = 0; i<adventureofDickColeTitle.length; i++)
+        {
+            adventureofDickCole[i] = jnav.getFilename(adventureofDickColeTitle[i], thrillerCat[4], "Thriller");
+            adcMap.put(adventureofDickCole[i], adventureofDickColeTitle[i]);
+        }
+
+        for (int i = 0; i<boldVentureTitle.length; i++)
+        {
+            boldVenture[i] = jnav.getFilename(boldVentureTitle[i], thrillerCat[5], "Thriller");
+            bvMap.put(boldVenture[i], boldVentureTitle[i]);
+        }
+
+        for (int i = 0; i<bostonBlackieTitle.length; i++)
+        {
+            bostonBlackie[i] = jnav.getFilename(bostonBlackieTitle[i], thrillerCat[6], "Thriller");
+            bbMap.put(bostonBlackie[i], bostonBlackieTitle[i]);
+        }
+
+        for (int i = 0; i<cbsRadioTitle.length; i++)
+        {
+            cbsRadio[i] = jnav.getFilename(cbsRadioTitle[i], thrillerCat[7], "Thriller");
+            cbsMap.put(cbsRadio[i], cbsRadioTitle[i]);
+        }
+
+        for (int i = 0; i<dangerousAssignmentTitle.length; i++)
+        {
+            dangerousAssignment[i] = jnav.getFilename(dangerousAssignmentTitle[i], thrillerCat[8], "Thriller");
+            daMap.put(dangerousAssignment[i], dangerousAssignmentTitle[i]);
+        }
+
+        for (int i = 0; i<duffysTavernTitle.length; i++)
+        {
+            duffysTavern[i] = jnav.getFilename(duffysTavernTitle[i], thrillerCat[9], "Thriller");
+            dtMap.put(duffysTavern[i], duffysTavernTitle[i]);
+        }
+
+        for (int i = 0; i<mrAndMrsNorthTitle.length; i++)
+        {
+            mrAndMrsNorth[i] = jnav.getFilename(mrAndMrsNorthTitle[i], thrillerCat[10], "Thriller");
+            mmnMap.put(mrAndMrsNorth[i], mrAndMrsNorthTitle[i]);
+        }
+
+        for (int i = 0; i<quietPleaseTitle.length; i++)
+        {
+            quietPlease[i] = jnav.getFilename(quietPleaseTitle[i], thrillerCat[11], "Thriller");
+            qpMap.put(quietPlease[i], quietPleaseTitle[i]);
+        }
+
+        for (int i = 0; i<suspenseTitle.length; i++)
+        {
+            suspense[i] = jnav.getFilename(suspenseTitle[i], thrillerCat[12], "Thriller");
+            ssMap.put(suspense[i], suspenseTitle[i]);
+        }
+
+        for (int i = 0; i<harryLimeTitle.length; i++)
+        {
+            harryLime[i] = jnav.getFilename(harryLimeTitle[i], thrillerCat[13], "Thriller");
+            hlMap.put(harryLime[i], harryLimeTitle[i]);
+        }
+        thrillerLoaded = true;
+    }
+
+    public void updateSciFiTitles()
+    {
+        if (scifiLoaded)
+        {
+            Log.d(TAG, "Science Fiction Already Loaded");
+            return;
+        }
+
+        // Sci-fi maps
+        this.xmMap = new HashMap<>();
+        this.isMap = new HashMap<>();
+        this.dxMap = new HashMap<>();
+        this.fgMap = new HashMap<>();
+        this.srMap = new HashMap<>();
+        this.ghMap = new HashMap<>();
+
+        // sci-fi
+        xminusTitle = jnav.getListOfEps(scifiCat[0], "Science Fiction");
+        xminus = new String[xminusTitle.length];
+
+        innerSanctumTitle = jnav.getListOfEps(scifiCat[1], "Science Fiction");
+        innerSanctum = new String[innerSanctumTitle.length];
+
+        dimensionXTitle = jnav.getListOfEps(scifiCat[2], "Science Fiction");
+        dimensionX = new String[dimensionXTitle.length];
+
+        flashGordonTitle = jnav.getListOfEps(scifiCat[3], "Science Fiction");
+        flashGordon = new String[flashGordonTitle.length];
+
+        sciFiRadioTitle = jnav.getListOfEps(scifiCat[4], "Science Fiction");
+        sciFiRadio = new String[sciFiRadioTitle.length];
+
+        greenHornetTitle = jnav.getListOfEps(scifiCat[5], "Science Fiction");
+        greenHornet = new String[greenHornetTitle.length];
+
+        for (int i = 0; i<xminusTitle.length; i++)
+        {
+            xminus[i] = jnav.getFilename(xminusTitle[i], scifiCat[0], "Science Fiction");
+            xmMap.put(xminus[i], xminusTitle[i]);
+        }
+
+        for (int i = 0; i<innerSanctumTitle.length; i++)
+        {
+            innerSanctum[i] = jnav.getFilename(innerSanctumTitle[i], scifiCat[1], "Science Fiction");
+            isMap.put(innerSanctum[i], innerSanctumTitle[i]);
+        }
+
+        for (int i = 0; i<dimensionXTitle.length; i++)
+        {
+            dimensionX[i] = jnav.getFilename(dimensionXTitle[i], scifiCat[2], "Science Fiction");
+            dxMap.put(dimensionX[i], dimensionXTitle[i]);
+        }
+
+        for (int i = 0; i<flashGordonTitle.length; i++)
+        {
+            flashGordon[i] = jnav.getFilename(flashGordonTitle[i], scifiCat[3], "Science Fiction");
+            fgMap.put(flashGordon[i], flashGordonTitle[i]);
+        }
+
+        for (int i = 0; i<sciFiRadioTitle.length; i++)
+        {
+            sciFiRadio[i] = jnav.getFilename(sciFiRadioTitle[i], scifiCat[4], "Science Fiction");
+            srMap.put(sciFiRadio[i], sciFiRadioTitle[i]);
+        }
+
+        for (int i = 0; i<greenHornetTitle.length; i++)
+        {
+            greenHornet[i] = jnav.getFilename(greenHornetTitle[i], scifiCat[5], "Science Fiction");
+            ghMap.put(greenHornet[i], greenHornetTitle[i]);
+        }
+        scifiLoaded = true;
+    }
+
+    public void updateWesternTitles()
+    {
+
+        if (westernLoaded)
+        {
+            Log.d(TAG, "Western Already Loaded");
+            return;
+        }
+
+        // Western Maps
+        this.hcMap = new HashMap<>();
+        this.flMap = new HashMap<>();
+        this.lrMap = new HashMap<>();
+        this.poMap = new HashMap<>();
+        this.hgMap = new HashMap<>();
+
+        // Western
+        loneRangerTitle = jnav.getListOfEps(westernCat[0], "Western");
+        loneRanger = new String[loneRangerTitle.length];
+
+        hopalongTitle = jnav.getListOfEps(westernCat[1], "Western");
+        hopalong = new String[hopalongTitle.length];
+
+        PatOTitle = jnav.getListOfEps(westernCat[2], "Western");
+        PatO = new String[PatOTitle.length];
+
+        ftLaramieTitle = jnav.getListOfEps(westernCat[3], "Western");
+        fortLaramie = new String[ftLaramieTitle.length];
+
+        HaveGunTitle = jnav.getListOfEps(westernCat[4], "Western");
+        HaveGun = new String[HaveGunTitle.length];
+
+        for (int i = 0; i<loneRangerTitle.length; i++)
+        {
+            loneRanger[i] = jnav.getFilename(loneRangerTitle[i], westernCat[0], "Western");
+            lrMap.put(loneRanger[i], loneRangerTitle[i]);
+        }
+
+        for (int i = 0; i<hopalongTitle.length; i++)
+        {
+            hopalong[i] = jnav.getFilename(hopalongTitle[i], westernCat[1], "Western");
             hcMap.put(hopalong[i], hopalongTitle[i]);
         }
 
-        for (int i = 0; i < fortLaramie.length; ++i)
+        for (int i = 0; i<PatOTitle.length; i++)
         {
+            PatO[i] = jnav.getFilename(PatOTitle[i], westernCat[2], "Western");
+            poMap.put(PatO[i], PatOTitle[i]);
+        }
+
+        for (int i = 0; i<ftLaramieTitle.length; i++)
+        {
+            fortLaramie[i] = jnav.getFilename(ftLaramieTitle[i], westernCat[3], "Western");
             flMap.put(fortLaramie[i], ftLaramieTitle[i]);
         }
 
-        for (int i = 0; i < FatherKnowsBest.length; ++i)
+        for (int i = 0; i<HaveGunTitle.length; i++)
         {
-            fkMap.put(FatherKnowsBest[i], FatherKnowsBestTitle[i]);
+            HaveGun[i] = jnav.getFilename(HaveGunTitle[i], westernCat[4], "Western");
+            hgMap.put(HaveGun[i], HaveGunTitle[i]);
         }
 
-        for (int i = 0; i < LoneRanger.length; ++i)
-        {
-            lrMap.put(LoneRanger[i], LoneRangerTitle[i]);
-        }
-
-        for (int i = 0; i < PatO.length; ++i)
-        {
-            poMap.put(PatO[i], PatOTitle[i]);
-        }
+        westernLoaded = true;
     }
+
+    public final String[] comedyCat = {
+            "Burns And Allen",
+            "Fibber McGee And Molly",
+            "The Great GilderSleeves",
+            "Martin And Lewis",
+            "Jack Benny",
+            "Bob Hope",
+            "Our Miss Brooks",
+            "Father Knows Best",
+            "Ozzie And Harriet", // new
+            "The Life Of Riley",  // new
+            "Blondie"             // new
+    };
+
+    public final String[] scifiCat = {
+            "XMinus1",
+            "Inner Sanctum",
+            "Dimension X",
+            "Flash Gordon", // new
+            "SciFi Radio",       // new
+            "The Green Hornet"   // new
+    };
+
+    public final String[] thrillerCat = {
+            "Night Beat",
+            "Speed Gibson",
+            "The Whistler",
+            "Adventures By Morse",      // new
+            "Adventures of Dick Cole",  // new
+            "Bold Venture",             // new
+            "Boston Blackie",           // new
+            "CBS Radio Mystery Theater",  // new
+            "Dangerous Assignment",       // new
+            "Duffys Tavern",              // new
+            "Mr and Mrs North",           // new
+            "Quiet Please",               // new
+            "Suspense",                   // new
+            "The Lives Of Harry Lime"     // new
+    };
+
+    public final String[] westernCat = {
+            "Lone Ranger",
+            "Hopalong Cassidy",
+            "Pat O",
+            "Fort Laramie",
+            "Have Gun Will Travel"   // new
+    };
+
+    public final String[] category = {
+            "Comedy",
+            "Science Fiction",
+            "Thriller",
+            "Western"
+    };
 
     // comedy
     public String[] getBurnsAllen() { return burnsAllen; }
     public String[] getFibber() { return fibber; }
     public String[] getGilder() { return gilderSleeves; }
-    public String[] getMartin() { return MartinAndLewis; }
+    public String[] getMartin() { return martinAndLewis; }
     public String[] getJackBenny() { return jackBenny; }
     public String[] getBobHope() { return bobHope; }
-    public String[] getMissBrooks() { return MissBrooks; }
-    public String[] getfk() { return FatherKnowsBest; }
+    public String[] getMissBrooks() { return missBrooks; }
+    public String[] getfk() { return fatherKnowsBest; }
+    public String[] getoh() { return ozzieAndHarriet; }
+    public String[] getor() { return lifeOfRiley; }
+
 
     public HashMap<String, String> getBaMap() {
+        if (!baMap.containsKey("http://www.ruffinapps.com/Audio/BurnsAllan/470227_Gracie_Allen_Inc.mp3"))
+        {
+            comedyLoaded = false;
+            updateComedyTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
         return baMap;
     }
-    public HashMap<String, String> getFbMap() { return fbMap; }
-    public HashMap<String, String> getMlMap() { return mlMap;}
-    public HashMap<String, String> getGlMap() { return glMap;}
-    public HashMap<String, String> getJbMap() { return jbMap;}
-    public HashMap<String, String> getBhMap() { return bhMap;}
-    public HashMap<String, String> getMbMap() { return mbMap; }
-    public HashMap<String, String> getFkMap() { return fkMap; }
+    public HashMap<String, String> getFbMap() {
+        if (!fbMap.containsKey("http://www.ruffinapps.com/Audio/FibberMcGeeandMolly/400130_Fibbers_Old_Suit.mp3"))
+        {
+            comedyLoaded = false;
+            updateComedyTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return fbMap; }
+    public HashMap<String, String> getMlMap() {
+        if (!mlMap.containsKey("http://www.johnnieruffin.com/Audio/MartinAndLewis_OldTimeRadio/MartinLewisShow490612_011_BurlIves.mp3"))
+        {
+            comedyLoaded = false;
+            updateComedyTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return mlMap;}
+    public HashMap<String, String> getGlMap() {
+        if (!glMap.containsKey("http://www.ruffinapps.com/Audio/GilderSleeves/The_Great_Gildersleeve_41-09-21_004_Marjories_Girl_Friend_Visits.mp3"))
+        {
+            comedyLoaded = false;
+            updateComedyTitles();
+            // Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return glMap;}
+    public HashMap<String, String> getJbMap() {
+        if (!jbMap.containsKey("http://www.johnnieruffin.com/Audio/JackBenny/Jb1933-04-21EdwardGRobinson.mp3"))
+        {
+            comedyLoaded = false;
+            updateComedyTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return jbMap;}
+    public HashMap<String, String> getBhMap() {
+        if (!bhMap.containsKey("http://www.JohnnieRuffin.com/Audio/BobHope/381004_-_002_-_Olivia_DeHavilland.mp3"))
+        {
+            comedyLoaded = false;
+            updateComedyTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return bhMap;}
+    public HashMap<String, String> getMbMap() {
+        if (!mbMap.containsKey("http://www.ruffinapps.com/Audio/Brooks/Our_Miss_Brooks_490501_039_Walter_Vs_Stretch_Grudge_Match.mp3"))
+        {
+            comedyLoaded = false;
+            updateComedyTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return mbMap; }
+    public HashMap<String, String> getFkMap() {
+        if (!fkMap.containsKey("http://www.ruffinapps.com/Audio/FatherKnowsBest/Fkb1950-10-12051TheSkunkMustGo.mp3"))
+        {
+            comedyLoaded = false;
+            updateComedyTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return fkMap; }
+    public HashMap<String, String> getOhMap() {
+        if (!ohMap.containsKey("http://www.ruffinapps.com/Audio/OzzieHarriet/Oh1945-05-20033afrsTheNewArrival.mp3"))
+        {
+            comedyLoaded = false;
+            updateComedyTitles();
+            // Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return ohMap; }
+    public HashMap<String, String> getOrMap() {
+        if (!orMap.containsKey("http://www.ruffinapps.com/Audio/TheLifeOfRiley/Lor1944-02-06004RileyRentsAHse-movesFromHotel.mp3"))
+        {
+            comedyLoaded = false;
+            updateComedyTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return orMap;
+    }
+
+    public HashMap<String, String> getBlMap() {
+        if (!blMap.containsKey("http://www.ruffinapps.com/Audio/Blondie/Bd1940-04-01040AprilFoolsDay.mp3"))
+        {
+            comedyLoaded = false;
+            updateComedyTitles();
+            Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return blMap;
+    }
 
     // Sci-Fi
-    public String[] getXM() { return XMinus; }
-    public String[] getIs() { return InnerSanctum; }
+    public String[] getXM() { return xminus; }
+    public String[] getIs() { return innerSanctum; }
     public String[] getDx() { return dimensionX; }
+    public String[] getFg() { return flashGordon; }
+    public String[] getSr() { return sciFiRadio; }
+    public String[] getGh() { return greenHornet; }
 
-    public HashMap<String, String> getXMMap() { return xmMap; }
-    public HashMap<String, String> getIsMap() { return isMap;}
-    public HashMap<String, String> getDxMap() { return dxMap; }
+    public HashMap<String, String> getXMMap() {
+        if (!xmMap.containsKey("http://www.johnnieruffin.com/Audio/XMinus1/xminusone_570905_SaucerOfLoneliness_remake.mp3"))
+        {
+            scifiLoaded = false;
+            updateSciFiTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return xmMap; }
+    public HashMap<String, String> getIsMap() {
+        if (!isMap.containsKey("http://www.johnnieruffin.com/Audio/InnerSanctum/Inner_Sanctum_451211_The_Dark_Chamber.mp3"))
+        {
+            scifiLoaded = false;
+            updateSciFiTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return isMap;}
+    public HashMap<String, String> getDxMap() {
+        if (!dxMap.containsKey("http://www.JohnnieRuffin.com/Audio/DimensionX/Dimx_e041_Courtesy.mp3"))
+        {
+            scifiLoaded = false;
+            updateSciFiTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return dxMap; }
+    public HashMap<String, String> getFgMap() {
+        if (!fgMap.containsKey("http://www.ruffinapps.com/Audio/FlashGordon1935/Flash_Gordon_35-10-19_25_Landing_in_Malaysia.mp3"))
+        {
+            scifiLoaded = false;
+            updateSciFiTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return fgMap; }
+    public HashMap<String, String> getSrMap() {
+        if (!srMap.containsKey("http://www.ruffinapps.com/Audio/scifiRadio/Sci-fiRadio19-FieldOfVisionByUrsulaK.Leguinplay.mp3"))
+        {
+            scifiLoaded = false;
+            updateSciFiTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return srMap; }
+    public HashMap<String, String> getGhMap() {
+        if (!ghMap.containsKey("http://www.ruffinapps.com/Audio/TheGreenHornet/Thegreenhornet-480120AMatterOfEvidence.mp3"))
+        {
+            scifiLoaded = false;
+            updateSciFiTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return ghMap;
+    }
 
     // Thriller
     public String[] getnb() { return nightBeat; }
     public String[] getsg() { return speed; }
-    public String [] getws() { return theWhistler; }
+    public String [] getws() { return whistler; }
+    public String [] getabm() { return adventureByMorse; }
+    public String [] getadc() { return adventureofDickCole; }
+    public String [] getbl() { return blondie; }
+    public String [] getbv() { return boldVenture; }
+    public String [] getbb() { return bostonBlackie; }
+    public String [] getcbs() { return cbsRadio; }
+    public String [] getda() { return dangerousAssignment; }
+    public String [] getdt() { return duffysTavern; }
+    public String [] getmmn() { return mrAndMrsNorth; }
+    public String [] getqp() { return quietPlease; }
+    public String [] getss() { return  suspense; }
+    public String [] gethl() { return harryLime; }
 
-    public HashMap<String, String> getNbMap() { return nbMap; }
-    public HashMap<String, String> getSgMap() { return sgMap; }
-    public HashMap<String, String> getWsMap() { return wsMap; }
+    public HashMap<String, String> getNbMap() {
+        if (!nbMap.containsKey("http://www.johnnieruffin.com/Audio/NightBeat/Night_Beat_52_08_14_0106_His_Name_Was_Luke.mp3"))
+        {
+            thrillerLoaded = false;
+            updateThrillerTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return nbMap; }
+    public HashMap<String, String> getSgMap() {
+        if (!sgMap.containsKey("http://www.johnnieruffin.com/Audio/Speed/SGISP_1940-05-25.mp3"))
+        {
+            thrillerLoaded = false;
+            updateThrillerTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return sgMap; }
+    public HashMap<String, String> getWsMap() {
+        if (!wsMap.containsKey("http://www.johnnieruffin.com/Audio/TheWhistler/Whistler_421129_Avarice.mp3"))
+        {
+            thrillerLoaded = false;
+            updateThrillerTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return wsMap; }
+    public HashMap<String, String> getAbmMap() {
+        if (!abmMap.containsKey("http://www.ruffinapps.com/Audio/AdventuresByMorse/Abym1944-12-30052ItsDismalToDiePt03BadMedicineForTheDoctor.mp3"))
+        {
+            thrillerLoaded = false;
+            updateThrillerTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return abmMap; }
+    public HashMap<String, String> getAdcMap() {
+        if (!adcMap.containsKey("http://www.ruffinapps.com/Audio/AdventuresofDickCole/AoDC_xx-xx-xx-Rangefinder_Spy_Case.mp3"))
+        {
+            thrillerLoaded = false;
+            updateThrillerTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return adcMap;
+    }
+
+    public HashMap<String, String> getBvMap() {
+        if (!bvMap.containsKey("http://www.ruffinapps.com/Audio/BoldVenture/BoldVenture52033154TheRunawayWife.mp3"))
+        {
+            thrillerLoaded = false;
+            updateThrillerTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return bvMap;
+    }
+
+    public HashMap<String, String> getBbMap() {
+        if (!bbMap.containsKey("http://www.ruffinapps.com/Audio/BostonBlackie/BBLK.1947.04.01_103_THE_BUS_TO_VALLEY_JUNCTION.MP3"))
+        {
+            thrillerLoaded = false;
+            updateThrillerTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return bbMap; }
+    public HashMap<String, String> getCbsMap() {
+        if (!cbsMap.containsKey("http://www.ruffinapps.com/Audio/cbs_radio_mystery_theater/cbsrmt_1395_the_smile.mp3"))
+        {
+            thrillerLoaded = false;
+            updateThrillerTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return cbsMap; }
+    public HashMap<String, String> getDaMap() {
+        if (!daMap.containsKey("http://www.ruffinapps.com/Audio/DangerousAssignment/Dangerous_assignment-53-05-13_158_getTheManTryingToSabotageCooperationTalks.mp3"))
+        {
+            thrillerLoaded = false;
+            updateThrillerTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return daMap; }
+    public HashMap<String, String> getDtMap() {
+        if (!dtMap.containsKey("http://www.ruffinapps.com/Audio/DuffysTavern/duff.1951.11.02_Spanish_Floor_Show.mp3"))
+        {
+            thrillerLoaded = false;
+            updateThrillerTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return dtMap; }
+    public HashMap<String, String> getMmnMap() {
+        if (!mmnMap.containsKey("http://www.ruffinapps.com/Audio/MrandMrsNorth/MMN_D_B_Die_Hard_520325_is_INVALID_DATE_.mp3"))
+        {
+            thrillerLoaded = false;
+            updateThrillerTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return mmnMap; }
+    public HashMap<String, String> getQpMap() {
+        if (!qpMap.containsKey("http://www.ruffinapps.com/Audio/QuietPlease/Quiet_Please_490611_104_The_Hat_the_Bed_and_John_J_Catherine.mp3"))
+        {
+            thrillerLoaded = false;
+            updateThrillerTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return qpMap; }
+    public HashMap<String, String> getSsMap() {
+        if (!ssMap.containsKey("http://www.ruffinapps.com/Audio/suspense/54-10-28TheShelter.MP3"))
+        {
+            thrillerLoaded = false;
+            updateThrillerTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return ssMap; }
+    public HashMap<String, String> getHlMap() {
+        if (!hlMap.containsKey("http://www.ruffinapps.com/Audio/TheLivesOfHarryLime/Harry_Lime_52-07-25_52_Greek_Meets_Greek.mp3"))
+        {
+            thrillerLoaded = false;
+            updateThrillerTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return hlMap; }
 
     // Western
-    public String[] gethc() { return hopalong; }
+   public String[] gethc() { return hopalong; }
     public String[] getfl() { return fortLaramie; }
     public String[] getpo() { return PatO; }
-    public String[] getlr() { return LoneRanger; }
+    public String[] getlr() { return loneRanger; }
+    public String[] gethg() { return HaveGun; }
 
-    public HashMap<String, String> getHcMap() { return hcMap; }
-    public HashMap<String, String> getFlMap() { return flMap; }
-    public HashMap<String, String> getPoMap() { return poMap; }
-    public HashMap<String, String> getLrMap() { return lrMap; }
+    public HashMap<String, String> getHcMap() {
+        if (!hcMap.containsKey("http://www.johnnieruffin.com/Audio/Hopalong/Hopalong_Cassidy_520223_0101_Right_Rope_Wrong_Neck.mp3"))
+        {
+            westernLoaded = false;
+            updateWesternTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return hcMap; }
+    public HashMap<String, String> getFlMap() {
+        if (!flMap.containsKey("http://www.johnnieruffin.com/Audio/FtLaramie/FrtL1956-10-21039IndianScout1.mp3"))
+        {
+            westernLoaded = false;
+            updateWesternTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return flMap; }
+    public HashMap<String, String> getPoMap() {
+        if (!poMap.containsKey("http://www.ruffinapps.com/Audio/PatO/Pat_ODaniel_and_His_Hillbilly_Boys_42.mp3"))
+        {
+            westernLoaded = false;
+            updateWesternTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return poMap; }
+    public HashMap<String, String> getLrMap() {
+        if (!lrMap.containsKey("http://www.ruffinapps.com/Audio/LoneRanger/United We Stand.mp3"))
+        {
+            westernLoaded = false;
+            updateWesternTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return lrMap; }
+    public HashMap<String, String> getHgMap() {
+        if (!hgMap.containsKey("http://www.ruffinapps.com/Audio/HaveGunWillTravel/HaveGunWillTravel601106103TheOdds_64kb.mp3"))
+        {
+            westernLoaded = false;
+            updateWesternTitles();
+            //Log.d(TAG, "-------------Does not Exist!!!----------------");
+        }
+        return hgMap; }
 }

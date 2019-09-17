@@ -1,17 +1,11 @@
 package com.RuffinApps.johnnie.oldtimeradio;
 
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.SystemClock;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
-
-import com.RuffinApps.johnnie.oldtimeradio.PlaybackInfoListener;
-import com.RuffinApps.johnnie.oldtimeradio.PlayerAdapter;
-import com.RuffinApps.johnnie.oldtimeradio.MusicLibrary;
-import com.RuffinApps.johnnie.oldtimeradio.MainActivity;
 
 /**
  * Exposes the functionality of the {@link MediaPlayer} and implements the {@link PlayerAdapter}
@@ -26,6 +20,9 @@ public final class MediaPlayerAdapter extends PlayerAdapter {
     private MediaMetadataCompat mCurrentMedia;
     private int mState;
     private boolean mCurrentMediaPlayedToCompletion;
+    private PlayedList pl;
+
+    private String TAG = "MediaPlayerAdapter: ";
 
     // Work-around for a MediaPlayer bug related to the behavior of MediaPlayer.seekTo()
     // while not playing.
@@ -35,6 +32,7 @@ public final class MediaPlayerAdapter extends PlayerAdapter {
         super(context);
         mContext = context.getApplicationContext();
         mPlaybackInfoListener = listener;
+        Log.d(TAG, "MediaPlayerAdapter");
     }
 
     /**
@@ -51,13 +49,52 @@ public final class MediaPlayerAdapter extends PlayerAdapter {
                 @Override
                 public void onCompletion(MediaPlayer mediaPlayer) {
                     mPlaybackInfoListener.onPlaybackCompleted();
+                    mCurrentMediaPlayedToCompletion = true;
 
                     // Set the state to "paused" because it most closely matches the state
                     // in MediaPlayer with regards to available state transitions compared
                     // to "stop".
                     // Paused allows: seekTo(), start(), pause(), stop()
-                    // Stop allows: stop()
+
                     setNewState(PlaybackStateCompat.STATE_PAUSED);
+                    CurrentArtist.getInstance().setComplete(true);
+                    Log.d(TAG, "Play Complete. Play Next in Queue");
+                    pl = new PlayedList(mContext);
+                    pl.add(0, CurrentArtist.getInstance().getCurrentArtist(), CurrentArtist.getInstance().getCurrentTitle());
+                    QueueList queueList = new QueueList(mContext);
+                    String [] queued = queueList.getQueuedTitles(CurrentArtist.getInstance().getCurrentArtist());
+                    for (String queuedTitle : queued)
+                    {
+                        if (queuedTitle.contentEquals(CurrentArtist.getInstance().getCurrentTitle()))
+                        {
+                            queueList.remove(CurrentArtist.getInstance().getCurrentArtist(), CurrentArtist.getInstance().getCurrentTitle());
+                        }
+                    }
+
+                    String [] nextQueued = queueList.getQueuedTitles(CurrentArtist.getInstance().getCurrentArtist());
+
+                    if (!nextQueued[0].contentEquals("No queued shows."))
+                    {
+                        Log.d(TAG, "Playing next in queue: " + nextQueued[0]);
+                        CurrentArtist.getInstance().setCurrentTitle(nextQueued[0]);
+                        MusicLibrary.clearLibraryItems();
+                        MusicLibrary.setMediaMetaData();
+                        play();
+                        // Log.d(TAG, "Playing next in queue: " + nextQueued[0]);
+                    }
+                }
+            });
+
+            mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+
+                    MediaPlayerAdapter.super.play();
+                    mp.start();
+                    setNewState(PlaybackStateCompat.STATE_PLAYING);
+                    CurrentArtist.getInstance().setCurrentDuration(mMediaPlayer.getDuration());
+                    Log.d(TAG, "OnPrepared!! Duration: " + CurrentArtist.getInstance().getCurrentDuration());
+
                 }
             });
         }
@@ -66,6 +103,7 @@ public final class MediaPlayerAdapter extends PlayerAdapter {
     // Implements PlaybackControl.
     @Override
     public void playFromMedia(MediaMetadataCompat metadata) {
+        Log.d(TAG, "Play from Media: " + metadata.getDescription());
         mCurrentMedia = metadata;
         final String mediaId = metadata.getDescription().getMediaId();
         playFile(MusicLibrary.getMusicFilename(mediaId));
@@ -76,8 +114,10 @@ public final class MediaPlayerAdapter extends PlayerAdapter {
         return mCurrentMedia;
     }
 
-    public void playFile(String filename) {
+    private void playFile(String filename) {
+        Log.d(TAG, "PlayFile: " + filename);
         boolean mediaChanged = (mFilename == null || !filename.equals(mFilename));
+
         if (mCurrentMediaPlayedToCompletion) {
             // Last audio file was played to completion, the resourceId hasn't changed, but the
             // player was released, so force a reload of the media file for playback.
@@ -86,11 +126,17 @@ public final class MediaPlayerAdapter extends PlayerAdapter {
         }
         if (!mediaChanged) {
             if (!isPlaying()) {
-                play();
+                //play();
+                // resume media
+                resume();
+                mMediaPlayer.start();
+                Log.d(TAG, "Media is not changed or playing");
             }
+            Log.d(TAG, "Returning from playFile for some reason!!");
             return;
-        } else {
+        } else if (mediaChanged && mMediaPlayer != null) {
             release();
+            Log.d(TAG, "Media is changing and Media Player is released!!");
         }
 
         mFilename = filename;
@@ -98,22 +144,14 @@ public final class MediaPlayerAdapter extends PlayerAdapter {
         initializeMediaPlayer();
 
         try {
-            AssetFileDescriptor assetFileDescriptor = mContext.getAssets().openFd(mFilename);
-            mMediaPlayer.setDataSource(
-                    assetFileDescriptor.getFileDescriptor(),
-                    assetFileDescriptor.getStartOffset(),
-                    assetFileDescriptor.getLength());
-        } catch (Exception e) {
+            mMediaPlayer.setDataSource(mFilename);
+            Log.d(TAG, "Data source set");
+
+            mMediaPlayer.prepareAsync();
+            Log.d(TAG, "PrepareAsync!!");
+        }catch (Exception e) {
             throw new RuntimeException("Failed to open file: " + mFilename, e);
         }
-
-        try {
-            mMediaPlayer.prepare();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to open file: " + mFilename, e);
-        }
-
-        play();
     }
 
     @Override
@@ -122,38 +160,53 @@ public final class MediaPlayerAdapter extends PlayerAdapter {
         // be updated, so that MediaNotificationManager can take down the notification.
         setNewState(PlaybackStateCompat.STATE_STOPPED);
         release();
+        Log.d(TAG, "onStop");
     }
 
     private void release() {
         if (mMediaPlayer != null) {
+            mMediaPlayer.stop();
             mMediaPlayer.release();
             mMediaPlayer = null;
+            Log.d(TAG, "relase media player");
         }
     }
 
     @Override
     public boolean isPlaying() {
+        Log.d(TAG, "isPlaying");
         return mMediaPlayer != null && mMediaPlayer.isPlaying();
     }
 
     @Override
+    protected void onResume() {
+        mMediaPlayer.start();
+        setNewState(PlaybackStateCompat.STATE_PLAYING);
+        Log.d(TAG, "onResume!!");
+    }
+
+    @Override
     protected void onPlay() {
-        if (mMediaPlayer != null && !mMediaPlayer.isPlaying()) {
-            mMediaPlayer.start();
-            setNewState(PlaybackStateCompat.STATE_PLAYING);
-        }
+        Log.d(TAG, "onPlay");
     }
 
     @Override
     protected void onPause() {
+        Log.d(TAG, "onPause");
         if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
             mMediaPlayer.pause();
             setNewState(PlaybackStateCompat.STATE_PAUSED);
         }
     }
 
+    public int getCurrentPosition()
+    {
+        return mMediaPlayer.getCurrentPosition();
+    }
+
     // This is the main reducer for the player state machine.
-    private void setNewState(@PlaybackStateCompat.State int newPlayerState) {
+    public void setNewState(@PlaybackStateCompat.State int newPlayerState) {
+        // Log.d(TAG, "setNewState: " + newPlayerState);
         mState = newPlayerState;
 
         // Whether playback goes to completion, or whether it is stopped, the
@@ -174,8 +227,19 @@ public final class MediaPlayerAdapter extends PlayerAdapter {
             reportPosition = mMediaPlayer == null ? 0 : mMediaPlayer.getCurrentPosition();
         }
 
+        // Log.d(TAG, "Report Position: " + reportPosition);
+
         final PlaybackStateCompat.Builder stateBuilder = new PlaybackStateCompat.Builder();
         stateBuilder.setActions(getAvailableActions());
+        if (mMediaPlayer != null) {
+            if (mMediaPlayer.isPlaying()) {
+                stateBuilder.setBufferedPosition(mMediaPlayer.getCurrentPosition());
+                if (CurrentArtist.getInstance().isAd())
+                {
+                    mMediaPlayer.pause();
+                }
+            }
+        }
         stateBuilder.setState(mState,
                 reportPosition,
                 1.0f,
@@ -191,29 +255,42 @@ public final class MediaPlayerAdapter extends PlayerAdapter {
      */
     @PlaybackStateCompat.Actions
     private long getAvailableActions() {
+        // Log.d(TAG, "getAvailableActions: State: " + mState);
         long actions = PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID
                 | PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH
                 | PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-                | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS;
+                | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
+                | PlaybackStateCompat.ACTION_PLAY
+                | PlaybackStateCompat.ACTION_PAUSE
+                | PlaybackStateCompat.ACTION_REWIND
+                | PlaybackStateCompat.ACTION_FAST_FORWARD
+                | PlaybackStateCompat.ACTION_SEEK_TO;
         switch (mState) {
             case PlaybackStateCompat.STATE_STOPPED:
+                Log.d(TAG, "State_Stopped");
                 actions |= PlaybackStateCompat.ACTION_PLAY
                         | PlaybackStateCompat.ACTION_PAUSE;
                 break;
             case PlaybackStateCompat.STATE_PLAYING:
-                actions |= PlaybackStateCompat.ACTION_STOP
-                        | PlaybackStateCompat.ACTION_PAUSE
+                // Log.d(TAG, "State_Playing");
+                actions |= PlaybackStateCompat.ACTION_PAUSE
+                        | PlaybackStateCompat.ACTION_FAST_FORWARD
+                        | PlaybackStateCompat.ACTION_REWIND
                         | PlaybackStateCompat.ACTION_SEEK_TO;
                 break;
             case PlaybackStateCompat.STATE_PAUSED:
+                Log.d(TAG, "State_Paused");
                 actions |= PlaybackStateCompat.ACTION_PLAY
-                        | PlaybackStateCompat.ACTION_STOP;
+                        | PlaybackStateCompat.ACTION_FAST_FORWARD
+                        | PlaybackStateCompat.ACTION_REWIND
+                        | PlaybackStateCompat.ACTION_SEEK_TO;
                 break;
             default:
+                Log.d(TAG, "Default Actions: " + actions);
                 actions |= PlaybackStateCompat.ACTION_PLAY
-                        | PlaybackStateCompat.ACTION_PLAY_PAUSE
-                        | PlaybackStateCompat.ACTION_STOP
-                        | PlaybackStateCompat.ACTION_PAUSE;
+                        | PlaybackStateCompat.ACTION_PAUSE
+                        | PlaybackStateCompat.ACTION_FAST_FORWARD
+                        | PlaybackStateCompat.ACTION_REWIND;
         }
         return actions;
     }

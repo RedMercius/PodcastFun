@@ -49,12 +49,12 @@
 
     <TextView
         android:id="@+id/txtstatus"
-        android:layout_width="113dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/txt"
         android:layout_toEndOf="@id/downloadbtn"
         android:layout_toRightOf="@id/downloadbtn"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ImageButton
         android:id="@+id/deletebtn"

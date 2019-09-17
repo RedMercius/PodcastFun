@@ -1,3 +1,4 @@
+package com.RuffinApps.johnnie.oldtimeradio;
 /*
  * Copyright 2015 © Johnnie Ruffin
  *
@@ -5,29 +6,16 @@
  *
  */
 
-package com.RuffinApps.johnnie.oldtimeradio;
-
 import android.app.Activity;
-import android.content.Context;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
-import android.support.v4.media.MediaBrowserCompat;
-import android.support.v4.media.MediaMetadataCompat;
-import android.support.v4.media.session.MediaControllerCompat;
-import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.media.session.PlaybackStateCompat;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
-
-import com.RuffinApps.johnnie.oldtimeradio.MediaBrowserHelper;
 
 //////////////////////////////////////////////////////////////////////////////////////
 //
@@ -49,16 +37,11 @@ public class MediaControl {
     private MediaPlayer mp;
     public DownloadControl dc;
     private String url;
-    private PlayerAdapter mPlayback;
-
-    private String martist;
     private String mfilePath;
-    private MediaBrowserHelper mMediaBrowserHelper;
 
     public MediaControl(Activity context, MediaPlayer mp) {
         this.context = context;
         this.mp = mp;
-        this.martist = CurrentArtist.getInstance().getCurrentArtist();
 
         dc = new DownloadControl(context);
 
@@ -68,115 +51,13 @@ public class MediaControl {
     }
 
     public void getArtistUrl() {
-        switch (martist) {
-            case "Burns And Allen": {
-                url = "http://www.JohnnieRuffin.com/audio/";
-                break;
-            }
-
-            case "Fibber McGee And Molly": {
-                url = "http://www.JohnnieRuffin.com/audio/FibberMcGeeandMolly1940/";
-                break;
-            }
-
-            case "Martin And Lewis": {
-                url = "http://www.JohnnieRuffin.com/audio/MartinAndLewis_OldTimeRadio/";
-                break;
-            }
-
-            case "The Great GilderSleeves": {
-                url = "http://www.JohnnieRuffin.com/audio/Otrr_The_Great_Gildersleeve_Singles/";
-                break;
-            }
-
-            case "Jack Benny":
-            {
-                url = "http://www.JohnnieRuffin.com/audio/JackBenny/";
-                break;
-            }
-
-            case "Bob Hope":
-            {
-                url = "http://www.JohnnieRuffin.com/audio/BobHope/";
-                break;
-            }
-
-            case "XMinus1": {
-                url = "http://www.JohnnieRuffin.com/audio/XMinus1/";
-                break;
-            }
-
-            case "Inner Sanctum": {
-                url = "http://www.JohnnieRuffin.com/audio/InnerSanctum/";
-                break;
-            }
-
-            case "Dimension X": {
-                url = "http://www.JohnnieRuffin.com/audio/DimensionX/";
-                break;
-            }
-
-            case "Night Beat": {
-                url = "http://www.JohnnieRuffin.com/audio/NightBeat/";
-                break;
-            }
-
-            case "Speed": {
-                url = "http://www.JohnnieRuffin.com/audio/Speed/";
-                break;
-            }
-
-            case "The Whistler": {
-                url = "http://www.JohnnieRuffin.com/audio/TheWhistler/";
-                break;
-            }
-
-            case "Hopalong Cassidy":
-            {
-                url = "http://www.JohnnieRuffin.com/audio/Hopalong/";
-                break;
-            }
-
-            case "Fort Laramie":
-            {
-                url = "http://www.JohnnieRuffin.com/audio/FtLaramie/";
-                break;
-            }
-
-            case "Our Miss Brooks":
-            {
-                url = "http://www.RuffinApps.com/Audio/Brooks/";
-                break;
-            }
-            case "Father Knows Best":
-            {
-                url = "http://www.RuffinApps.com/Audio/FatherKnowsBest/";
-                break;
-            }
-            case "Lone Ranger":
-            {
-                url = "http://www.RuffinApps.com/Audio/LoneRanger/";
-                break;
-            }
-            case "Pat O":
-            {
-                url = "http://www.RuffinApps.com/Audio/PatO/";
-                break;
-            }
-
-            default: {
-                url = null;
-                break;
-            }
-        }
-        dc.setWebPath(url);
+        url = CurrentArtist.getInstance().getArtistUrl();
     }
 
     public boolean checkResourceInRaw (String resource)
     {
         boolean resourceFound = true;
         int resourceid = (context.getResources().getIdentifier(resource, "raw", context.getPackageName()));
-
         if (resourceid == 0)
         {
             resourceFound = false;
@@ -225,7 +106,9 @@ public class MediaControl {
         // check to see if the resource exists in raw
         if (!checkResourceInRaw(item))
         {
-            Toast.makeText(context, "Resource does not exist!", Toast.LENGTH_SHORT).show();
+            if (!context.isFinishing()) {
+                Toast.makeText(context, "Resource does not exist!", Toast.LENGTH_SHORT).show();
+            }
             return;
         }
 
@@ -242,7 +125,9 @@ public class MediaControl {
         if (mp.isPlaying())
         {
             mp.pause();
-            Toast.makeText(context, "Pausing!!", Toast.LENGTH_SHORT).show();
+            if (!context.isFinishing()) {
+                Toast.makeText(context, "Pausing!!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -255,22 +140,25 @@ public class MediaControl {
     public void callMediaFromInternet(String filename) throws IOException
     {
         try{
-        url = url + filename; // your URL here
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            mp.setDataSource(url);
-            // mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mp.prepareAsync();
-        }
-        else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+            url = url + filename; // your URL here
+            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                mp.setDataSource(url);
+                // mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                mp.prepareAsync();
+            }
+            else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
             {
                 Log.d(TAG, "API 28 or greater calling play!");
+                mp.setDataSource(url);
+                // mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                mp.prepareAsync();
             }
-        else {
+            else {
 
-            mp.setDataSource(url);
-            mp.prepareAsync(); // might take long! (for buffering, etc)
-        }
-           // mp.start();
+                mp.setDataSource(url);
+                mp.prepareAsync(); // might take long! (for buffering, etc)
+            }
+            // mp.start();
         }
         catch(IOException e)
         {
@@ -339,7 +227,6 @@ public class MediaControl {
             // if equals to "TAG" meaning a valid readable one
             if (tag.equals("TAG")) {
                 //mtitle = id3.substring(OFFSET_TITLE[FROM], OFFSET_TITLE[TO]);
-                martist= id3.substring(OFFSET_ARTIST[FROM], OFFSET_ARTIST[TO]);
                 //myear = id3.substring(OFFSET_YEAR[FROM], OFFSET_YEAR[TO]);
                 //malbum = id3.substring(OFFSET_ALBUM[FROM], OFFSET_ALBUM[TO]);
             }

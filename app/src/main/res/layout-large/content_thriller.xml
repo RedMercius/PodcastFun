@@ -12,67 +12,197 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:gravity="center"
     tools:showIn="@layout/activity_thriller"
-    tools:context=".ThrillerActivity">
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/activity_thriller"
-        tools:context=".ThrillerActivity">
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:id="@+id/tableLayout1"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent" >
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dip" >
-    <ImageButton
-        android:id="@+id/nbBtn"
-        android:layout_width="275dp"
-        android:layout_height="275dp"
-        android:src="@mipmap/nightbeat"
-        android:contentDescription="@string/NightBeat"
-        />
+    tools:context="com.RuffinApps.johnnie.oldtimeradio.ThrillerActivity">
 
-    <ImageButton
-        android:id="@+id/sgBtn"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_width="275dp"
-        android:layout_height="275dp"
-        android:src="@mipmap/sgimage"
-        android:contentDescription="@string/Speed"/>
-    </TableRow>
-        <TableRow
-            android:id="@+id/tableRow2"
+    <ScrollView
+        android:layout_width="366dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="72dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginEnd="-27dp"
+        android:layout_marginRight="-27dp">
+
+        <HorizontalScrollView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dip" >
-            <ImageButton
-                android:id="@+id/wsBtn"
-                android:layout_marginTop="15dp"
-                android:layout_width="275dp"
-                android:layout_height="275dp"
-                android:src="@mipmap/thewhistler"
-                android:contentDescription="@string/TheWhistler"
-                />
-        </TableRow>
-    </TableLayout>
-    </LinearLayout>
-    </HorizontalScrollView>
-</ScrollView>
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:context="com.RuffinApps.johnnie.oldtimeradio.ThrillerActivity"
+                tools:showIn="@layout/activity_thriller">
+
+                <TableLayout
+                    android:id="@+id/tableLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:id="@+id/tableRow1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dip">
+
+                        <Button
+                            android:id="@+id/nbBtn"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/NightBeat"
+                            android:background="@mipmap/nightbeat" />
+
+                        <Button
+                            android:id="@+id/sgBtn"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/Speed"
+                            android:background="@mipmap/sgimage" />
+                    </TableRow>
+                    <TableRow
+                        android:id="@+id/tableRow2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dip">
+
+                        <Button
+                            android:id="@+id/wsBtn"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="15dp"
+                            android:contentDescription="@string/TheWhistler"
+                            android:background="@mipmap/thewhistler" />
+
+                        <Button
+                            android:id="@+id/abmBtn"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="15dp"
+                            android:contentDescription="@string/AdventuresByMorse"
+                            android:background="@mipmap/adbm" />
+                    </TableRow>
+                    <TableRow
+                        android:id="@+id/tableRow3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dip">
+
+                        <Button
+                            android:id="@+id/adcBtn"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="15dp"
+                            android:contentDescription="@string/AdventuresofDickCole"
+                            android:background="@mipmap/adc" />
+
+                    <Button
+                        android:id="@+id/bvBtn"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_marginTop="15dp"
+                        android:contentDescription="@string/BoldVenture"
+                        android:background="@mipmap/boldventure" />
+                    </TableRow>
+                    <TableRow
+                        android:id="@+id/tableRow4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dip">
+
+                        <Button
+                            android:id="@+id/bbBtn"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="15dp"
+                            android:contentDescription="@string/BostonBlackie"
+                            android:background="@mipmap/bostonblackie" />
+
+                        <Button
+                            android:id="@+id/cbsBtn"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="15dp"
+                            android:contentDescription="@string/CBSMysteryTheater"
+                            android:background="@mipmap/cbsradio" />
+                    </TableRow>
+                    <TableRow
+                        android:id="@+id/tableRow5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dip">
+
+                        <Button
+                            android:id="@+id/daBtn"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="15dp"
+                            android:contentDescription="@string/DangerousAssignment"
+                            android:background="@mipmap/dangerousassignment" />
+
+                        <Button
+                            android:id="@+id/dtBtn"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="15dp"
+                            android:contentDescription="@string/DuffysTavern"
+                            android:background="@mipmap/duffystavern" />
+                    </TableRow>
+                    <TableRow
+                        android:id="@+id/tableRow6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dip">
+
+                        <Button
+                            android:id="@+id/mmnBtn"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="15dp"
+                            android:contentDescription="@string/MrAndMrsNorth"
+                            android:background="@mipmap/mrmrsnorth" />
+
+                        <Button
+                            android:id="@+id/qpBtn"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="15dp"
+                            android:contentDescription="@string/QuietPlease"
+                            android:background="@mipmap/quietplease" />
+                    </TableRow>
+                    <TableRow
+                        android:id="@+id/tableRow7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dip">
+
+                        <Button
+                            android:id="@+id/ssBtn"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="15dp"
+                            android:contentDescription="@string/Suspense"
+                            android:background="@mipmap/suspense" />
+
+                        <Button
+                            android:id="@+id/hlBtn"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="15dp"
+                            android:contentDescription="@string/HarryLime"
+                            android:background="@mipmap/harrylime" />
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
+    </ScrollView>
 </RelativeLayout>

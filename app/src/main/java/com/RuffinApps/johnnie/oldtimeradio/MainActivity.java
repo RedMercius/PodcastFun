@@ -1,36 +1,24 @@
-/*
- * Copyright 2015 © Johnnie Ruffin
- *
- * Unless required by applicable law or agreed to in writing, software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *
- */
-
 package com.RuffinApps.johnnie.oldtimeradio;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.net.Uri;
-import android.os.Build;
-import android.os.StrictMode;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.google.android.vending.licensing.AESObfuscator;
-import com.google.android.vending.licensing.LicenseChecker;
-import com.google.android.vending.licensing.LicenseCheckerCallback;
-import com.google.android.vending.licensing.ServerManagedPolicy;
-
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,59 +27,123 @@ public class MainActivity extends AppCompatActivity {
     Button thrillerButton;
     Button westernButton;
 
-    private static final String BASE64_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgo/IdsqOpiQUVftNMPUJeHQ1JiaNKPD7b1ygx5Lp2XNpfv2NIqKWDftZFW7721kYKdOrG3YJFl1RK/pPQRJstH30OMEnTSSX+1VT3nauMX36GYuJFj4n7HKZcVZ5rndJaDIiBK8qO7xPNaGlJVMMWjnYLlzDpvGCAeNGD+vWc8NAvBrGaE6gWD0/rZByTjjx3RIxp6ZR9jHJEq5zS4ZN019rGQM5WyAxPTz/CL1G6Migojp0pWl3xuzBJgKg5Q0lMriq9JVMR15wL0MLd8c28+o7gy9OVz2e3arvjqXZWN8pV8+dzEStoMcuO07OFwTNoDA0VDvESi5Rp6xoM3LevQIDAQAB";
-    private static final byte[] SALT = new byte[] { 99,77,75,29,18,57,73,63,72,32,01,54,54,04,69,29,38,28,56,06 };
+    private final String TAG = "MainActivity: ";
 
-    private LicenseChecker mChecker;
-    private LicenseCheckerCallback mLicenseCheckerCallback;
-    private SecurePreferences mpreferences;
-    boolean licensed;
-    boolean checkingLicense;
-    boolean didCheck;
+    // MY_PREFS_NAME - a static String variable like:
+    public static final String MY_PREFS_NAME = "jotrpref";
+    private boolean pressedComedy = false;
+    private boolean pressedSciFi = false;
+    private boolean pressedThriller = false;
+    private boolean pressedWestern = false;
+    private SharedPreferences saved_values;
+    private SharedPreferences.Editor editor;
+    private RadioTitle rt = null;
+    private ProgressDialog p;
+
+    private boolean listinitialized = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        saved_values = getApplicationContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /*** Start License Checking ***/
-      /*  didCheck = false;
-        mpreferences = new SecurePreferences(this, "jotr-preferences", "Loki13026044", true);
-
-        String user = mpreferences.getString("LicenseCheck");
-
-        if (user != null) {
-            if (user.equals("true")) {
-            didCheck = true;
-            }
-        }
-
-        if (!didCheck) {
-            mLicenseCheckerCallback = new MyLicenseCheckerCallback();
-
-            String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-
-            mChecker = new LicenseChecker(getApplicationContext(), new ServerManagedPolicy(this, new AESObfuscator(SALT,
-                    getPackageName(), deviceId)), BASE64_PUBLIC_KEY);
-
-
-            mChecker.checkAccess(mLicenseCheckerCallback);
-
-            Toast.makeText(this, "Checking application license...", Toast.LENGTH_SHORT).show();
-            doCheck();
-        }*/
-        /*** End License Checking ***/
 
         comedyButton = findViewById(R.id.comedyButton);
         scifiButton = findViewById(R.id.scifiButton);
         thrillerButton = findViewById(R.id.thrillerButton);
         westernButton = findViewById(R.id.westernButton);
+        comedyButton.setAllCaps(false);
+        westernButton.setAllCaps(false);
+        scifiButton.setAllCaps(false);
+        thrillerButton.setAllCaps(false);
 
+        pressedComedy = saved_values.getBoolean("comedy", false);
+        pressedSciFi = saved_values.getBoolean("scifi", false);
+        pressedThriller = saved_values.getBoolean("thriller", false);
+        pressedWestern = saved_values.getBoolean("western", false);
+
+        if (!listinitialized)
+        {
+            Log.d(TAG, "The list is being reinitialized!!");
+
+            if (CurrentArtist.getInstance().getCurrentArtist() == null) {
+                rt = com.RuffinApps.johnnie.oldtimeradio.RadioTitle.getInstance();
+                rt.init(getApplicationContext());
+                com.RuffinApps.johnnie.oldtimeradio.CurrentArtist.getInstance().init(getApplicationContext());
+            }
+            listinitialized = true;
+        }
+
+        if (pressedComedy)
+        {
+            comedyButton.setText(R.string.category_comedy);
+        }
+        else
+        {
+            SpannableString textComedy = new SpannableString("Comedy New!!");
+            // make "Clicks" (characters 0 to 5) Red
+            textComedy.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 6, 0);
+            // make "Here" (characters 6 to 10) Blue
+            textComedy.setSpan(new ForegroundColorSpan(Color.RED), 7, 12, 0);
+            // shove our styled text into the Button
+            comedyButton.setText(textComedy, TextView.BufferType.SPANNABLE);
+        }
+
+        if (pressedSciFi)
+        {
+            scifiButton.setText(R.string.category_scifi);
+        }
+        else
+        {
+            SpannableString textScifi = new SpannableString("Science Fiction New!!");
+            // make "Clicks" (characters 0 to 5) Red
+            textScifi.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 14, 0);
+            // make "Here" (characters 6 to 10) Blue
+            textScifi.setSpan(new ForegroundColorSpan(Color.RED), 15, 21, 0);
+            // shove our styled text into the Button
+            scifiButton.setText(textScifi, TextView.BufferType.SPANNABLE);
+        }
+
+        if (pressedThriller)
+        {
+            thrillerButton.setText(R.string.category_thriller);
+        }
+        else
+        {
+            SpannableString textthriller = new SpannableString("Thriller New!!");
+            // make "Clicks" (characters 0 to 5) Red
+            textthriller.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 8, 0);
+            // make "Here" (characters 6 to 10) Blue
+            textthriller.setSpan(new ForegroundColorSpan(Color.RED), 9, 14, 0);
+            // shove our styled text into the Button
+            thrillerButton.setText(textthriller, TextView.BufferType.SPANNABLE);
+        }
+
+        if (pressedWestern)
+        {
+            westernButton.setText(R.string.category_western);
+        }
+        else
+        {
+            SpannableString textWestern = new SpannableString("Western New!!");
+            // make "Clicks" (characters 0 to 5) Red
+            textWestern.setSpan(new ForegroundColorSpan(Color.BLACK), 0, 7, 0);
+            // make "Here" (characters 6 to 10) Blue
+            textWestern.setSpan(new ForegroundColorSpan(Color.RED), 8, 13, 0);
+            // shove our styled text into the Button
+            westernButton.setText(textWestern, TextView.BufferType.SPANNABLE);
+        }
 
         comedyButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
+                if(!pressedComedy) {
+                    editor = saved_values.edit();
+                    editor.putBoolean("comedy", true);
+                    editor.apply();
+                }
 
                 final Intent i = new Intent(MainActivity.this, ComedyActivity.class);
                 startActivity(i);
@@ -103,6 +155,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if(!pressedSciFi) {
+                    editor = saved_values.edit();
+                    editor.putBoolean("scifi", true);
+                    editor.apply();
+                }
+
                 final Intent i = new Intent(MainActivity.this, SciFiActivity.class);
                 startActivity(i);
             }
@@ -112,6 +170,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+
+                if(!pressedThriller) {
+                    editor = saved_values.edit();
+                    editor.putBoolean("thriller", true);
+                    editor.apply();
+                }
 
                 final Intent i = new Intent(MainActivity.this, ThrillerActivity.class);
                 startActivity(i);
@@ -123,205 +187,52 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if(!pressedWestern) {
+                    editor = saved_values.edit();
+                    editor.putBoolean("western", true);
+                    editor.apply();
+                }
+
                 final Intent i = new Intent(MainActivity.this, WesternActivity.class);
                 startActivity(i);
             }
         });
 
         comedyButton.requestFocus();
-
-        CurrentArtist.getInstance().init(this);
         AdapterState.getInstance().init(this);
     }
 
-    // TODO: Handle hard input button presses or joystick button presses.
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event){
-        boolean handled = false;
-
-        switch (keyCode){
-            case KeyEvent.KEYCODE_ENTER:
-            case KeyEvent.KEYCODE_DPAD_CENTER:
-            case KeyEvent.KEYCODE_BUTTON_A:
-                if (comedyButton.isFocused())
-                {
-                    comedyButton.clearFocus();
-                    comedyButton.performClick();
-                }
-                if (thrillerButton.isFocused())
-                {
-                    thrillerButton.clearFocus();
-                    thrillerButton.performClick();
-                }
-                if (scifiButton.isFocused())
-                {
-                    scifiButton.clearFocus();
-                    scifiButton.performClick();
-                }
-                if (westernButton.isFocused()) {
-                    westernButton.clearFocus();
-                    westernButton.performClick();
-                }
-                handled = true;
-                break;
-            case KeyEvent.ACTION_UP:
-            case KeyEvent.KEYCODE_DPAD_LEFT:
-                // ... handle left action
-                if (comedyButton.isFocused())
-                {
-                    comedyButton.clearFocus();
-                    westernButton.requestFocus();
-                }
-                if (scifiButton.isFocused())
-                {
-                    scifiButton.clearFocus();
-                    comedyButton.requestFocus();
-                }
-                if (thrillerButton.isFocused())
-                {
-                    thrillerButton.clearFocus();
-                    scifiButton.requestFocus();
-                }
-                if (westernButton.isFocused())
-                {
-                    westernButton.clearFocus();
-                    thrillerButton.requestFocus();
-                }
-                handled = true;
-                break;
-            case KeyEvent.ACTION_DOWN:
-            case KeyEvent.KEYCODE_DPAD_RIGHT:
-                // ... handle right action
-                if (comedyButton.isFocused())
-                {
-                    comedyButton.clearFocus();
-                    scifiButton.requestFocus();
-                }
-                if (scifiButton.isFocused())
-                {
-                    scifiButton.clearFocus();
-                    thrillerButton.requestFocus();
-                }
-                if (thrillerButton.isFocused())
-                {
-                    thrillerButton.clearFocus();
-                    westernButton.requestFocus();
-                }
-                if (westernButton.isFocused())
-                {
-                    westernButton.clearFocus();
-                    comedyButton.requestFocus();
-                }
-                handled = true;
-                break;
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        if (CurrentArtist.getInstance().getCurrentTitle() != null)
+        {
+            if (CurrentArtist.getInstance().isPlaying())
+            {
+                getMenuInflater().inflate(R.menu.menu_main, menu);
+            }
         }
-        return handled || super.onKeyDown(keyCode, event);
+        return true;
     }
 
-    private void doCheck() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-        didCheck = false;
-        checkingLicense = true;
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            setProgressBarIndeterminateVisibility(true);
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_favorite) {
+
+            final Intent i = new Intent(MainActivity.this, MediaPlay.class);
+            i.putExtra("MediaTitle", CurrentArtist.getInstance().getCurrentFile());
+            i.putExtra("Selection", CurrentArtist.getInstance().getCurrentArtist());
+            i.putExtra("Title", CurrentArtist.getInstance().getCurrentTitle());
+            startActivity(i);
+            return true;
         }
 
-        mChecker.checkAccess(mLicenseCheckerCallback);
+        return super.onOptionsItemSelected(item);
     }
-/*
-    private class MyLicenseCheckerCallback implements LicenseCheckerCallback {
-
-        @Override
-        public void allow(int reason) {
-
-            if (isFinishing()) {
-                // Don't update UI if Activity is finishing.
-                return;
-            }
-            Log.i("License","Accepted!");
-
-            //You can do other things here, like saving the licensed status to a
-            //SharedPreference so the app only has to check the license once.
-
-            licensed = true;
-            checkingLicense = false;
-            didCheck = true;
-
-            // Put (all puts are automatically committed)
-            mpreferences.put("LicenseCheck", "true");
-        }
-
-        @SuppressWarnings("deprecation")
-        @Override
-        public void dontAllow(int reason) {
-
-            if (isFinishing()) {
-                // Don't update UI if Activity is finishing.
-                return;
-            }
-            Log.i("License","Denied!");
-            Log.i("License","Reason for denial: "+reason);
-
-            //You can do other things here, like saving the licensed status to a
-            //SharedPreference so the app only has to check the license once.
-
-            licensed = false;
-            checkingLicense = false;
-            didCheck = true;
-
-            showDialog(0);
-
-        }
-
-        @SuppressWarnings("deprecation")
-        @Override
-        public void applicationError(int reason) {
-
-            Log.i("License", "Error: " + reason);
-            if (isFinishing()) {
-                // Don't update UI if Activity is finishing.
-                return;
-            }
-            licensed = true;
-            checkingLicense = false;
-            didCheck = false;
-        }
-    }
-
-    protected Dialog onCreateDialog(int id) {
-        // We have only one dialog.
-
-        return new AlertDialog.Builder(this)
-                .setTitle("UNLICENSED APPLICATION DIALOG TITLE")
-                .setMessage("This application is not licensed, please buy it from the play store.")
-                .setPositiveButton("Buy", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                "http://market.android.com/details?id=" + getPackageName()));
-                        startActivity(marketIntent);
-                        finish();
-                    }
-                })
-                .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                })
-                .setNeutralButton("Re-Check", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        doCheck();
-                    }
-                })
-
-                .setCancelable(false)
-                .setOnKeyListener(new DialogInterface.OnKeyListener(){
-                    public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
-                        Log.i("License", "Key Listener");
-                        finish();
-                        return true;
-                    }
-                })
-                .create();
-
-    }*/
 }
